@@ -38,3 +38,6 @@ fp-info-cache
 
 # Local project settings
 *.kicad_prl
+
+# reference files pulled from interwebs
+Reference/
