@@ -1025,189 +1025,6 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "Device:LED"
-			(pin_numbers
-				(hide yes)
-			)
-			(pin_names
-				(offset 1.016)
-				(hide yes)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "D"
-				(at 0 2.54 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "LED"
-				(at 0 -2.54 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" "~"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "Light emitting diode"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Sim.Pins" "1=K 2=A"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_keywords" "LED diode"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_fp_filters" "LED* LED_SMD:* LED_THT:*"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "LED_0_1"
-				(polyline
-					(pts
-						(xy -3.048 -0.762) (xy -4.572 -2.286) (xy -3.81 -2.286) (xy -4.572 -2.286) (xy -4.572 -1.524)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy -1.778 -0.762) (xy -3.302 -2.286) (xy -2.54 -2.286) (xy -3.302 -2.286) (xy -3.302 -1.524)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy -1.27 0) (xy 1.27 0)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy -1.27 -1.27) (xy -1.27 1.27)
-					)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 1.27 -1.27) (xy 1.27 1.27) (xy -1.27 0) (xy 1.27 -1.27)
-					)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "LED_1_1"
-				(pin passive line
-					(at -3.81 0 0)
-					(length 2.54)
-					(name "K"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 3.81 0 180)
-					(length 2.54)
-					(name "A"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
 		(symbol "Device:R"
 			(pin_numbers
 				(hide yes)
@@ -3179,53 +2996,49 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "Switch:SW_Omron_B3FS"
-			(pin_numbers
-				(hide yes)
-			)
-			(pin_names
-				(offset 1.016)
-				(hide yes)
-			)
+		(symbol "TL1250F180RQRCLR:TL1250F180RQRCLR"
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
-			(property "Reference" "SW"
-				(at 1.27 2.54 0)
+			(property "Reference" "S"
+				(at 16.51 17.78 0)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(justify left)
+					(justify left top)
 				)
 			)
-			(property "Value" "SW_Omron_B3FS"
-				(at 0 -1.524 0)
+			(property "Value" "TL1250F180RQRCLR"
+				(at 16.51 15.24 0)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(justify left top)
 				)
 			)
-			(property "Footprint" ""
-				(at 0 5.08 0)
+			(property "Footprint" "TL1250F180RQRCLR"
+				(at 16.51 -84.76 0)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(justify left top)
 					(hide yes)
 				)
 			)
-			(property "Datasheet" "https://omronfs.omron.com/en_US/ecb/products/pdf/en-b3fs.pdf"
-				(at 0 5.08 0)
+			(property "Datasheet" "https://componentsearchengine.com/Datasheets/1/TL1250F180RQRCLR.pdf"
+				(at 16.51 -184.76 0)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(justify left top)
 					(hide yes)
 				)
 			)
-			(property "Description" "Omron B3FS 6x6mm single pole normally-open tactile switch"
+			(property "Description" "Tactile Switches 50mA 12VDC Red LED Silver, Round, Clear"
 				(at 0 0 0)
 				(effects
 					(font
@@ -3234,28 +3047,61 @@
 					(hide yes)
 				)
 			)
-			(property "ki_keywords" "switch normally-open pushbutton push-button"
-				(at 0 0 0)
+			(property "Height" "7"
+				(at 16.51 -384.76 0)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(justify left top)
 					(hide yes)
 				)
 			)
-			(property "ki_fp_filters" "SW*Omron*B3FS*"
-				(at 0 0 0)
+			(property "Mouser Part Number" "612-TL1250F180RQRCLR"
+				(at 16.51 -484.76 0)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(justify left top)
 					(hide yes)
 				)
 			)
-			(symbol "SW_Omron_B3FS_0_1"
-				(circle
-					(center -2.032 0)
-					(radius 0.508)
+			(property "Mouser Price/Stock" "https://www.mouser.com/Search/Refine.aspx?Keyword=612-TL1250F180RQRCLR"
+				(at 16.51 -584.76 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+					(hide yes)
+				)
+			)
+			(property "Manufacturer_Name" "E-Switch"
+				(at 16.51 -684.76 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+					(hide yes)
+				)
+			)
+			(property "Manufacturer_Part_Number" "TL1250F180RQRCLR"
+				(at 16.51 -784.76 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+					(hide yes)
+				)
+			)
+			(symbol "TL1250F180RQRCLR_0_1"
+				(polyline
+					(pts
+						(xy 6.35 3.81) (xy 6.35 2.54) (xy 13.97 2.54) (xy 13.97 3.81)
+					)
 					(stroke
 						(width 0)
 						(type default)
@@ -3266,19 +3112,8 @@
 				)
 				(polyline
 					(pts
-						(xy 0 1.27) (xy 0 3.048)
+						(xy 6.35 -3.81) (xy 6.35 -2.54) (xy 13.97 -2.54) (xy 13.97 -3.81)
 					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(circle
-					(center 2.032 0)
-					(radius 0.508)
 					(stroke
 						(width 0)
 						(type default)
@@ -3289,7 +3124,7 @@
 				)
 				(polyline
 					(pts
-						(xy 2.54 1.27) (xy -2.54 1.27)
+						(xy 8.89 -7.62) (xy 8.89 -10.16)
 					)
 					(stroke
 						(width 0)
@@ -3299,9 +3134,95 @@
 						(type none)
 					)
 				)
+				(polyline
+					(pts
+						(xy 8.89 -8.89) (xy 6.35 -8.89)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 8.89 -8.89) (xy 11.43 -7.62) (xy 11.43 -10.16) (xy 8.89 -8.89)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 10.16 2.54) (xy 10.16 1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 10.16 -2.54) (xy 10.16 -1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 11.43 1.27) (xy 11.43 -1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 11.43 0) (xy 15.24 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 11.43 -8.89) (xy 13.97 -8.89)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "TL1250F180RQRCLR_1_1"
 				(pin passive line
-					(at -5.08 0 0)
-					(length 2.54)
+					(at 1.27 3.81 0)
+					(length 5.08)
 					(name "1"
 						(effects
 							(font
@@ -3318,8 +3239,44 @@
 					)
 				)
 				(pin passive line
-					(at 5.08 0 180)
-					(length 2.54)
+					(at 1.27 -3.81 0)
+					(length 5.08)
+					(name "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 1.27 -8.89 0)
+					(length 5.08)
+					(name "K"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 19.05 3.81 180)
+					(length 5.08)
 					(name "2"
 						(effects
 							(font
@@ -3328,6 +3285,42 @@
 						)
 					)
 					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 19.05 -3.81 180)
+					(length 5.08)
+					(name "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 19.05 -8.89 180)
+					(length 5.08)
+					(name "A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3569,16 +3562,6 @@
 		)
 		(uuid "1ab8920a-a385-41b0-b2c5-dfaf3c9d997e")
 	)
-	(text "RESET\n"
-		(exclude_from_sim no)
-		(at 56.388 180.594 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "3f164475-b56a-472d-8552-6a967992b4f8")
-	)
 	(text "Note that the WRITE is active HIGH!"
 		(exclude_from_sim no)
 		(at 387.858 244.348 0)
@@ -3626,6 +3609,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "3f9c23ae-5e6d-4d66-bc2e-ce1f99c0e232")
+	)
+	(junction
+		(at 33.02 170.18)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "423367e5-5f5c-40c7-9a9b-80e25463aa23")
 	)
 	(junction
 		(at 167.64 156.21)
@@ -3722,6 +3711,12 @@
 		(diameter 0)
 		(color 255 0 255 1)
 		(uuid "e5d3b659-f265-41ab-b704-42173de67c4c")
+	)
+	(junction
+		(at 30.48 194.31)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "e84600d5-581a-4200-98e0-b446a2e53c25")
 	)
 	(junction
 		(at 162.56 204.47)
@@ -4698,16 +4693,6 @@
 	)
 	(wire
 		(pts
-			(xy 110.49 179.07) (xy 104.14 179.07)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "02052292-705a-4447-8217-ddad1865d687")
-	)
-	(wire
-		(pts
 			(xy 146.05 185.42) (xy 142.24 185.42)
 		)
 		(stroke
@@ -4715,6 +4700,16 @@
 			(type default)
 		)
 		(uuid "02640dba-64cc-4db2-bd08-749b1c6d7f9c")
+	)
+	(wire
+		(pts
+			(xy 50.8 189.23) (xy 53.34 189.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "02b415ce-eb55-416e-b725-d17734b66522")
 	)
 	(wire
 		(pts
@@ -4778,6 +4773,16 @@
 			(color 255 0 255 1)
 		)
 		(uuid "048f4198-c275-41c6-99c9-b4e3cfd92561")
+	)
+	(wire
+		(pts
+			(xy 30.48 189.23) (xy 33.02 189.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "04906f80-9967-4d7f-9dd0-abcd1aa40dfb")
 	)
 	(wire
 		(pts
@@ -4899,6 +4904,16 @@
 			(type default)
 		)
 		(uuid "09e29bde-50f0-4304-81e7-923aedcaae77")
+	)
+	(wire
+		(pts
+			(xy 30.48 198.12) (xy 30.48 194.31)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0a5c1bdb-9a48-4263-985e-a4ce0bb0f82f")
 	)
 	(bus
 		(pts
@@ -5213,6 +5228,16 @@
 			(color 255 0 255 1)
 		)
 		(uuid "1b422dcc-373b-410c-a678-a1689a9f4af1")
+	)
+	(wire
+		(pts
+			(xy 30.48 194.31) (xy 30.48 189.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1c471818-724b-475e-8817-37e9f6f7e8f0")
 	)
 	(wire
 		(pts
@@ -6165,6 +6190,16 @@
 	)
 	(wire
 		(pts
+			(xy 52.07 170.18) (xy 52.07 181.61)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "52fe11e7-66d6-4d67-802a-fa07e41ff3b3")
+	)
+	(wire
+		(pts
 			(xy 251.46 196.85) (xy 242.57 196.85)
 		)
 		(stroke
@@ -6273,6 +6308,16 @@
 			(color 255 0 255 1)
 		)
 		(uuid "574e1379-09f4-475c-ac8e-82beee414054")
+	)
+	(wire
+		(pts
+			(xy 33.02 170.18) (xy 33.02 181.61)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "57820ace-0c2e-4d44-b8ea-33aa0eca039b")
 	)
 	(wire
 		(pts
@@ -6508,16 +6553,6 @@
 		)
 		(uuid "6406e6a3-beeb-4e8b-b46b-f5f84b8162a2")
 	)
-	(wire
-		(pts
-			(xy 251.46 189.23) (xy 242.57 189.23)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "640a0ff7-dc91-4782-b5ef-cce07245fc9f")
-	)
 	(bus
 		(pts
 			(xy 303.53 158.75) (xy 303.53 161.29)
@@ -6527,16 +6562,6 @@
 			(type default)
 		)
 		(uuid "6412c909-6486-4352-98d8-d2d56079070a")
-	)
-	(wire
-		(pts
-			(xy 251.46 232.41) (xy 242.57 232.41)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "64474fd3-7172-430f-aaf4-60e4e56457ea")
 	)
 	(bus
 		(pts
@@ -6883,6 +6908,16 @@
 	)
 	(wire
 		(pts
+			(xy 73.66 194.31) (xy 50.8 194.31)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7abc3202-8d13-49fb-acf3-9cbc9b65532c")
+	)
+	(wire
+		(pts
 			(xy 251.46 58.42) (xy 242.57 58.42)
 		)
 		(stroke
@@ -6950,16 +6985,6 @@
 			(type default)
 		)
 		(uuid "82d87f9f-afa5-4f71-a838-4b41d3be6d75")
-	)
-	(wire
-		(pts
-			(xy 110.49 181.61) (xy 110.49 179.07)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "82f01920-2807-460a-810a-09108207e94a")
 	)
 	(wire
 		(pts
@@ -7031,6 +7056,16 @@
 			(type default)
 		)
 		(uuid "8710b0fe-20b4-49a8-baec-e905b0fc3df0")
+	)
+	(wire
+		(pts
+			(xy 53.34 189.23) (xy 53.34 198.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8728c99c-97e0-4eb3-86bc-9ea60fa5b95e")
 	)
 	(bus
 		(pts
@@ -7566,16 +7601,6 @@
 		)
 		(uuid "adca92e5-c2a6-4ca9-bfc8-8f96a33148bb")
 	)
-	(wire
-		(pts
-			(xy 185.42 86.36) (xy 190.5 86.36)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ade98d6a-1c94-42ac-8790-4aa2ce2f1ef1")
-	)
 	(bus
 		(pts
 			(xy 149.86 100.33) (xy 149.86 102.87)
@@ -7596,6 +7621,16 @@
 			(type default)
 		)
 		(uuid "ae8974ae-5fe3-47fe-b894-409a0b920fb0")
+	)
+	(wire
+		(pts
+			(xy 30.48 194.31) (xy 33.02 194.31)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "aee19096-666e-472c-bc63-aacf42f8c25d")
 	)
 	(wire
 		(pts
@@ -8240,7 +8275,7 @@
 	)
 	(wire
 		(pts
-			(xy 86.36 179.07) (xy 88.9 179.07)
+			(xy 86.36 194.31) (xy 81.28 194.31)
 		)
 		(stroke
 			(width 0)
@@ -8484,7 +8519,7 @@
 	)
 	(wire
 		(pts
-			(xy 86.36 170.18) (xy 86.36 179.07)
+			(xy 86.36 170.18) (xy 86.36 194.31)
 		)
 		(stroke
 			(width 0)
@@ -8562,16 +8597,6 @@
 			(color 255 0 255 1)
 		)
 		(uuid "ebe4a7d7-b949-4314-9410-0962025e9e87")
-	)
-	(wire
-		(pts
-			(xy 52.07 172.72) (xy 52.07 170.18)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ebe57f80-996d-4b96-80d8-0af1ac24dae0")
 	)
 	(wire
 		(pts
@@ -8810,6 +8835,16 @@
 	)
 	(wire
 		(pts
+			(xy 50.8 181.61) (xy 52.07 181.61)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f755ffaa-53a9-4d0c-83c6-6d79b4595176")
+	)
+	(wire
+		(pts
 			(xy 132.08 102.87) (xy 147.32 102.87)
 		)
 		(stroke
@@ -8970,16 +9005,6 @@
 			(color 255 0 255 1)
 		)
 		(uuid "fc809219-0d01-49e3-b064-304814164f5b")
-	)
-	(wire
-		(pts
-			(xy 52.07 182.88) (xy 52.07 184.15)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "fd2f4fbd-2a0b-4cd5-94ef-2f03e332c73f")
 	)
 	(bus
 		(pts
@@ -10237,28 +10262,6 @@
 			)
 		)
 	)
-	(global_label "nSLOW2"
-		(shape input)
-		(at 185.42 86.36 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "1ce23d7c-02c1-47cb-b018-8d9e249c2c21")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 175.0568 86.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "nRES"
 		(shape input)
 		(at 184.15 71.12 180)
@@ -11425,28 +11428,6 @@
 			)
 		)
 	)
-	(global_label "nSLOW2"
-		(shape output)
-		(at 251.46 232.41 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "8f5bdd61-708e-4959-974d-873dffcd64d0")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 261.8232 232.41 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "SYNQ"
 		(shape output)
 		(at 100.33 95.25 180)
@@ -12076,28 +12057,6 @@
 		(uuid "d3647e46-995f-4a09-be7b-c5169d3510a7")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 155.0827 208.28 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "nSLOW2"
-		(shape output)
-		(at 251.46 189.23 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "d3ea196c-221a-4926-9e26-82454538ffd7")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 261.8232 189.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12819,6 +12778,70 @@
 	)
 	(symbol
 		(lib_id "power:GND")
+		(at 30.48 198.12 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "1057e865-c6e4-4973-8994-ace1c114ff3d")
+		(property "Reference" "#PWR010"
+			(at 30.48 204.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 30.48 202.6825 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 30.48 198.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 30.48 198.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 30.48 198.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "68e83a3a-6beb-44f3-8b57-3e576351127c")
+		)
+		(instances
+			(project "LT6502"
+				(path "/a2243a34-697c-4939-97f7-df548e421864"
+					(reference "#PWR010")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
 		(at 67.31 269.24 0)
 		(mirror y)
 		(unit 1)
@@ -13373,83 +13396,6 @@
 			(project "LT6502"
 				(path "/a2243a34-697c-4939-97f7-df548e421864"
 					(reference "#PWR025")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:LED")
-		(at 100.33 179.07 180)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "202f3dab-e35a-4313-a202-800d90f291db")
-		(property "Reference" "D1"
-			(at 101.9175 171.45 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "LED"
-			(at 101.9175 173.99 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "LED_SMD:LED_0603_1608Metric"
-			(at 100.33 179.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 100.33 179.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Light emitting diode"
-			(at 100.33 179.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Sim.Pins" "1=K 2=A"
-			(at 100.33 179.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "c0cbf8fa-5b4a-4f18-8032-e6935d3877b0")
-		)
-		(pin "2"
-			(uuid "d551f795-1514-43f2-b4e4-ad135f2f6aa5")
-		)
-		(instances
-			(project "LT6502"
-				(path "/a2243a34-697c-4939-97f7-df548e421864"
-					(reference "D1")
 					(unit 1)
 				)
 			)
@@ -14069,72 +14015,8 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
-		(at 52.07 184.15 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "43f7669a-9863-4375-80d4-302437ffc019")
-		(property "Reference" "#PWR010"
-			(at 52.07 190.5 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 52.07 188.7125 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 52.07 184.15 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 52.07 184.15 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 52.07 184.15 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "17644f93-49ab-4cd4-8dab-c377412ccc2b")
-		)
-		(instances
-			(project "LT6502"
-				(path "/a2243a34-697c-4939-97f7-df548e421864"
-					(reference "#PWR010")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:R")
-		(at 92.71 179.07 270)
+		(at 77.47 194.31 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -14143,7 +14025,7 @@
 		(fields_autoplaced yes)
 		(uuid "4cbc8172-266f-4d57-9a0d-93cd4c27a1d7")
 		(property "Reference" "R9"
-			(at 92.71 172.72 90)
+			(at 77.47 187.96 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14151,7 +14033,7 @@
 			)
 		)
 		(property "Value" "1K"
-			(at 92.71 175.26 90)
+			(at 77.47 190.5 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14159,7 +14041,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
-			(at 92.71 177.292 90)
+			(at 77.47 196.088 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14168,7 +14050,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 92.71 179.07 0)
+			(at 77.47 194.31 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14177,7 +14059,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 92.71 179.07 0)
+			(at 77.47 194.31 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14185,7 +14067,7 @@
 			)
 		)
 		(property "LCSC" "C23179"
-			(at 92.71 179.07 90)
+			(at 77.47 194.31 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15775,6 +15657,70 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 53.34 198.12 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "9e3844fa-40e4-4084-90cd-3687037810dd")
+		(property "Reference" "#PWR027"
+			(at 53.34 204.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 53.34 202.6825 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 53.34 198.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 53.34 198.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 53.34 198.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "2b9d6a6e-6e75-4caa-a1c4-8bf0982975ad")
+		)
+		(instances
+			(project "LT6502"
+				(path "/a2243a34-697c-4939-97f7-df548e421864"
+					(reference "#PWR027")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:+5V")
 		(at 83.82 31.75 0)
 		(unit 1)
@@ -17030,86 +16976,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Switch:SW_Omron_B3FS")
-		(at 52.07 177.8 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "d46bf30f-5e31-4a49-a159-8cd5eaf456cd")
-		(property "Reference" "SW1"
-			(at 53.34 177.7999 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "SW_Omron_B3FS"
-			(at 53.34 179.0699 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-				(hide yes)
-			)
-		)
-		(property "Footprint" "Button_Switch_SMD:SW_SPST_Omron_B3FS-105xP"
-			(at 46.99 177.8 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://omronfs.omron.com/en_US/ecb/products/pdf/en-b3fs.pdf"
-			(at 46.99 177.8 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Omron B3FS 6x6mm single pole normally-open tactile switch"
-			(at 52.07 177.8 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "DNP"
-			(at 52.07 177.8 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "d48cccd3-a92d-4df8-9c55-a0000bfc76ce")
-		)
-		(pin "1"
-			(uuid "3c4bbc08-185b-4e16-901f-52aec2b9c346")
-		)
-		(instances
-			(project "LT6502"
-				(path "/a2243a34-697c-4939-97f7-df548e421864"
-					(reference "SW1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:GND")
 		(at 137.16 257.81 0)
 		(unit 1)
@@ -17176,64 +17042,139 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
-		(at 110.49 181.61 0)
+		(lib_id "TL1250F180RQRCLR:TL1250F180RQRCLR")
+		(at 31.75 185.42 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "d9f640b1-f8c0-4c65-8af6-03c37eeab6a0")
-		(property "Reference" "#PWR027"
-			(at 110.49 187.96 0)
+		(uuid "d807554e-d768-4528-89c4-4e99b11c6f87")
+		(property "Reference" "S2"
+			(at 27.178 183.134 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+			)
+		)
+		(property "Value" "TL1250F180RQRCLR"
+			(at 29.464 185.674 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "TL1250F180RQRCLR:TL1250F180RQRCLR"
+			(at 48.26 270.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
 				(hide yes)
 			)
 		)
-		(property "Value" "GND"
-			(at 110.49 186.1725 0)
+		(property "Datasheet" "https://componentsearchengine.com/Datasheets/1/TL1250F180RQRCLR.pdf"
+			(at 48.26 370.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-			)
-		)
-		(property "Footprint" ""
-			(at 110.49 181.61 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 110.49 181.61 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
+				(justify left top)
 				(hide yes)
 			)
 		)
 		(property "Description" ""
-			(at 110.49 181.61 0)
+			(at 31.75 185.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
+		(property "Height" "7"
+			(at 48.26 570.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" "612-TL1250F180RQRCLR"
+			(at 48.26 670.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" "https://www.mouser.com/Search/Refine.aspx?Keyword=612-TL1250F180RQRCLR"
+			(at 48.26 770.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Name" "E-Switch"
+			(at 48.26 870.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" "TL1250F180RQRCLR"
+			(at 48.26 970.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "DNF"
+			(at 31.75 185.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
-			(uuid "62a29f09-0e7b-4948-bb3e-19edda6a88a7")
+			(uuid "9e00d0ea-f6c7-43ff-a05a-6924eb62930f")
+		)
+		(pin "2"
+			(uuid "8e452a8e-5a88-453f-8284-ad4ab46d6553")
+		)
+		(pin "3"
+			(uuid "809cbb09-b838-4260-b131-371ddbb7ec1a")
+		)
+		(pin "4"
+			(uuid "f96ac031-25b9-43b1-a896-618bd1a1d225")
+		)
+		(pin "5"
+			(uuid "a7810585-4395-429c-a0fe-a85f8238dfb8")
+		)
+		(pin "6"
+			(uuid "47830f1c-9239-42e7-9162-3584684e0e32")
 		)
 		(instances
 			(project "LT6502"
 				(path "/a2243a34-697c-4939-97f7-df548e421864"
-					(reference "#PWR027")
+					(reference "S2")
 					(unit 1)
 				)
 			)
@@ -19231,16 +19172,6 @@
 				(justify left)
 			)
 		)
-		(pin "nSLOW2" output
-			(at 242.57 232.41 0)
-			(uuid "dfdefd1a-9298-4cd9-bae7-20920a0848d7")
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
 		(pin "nSLOW1" output
 			(at 242.57 229.87 0)
 			(uuid "ba3b8ef3-0f4e-44ee-b775-093ac4039f30")
@@ -19577,16 +19508,6 @@
 		(pin "{ADDR}" passive
 			(at 190.5 46.99 180)
 			(uuid "9199c8fc-0d17-4dc1-ba69-92be081be531")
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(pin "nSLOW2" input
-			(at 190.5 86.36 180)
-			(uuid "0117135b-8b24-4971-a441-248ecd5c2ce4")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20014,16 +19935,6 @@
 					(size 1.27 1.27)
 				)
 				(justify left)
-			)
-		)
-		(pin "nSLOW2" output
-			(at 242.57 189.23 0)
-			(uuid "3e33e282-683f-478a-8628-364d875a9c06")
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
 			)
 		)
 		(pin "nSLOW1" output

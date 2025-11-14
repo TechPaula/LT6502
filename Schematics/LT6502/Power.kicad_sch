@@ -11432,7 +11432,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "320596f1-9a14-4ea7-9496-bd104a37198b")
 		(property "Reference" "R34"
 			(at 119.38 112.268 90)
@@ -16614,7 +16614,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "c3a243c4-40d0-439e-a4ff-cb207a5b4b49")
 		(property "Reference" "R38"
 			(at 125.73 112.268 90)

@@ -3676,16 +3676,6 @@
 	)
 	(wire
 		(pts
-			(xy 57.15 97.79) (xy 67.31 97.79)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "103132b5-532d-4844-8ef9-258a31b6fc04")
-	)
-	(wire
-		(pts
 			(xy 168.91 125.73) (xy 168.91 115.57)
 		)
 		(stroke
@@ -5932,17 +5922,6 @@
 			(justify left)
 		)
 		(uuid "8a260b53-0aea-48ee-9141-80bce80d0c8e")
-	)
-	(hierarchical_label "nSLOW2"
-		(shape input)
-		(at 57.15 97.79 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "9fecd270-b14c-4b2f-9747-6f3d0e486833")
 	)
 	(hierarchical_label "ACIA_nCS"
 		(shape output)
