@@ -1874,6 +1874,16 @@
 	)
 	(wire
 		(pts
+			(xy 135.89 93.98) (xy 135.89 66.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "15ad1998-effc-4882-8f87-ba087b0fda15")
+	)
+	(wire
+		(pts
 			(xy 170.18 78.74) (xy 170.18 59.69)
 		)
 		(stroke
@@ -2308,6 +2318,16 @@
 			(type default)
 		)
 		(uuid "f7f48095-32ab-4708-8e63-b9c960c6231a")
+	)
+	(wire
+		(pts
+			(xy 138.43 93.98) (xy 135.89 93.98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fc6f222b-8e72-4593-a2f9-bb8ecfad843d")
 	)
 	(label "D4"
 		(at 116.84 124.46 180)
@@ -2775,7 +2795,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 205.232 52.07 90)
 			(effects
 				(font
@@ -3607,6 +3627,71 @@
 			(project "LT6502"
 				(path "/a2243a34-697c-4939-97f7-df548e421864/2b6fed47-3df7-424e-b6fe-61f4842b9a70"
 					(reference "#PWR0198")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+5V")
+		(at 135.89 66.04 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "dc806502-8090-4d62-82c6-64cb03c61df5")
+		(property "Reference" "#PWR0228"
+			(at 135.89 69.85 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+5V"
+			(at 135.89 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 135.89 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 135.89 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 135.89 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "22dad92f-be8c-42d3-b18e-33eb6f0942f6")
+		)
+		(instances
+			(project "LT6502"
+				(path "/a2243a34-697c-4939-97f7-df548e421864/2b6fed47-3df7-424e-b6fe-61f4842b9a70"
+					(reference "#PWR0228")
 					(unit 1)
 				)
 			)
