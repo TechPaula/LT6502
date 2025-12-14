@@ -5,7 +5,7 @@
 	(uuid "09d0e917-ed63-4590-b6b4-b3bff62902f8")
 	(paper "A4")
 	(lib_symbols
-		(symbol "65xx-library:W65C51NxQ"
+		(symbol "65xx-library:W65C51NxP"
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
@@ -18,7 +18,7 @@
 					(justify left)
 				)
 			)
-			(property "Value" "W65C51NxQ"
+			(property "Value" "W65C51NxP"
 				(at 2.54 35.56 0)
 				(effects
 					(font
@@ -27,7 +27,7 @@
 					(justify left)
 				)
 			)
-			(property "Footprint" "Package_QFP:TQFP-32_7x7mm_P0.8mm"
+			(property "Footprint" "Package_DIP:DIP-28_W15.24mm"
 				(at 0 48.26 0)
 				(effects
 					(font
@@ -45,7 +45,7 @@
 					(hide yes)
 				)
 			)
-			(property "Description" "CMOS Asynchronous Communication Interface Adapter (ACIA), Serial UART, LQFP-32"
+			(property "Description" "CMOS Asynchronous Communication Interface Adapter (ACIA), Serial UART, DIP-28"
 				(at 0 0 0)
 				(effects
 					(font
@@ -63,7 +63,7 @@
 					(hide yes)
 				)
 			)
-			(property "ki_fp_filters" "?QFP*7x7mm*P0.8mm*"
+			(property "ki_fp_filters" "DIP*W15.24mm*"
 				(at 0 0 0)
 				(effects
 					(font
@@ -72,7 +72,7 @@
 					(hide yes)
 				)
 			)
-			(symbol "W65C51NxQ_0_1"
+			(symbol "W65C51NxP_0_1"
 				(rectangle
 					(start -7.62 33.02)
 					(end 7.62 -33.02)
@@ -85,7 +85,7 @@
 					)
 				)
 			)
-			(symbol "W65C51NxQ_1_1"
+			(symbol "W65C51NxP_1_1"
 				(pin input line
 					(at -10.16 27.94 0)
 					(length 2.54)
@@ -96,7 +96,7 @@
 							)
 						)
 					)
-					(number "32"
+					(number "4"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -114,7 +114,7 @@
 							)
 						)
 					)
-					(number "26"
+					(number "27"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -132,7 +132,7 @@
 							)
 						)
 					)
-					(number "25"
+					(number "26"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -150,7 +150,7 @@
 							)
 						)
 					)
-					(number "30"
+					(number "2"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -168,7 +168,7 @@
 							)
 						)
 					)
-					(number "31"
+					(number "3"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -186,7 +186,7 @@
 							)
 						)
 					)
-					(number "10"
+					(number "13"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -204,7 +204,7 @@
 							)
 						)
 					)
-					(number "11"
+					(number "14"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -222,7 +222,7 @@
 							)
 						)
 					)
-					(number "27"
+					(number "28"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -240,7 +240,7 @@
 							)
 						)
 					)
-					(number "16"
+					(number "18"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -258,7 +258,7 @@
 							)
 						)
 					)
-					(number "17"
+					(number "19"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -276,7 +276,7 @@
 							)
 						)
 					)
-					(number "18"
+					(number "20"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -294,7 +294,7 @@
 							)
 						)
 					)
-					(number "19"
+					(number "21"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -312,7 +312,7 @@
 							)
 						)
 					)
-					(number "20"
+					(number "22"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -330,7 +330,7 @@
 							)
 						)
 					)
-					(number "21"
+					(number "23"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -348,7 +348,7 @@
 							)
 						)
 					)
-					(number "22"
+					(number "24"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -366,7 +366,7 @@
 							)
 						)
 					)
-					(number "23"
+					(number "25"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -384,26 +384,7 @@
 							)
 						)
 					)
-					(number "12"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 0 35.56 270)
-					(length 2.54)
-					(hide yes)
-					(name "VCC"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "13"
+					(number "15"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -421,64 +402,7 @@
 							)
 						)
 					)
-					(number "28"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 0 -35.56 90)
-					(length 2.54)
-					(hide yes)
-					(name "VSS"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "29"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin no_connect non_logic
-					(at 7.62 -22.86 180)
-					(length 2.54)
-					(hide yes)
-					(name "nc"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "8"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin no_connect non_logic
-					(at 7.62 -25.4 180)
-					(length 2.54)
-					(hide yes)
-					(name "nc"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "24"
+					(number "1"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -496,7 +420,7 @@
 							)
 						)
 					)
-					(number "2"
+					(number "6"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -514,7 +438,7 @@
 							)
 						)
 					)
-					(number "3"
+					(number "7"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -532,7 +456,7 @@
 							)
 						)
 					)
-					(number "1"
+					(number "5"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -550,7 +474,7 @@
 							)
 						)
 					)
-					(number "6"
+					(number "10"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -568,7 +492,7 @@
 							)
 						)
 					)
-					(number "9"
+					(number "12"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -586,7 +510,7 @@
 							)
 						)
 					)
-					(number "4"
+					(number "8"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -604,7 +528,7 @@
 							)
 						)
 					)
-					(number "5"
+					(number "9"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -622,7 +546,7 @@
 							)
 						)
 					)
-					(number "7"
+					(number "11"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -640,7 +564,7 @@
 							)
 						)
 					)
-					(number "15"
+					(number "17"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -658,7 +582,7 @@
 							)
 						)
 					)
-					(number "14"
+					(number "16"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2429,7 +2353,18 @@
 		)
 		(uuid "fcbe50c3-d2fb-46a0-8945-7776c8127149")
 	)
-	(hierarchical_label "{ADDR}"
+	(hierarchical_label "D[0..7]"
+		(shape passive)
+		(at 55.88 50.8 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "1d42fd0e-f634-4ef6-8c60-f3427159212a")
+	)
+	(hierarchical_label "A[0..15]"
 		(shape passive)
 		(at 88.9 36.83 180)
 		(effects
@@ -2438,7 +2373,7 @@
 			)
 			(justify right)
 		)
-		(uuid "43132f33-945c-439d-b832-4747495c32d0")
+		(uuid "6ff81264-8eac-4cca-9194-e8e67a151567")
 	)
 	(hierarchical_label "nRES"
 		(shape input)
@@ -2461,17 +2396,6 @@
 			(justify right)
 		)
 		(uuid "84e546c7-11ed-48c0-8d3d-30b584af2292")
-	)
-	(hierarchical_label "{DATA}"
-		(shape passive)
-		(at 55.88 50.8 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "964fe577-9189-4f3f-b213-84ed15839ba4")
 	)
 	(hierarchical_label "RnW"
 		(shape input)
@@ -2906,6 +2830,15 @@
 				(hide yes)
 			)
 		)
+		(property "Mouser Part Number" "774-MXO45HST-3C-1.8"
+			(at 194.31 59.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "dcf3cd8f-f1a7-4260-8015-899f8c0eaf92")
 		)
@@ -3014,6 +2947,154 @@
 		)
 	)
 	(symbol
+		(lib_id "65xx-library:W65C51NxP")
+		(at 148.59 106.68 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "7d8c86f5-da5c-4b47-8550-618eb58c09b7")
+		(property "Reference" "U12"
+			(at 150.7333 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "W65C51NxP"
+			(at 150.7333 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_DIP:DIP-28_W15.24mm"
+			(at 148.59 58.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "http://www.westerndesigncenter.com/wdc/documentation/w65c51n.pdf"
+			(at 148.59 60.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "CMOS Asynchronous Communication Interface Adapter (ACIA), Serial UART, DIP-28"
+			(at 148.59 106.68 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "5"
+			(uuid "0a565f10-4ac1-4a76-b88f-0c153ae160b9")
+		)
+		(pin "18"
+			(uuid "41ad6c12-d846-4d4a-a6f3-65216f28203f")
+		)
+		(pin "20"
+			(uuid "a5e2fcf3-7540-490e-ad29-4a653bc8b170")
+		)
+		(pin "6"
+			(uuid "d9bbe48c-fb86-4e25-83de-480232b9925a")
+		)
+		(pin "19"
+			(uuid "e9d8d8e5-9b22-4e3f-9c1c-7173fcf051d3")
+		)
+		(pin "15"
+			(uuid "a4280c3e-fa43-43c1-a053-5024a2a6c850")
+		)
+		(pin "22"
+			(uuid "6619043f-a621-4941-9656-c97059739b1a")
+		)
+		(pin "8"
+			(uuid "9e59b858-bf16-462a-a842-f4d916edeb73")
+		)
+		(pin "1"
+			(uuid "f1406f17-9cb5-4beb-9c84-422b9f95377a")
+		)
+		(pin "21"
+			(uuid "57524c05-58c0-4a0f-a789-51203a932ad9")
+		)
+		(pin "24"
+			(uuid "959b96ab-e29b-4a0e-80f8-0d6a83a9134f")
+		)
+		(pin "12"
+			(uuid "4075cafe-dd2c-4923-a70f-c63eb81273aa")
+		)
+		(pin "11"
+			(uuid "7abeb2e7-30a9-4d44-add1-358a8da4b6b7")
+		)
+		(pin "26"
+			(uuid "767aa9e1-117a-45c4-81f9-6e62b257db0a")
+		)
+		(pin "27"
+			(uuid "dcdec99c-dcdd-4e78-9b5d-f365095a71a0")
+		)
+		(pin "4"
+			(uuid "1c70200a-2cb0-4a48-94c3-15a1f0bf93d6")
+		)
+		(pin "28"
+			(uuid "66424705-c7d5-461e-b274-a0952752c86a")
+		)
+		(pin "10"
+			(uuid "cfad7766-d777-4dcf-b1b2-471c8d563c30")
+		)
+		(pin "3"
+			(uuid "6b3777a2-a8f0-4007-9f40-3e9a2173ca37")
+		)
+		(pin "14"
+			(uuid "f720b92b-a002-447f-a025-95be9f71ce2e")
+		)
+		(pin "25"
+			(uuid "44c91862-2f9f-4d18-a3a7-41aeab2002ae")
+		)
+		(pin "23"
+			(uuid "77651099-73a1-4cac-8d1b-599bd562f45c")
+		)
+		(pin "16"
+			(uuid "2fa38582-8036-48ac-80e6-31f72f5fc734")
+		)
+		(pin "13"
+			(uuid "71ffe02a-90c5-4e23-8a73-6273558cdfb1")
+		)
+		(pin "7"
+			(uuid "7c07a03d-7a34-4756-bada-bad59d6f8223")
+		)
+		(pin "2"
+			(uuid "05a61763-a353-47ab-aafc-2b3bb55a6318")
+		)
+		(pin "9"
+			(uuid "446cab22-25de-4c2a-a94b-b7f29c7d1eca")
+		)
+		(pin "17"
+			(uuid "065e3a41-2c02-4aa6-9abb-f0ac8ddb96c1")
+		)
+		(instances
+			(project ""
+				(path "/a2243a34-697c-4939-97f7-df548e421864/2b6fed47-3df7-424e-b6fe-61f4842b9a70"
+					(reference "U12")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:+5V")
 		(at 207.01 45.72 0)
 		(unit 1)
@@ -3073,166 +3154,6 @@
 			(project "LT6502"
 				(path "/a2243a34-697c-4939-97f7-df548e421864/2b6fed47-3df7-424e-b6fe-61f4842b9a70"
 					(reference "#PWR0208")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "65xx-library:W65C51NxQ")
-		(at 148.59 106.68 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "8c9867a1-4e25-49ad-97c6-a024524e8b1c")
-		(property "Reference" "U11"
-			(at 150.7333 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "W65C51NxQ"
-			(at 150.7333 71.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Package_QFP:TQFP-32_7x7mm_P0.8mm"
-			(at 148.59 58.42 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "http://www.westerndesigncenter.com/wdc/documentation/w65c51n.pdf"
-			(at 148.59 60.96 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "CMOS Asynchronous Communication Interface Adapter (ACIA), Serial UART, LQFP-32"
-			(at 148.59 106.68 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "5"
-			(uuid "fafffe03-e040-4492-9bb5-2fccac03d9dc")
-		)
-		(pin "6"
-			(uuid "f12cd8cf-7894-4eaf-a392-7d3f243fe4a3")
-		)
-		(pin "1"
-			(uuid "0f5e456c-981e-4636-943d-0c6ad5e93595")
-		)
-		(pin "29"
-			(uuid "094cdd74-1b2d-4791-9914-bdeaeb1d6e83")
-		)
-		(pin "9"
-			(uuid "6803153b-b927-498c-981c-9fe0336b6c27")
-		)
-		(pin "13"
-			(uuid "154b1f3b-1606-483f-9723-eec55aee0a53")
-		)
-		(pin "16"
-			(uuid "7d0314c6-225d-4e77-a332-7e2710104e98")
-		)
-		(pin "17"
-			(uuid "3e8d9c62-fc22-4ab5-8a53-c44861599b46")
-		)
-		(pin "10"
-			(uuid "391bd5e3-cb09-4842-8a85-15a0316ada6e")
-		)
-		(pin "31"
-			(uuid "09ee9b47-3979-456e-9f9b-c6e5eb7714c0")
-		)
-		(pin "30"
-			(uuid "862f2ca5-cc0a-44fb-ac9f-e6fcaa3adb30")
-		)
-		(pin "2"
-			(uuid "5098d4e4-ef50-487b-bc55-f1df5c77c5db")
-		)
-		(pin "23"
-			(uuid "3ef24b68-6b84-4d1a-956d-37e22a4f6ecf")
-		)
-		(pin "18"
-			(uuid "144ae37a-9f5e-4710-abf7-40f3d0e18db2")
-		)
-		(pin "7"
-			(uuid "c714e7a5-168d-4fb6-b0f6-6d6ece44e8a4")
-		)
-		(pin "26"
-			(uuid "8c9e2f52-ba22-47ae-b270-0c1af2dbc6da")
-		)
-		(pin "8"
-			(uuid "b5bf710e-7b95-4a8e-b389-550eb2c4e087")
-		)
-		(pin "4"
-			(uuid "a9b9c293-3354-4387-9846-cbc33c2f29d6")
-		)
-		(pin "27"
-			(uuid "cfa2a5af-0284-4e54-86a3-e3c09c88ad72")
-		)
-		(pin "15"
-			(uuid "b6b2df5b-f3bf-483b-88cc-f43a524e6380")
-		)
-		(pin "14"
-			(uuid "a2f7f317-9e8d-4b62-b36f-39e7bb2d969f")
-		)
-		(pin "12"
-			(uuid "19281012-6164-43b7-98d6-8c8d1df57676")
-		)
-		(pin "3"
-			(uuid "cdc2e97d-497a-4638-ba3f-7ed8feac66e8")
-		)
-		(pin "21"
-			(uuid "cbd5fe81-478e-489c-966e-77904db590bc")
-		)
-		(pin "20"
-			(uuid "3d98117a-da7c-4c92-9a74-5c9a1217cf84")
-		)
-		(pin "19"
-			(uuid "2a7e49d6-219b-4aa4-8894-570b8866d3ef")
-		)
-		(pin "25"
-			(uuid "857323d9-f30a-4cab-a83b-4723e608ead9")
-		)
-		(pin "28"
-			(uuid "29b533a4-ca11-491e-b835-aa3ba99ebb74")
-		)
-		(pin "24"
-			(uuid "44465fc6-2195-4ede-8fdf-b17a92f73c8a")
-		)
-		(pin "11"
-			(uuid "5ed5186c-acf7-4bd0-8118-ca7f0b90339b")
-		)
-		(pin "22"
-			(uuid "c2dfd412-6bdf-41a4-ac6b-aef4c7a31700")
-		)
-		(pin "32"
-			(uuid "57869f35-8776-4564-8b4e-81ea84efcb5e")
-		)
-		(instances
-			(project ""
-				(path "/a2243a34-697c-4939-97f7-df548e421864/2b6fed47-3df7-424e-b6fe-61f4842b9a70"
-					(reference "U11")
 					(unit 1)
 				)
 			)

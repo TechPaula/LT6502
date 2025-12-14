@@ -3892,7 +3892,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "1d8c4766-982b-42b1-9dbb-4abdfdf43414")
 		(property "Reference" "R71"
 			(at 117.856 60.96 90)
@@ -4398,7 +4398,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "5785fdb2-39af-4545-97b4-3bbadfb99e90")
 		(property "Reference" "R70"
 			(at 107.442 60.96 90)
@@ -5706,6 +5706,15 @@
 			)
 		)
 		(property "LCSC" "C2593"
+			(at 227.33 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" "942-IRLML6402TRPBF"
 			(at 227.33 90.17 0)
 			(effects
 				(font

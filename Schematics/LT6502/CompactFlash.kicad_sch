@@ -3519,17 +3519,6 @@
 		)
 		(uuid "ff195400-821b-4152-b363-214485150cf5")
 	)
-	(hierarchical_label "{DATA}"
-		(shape passive)
-		(at 71.12 109.22 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "04b81f11-c9d1-4935-8f23-efec2848540e")
-	)
 	(hierarchical_label "CF_nCS0"
 		(shape input)
 		(at 115.57 62.23 180)
@@ -3541,17 +3530,6 @@
 		)
 		(uuid "37b04f5f-7af2-4f54-8fa0-1387c70f9b59")
 	)
-	(hierarchical_label "{ADDR}"
-		(shape passive)
-		(at 68.58 76.2 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "5f012ca8-7a4e-4d61-bf63-c1d2a4912923")
-	)
 	(hierarchical_label "nW"
 		(shape input)
 		(at 179.07 67.31 0)
@@ -3562,6 +3540,17 @@
 			(justify left)
 		)
 		(uuid "5f509406-4644-473e-b7fd-fbbe4cc04b6f")
+	)
+	(hierarchical_label "D[0..7]"
+		(shape passive)
+		(at 71.12 109.22 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "874ec9c7-f069-47fe-8924-9822ec3a5c80")
 	)
 	(hierarchical_label "nR"
 		(shape input)
@@ -3584,6 +3573,17 @@
 			(justify left)
 		)
 		(uuid "952dd925-7b7e-4b0b-b840-9605cce1060b")
+	)
+	(hierarchical_label "A[0..15]"
+		(shape passive)
+		(at 68.58 76.2 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "dd86b5de-adcc-4a83-ab56-b9fe99fe0903")
 	)
 	(symbol
 		(lib_id "power:GND")

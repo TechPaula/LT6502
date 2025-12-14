@@ -2840,17 +2840,6 @@
 	)
 	(bus
 		(pts
-			(xy 92.71 101.6) (xy 92.71 40.64)
-		)
-		(stroke
-			(width 0)
-			(type default)
-			(color 255 0 255 1)
-		)
-		(uuid "230cf93b-d015-4066-ae7b-f16fdc8eb100")
-	)
-	(bus
-		(pts
 			(xy 180.34 62.23) (xy 180.34 64.77)
 		)
 		(stroke
@@ -3463,17 +3452,6 @@
 			(type default)
 		)
 		(uuid "96fbb122-9e32-4d8a-b2fc-3109a77b3e6f")
-	)
-	(bus
-		(pts
-			(xy 92.71 40.64) (xy 87.63 40.64)
-		)
-		(stroke
-			(width 0)
-			(type default)
-			(color 255 0 255 1)
-		)
-		(uuid "9831f049-d33d-4d85-8ebd-a0472c0b2d9d")
 	)
 	(wire
 		(pts
@@ -4549,7 +4527,7 @@
 		)
 		(uuid "ff6dbe67-cdd6-4664-bdd3-49fd535749ae")
 	)
-	(hierarchical_label "{ADDR}"
+	(hierarchical_label "A[0..15]"
 		(shape passive)
 		(at 86.36 34.29 180)
 		(effects
@@ -4593,7 +4571,7 @@
 		)
 		(uuid "bcd96b25-0315-4f0f-aa2c-ea0ced9efb12")
 	)
-	(hierarchical_label "{DATA}"
+	(hierarchical_label "D[0..7]"
 		(shape passive)
 		(at 58.42 39.37 180)
 		(effects
@@ -4636,7 +4614,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "31465d37-6450-4f55-b1fe-5ff89c63abba")
-		(property "Reference" "J13"
+		(property "Reference" "J12"
 			(at 198.882 130.556 0)
 			(effects
 				(font
@@ -4718,7 +4696,7 @@
 		(instances
 			(project "LT6502"
 				(path "/a2243a34-697c-4939-97f7-df548e421864/e86b2ea6-d99f-434f-aafb-2d5deecd7ca6"
-					(reference "J13")
+					(reference "J12")
 					(unit 1)
 				)
 			)
@@ -5675,7 +5653,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "e8b0392a-4771-4212-b48c-509390ecf5ba")
-		(property "Reference" "J12"
+		(property "Reference" "J13"
 			(at 197.104 53.848 0)
 			(effects
 				(font
@@ -5757,7 +5735,7 @@
 		(instances
 			(project "LT6502"
 				(path "/a2243a34-697c-4939-97f7-df548e421864/e86b2ea6-d99f-434f-aafb-2d5deecd7ca6"
-					(reference "J12")
+					(reference "J13")
 					(unit 1)
 				)
 			)
