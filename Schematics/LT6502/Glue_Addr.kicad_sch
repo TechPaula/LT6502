@@ -3905,6 +3905,10 @@
 		(uuid "60914cac-e9d0-41a5-be73-fa5d180a7682")
 	)
 	(no_connect
+		(at 132.08 45.72)
+		(uuid "6224ac8f-b49d-4898-ad3f-733a79d7c0b1")
+	)
+	(no_connect
 		(at 81.28 86.36)
 		(uuid "6337b860-35ca-4dcd-a173-04d4e086bc0c")
 	)
@@ -3913,16 +3917,8 @@
 		(uuid "644d4703-4f4f-4e59-a8df-dc03865e9b26")
 	)
 	(no_connect
-		(at 81.28 88.9)
-		(uuid "83083544-b961-4649-b558-ec9dc10f9da4")
-	)
-	(no_connect
 		(at 193.04 68.58)
 		(uuid "93eb2aaa-29f5-4969-96e9-7a97987c6959")
-	)
-	(no_connect
-		(at 132.08 45.72)
-		(uuid "a1ba78c5-1b61-4995-af23-a6ddc6d7d7a7")
 	)
 	(no_connect
 		(at 193.04 91.44)
@@ -4840,6 +4836,16 @@
 	)
 	(wire
 		(pts
+			(xy 68.58 93.98) (xy 81.28 93.98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "528e5a23-90df-496e-a3f6-401bc74331eb")
+	)
+	(wire
+		(pts
 			(xy 193.04 53.34) (xy 200.66 53.34)
 		)
 		(stroke
@@ -5150,7 +5156,7 @@
 	)
 	(wire
 		(pts
-			(xy 71.12 93.98) (xy 81.28 93.98)
+			(xy 71.12 88.9) (xy 81.28 88.9)
 		)
 		(stroke
 			(width 0)
@@ -6669,9 +6675,20 @@
 		)
 		(uuid "4b564da4-5249-4d1b-b488-034045d271d9")
 	)
+	(hierarchical_label "AUDIO"
+		(shape output)
+		(at 68.58 93.98 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "4d45cce2-05c4-4a2d-812b-b6b5a4da446f")
+	)
 	(hierarchical_label "RnW"
 		(shape input)
-		(at 71.12 93.98 180)
+		(at 71.12 88.9 180)
 		(effects
 			(font
 				(size 1.27 1.27)

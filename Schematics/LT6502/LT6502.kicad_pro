@@ -674,6 +674,12 @@
           "label": "Manufacturer",
           "name": "Manufacturer",
           "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Description_1",
+          "name": "Description_1",
+          "show": false
         }
       ],
       "filter_string": "",
@@ -759,6 +765,10 @@
     [
       "2b6fed47-3df7-424e-b6fe-61f4842b9a70",
       "Keyboard IF"
+    ],
+    [
+      "598e71c9-5c06-425f-ac54-aba71004555d",
+      "AUDIO"
     ]
   ],
   "text_variables": {}
