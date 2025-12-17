@@ -5,7 +5,7 @@
 	(uuid "df3f2d3f-c20b-413e-9d55-4328b6be904e")
 	(paper "A4")
 	(lib_symbols
-		(symbol "74xx:74HC138"
+		(symbol "74xx:74HC238"
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
@@ -18,7 +18,7 @@
 					(justify left bottom)
 				)
 			)
-			(property "Value" "74HC138"
+			(property "Value" "74HC238"
 				(at 2.54 -11.43 0)
 				(effects
 					(font
@@ -36,7 +36,7 @@
 					(hide yes)
 				)
 			)
-			(property "Datasheet" "http://www.ti.com/lit/ds/symlink/cd74hc238.pdf"
+			(property "Datasheet" "https://www.ti.com/lit/ds/symlink/cd74hc238.pdf"
 				(at 0 0 0)
 				(effects
 					(font
@@ -45,7 +45,7 @@
 					(hide yes)
 				)
 			)
-			(property "Description" "3-to-8 line decoder/multiplexer inverting, DIP-16/SOIC-16/SSOP-16"
+			(property "Description" "3-to-8 line decoder/multiplexer, DIP-16/SOIC-16/SSOP-16"
 				(at 0 0 0)
 				(effects
 					(font
@@ -63,7 +63,7 @@
 					(hide yes)
 				)
 			)
-			(property "ki_fp_filters" "DIP*W7.62mm* SOIC*3.9x9.9mm*P1.27mm* SSOP*5.3x6.2mm*P0.65mm*"
+			(property "ki_fp_filters" "DIP*W7.62mm* SOIC*3.9x9.9mm*P1.27mm* TSSOP*4.4x5mm*P0.65mm*"
 				(at 0 0 0)
 				(effects
 					(font
@@ -72,7 +72,7 @@
 					(hide yes)
 				)
 			)
-			(symbol "74HC138_0_1"
+			(symbol "74HC238_0_1"
 				(rectangle
 					(start -7.62 12.7)
 					(end 7.62 -10.16)
@@ -85,7 +85,7 @@
 					)
 				)
 			)
-			(symbol "74HC138_1_1"
+			(symbol "74HC238_1_1"
 				(pin input line
 					(at -10.16 10.16 0)
 					(length 2.54)
@@ -143,7 +143,7 @@
 				(pin input line
 					(at -10.16 -2.54 0)
 					(length 2.54)
-					(name "~{E0}"
+					(name "~{E1}"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -161,7 +161,7 @@
 				(pin input line
 					(at -10.16 -5.08 0)
 					(length 2.54)
-					(name "~{E1}"
+					(name "~{E2}"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -179,7 +179,7 @@
 				(pin input line
 					(at -10.16 -7.62 0)
 					(length 2.54)
-					(name "E2"
+					(name "E3"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -233,7 +233,7 @@
 				(pin output line
 					(at 10.16 10.16 180)
 					(length 2.54)
-					(name "~{Y0}"
+					(name "Y0"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -251,7 +251,7 @@
 				(pin output line
 					(at 10.16 7.62 180)
 					(length 2.54)
-					(name "~{Y1}"
+					(name "Y1"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -269,7 +269,7 @@
 				(pin output line
 					(at 10.16 5.08 180)
 					(length 2.54)
-					(name "~{Y2}"
+					(name "Y2"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -287,7 +287,7 @@
 				(pin output line
 					(at 10.16 2.54 180)
 					(length 2.54)
-					(name "~{Y3}"
+					(name "Y3"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -305,7 +305,7 @@
 				(pin output line
 					(at 10.16 0 180)
 					(length 2.54)
-					(name "~{Y4}"
+					(name "Y4"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -323,7 +323,7 @@
 				(pin output line
 					(at 10.16 -2.54 180)
 					(length 2.54)
-					(name "~{Y5}"
+					(name "Y5"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -341,7 +341,7 @@
 				(pin output line
 					(at 10.16 -5.08 180)
 					(length 2.54)
-					(name "~{Y6}"
+					(name "Y6"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -359,7 +359,7 @@
 				(pin output line
 					(at 10.16 -7.62 180)
 					(length 2.54)
-					(name "~{Y7}"
+					(name "Y7"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -6708,6 +6708,118 @@
 		)
 	)
 	(symbol
+		(lib_id "74xx:74HC238")
+		(at 128.27 128.27 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "104f5232-01ff-43d3-a156-a34fe8f00725")
+		(property "Reference" "U2"
+			(at 130.4133 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "74HC238"
+			(at 130.4133 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_SO:SSOP-16_5.3x6.2mm_P0.65mm"
+			(at 128.27 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/cd74hc238.pdf"
+			(at 128.27 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "3-to-8 line decoder/multiplexer, DIP-16/SOIC-16/SSOP-16"
+			(at 128.27 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "14"
+			(uuid "984b07ed-c271-4860-b1fb-7d6cce7c2927")
+		)
+		(pin "13"
+			(uuid "064c8c75-5ccb-4401-ad33-545ec5365706")
+		)
+		(pin "8"
+			(uuid "c9b6dc54-3a72-4f20-85d9-27b9903d30d1")
+		)
+		(pin "9"
+			(uuid "dc184fea-8879-4e8c-9a1e-3be347f1ed8b")
+		)
+		(pin "1"
+			(uuid "fbab265c-7c25-42cc-9dfd-b188d62a8d74")
+		)
+		(pin "2"
+			(uuid "c2232299-cc5f-42a4-863a-24b73c508a4f")
+		)
+		(pin "3"
+			(uuid "afaaf067-95db-4e9f-b712-c0c1228f0868")
+		)
+		(pin "6"
+			(uuid "5b5c08a0-01e8-4c60-a7e4-b6918d4335a6")
+		)
+		(pin "12"
+			(uuid "9879005d-de95-4231-98d7-ef00341ce938")
+		)
+		(pin "15"
+			(uuid "ddfbb512-e8c4-41ad-86fd-8f04548d4530")
+		)
+		(pin "16"
+			(uuid "13bcdfbf-8154-4f00-8b92-38584f07764b")
+		)
+		(pin "7"
+			(uuid "b88c52d5-8ace-4b5c-826f-378f1dd5f767")
+		)
+		(pin "10"
+			(uuid "cb0eb1e4-c307-47c1-973f-ea6316caf7d4")
+		)
+		(pin "11"
+			(uuid "3fd466b2-e7c8-46a3-b2fd-15d200a0b396")
+		)
+		(pin "4"
+			(uuid "ad4745aa-3f0d-4066-bb9a-1d4a211c07e2")
+		)
+		(pin "5"
+			(uuid "ef7c2c57-1777-4f88-a134-facd30dd6441")
+		)
+		(instances
+			(project ""
+				(path "/df3f2d3f-c20b-413e-9d55-4328b6be904e"
+					(reference "U2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:+5V")
 		(at 17.78 50.8 0)
 		(unit 1)
@@ -10627,118 +10739,6 @@
 			(project "PC6502_KEYBED"
 				(path "/df3f2d3f-c20b-413e-9d55-4328b6be904e"
 					(reference "#PWR027")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "74xx:74HC138")
-		(at 128.27 128.27 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "efe17115-bd7e-4438-8095-8dbcb44d4719")
-		(property "Reference" "U2"
-			(at 130.4133 110.49 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "74HC138"
-			(at 130.4133 113.03 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Package_SO:SSOP-16_5.3x6.2mm_P0.65mm"
-			(at 128.27 128.27 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "http://www.ti.com/lit/ds/symlink/cd74hc238.pdf"
-			(at 128.27 128.27 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "3-to-8 line decoder/multiplexer inverting, DIP-16/SOIC-16/SSOP-16"
-			(at 128.27 128.27 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "13"
-			(uuid "65ba70cf-8243-49ab-b7ad-56d12f4b72e9")
-		)
-		(pin "12"
-			(uuid "723c4146-f20c-4709-b9fd-7878f71fc216")
-		)
-		(pin "10"
-			(uuid "eb0471f4-0bc1-466e-9ec4-f748a3654c57")
-		)
-		(pin "7"
-			(uuid "06e0f273-4a88-440c-a471-aabd21404cbc")
-		)
-		(pin "16"
-			(uuid "174d6f41-9860-4823-a4e0-be2ea2b20383")
-		)
-		(pin "9"
-			(uuid "9bc8dfc0-6d28-495c-ae5f-753a9b2d36bf")
-		)
-		(pin "5"
-			(uuid "b1d9180d-fccc-4bb7-bd94-d0a4645e41ea")
-		)
-		(pin "6"
-			(uuid "ba1fd84c-5e1d-4f0a-b4e8-34fcf6d5858e")
-		)
-		(pin "4"
-			(uuid "30e033ef-6015-4b40-b28a-0d0d16ed884c")
-		)
-		(pin "15"
-			(uuid "8b10a960-3d02-41f7-8bba-1ddf7b8a8aed")
-		)
-		(pin "14"
-			(uuid "644762f9-4005-4fbc-ada6-83aa17a84371")
-		)
-		(pin "8"
-			(uuid "dbe066b4-80de-4792-bca5-0d58d3424e9b")
-		)
-		(pin "2"
-			(uuid "14d105b3-7d61-4c34-971b-d7fa22e019cc")
-		)
-		(pin "11"
-			(uuid "b7203548-183d-4178-8cec-d6e1586250b1")
-		)
-		(pin "1"
-			(uuid "a56c1e0a-9932-4ccd-93c7-ee5e9f196054")
-		)
-		(pin "3"
-			(uuid "38f4a5e9-e90b-4bb6-9b8d-7d6d42db9a8c")
-		)
-		(instances
-			(project ""
-				(path "/df3f2d3f-c20b-413e-9d55-4328b6be904e"
-					(reference "U2")
 					(unit 1)
 				)
 			)
