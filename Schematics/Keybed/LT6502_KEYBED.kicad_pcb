@@ -47282,7 +47282,6 @@
 			)
 		)
 		(model "/home/paula/Dropbox/KiCAD/LIB/3D/Kailh Choc FunkMonk 1u.step"
-			(hide yes)
 			(offset
 				(xyz 0 0 2.5)
 			)
@@ -47294,6 +47293,7 @@
 			)
 		)
 		(model "/home/paula/Dropbox/KiCAD/LIB/3D/Kailh Choc FunkMonk 1.5u.step"
+			(hide yes)
 			(offset
 				(xyz 0 0 2.5)
 			)
