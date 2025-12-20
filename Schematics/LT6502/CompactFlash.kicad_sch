@@ -3702,6 +3702,15 @@
 				)
 			)
 		)
+		(property "LCSC" "C11702"
+			(at 158.75 100.33 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "1d940d72-8d05-4ba7-915c-bef40a32f715")
 		)
@@ -3766,6 +3775,15 @@
 				(font
 					(size 1.27 1.27)
 				)
+			)
+		)
+		(property "LCSC" "C11702"
+			(at 179.07 95.25 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -3903,7 +3921,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 92.71 68.58 0)
 			(effects
 				(font
@@ -3934,7 +3952,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(fields_autoplaced yes)
 		(uuid "57309fc6-efb2-499a-9663-8eea2bf93c0e")
 		(property "Reference" "J8"
@@ -3988,7 +4006,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C444350"
+		(property "LCSC" "DNF"
 			(at 144.78 77.47 0)
 			(effects
 				(font
@@ -4361,7 +4379,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "9d81f606-54eb-4cc6-8037-c10d661de065")
 		(property "Reference" "R75"
 			(at 108.204 85.344 90)
@@ -4403,6 +4421,15 @@
 				(font
 					(size 1.27 1.27)
 				)
+			)
+		)
+		(property "LCSC" "DNF"
+			(at 110.49 87.63 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -4534,6 +4561,15 @@
 				(font
 					(size 1.27 1.27)
 				)
+			)
+		)
+		(property "LCSC" "C25117"
+			(at 222.25 92.71 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -4796,6 +4832,15 @@
 				)
 			)
 		)
+		(property "LCSC" "C11702"
+			(at 179.07 90.17 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "ec4be4d3-634b-44ec-802b-b954c729f0cd")
 		)
@@ -4819,7 +4864,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(fields_autoplaced yes)
 		(uuid "d7bf9c30-97ac-415a-a022-fe72d1fc3dc2")
 		(property "Reference" "D11"
@@ -5004,6 +5049,15 @@
 				)
 			)
 		)
+		(property "LCSC" "C11702"
+			(at 165.1 54.61 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "4a2884b4-8595-4c0d-b18e-c3c4b3c38e8e")
 		)
@@ -5069,6 +5123,15 @@
 				(font
 					(size 1.27 1.27)
 				)
+			)
+		)
+		(property "LCSC" "C11702"
+			(at 191.77 69.85 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
 			)
 		)
 		(pin "1"

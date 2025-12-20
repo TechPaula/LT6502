@@ -5,7 +5,7 @@
 	(uuid "df3f2d3f-c20b-413e-9d55-4328b6be904e")
 	(paper "A4")
 	(lib_symbols
-		(symbol "74xx:74HC238"
+		(symbol "74xx:74HCT138"
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
@@ -18,7 +18,7 @@
 					(justify left bottom)
 				)
 			)
-			(property "Value" "74HC238"
+			(property "Value" "74HCT138"
 				(at 2.54 -11.43 0)
 				(effects
 					(font
@@ -36,7 +36,7 @@
 					(hide yes)
 				)
 			)
-			(property "Datasheet" "https://www.ti.com/lit/ds/symlink/cd74hc238.pdf"
+			(property "Datasheet" "http://www.ti.com/lit/ds/symlink/cd74hc238.pdf"
 				(at 0 0 0)
 				(effects
 					(font
@@ -45,7 +45,7 @@
 					(hide yes)
 				)
 			)
-			(property "Description" "3-to-8 line decoder/multiplexer, DIP-16/SOIC-16/SSOP-16"
+			(property "Description" "3-to-8 line decoder/multiplexer inverting, DIP-16/SOIC-16/SSOP-16"
 				(at 0 0 0)
 				(effects
 					(font
@@ -63,7 +63,7 @@
 					(hide yes)
 				)
 			)
-			(property "ki_fp_filters" "DIP*W7.62mm* SOIC*3.9x9.9mm*P1.27mm* TSSOP*4.4x5mm*P0.65mm*"
+			(property "ki_fp_filters" "DIP*W7.62mm* SOIC*3.9x9.9mm*P1.27mm* SSOP*5.3x6.2mm*P0.65mm*"
 				(at 0 0 0)
 				(effects
 					(font
@@ -72,7 +72,7 @@
 					(hide yes)
 				)
 			)
-			(symbol "74HC238_0_1"
+			(symbol "74HCT138_0_1"
 				(rectangle
 					(start -7.62 12.7)
 					(end 7.62 -10.16)
@@ -85,7 +85,7 @@
 					)
 				)
 			)
-			(symbol "74HC238_1_1"
+			(symbol "74HCT138_1_1"
 				(pin input line
 					(at -10.16 10.16 0)
 					(length 2.54)
@@ -143,7 +143,7 @@
 				(pin input line
 					(at -10.16 -2.54 0)
 					(length 2.54)
-					(name "~{E1}"
+					(name "~{E0}"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -161,7 +161,7 @@
 				(pin input line
 					(at -10.16 -5.08 0)
 					(length 2.54)
-					(name "~{E2}"
+					(name "~{E1}"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -179,7 +179,7 @@
 				(pin input line
 					(at -10.16 -7.62 0)
 					(length 2.54)
-					(name "E3"
+					(name "E2"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -233,7 +233,7 @@
 				(pin output line
 					(at 10.16 10.16 180)
 					(length 2.54)
-					(name "Y0"
+					(name "~{Y0}"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -251,7 +251,7 @@
 				(pin output line
 					(at 10.16 7.62 180)
 					(length 2.54)
-					(name "Y1"
+					(name "~{Y1}"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -269,7 +269,7 @@
 				(pin output line
 					(at 10.16 5.08 180)
 					(length 2.54)
-					(name "Y2"
+					(name "~{Y2}"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -287,7 +287,7 @@
 				(pin output line
 					(at 10.16 2.54 180)
 					(length 2.54)
-					(name "Y3"
+					(name "~{Y3}"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -305,7 +305,7 @@
 				(pin output line
 					(at 10.16 0 180)
 					(length 2.54)
-					(name "Y4"
+					(name "~{Y4}"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -323,7 +323,7 @@
 				(pin output line
 					(at 10.16 -2.54 180)
 					(length 2.54)
-					(name "Y5"
+					(name "~{Y5}"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -341,7 +341,7 @@
 				(pin output line
 					(at 10.16 -5.08 180)
 					(length 2.54)
-					(name "Y6"
+					(name "~{Y6}"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -359,7 +359,7 @@
 				(pin output line
 					(at 10.16 -7.62 180)
 					(length 2.54)
-					(name "Y7"
+					(name "~{Y7}"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -6384,6 +6384,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer" ""
+			(at 55.88 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
+			(at 55.88 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "30"
 			(uuid "8b7d3337-1ca7-46e8-9a3c-8ed2b619db0a")
 		)
@@ -6708,118 +6726,6 @@
 		)
 	)
 	(symbol
-		(lib_id "74xx:74HC238")
-		(at 128.27 128.27 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "104f5232-01ff-43d3-a156-a34fe8f00725")
-		(property "Reference" "U2"
-			(at 130.4133 110.49 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "74HC238"
-			(at 130.4133 113.03 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Package_SO:SSOP-16_5.3x6.2mm_P0.65mm"
-			(at 128.27 128.27 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/cd74hc238.pdf"
-			(at 128.27 128.27 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "3-to-8 line decoder/multiplexer, DIP-16/SOIC-16/SSOP-16"
-			(at 128.27 128.27 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "14"
-			(uuid "984b07ed-c271-4860-b1fb-7d6cce7c2927")
-		)
-		(pin "13"
-			(uuid "064c8c75-5ccb-4401-ad33-545ec5365706")
-		)
-		(pin "8"
-			(uuid "c9b6dc54-3a72-4f20-85d9-27b9903d30d1")
-		)
-		(pin "9"
-			(uuid "dc184fea-8879-4e8c-9a1e-3be347f1ed8b")
-		)
-		(pin "1"
-			(uuid "fbab265c-7c25-42cc-9dfd-b188d62a8d74")
-		)
-		(pin "2"
-			(uuid "c2232299-cc5f-42a4-863a-24b73c508a4f")
-		)
-		(pin "3"
-			(uuid "afaaf067-95db-4e9f-b712-c0c1228f0868")
-		)
-		(pin "6"
-			(uuid "5b5c08a0-01e8-4c60-a7e4-b6918d4335a6")
-		)
-		(pin "12"
-			(uuid "9879005d-de95-4231-98d7-ef00341ce938")
-		)
-		(pin "15"
-			(uuid "ddfbb512-e8c4-41ad-86fd-8f04548d4530")
-		)
-		(pin "16"
-			(uuid "13bcdfbf-8154-4f00-8b92-38584f07764b")
-		)
-		(pin "7"
-			(uuid "b88c52d5-8ace-4b5c-826f-378f1dd5f767")
-		)
-		(pin "10"
-			(uuid "cb0eb1e4-c307-47c1-973f-ea6316caf7d4")
-		)
-		(pin "11"
-			(uuid "3fd466b2-e7c8-46a3-b2fd-15d200a0b396")
-		)
-		(pin "4"
-			(uuid "ad4745aa-3f0d-4066-bb9a-1d4a211c07e2")
-		)
-		(pin "5"
-			(uuid "ef7c2c57-1777-4f88-a134-facd30dd6441")
-		)
-		(instances
-			(project ""
-				(path "/df3f2d3f-c20b-413e-9d55-4328b6be904e"
-					(reference "U2")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:+5V")
 		(at 17.78 50.8 0)
 		(unit 1)
@@ -7076,6 +6982,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer" ""
+			(at 203.2 48.26 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
+			(at 203.2 48.26 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "2"
 			(uuid "e74e411c-ce17-417e-bc34-ff5f9f67d3f4")
 		)
@@ -7155,6 +7079,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer" ""
+			(at 17.78 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
+			(at 17.78 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "087095e8-595b-43ad-ad37-64d9c91e14f2")
 		)
@@ -7165,6 +7107,145 @@
 			(project "LT6502_KEYBED"
 				(path "/df3f2d3f-c20b-413e-9d55-4328b6be904e"
 					(reference "C5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "74xx:74HCT138")
+		(at 128.27 128.27 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "27eb304e-4065-46ce-be26-a4e93c621ee7")
+		(property "Reference" "U2"
+			(at 130.4133 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "74HCT138"
+			(at 130.4133 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_SO:SSOP-16_5.3x6.2mm_P0.65mm"
+			(at 128.27 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "http://www.ti.com/lit/ds/symlink/cd74hc238.pdf"
+			(at 128.27 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "3-to-8 line decoder/multiplexer inverting, DIP-16/SOIC-16/SSOP-16"
+			(at 128.27 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C8115"
+			(at 128.27 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 128.27 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
+			(at 128.27 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "a48dd425-c2be-40f0-b386-93542c9abfcb")
+		)
+		(pin "9"
+			(uuid "92465cf2-7443-432e-a11b-52459ce88bbf")
+		)
+		(pin "1"
+			(uuid "68edae47-c28d-4102-8324-0f4af6c9e896")
+		)
+		(pin "15"
+			(uuid "59528ac1-1283-424e-a80f-b53a4e228940")
+		)
+		(pin "14"
+			(uuid "f8011f72-ff7b-43bc-9c13-76c65646cd43")
+		)
+		(pin "3"
+			(uuid "1c7847a8-4658-43ad-b4c1-4b7fd74782db")
+		)
+		(pin "13"
+			(uuid "2e82c79a-a48a-43bf-9e09-feedfa3ece72")
+		)
+		(pin "4"
+			(uuid "3fb07f9d-dd5d-4e83-9d42-02b5b66d0ce4")
+		)
+		(pin "7"
+			(uuid "e4558a59-b4e8-484c-8442-12b5cfddbd3f")
+		)
+		(pin "5"
+			(uuid "0a08a177-95c6-4c56-b3c3-d516ab184e42")
+		)
+		(pin "8"
+			(uuid "0e188add-1770-4b7e-b8bc-1155b4a7c874")
+		)
+		(pin "10"
+			(uuid "0850b11f-fbec-4d12-bf0f-9c9a35582063")
+		)
+		(pin "12"
+			(uuid "94c47cc9-b556-46e8-85cd-ac47355353f5")
+		)
+		(pin "11"
+			(uuid "237cf277-847e-4323-9270-2838376a8c3d")
+		)
+		(pin "16"
+			(uuid "e71172f8-ec22-4f34-83c5-acff195d5e70")
+		)
+		(pin "6"
+			(uuid "22f68f6d-ac4d-4121-83db-e18c1b0b4eb2")
+		)
+		(instances
+			(project ""
+				(path "/df3f2d3f-c20b-413e-9d55-4328b6be904e"
+					(reference "U2")
 					(unit 1)
 				)
 			)
@@ -7356,6 +7437,24 @@
 			)
 		)
 		(property "LCSC" "DNF"
+			(at 87.63 173.99 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 87.63 173.99 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
 			(at 87.63 173.99 0)
 			(effects
 				(font
@@ -7660,6 +7759,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer" ""
+			(at 157.48 170.18 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
+			(at 157.48 170.18 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "e0704ab2-f172-4ba6-8441-5055b24e311d")
 		)
@@ -7798,6 +7915,24 @@
 			)
 		)
 		(property "LCSC" "C49678"
+			(at 243.84 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 243.84 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
 			(at 243.84 87.63 0)
 			(effects
 				(font
@@ -8013,6 +8148,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer" ""
+			(at 109.22 167.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
+			(at 109.22 167.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "1b08c976-fda1-476f-87a2-21cfbd3b5da7")
 		)
@@ -8083,6 +8236,24 @@
 		)
 		(property "LCSC" "C96123"
 			(at 172.72 37.465 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 173.99 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
+			(at 173.99 39.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8169,6 +8340,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer" ""
+			(at 135.89 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
+			(at 135.89 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "3819cfb1-38f6-46c5-9851-2c50150759a7")
 		)
@@ -8238,6 +8427,24 @@
 			)
 		)
 		(property "LCSC" "DNF"
+			(at 148.59 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 148.59 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
 			(at 148.59 170.18 0)
 			(effects
 				(font
@@ -8325,6 +8532,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer" ""
+			(at 43.18 152.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
+			(at 43.18 152.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "d15e242e-0d0e-42bd-9402-e1aa273267db")
 		)
@@ -8397,6 +8622,24 @@
 			)
 		)
 		(property "LCSC" "DNF"
+			(at 243.84 138.43 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 243.84 138.43 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
 			(at 243.84 138.43 0)
 			(effects
 				(font
@@ -8488,7 +8731,7 @@
 		(exclude_from_sim yes)
 		(in_bom no)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "751da207-19e3-4fc4-88bd-24af6812288a")
 		(property "Reference" "FOX1"
@@ -8537,6 +8780,24 @@
 			)
 		)
 		(property "LCSC" "DNF"
+			(at 232.41 146.05 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 232.41 146.05 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
 			(at 232.41 146.05 90)
 			(effects
 				(font
@@ -8750,6 +9011,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer" ""
+			(at 266.7 138.43 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
+			(at 266.7 138.43 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "321f76ac-867e-4aee-9597-113bdebdb454")
 		)
@@ -8817,6 +9096,24 @@
 		)
 		(property "LCSC" "C96123"
 			(at 232.41 85.725 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 233.68 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
+			(at 233.68 87.63 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8896,6 +9193,24 @@
 			)
 		)
 		(property "LCSC" "DNF"
+			(at 243.84 152.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 243.84 152.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
 			(at 243.84 152.4 0)
 			(effects
 				(font
@@ -9045,6 +9360,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer" ""
+			(at 184.15 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
+			(at 184.15 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "b6d28740-aa72-4723-8dcb-c8f36f4f11c8")
 		)
@@ -9183,6 +9516,24 @@
 			)
 		)
 		(property "LCSC" "C49678"
+			(at 109.22 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 109.22 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
 			(at 109.22 180.34 0)
 			(effects
 				(font
@@ -9596,6 +9947,24 @@
 				(font
 					(size 1.27 1.27)
 				)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 205.74 38.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
+			(at 205.74 38.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
 			)
 		)
 		(pin "2"
@@ -10014,6 +10383,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer" ""
+			(at 48.26 171.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
+			(at 48.26 171.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "9c9dc3a5-a82e-4648-af3d-6d1b5bbdbd74")
 		)
@@ -10295,6 +10682,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer" ""
+			(at 187.96 109.22 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
+			(at 187.96 109.22 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "7"
 			(uuid "62edadb2-e9f7-477a-a8da-fe2a974b7b39")
 		)
@@ -10394,6 +10799,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer" ""
+			(at 60.96 163.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
+			(at 60.96 163.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "ceb2755e-4c3b-4429-b197-d9a66968af9c")
 		)
@@ -10466,6 +10889,24 @@
 			)
 		)
 		(property "LCSC" "DNF"
+			(at 255.27 138.43 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 255.27 138.43 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
 			(at 255.27 138.43 0)
 			(effects
 				(font
@@ -10791,6 +11232,33 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 257.81 107.95 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "DNF"
+			(at 257.81 107.95 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 257.81 107.95 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
 			(at 257.81 107.95 0)
 			(effects
 				(font

@@ -1506,6 +1506,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer" ""
+			(at 165.1 50.8 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
+			(at 165.1 50.8 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "4e8d64fb-cf8a-4393-9729-acf6d3eb684d")
 		)
@@ -1576,6 +1594,33 @@
 			)
 		)
 		(property "Sim.Pins" "1=K 2=A"
+			(at 90.17 106.68 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C3030991"
+			(at 90.17 106.68 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 90.17 106.68 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
 			(at 90.17 106.68 0)
 			(effects
 				(font
@@ -1660,6 +1705,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer" ""
+			(at 165.1 63.5 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
+			(at 165.1 63.5 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "1884f3a8-5255-4777-ae5c-1ecd3176fa53")
 		)
@@ -1720,6 +1783,33 @@
 			)
 		)
 		(property "Description" "Jumper, 2-pole, open"
+			(at 115.57 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "DNF"
+			(at 115.57 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 115.57 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
 			(at 115.57 35.56 0)
 			(effects
 				(font
@@ -1806,6 +1896,33 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC" "C3030991"
+			(at 152.4 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 152.4 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
+			(at 152.4 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "2"
 			(uuid "eb4d2a1f-ee3b-475d-8efb-7ad9f2ddc660")
 		)
@@ -1884,6 +2001,33 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC" "C3030991"
+			(at 90.17 50.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 90.17 50.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
+			(at 90.17 50.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "2"
 			(uuid "ff4fecf6-ae26-44d7-8b4a-c0947d6003ea")
 		)
@@ -1952,6 +2096,24 @@
 			)
 		)
 		(property "LCSC" "DNF"
+			(at 165.1 76.2 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 165.1 76.2 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
 			(at 165.1 76.2 90)
 			(effects
 				(font
@@ -2038,6 +2200,33 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC" "C3030991"
+			(at 152.4 50.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 152.4 50.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
+			(at 152.4 50.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "2"
 			(uuid "01a28394-7eb8-45a4-be10-ecdf7d103ced")
 		)
@@ -2108,6 +2297,33 @@
 			)
 		)
 		(property "Sim.Pins" "1=K 2=A"
+			(at 152.4 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C3030991"
+			(at 152.4 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 152.4 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
 			(at 152.4 63.5 0)
 			(effects
 				(font
@@ -2194,6 +2410,33 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC" "C3030991"
+			(at 90.17 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 90.17 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
+			(at 90.17 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "2"
 			(uuid "8567c13f-0e2c-4c36-a924-6002167d4ac8")
 		)
@@ -2264,6 +2507,33 @@
 			)
 		)
 		(property "Sim.Pins" "1=K 2=A"
+			(at 90.17 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C3030991"
+			(at 90.17 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 90.17 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
 			(at 90.17 119.38 0)
 			(effects
 				(font
@@ -2350,6 +2620,33 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC" "C3030991"
+			(at 90.17 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 90.17 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
+			(at 90.17 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "2"
 			(uuid "c659fd86-e1d3-4f16-928f-894822d4e8c9")
 		)
@@ -2420,6 +2717,33 @@
 			)
 		)
 		(property "Sim.Pins" "1=K 2=A"
+			(at 90.17 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C3030991"
+			(at 90.17 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 90.17 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
 			(at 90.17 76.2 0)
 			(effects
 				(font
@@ -2504,6 +2828,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer" ""
+			(at 102.87 119.38 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
+			(at 102.87 119.38 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "27965dd2-4975-42da-83c7-9eb6c16fcff3")
 		)
@@ -2572,6 +2914,24 @@
 			)
 		)
 		(property "LCSC" "DNF"
+			(at 102.87 50.8 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 102.87 50.8 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
 			(at 102.87 50.8 90)
 			(effects
 				(font
@@ -2656,6 +3016,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer" ""
+			(at 102.87 134.62 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
+			(at 102.87 134.62 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "133157d1-d440-4c68-82e0-2292c969b00c")
 		)
@@ -2732,6 +3110,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer" ""
+			(at 102.87 76.2 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
+			(at 102.87 76.2 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "2ff05bea-dfe7-4d05-92dd-3e73e78ce1d0")
 		)
@@ -2800,6 +3196,24 @@
 			)
 		)
 		(property "LCSC" "DNF"
+			(at 102.87 88.9 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 102.87 88.9 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
 			(at 102.87 88.9 90)
 			(effects
 				(font
@@ -2886,6 +3300,33 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC" "C3030991"
+			(at 90.17 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 90.17 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
+			(at 90.17 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "2"
 			(uuid "baa357b1-8799-446a-a6fd-101c832d55c3")
 		)
@@ -2954,6 +3395,24 @@
 			)
 		)
 		(property "LCSC" "DNF"
+			(at 102.87 106.68 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 102.87 106.68 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
 			(at 102.87 106.68 90)
 			(effects
 				(font
@@ -3040,6 +3499,33 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC" "C3030991"
+			(at 152.4 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 152.4 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
+			(at 152.4 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "2"
 			(uuid "9d4f4c40-f128-4eb4-8058-183a9b03b05c")
 		)
@@ -3116,6 +3602,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer" ""
+			(at 102.87 63.5 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
+			(at 102.87 63.5 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "a106b68a-e71c-41da-ab3d-b9469227e19f")
 		)
@@ -3184,6 +3688,24 @@
 			)
 		)
 		(property "LCSC" "DNF"
+			(at 165.1 88.9 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 165.1 88.9 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
 			(at 165.1 88.9 90)
 			(effects
 				(font

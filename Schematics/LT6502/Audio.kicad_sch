@@ -2027,7 +2027,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(fields_autoplaced yes)
 		(uuid "23de3238-ed60-44d4-bcf8-5fb0c4fdd5c6")
 		(property "Reference" "C56"
@@ -2074,6 +2074,15 @@
 			)
 		)
 		(property "Mouser Part Number" "667-EEV-FK1V681Q"
+			(at 222.25 76.2 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "DNF"
 			(at 222.25 76.2 90)
 			(effects
 				(font
@@ -2151,7 +2160,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" ""
+		(property "LCSC" "C21117"
 			(at 163.83 85.09 0)
 			(effects
 				(font
@@ -2249,7 +2258,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "38716b2e-0697-4a72-b784-3d3ee2ba5ee5")
 		(property "Reference" "VR1"
 			(at 101.6 123.19 0)
@@ -2356,7 +2365,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "DNP"
+		(property "LCSC" "DNF"
 			(at 88.9 115.57 0)
 			(effects
 				(font
@@ -2473,7 +2482,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "427a4906-a09e-4d8a-bd51-3473888f23a0")
 		(property "Reference" "R87"
 			(at 82.5712 87.9679 90)
@@ -2517,7 +2526,7 @@
 				)
 			)
 		)
-		(property "LCSC" ""
+		(property "LCSC" "DNF"
 			(at 82.55 92.71 90)
 			(effects
 				(font
@@ -2548,7 +2557,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "49ffef4a-3aa4-4633-9681-785049080ce2")
 		(property "Reference" "R88"
 			(at 53.6779 99.0388 90)
@@ -2592,7 +2601,7 @@
 				)
 			)
 		)
-		(property "LCSC" ""
+		(property "LCSC" "DNF"
 			(at 58.42 99.06 90)
 			(effects
 				(font
@@ -2667,7 +2676,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C23179"
+		(property "LCSC" "C25744"
 			(at 152.4 91.44 90)
 			(effects
 				(font
@@ -2810,7 +2819,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C15850"
 			(at 157.48 57.15 0)
 			(effects
 				(font
@@ -3102,7 +3111,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(fields_autoplaced yes)
 		(uuid "ac316e00-23fe-4c0f-b5a1-acc9ce7046a3")
 		(property "Reference" "LS1"
@@ -3199,6 +3208,15 @@
 					(size 1.27 1.27)
 				)
 				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "DNF"
+			(at 237.49 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 				(hide yes)
 			)
 		)
@@ -3337,6 +3355,15 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC" "C844598"
+			(at 187.96 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "2"
 			(uuid "37abbcee-91ee-4fe1-a884-68370343fd24")
 		)
@@ -3359,7 +3386,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "d1915e5c-2552-479e-8e7f-a51989fdd6c2")
 		(property "Reference" "U11"
 			(at 147.32 81.1532 0)
@@ -3405,6 +3432,15 @@
 			)
 		)
 		(property "Mouser Part Number" "926-LM386N-3/NOPB"
+			(at 137.16 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "DNF"
 			(at 137.16 76.2 0)
 			(effects
 				(font
@@ -3499,7 +3535,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 124.46 63.5 0)
 			(effects
 				(font
@@ -3577,7 +3613,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" ""
+		(property "LCSC" "C1622"
 			(at 187.96 85.09 0)
 			(effects
 				(font

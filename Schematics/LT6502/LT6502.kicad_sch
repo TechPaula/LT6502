@@ -12065,7 +12065,7 @@
 				)
 			)
 		)
-		(property "LCSC" "DNF"
+		(property "LCSC" "C25890"
 			(at 33.02 162.56 0)
 			(effects
 				(font
@@ -12691,7 +12691,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(fields_autoplaced yes)
 		(uuid "1eb7e35b-d75a-4fa3-960f-a3ecb4bd8a64")
 		(property "Reference" "U3"
@@ -12740,6 +12740,15 @@
 			)
 		)
 		(property "Mouser Part Number" "870-62C256AL-25ULIT"
+			(at 328.93 58.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "DNF"
 			(at 328.93 58.42 0)
 			(effects
 				(font
@@ -12978,7 +12987,7 @@
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(fields_autoplaced yes)
 		(uuid "22750c51-abb4-4d56-954e-707b981cdabe")
 		(property "Reference" "JP1"
@@ -13016,6 +13025,15 @@
 			)
 		)
 		(property "Description" "Jumper, 3-pole, pins 1+2 closed/bridged"
+			(at 41.91 147.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "DNF"
 			(at 41.91 147.32 0)
 			(effects
 				(font
@@ -13179,7 +13197,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(fields_autoplaced yes)
 		(uuid "2a865a8f-7bbf-40b5-9d81-dd91d27df374")
 		(property "Reference" "U2"
@@ -13228,6 +13246,15 @@
 			)
 		)
 		(property "Mouser Part Number" "955-W65C02S6TQG-14"
+			(at 121.92 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "DNF"
 			(at 121.92 90.17 0)
 			(effects
 				(font
@@ -13572,7 +13599,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C23179"
+		(property "LCSC" "C11702"
 			(at 77.47 194.31 90)
 			(effects
 				(font
@@ -14579,7 +14606,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 54.61 265.43 0)
 			(effects
 				(font
@@ -14915,7 +14942,7 @@
 				)
 			)
 		)
-		(property "LCSC" "DNF"
+		(property "LCSC" "C25890"
 			(at 92.71 38.1 0)
 			(effects
 				(font
@@ -15071,7 +15098,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 31.75 265.43 0)
 			(effects
 				(font
@@ -15697,7 +15724,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 88.9 265.43 0)
 			(effects
 				(font
@@ -15794,7 +15821,7 @@
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "b67356de-d5f0-40ef-b588-eee60a1b03eb")
 		(property "Reference" "JP2"
 			(at 60.96 134.62 0)
@@ -15831,6 +15858,15 @@
 			)
 		)
 		(property "Description" "Jumper, 3-pole, pins 1+2 closed/bridged"
+			(at 60.96 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "DNF"
 			(at 60.96 140.97 0)
 			(effects
 				(font
@@ -16444,7 +16480,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 25.4 265.43 0)
 			(effects
 				(font
@@ -16475,7 +16511,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(fields_autoplaced yes)
 		(uuid "d20602fd-e9a9-4cf0-bcd5-7a357fbeb8bf")
 		(property "Reference" "U4"
@@ -16524,6 +16560,15 @@
 			)
 		)
 		(property "Mouser Part Number" "870-62C256AL-25ULIT"
+			(at 328.93 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "DNF"
 			(at 328.93 119.38 0)
 			(effects
 				(font
@@ -16775,7 +16820,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "d807554e-d768-4528-89c4-4e99b11c6f87")
 		(property "Reference" "S2"
 			(at 27.178 183.134 0)
@@ -17123,7 +17168,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "de1c22ef-612b-4b13-ad87-36cb980f337b")
 		(property "Reference" "U5"
 			(at 337.185 158.75 0)
@@ -17335,7 +17380,7 @@
 				)
 			)
 		)
-		(property "LCSC" "DNF"
+		(property "LCSC" "C25890"
 			(at 83.82 38.1 0)
 			(effects
 				(font
@@ -17621,7 +17666,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 60.96 265.43 0)
 			(effects
 				(font
@@ -17977,7 +18022,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(fields_autoplaced yes)
 		(uuid "f1adfc9e-5c3a-4a3e-8463-a737d0e2b0ba")
 		(property "Reference" "U1"
@@ -18026,6 +18071,15 @@
 			)
 		)
 		(property "Mouser Part Number" "579-TC1232CPA"
+			(at 74.93 167.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "DNF"
 			(at 74.93 167.64 0)
 			(effects
 				(font
@@ -18326,7 +18380,7 @@
 				)
 			)
 		)
-		(property "LCSC" "DNF"
+		(property "LCSC" "C25890"
 			(at 99.06 160.02 0)
 			(effects
 				(font
@@ -18483,7 +18537,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 82.55 265.43 0)
 			(effects
 				(font

@@ -4955,6 +4955,15 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC" "C45783"
+			(at 252.73 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "7f87b940-f3d9-4ee4-8a5c-21e96afc3fc5")
 		)
@@ -5044,7 +5053,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "63c05b17-a8b4-4f34-b5cd-3237537832ee")
 		(property "Reference" "D12"
 			(at 61.976 124.46 0)
@@ -5099,6 +5108,15 @@
 			)
 		)
 		(property "Sim.Pins" "1=K 2=A"
+			(at 62.23 127 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "DNF"
 			(at 62.23 127 0)
 			(effects
 				(font
@@ -5196,7 +5214,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "717dd6b9-2fcc-4bfb-81f2-681bf6671ffd")
 		(property "Reference" "D21"
 			(at 218.694 140.97 0)
@@ -5259,6 +5277,15 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 218.44 138.43 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "2"
 			(uuid "046250bb-7096-459a-975e-7274d8f9567e")
 		)
@@ -5281,7 +5308,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(fields_autoplaced yes)
 		(uuid "77964d80-6890-4eae-b35d-7a23de9d5264")
 		(property "Reference" "J9"
@@ -5328,6 +5355,15 @@
 			)
 		)
 		(property "Mouser Part Number" "649-864648813H55V1LF"
+			(at 153.67 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "DNF"
 			(at 153.67 93.98 0)
 			(effects
 				(font
@@ -5658,7 +5694,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 245.11 57.15 0)
 			(effects
 				(font
@@ -5820,7 +5856,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "c3891254-8186-45a6-98c0-7c05ce435d91")
 		(property "Reference" "D19"
 			(at 218.694 127 0)
@@ -5875,6 +5911,15 @@
 			)
 		)
 		(property "Sim.Pins" "1=K 2=A"
+			(at 218.44 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "DNF"
 			(at 218.44 124.46 0)
 			(effects
 				(font
@@ -5953,7 +5998,7 @@
 				)
 			)
 		)
-		(property "LCSC" "DNF"
+		(property "LCSC" "C25890"
 			(at 93.98 118.11 0)
 			(effects
 				(font
@@ -6050,7 +6095,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "d7e99dcf-e3e7-4015-a27c-23229d8b6d6b")
 		(property "Reference" "D13"
 			(at 61.976 133.35 0)
@@ -6105,6 +6150,15 @@
 			)
 		)
 		(property "Sim.Pins" "1=K 2=A"
+			(at 62.23 135.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "DNF"
 			(at 62.23 135.89 0)
 			(effects
 				(font

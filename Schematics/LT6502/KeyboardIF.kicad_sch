@@ -2777,7 +2777,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "5e42200a-362c-491c-98cb-93c4428f2de1")
 		(property "Reference" "X2"
 			(at 191.77 50.8 0)
@@ -2868,7 +2868,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "6ed32727-4ca9-40a6-a817-2c8d8b187a30")
 		(property "Reference" "D17"
 			(at 128.016 86.36 0)
@@ -2931,6 +2931,15 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 128.27 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "2"
 			(uuid "4b2aedc3-4953-4a6d-954e-79ff4a20d847")
 		)
@@ -2953,7 +2962,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(fields_autoplaced yes)
 		(uuid "7d8c86f5-da5c-4b47-8550-618eb58c09b7")
 		(property "Reference" "U12"
@@ -2993,6 +3002,15 @@
 			)
 		)
 		(property "Description" "CMOS Asynchronous Communication Interface Adapter (ACIA), Serial UART, DIP-28"
+			(at 148.59 106.68 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "DNF"
 			(at 148.59 106.68 0)
 			(effects
 				(font
@@ -3673,7 +3691,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 205.74 127 0)
 			(effects
 				(font
@@ -3753,7 +3771,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 198.12 127 0)
 			(effects
 				(font
@@ -3784,7 +3802,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(fields_autoplaced yes)
 		(uuid "f0af7a07-b696-4f67-b269-888fe68f72d2")
 		(property "Reference" "J14"
@@ -3824,6 +3842,15 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 204.47 91.44 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "DNF"
 			(at 204.47 91.44 0)
 			(effects
 				(font

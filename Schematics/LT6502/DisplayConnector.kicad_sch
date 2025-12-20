@@ -4580,7 +4580,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "11f484bc-54d0-402e-984b-0fda77dad678")
 		(property "Reference" "R67"
 			(at 151.13 63.246 90)
@@ -4703,7 +4703,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 88.9 179.07 0)
 			(effects
 				(font
@@ -4998,7 +4998,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(fields_autoplaced yes)
 		(uuid "3e893bf0-3359-489c-9414-94dbeec2a932")
 		(property "Reference" "J5"
@@ -5036,6 +5036,15 @@
 			)
 		)
 		(property "Description" "Generic connector, double row, 02x20, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 193.04 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "DNF"
 			(at 193.04 71.12 0)
 			(effects
 				(font
@@ -5229,7 +5238,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 81.28 179.07 0)
 			(effects
 				(font
@@ -5272,7 +5281,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "TXB0108PW"
+		(property "Value" "TXS0108"
 			(at 96.9167 152.4 0)
 			(effects
 				(font
@@ -5308,7 +5317,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C53406"
+		(property "LCSC" "C17206"
 			(at 99.06 132.08 0)
 			(effects
 				(font
@@ -5609,7 +5618,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "TXB0108PW"
+		(property "Value" "TXS0108"
 			(at 95.6467 81.28 0)
 			(effects
 				(font
@@ -5645,7 +5654,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C53406"
+		(property "LCSC" "C17206"
 			(at 97.79 60.96 0)
 			(effects
 				(font
@@ -5983,7 +5992,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 121.92 179.07 0)
 			(effects
 				(font
@@ -6015,7 +6024,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "b6ec370e-902c-4c49-8b8c-5dcfdcf359df")
 		(property "Reference" "R68"
 			(at 241.3 69.85 90)
@@ -6269,7 +6278,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 114.3 179.07 0)
 			(effects
 				(font

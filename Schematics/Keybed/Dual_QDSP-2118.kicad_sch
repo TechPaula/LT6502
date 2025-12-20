@@ -1909,6 +1909,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer" ""
+			(at 134.62 69.85 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
+			(at 134.62 69.85 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "23"
 			(uuid "a1f8ecc7-b309-46ff-914e-4ecda17fc883")
 		)
@@ -2123,6 +2141,24 @@
 			)
 		)
 		(property "LCSC" "C49678"
+			(at 113.03 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 113.03 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ManufacturerPN" ""
 			(at 113.03 119.38 0)
 			(effects
 				(font

@@ -496,7 +496,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C23179"
+		(property "LCSC" "C25850"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -920,7 +920,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C23179"
+		(property "LCSC" "C25850"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -1164,7 +1164,7 @@
 		(path "/d5afc5d6-c446-466d-ac54-32ad85bd9dec/f50538bf-e44a-4d20-ab4a-ccf1e95ea69c")
 		(sheetname "/Glue_Addr/")
 		(sheetfile "Glue_Addr.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start 10.26 1.89)
 			(end 10.26 -9.51)
@@ -1544,7 +1544,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C23179"
+		(property "LCSC" "C25905"
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -1776,7 +1776,7 @@
 		(path "/023ed7d3-fbe9-4017-a116-821cc1971589/3b11cf98-34aa-4fe4-a3d1-1618a6f8d83a")
 		(sheetname "/Power/")
 		(sheetfile "Power.kicad_sch")
-		(attr through_hole exclude_from_bom)
+		(attr through_hole exclude_from_bom dnp)
 		(fp_circle
 			(center 0 0)
 			(end 1.5 0)
@@ -1937,7 +1937,7 @@
 				)
 			)
 		)
-		(property "LCSC" "DNF"
+		(property "LCSC" "C25890"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -2149,7 +2149,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C23179"
+		(property "LCSC" "C11565"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -2361,7 +2361,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C23179"
+		(property "LCSC" "C11702"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -2573,7 +2573,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -2785,6 +2785,19 @@
 				)
 			)
 		)
+		(property "LCSC" "C15850"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "052d3ee8-8b62-4e2c-8fcb-c6e801eebd5e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/023ed7d3-fbe9-4017-a116-821cc1971589/a5c5ce35-9651-4c53-a05d-9386df511755")
 		(sheetname "/Power/")
@@ -2984,11 +2997,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "ef7d4bfc-2946-4da4-b390-9e5a2dde66d7")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/1b746815-ea43-4a9b-a810-d668c3e9fbf9/9d81f606-54eb-4cc6-8037-c10d661de065")
 		(sheetname "/CompactFlash/")
 		(sheetfile "CompactFlash.kicad_sch")
-		(attr smd)
+		(attr smd dnp)
 		(fp_line
 			(start -0.153641 0.38)
 			(end 0.153641 0.38)
@@ -3183,7 +3209,7 @@
 				)
 			)
 		)
-		(property "LCSC" "DNF"
+		(property "LCSC" "C25890"
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -3533,7 +3559,7 @@
 				)
 			)
 		)
-		(property "LCSC" "DNF"
+		(property "LCSC" "C25890"
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -4189,7 +4215,7 @@
 		(path "/023ed7d3-fbe9-4017-a116-821cc1971589/ccb53d59-d271-4b3f-aa1c-3bca49348bcc")
 		(sheetname "/Power/")
 		(sheetfile "Power.kicad_sch")
-		(attr through_hole exclude_from_bom)
+		(attr through_hole exclude_from_bom dnp)
 		(fp_circle
 			(center 0 0)
 			(end 1.5 0)
@@ -4774,7 +4800,7 @@
 				)
 			)
 		)
-		(property "LCSC" "DNF"
+		(property "LCSC" "C25890"
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -4986,7 +5012,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -5198,7 +5224,7 @@
 				)
 			)
 		)
-		(property "LCSC" "DNF"
+		(property "LCSC" "C25741"
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -5410,7 +5436,7 @@
 				)
 			)
 		)
-		(property "LCSC" ""
+		(property "LCSC" "DNF"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -5427,7 +5453,7 @@
 		(path "/598e71c9-5c06-425f-ac54-aba71004555d/427a4906-a09e-4d8a-bd51-3473888f23a0")
 		(sheetname "/AUDIO/")
 		(sheetfile "Audio.kicad_sch")
-		(attr smd)
+		(attr smd dnp)
 		(fp_line
 			(start -0.153641 -0.38)
 			(end 0.153641 -0.38)
@@ -5756,7 +5782,7 @@
 		(path "/023ed7d3-fbe9-4017-a116-821cc1971589/cd895106-b595-453c-959b-261b756add7a")
 		(sheetname "/Power/")
 		(sheetfile "Power.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start 6.5 -2.5)
 			(end -3.5 -2.5)
@@ -6038,7 +6064,7 @@
 				)
 			)
 		)
-		(property "LCSC" "DNF"
+		(property "LCSC" "C25768"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -6264,11 +6290,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "72034db6-d8aa-49d8-9979-a357a405c683")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Choke_* *Coil* Inductor_* L_*")
 		(path "/023ed7d3-fbe9-4017-a116-821cc1971589/fdb98dd0-e729-49e2-a68b-483791d37e98")
 		(sheetname "/Power/")
 		(sheetfile "Power.kicad_sch")
-		(attr smd)
+		(attr smd dnp)
 		(fp_line
 			(start -2.45 -2.45)
 			(end 2.45 -2.45)
@@ -6692,7 +6731,7 @@
 		(path "/7bd40c60-bb79-47f8-862c-3602d4cfed76/170971ec-b8a4-43e5-8965-4d8a7820f2f7")
 		(sheetname "/60FAKE50/")
 		(sheetfile "60FAKE50.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start 10.15 2.97)
 			(end 4.15 2.97)
@@ -7178,11 +7217,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "dfb5e115-deb7-4246-8df0-ff17d9706dbe")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "D*DO?35*")
 		(path "/e762d4e1-6eae-4d69-baef-1dedfb10bbd7/d7e99dcf-e3e7-4015-a27c-23229d8b6d6b")
 		(sheetname "/ExpansionSlot0/")
 		(sheetfile "Expansion.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start 2.53 -1.12)
 			(end 2.53 1.12)
@@ -7426,11 +7478,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "394ab18f-0fc1-4f40-952a-09493dff39a7")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Jumper* TestPoint*3Pads* TestPoint*Bridge*")
 		(path "/b67356de-d5f0-40ef-b588-eee60a1b03eb")
 		(sheetname "/")
 		(sheetfile "LT6502.kicad_sch")
-		(attr exclude_from_pos_files exclude_from_bom)
+		(attr exclude_from_pos_files exclude_from_bom dnp)
 		(fp_line
 			(start -2.05 -1)
 			(end 2.05 -1)
@@ -7623,6 +7688,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "LCSC" "C45783"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f1568ee2-3c49-454e-9aa9-fecf00c2647e")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -7839,11 +7917,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e2b6c2bd-0570-4541-84e9-3891e77ab302")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "DIN41612*2x*")
 		(path "/e762d4e1-6eae-4d69-baef-1dedfb10bbd7/77964d80-6890-4eae-b35d-7a23de9d5264")
 		(sheetname "/ExpansionSlot0/")
 		(sheetfile "Expansion.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start 86.63 0.26)
 			(end 81.11 0.26)
@@ -9352,6 +9443,19 @@
 				)
 			)
 		)
+		(property "LCSC" "C15850"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "3b322ab8-10a5-4c4e-a728-3117a47d62f7")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/023ed7d3-fbe9-4017-a116-821cc1971589/7143ff19-a942-4d2f-94f5-8bf397b8b7b0")
 		(sheetname "/Power/")
@@ -9571,7 +9675,7 @@
 		(path "/023ed7d3-fbe9-4017-a116-821cc1971589/85424afc-324a-46ae-9b8c-f77cfad67e4d")
 		(sheetname "/Power/")
 		(sheetfile "Power.kicad_sch")
-		(attr through_hole exclude_from_bom)
+		(attr through_hole exclude_from_bom dnp)
 		(fp_circle
 			(center 0 0)
 			(end 1.5 0)
@@ -9732,7 +9836,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -10010,10 +10114,23 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "5188d174-e38e-4816-8429-c4e294ca41d3")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/d5afc5d6-c446-466d-ac54-32ad85bd9dec/360f4659-8ecc-4989-be67-69bb73efb8f0")
 		(sheetname "/Glue_Addr/")
 		(sheetfile "Glue_Addr.kicad_sch")
-		(attr smd)
+		(attr smd dnp)
 		(fp_line
 			(start -6.65 6.65)
 			(end -6.65 -6.65)
@@ -11144,11 +11261,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2f6a8fb5-e4e7-4253-a398-652f68e42556")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "SOIC*3.9x4.9mm*P1.27mm* DIP*W7.62mm* MSSOP*P0.65mm* TSSOP*3x3mm*P0.5mm*")
 		(path "/598e71c9-5c06-425f-ac54-aba71004555d/d1915e5c-2552-479e-8e7f-a51989fdd6c2")
 		(sheetname "/AUDIO/")
 		(sheetfile "Audio.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start 6.46 -1.33)
 			(end 4.81 -1.33)
@@ -11449,11 +11579,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c2e8f9e1-b9e8-4a35-9dea-45da201f3014")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "LED* LED_SMD:* LED_THT:*")
 		(path "/023ed7d3-fbe9-4017-a116-821cc1971589/32380930-b94d-49d4-aea1-e8c4c3109a95")
 		(sheetname "/Power/")
 		(sheetfile "Power.kicad_sch")
-		(attr smd)
+		(attr smd dnp)
 		(fp_line
 			(start 1 -0.96)
 			(end -1.685 -0.96)
@@ -11670,6 +11813,19 @@
 				)
 			)
 		)
+		(property "LCSC" "C11702"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b9c7a969-693a-4056-b5ac-ed144b017682")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/1b746815-ea43-4a9b-a810-d668c3e9fbf9/e9ca7b75-efa9-4fb3-a4ee-712f891035c7")
 		(sheetname "/CompactFlash/")
@@ -11882,11 +12038,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "8a66a23c-a4f3-425e-acfd-5e92da76aada")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "SOP*8.4*18.16*P1.27*")
 		(path "/d20602fd-e9a9-4cf0-bcd5-7a357fbeb8bf")
 		(sheetname "/")
 		(sheetfile "LT6502.kicad_sch")
-		(attr smd)
+		(attr smd dnp)
 		(fp_line
 			(start -4.31 -9.19)
 			(end 4.31 -9.19)
@@ -12447,7 +12616,7 @@
 				)
 			)
 		)
-		(property "LCSC" "DNF"
+		(property "LCSC" "C25890"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -12659,7 +12828,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -12885,11 +13054,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f9eaa5ca-5653-4fb5-a980-ff988287cd68")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "LED* LED_SMD:* LED_THT:*")
 		(path "/023ed7d3-fbe9-4017-a116-821cc1971589/fec77892-a496-4854-94d0-ce0297409fb1")
 		(sheetname "/Power/")
 		(sheetfile "Power.kicad_sch")
-		(attr smd)
+		(attr smd dnp)
 		(fp_line
 			(start -1.485 -0.735)
 			(end -1.485 0.735)
@@ -13123,7 +13305,7 @@
 		(path "/023ed7d3-fbe9-4017-a116-821cc1971589/320596f1-9a14-4ea7-9496-bd104a37198b")
 		(sheetname "/Power/")
 		(sheetfile "Power.kicad_sch")
-		(attr smd dnp)
+		(attr smd)
 		(fp_line
 			(start -0.153641 0.38)
 			(end 0.153641 0.38)
@@ -13336,7 +13518,7 @@
 		(path "/1b746815-ea43-4a9b-a810-d668c3e9fbf9/d7bf9c30-97ac-415a-a022-fe72d1fc3dc2")
 		(sheetname "/CompactFlash/")
 		(sheetfile "CompactFlash.kicad_sch")
-		(attr smd)
+		(attr smd dnp)
 		(fp_line
 			(start 1 -0.96)
 			(end -1.685 -0.96)
@@ -13553,7 +13735,7 @@
 				)
 			)
 		)
-		(property "LCSC" "DNF"
+		(property "LCSC" "C11702"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -13765,7 +13947,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C23179"
+		(property "LCSC" "C852874"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -13977,7 +14159,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -14255,10 +14437,23 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "65451ad7-f5b1-4b7b-92fe-c920f821d4af")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/598e71c9-5c06-425f-ac54-aba71004555d/ac316e00-23fe-4c0f-b5a1-acc9ce7046a3")
 		(sheetname "/AUDIO/")
 		(sheetfile "Audio.kicad_sch")
-		(attr smd)
+		(attr smd dnp)
 		(fp_line
 			(start -3.6 8.4)
 			(end -3.6 8.4)
@@ -14515,7 +14710,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -14727,7 +14922,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -15389,11 +15584,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "5c03a2c0-b909-43d1-96c0-dc1460db5c23")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "D*DO?35*")
 		(path "/e762d4e1-6eae-4d69-baef-1dedfb10bbd7/63c05b17-a8b4-4f34-b5cd-3237537832ee")
 		(sheetname "/ExpansionSlot0/")
 		(sheetfile "Expansion.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start 2.53 -1.12)
 			(end 2.53 1.12)
@@ -15663,11 +15871,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "bce801ee-3b6c-4421-a40a-04930f4a0908")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "D*DO?35*")
 		(path "/e762d4e1-6eae-4d69-baef-1dedfb10bbd7/c3891254-8186-45a6-98c0-7c05ce435d91")
 		(sheetname "/ExpansionSlot0/")
 		(sheetfile "Expansion.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start 2.53 -1.12)
 			(end 2.53 1.12)
@@ -15911,7 +16132,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -16123,7 +16344,7 @@
 				)
 			)
 		)
-		(property "LCSC" "DNF"
+		(property "LCSC" "C25890"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -16336,7 +16557,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C23179"
+		(property "LCSC" "C2692737"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -16548,7 +16769,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C23179"
+		(property "LCSC" "C11702"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -16898,7 +17119,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C91183"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -17540,7 +17761,7 @@
 				)
 			)
 		)
-		(property "LCSC" "DNP"
+		(property "LCSC" "DNF"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -17556,7 +17777,7 @@
 		(path "/598e71c9-5c06-425f-ac54-aba71004555d/38716b2e-0697-4a72-b784-3d3ee2ba5ee5")
 		(sheetname "/AUDIO/")
 		(sheetfile "Audio.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -5.35 4.5)
 			(end -5.35 7.5)
@@ -17860,7 +18081,7 @@
 				)
 			)
 		)
-		(property "LCSC" "DNF"
+		(property "LCSC" "C25890"
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -18072,6 +18293,19 @@
 				)
 			)
 		)
+		(property "LCSC" "C15850"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e25f560c-f804-4eff-8eaa-517d2196fc11")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/023ed7d3-fbe9-4017-a116-821cc1971589/92679107-c4fe-4965-9b60-d2b9cdb6393d")
 		(sheetname "/Power/")
@@ -18271,11 +18505,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c598f6d6-11b3-4c58-a5e4-8e8a2faaec45")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Connector*:*_2x??_*")
 		(path "/e86b2ea6-d99f-434f-aafb-2d5deecd7ca6/e8b0392a-4771-4212-b48c-509390ecf5ba")
 		(sheetname "/VIA/")
 		(sheetfile "VIA.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -12.63 14.03)
 			(end -4 14.03)
@@ -19314,6 +19561,19 @@
 				)
 			)
 		)
+		(property "LCSC" "C15850"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2ace083a-000e-407f-816b-33ec6a7737d5")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/023ed7d3-fbe9-4017-a116-821cc1971589/0715a816-9d18-44f3-9cd7-bf7872fedea5")
 		(sheetname "/Power/")
@@ -19690,7 +19950,7 @@
 				)
 			)
 		)
-		(property "Value" "680R"
+		(property "Value" "470R"
 			(at 0 1.17 0)
 			(layer "F.Fab")
 			(uuid "326fbfb4-2fae-4350-8f75-fa63c8b5bb9d")
@@ -19725,7 +19985,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C23179"
+		(property "LCSC" "C25117"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -19937,7 +20197,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C23179"
+		(property "LCSC" "C2774938"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -20145,6 +20405,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "LCSC" "C25117"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "8422c144-3e39-45d8-8d56-07eb0850c2a4")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -20368,7 +20641,7 @@
 		(path "/023ed7d3-fbe9-4017-a116-821cc1971589/e2fc11f8-2417-48ce-99a6-2ca836cd37d0")
 		(sheetname "/Power/")
 		(sheetfile "Power.kicad_sch")
-		(attr through_hole exclude_from_bom)
+		(attr through_hole exclude_from_bom dnp)
 		(fp_circle
 			(center 0 0)
 			(end 1.5 0)
@@ -20561,7 +20834,7 @@
 		(path "/2b6fed47-3df7-424e-b6fe-61f4842b9a70/5e42200a-362c-491c-98cb-93c4428f2de1")
 		(sheetname "/Keyboard IF/")
 		(sheetfile "KeyboardIF.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -2.64 -9.51)
 			(end -2.64 2.64)
@@ -21409,7 +21682,7 @@
 		(path "/023ed7d3-fbe9-4017-a116-821cc1971589/51053735-665a-4baf-854a-771c92e18c6e")
 		(sheetname "/Power/")
 		(sheetfile "Power.kicad_sch")
-		(attr smd)
+		(attr smd dnp)
 		(fp_line
 			(start -0.237258 -0.5225)
 			(end 0.237258 -0.5225)
@@ -21604,7 +21877,7 @@
 				)
 			)
 		)
-		(property "LCSC" "DNF"
+		(property "LCSC" "C11702"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -21830,11 +22103,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "5183c8a6-f7f4-4a94-ab24-b8bbeac14b9e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "LED* LED_SMD:* LED_THT:*")
 		(path "/023ed7d3-fbe9-4017-a116-821cc1971589/07cffb45-08f6-43c4-a764-d719e69c8bd4")
 		(sheetname "/Power/")
 		(sheetfile "Power.kicad_sch")
-		(attr smd)
+		(attr smd dnp)
 		(fp_line
 			(start 1 -0.96)
 			(end -1.685 -0.96)
@@ -22066,11 +22352,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "0a13aa5d-9cf1-4284-bd9f-697291e3f15f")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/023ed7d3-fbe9-4017-a116-821cc1971589/08804df4-0a06-45c3-b335-64a78a53f37b")
 		(sheetname "/Power/")
 		(sheetfile "Power.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start 4.95 -9.2)
 			(end 4.95 2.3)
@@ -22316,11 +22615,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "225e5513-56df-4e28-a694-b46bf72e81a3")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "D*DO?35*")
 		(path "/e86b2ea6-d99f-434f-aafb-2d5deecd7ca6/d240af55-c1fe-4122-9426-f4f5cc526b05")
 		(sheetname "/VIA/")
 		(sheetfile "VIA.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start 6.58 0)
 			(end 5.93 0)
@@ -22564,7 +22876,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -22858,7 +23170,7 @@
 		(path "/d807554e-d768-4528-89c4-4e99b11c6f87")
 		(sheetname "/")
 		(sheetfile "LT6502.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.9 -1.9)
 			(end 8.4 -1.9)
@@ -23203,11 +23515,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d23940fd-ac26-4601-b5c6-fc39fbd028d4")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/d5afc5d6-c446-466d-ac54-32ad85bd9dec/651d32e4-8878-4509-b4ba-5187954e6cf3")
 		(sheetname "/Glue_Addr/")
 		(sheetfile "Glue_Addr.kicad_sch")
-		(attr smd)
+		(attr smd dnp)
 		(fp_line
 			(start 0.745 -1.61)
 			(end 0.745 -0.61)
@@ -23571,6 +23896,19 @@
 				)
 			)
 		)
+		(property "LCSC" "C15850"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "514a1b84-8e17-4581-bc40-acdc436ebf1a")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/023ed7d3-fbe9-4017-a116-821cc1971589/975a8117-204c-4297-a2ff-a91c8b4be0f3")
 		(sheetname "/Power/")
@@ -23775,6 +24113,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "31fabe3c-4358-49a6-8bc2-406b0d6248a6")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "LCSC" "DNF"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "dae9e40e-56d0-430f-b207-5aa54c217272")
 			(effects
 				(font
 					(size 1 1)
@@ -24037,7 +24388,7 @@
 				)
 			)
 		)
-		(property "LCSC" ""
+		(property "LCSC" "DNF"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -24054,7 +24405,7 @@
 		(path "/598e71c9-5c06-425f-ac54-aba71004555d/49ffef4a-3aa4-4633-9681-785049080ce2")
 		(sheetname "/AUDIO/")
 		(sheetfile "Audio.kicad_sch")
-		(attr smd)
+		(attr smd dnp)
 		(fp_line
 			(start -0.153641 -0.38)
 			(end 0.153641 -0.38)
@@ -24249,7 +24600,7 @@
 				)
 			)
 		)
-		(property "LCSC" "DNF"
+		(property "LCSC" "C25890"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -24461,7 +24812,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 0 0 225)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -25097,7 +25448,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C23179"
+		(property "LCSC" "C25744"
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -25309,7 +25660,7 @@
 				)
 			)
 		)
-		(property "LCSC" "DNF"
+		(property "LCSC" "C25890"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -25521,7 +25872,7 @@
 				)
 			)
 		)
-		(property "LCSC" ""
+		(property "LCSC" "C21117"
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -25733,11 +26084,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "90ab0a7a-4be6-4f5f-b717-8f6bdab2b049")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Jumper* TestPoint*3Pads* TestPoint*Bridge*")
 		(path "/22750c51-abb4-4d56-954e-707b981cdabe")
 		(sheetname "/")
 		(sheetfile "LT6502.kicad_sch")
-		(attr exclude_from_pos_files exclude_from_bom)
+		(attr exclude_from_pos_files exclude_from_bom dnp)
 		(fp_line
 			(start -2.05 -1)
 			(end 2.05 -1)
@@ -25951,7 +26315,7 @@
 		(path "/023ed7d3-fbe9-4017-a116-821cc1971589/c3a243c4-40d0-439e-a4ff-cb207a5b4b49")
 		(sheetname "/Power/")
 		(sheetfile "Power.kicad_sch")
-		(attr smd dnp)
+		(attr smd)
 		(fp_line
 			(start -0.153641 0.38)
 			(end 0.153641 0.38)
@@ -26159,10 +26523,23 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f8e0b331-78eb-4511-b1fe-8e5e4642bc98")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/f1adfc9e-5c3a-4a3e-8463-a737d0e2b0ba")
 		(sheetname "/")
 		(sheetfile "LT6502.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start 1.56 -1.33)
 			(end 1.56 8.95)
@@ -26450,7 +26827,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -26662,7 +27039,7 @@
 				)
 			)
 		)
-		(property "LCSC" "DNF"
+		(property "LCSC" "C25104"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -26891,7 +27268,7 @@
 		(path "/023ed7d3-fbe9-4017-a116-821cc1971589/763b56ec-3b57-4ff1-8003-7a52d5251c47")
 		(sheetname "/Power/")
 		(sheetfile "Power.kicad_sch")
-		(attr smd)
+		(attr smd dnp)
 		(fp_line
 			(start -0.153641 0.38)
 			(end 0.153641 0.38)
@@ -27086,7 +27463,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C23179"
+		(property "LCSC" "C25768"
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -27294,6 +27671,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "LCSC" "C45783"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "00194abd-567b-432d-8352-ceb19aa86aa8")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -27514,7 +27904,7 @@
 		(path "/825e1c9a-e371-499a-ad28-43b57b6b2827/11f484bc-54d0-402e-984b-0fda77dad678")
 		(sheetname "/DIsplay Connector/")
 		(sheetfile "DisplayConnector.kicad_sch")
-		(attr smd)
+		(attr smd dnp)
 		(fp_line
 			(start -0.153641 -0.38)
 			(end 0.153641 -0.38)
@@ -27709,7 +28099,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C23179"
+		(property "LCSC" "C11702"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -27938,7 +28328,7 @@
 		(path "/023ed7d3-fbe9-4017-a116-821cc1971589/cd95e506-b64c-4a7f-ba8c-49068eab82ec")
 		(sheetname "/Power/")
 		(sheetfile "Power.kicad_sch")
-		(attr smd)
+		(attr smd dnp)
 		(fp_line
 			(start -0.237258 -0.5225)
 			(end 0.237258 -0.5225)
@@ -28133,7 +28523,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C6558294"
+		(property "LCSC" "DNF"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -28163,7 +28553,7 @@
 		(path "/7bd40c60-bb79-47f8-862c-3602d4cfed76/7323fc6d-89b7-4052-a055-a2d04ee18090")
 		(sheetname "/60FAKE50/")
 		(sheetfile "60FAKE50.kicad_sch")
-		(attr smd)
+		(attr smd dnp)
 		(fp_line
 			(start 2.76 5.21)
 			(end -2.76 5.21)
@@ -28724,6 +29114,19 @@
 				)
 			)
 		)
+		(property "LCSC" "C11702"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c08e7d10-528f-470f-96c3-e73fc50febc8")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/1b746815-ea43-4a9b-a810-d668c3e9fbf9/18077e47-0cb3-490e-b7b0-c168820c9bc2")
 		(sheetname "/CompactFlash/")
@@ -28923,7 +29326,7 @@
 				)
 			)
 		)
-		(property "LCSC" "DNF"
+		(property "LCSC" "C25890"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -29149,11 +29552,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d9d1d9de-36e4-41ff-8d21-2458e99aebbf")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "LED* LED_SMD:* LED_THT:*")
 		(path "/023ed7d3-fbe9-4017-a116-821cc1971589/6fb4b626-871a-44f7-a4e5-3bf399baca01")
 		(sheetname "/Power/")
 		(sheetfile "Power.kicad_sch")
-		(attr smd)
+		(attr smd dnp)
 		(fp_line
 			(start -1.485 -0.735)
 			(end -1.485 0.735)
@@ -29376,6 +29792,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "5605b117-d4df-49bf-af4f-ed76d4642e07")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "LCSC" "C780769"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2d325c9a-e261-4c65-b01b-7d3a40a9a9b1")
 			(effects
 				(font
 					(size 1 1)
@@ -29728,7 +30157,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C14663"
+		(property "LCSC" "C113803"
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -29940,7 +30369,7 @@
 				)
 			)
 		)
-		(property "LCSC" "DNF"
+		(property "LCSC" "C25890"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -30290,7 +30719,7 @@
 				)
 			)
 		)
-		(property "LCSC" "DNF"
+		(property "LCSC" "C25890"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -30502,7 +30931,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -30734,7 +31163,7 @@
 		(path "/023ed7d3-fbe9-4017-a116-821cc1971589/e735304b-8c6a-4c53-8745-102cc0b34ff4")
 		(sheetname "/Power/")
 		(sheetfile "Power.kicad_sch")
-		(attr smd)
+		(attr smd dnp)
 		(fp_line
 			(start 4.7 -1.78)
 			(end 4.7 0)
@@ -31218,11 +31647,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "40c83577-bccf-48cb-ae20-d855cd31ee2f")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "LED* LED_SMD:* LED_THT:*")
 		(path "/d5afc5d6-c446-466d-ac54-32ad85bd9dec/351ab49c-6bc2-4a5e-b959-7664bf0ea9b5")
 		(sheetname "/Glue_Addr/")
 		(sheetfile "Glue_Addr.kicad_sch")
-		(attr smd)
+		(attr smd dnp)
 		(fp_line
 			(start -1.485 -0.735)
 			(end -1.485 0.735)
@@ -31435,6 +31877,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "LCSC" "C45783"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "ed9e8fa6-fa65-4424-8321-68ef717fa3a9")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -31652,11 +32107,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "cf5908de-553c-4a12-8eee-61376030067d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "LED* LED_SMD:* LED_THT:*")
 		(path "/023ed7d3-fbe9-4017-a116-821cc1971589/2229d9f0-e925-41a8-aefb-76f7518c53d5")
 		(sheetname "/Power/")
 		(sheetfile "Power.kicad_sch")
-		(attr smd)
+		(attr smd dnp)
 		(fp_line
 			(start -1.485 -0.735)
 			(end -1.485 0.735)
@@ -32085,7 +32553,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C15850"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -32646,7 +33114,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -32858,11 +33326,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d12e69d2-aca4-40b0-9203-407138050c83")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Connector*:*_2x??_*")
 		(path "/e86b2ea6-d99f-434f-aafb-2d5deecd7ca6/31465d37-6450-4f55-b1fe-5ff89c63abba")
 		(sheetname "/VIA/")
 		(sheetfile "VIA.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -12.63 14.03)
 			(end -4 14.03)
@@ -33914,11 +34395,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "cd81bff0-cde4-481e-92ee-b6d45d9667f2")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "CP_*")
 		(path "/598e71c9-5c06-425f-ac54-aba71004555d/23de3238-ed60-44d4-bcf8-5fb0c4fdd5c6")
 		(sheetname "/AUDIO/")
 		(sheetfile "Audio.kicad_sch")
-		(attr smd)
+		(attr smd dnp)
 		(fp_line
 			(start -6.85 -2.76)
 			(end -5.6 -2.76)
@@ -34344,7 +34838,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C91183"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -34573,7 +35067,7 @@
 		(path "/7bd40c60-bb79-47f8-862c-3602d4cfed76/e3fc8b4c-0e3a-417c-9071-e7b54be14edc")
 		(sheetname "/60FAKE50/")
 		(sheetfile "60FAKE50.kicad_sch")
-		(attr smd)
+		(attr smd dnp)
 		(fp_line
 			(start -0.410242 0.56)
 			(end 0.410242 0.56)
@@ -34782,11 +35276,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "784e685d-c4e9-4fc0-97de-06cf7b57491b")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Choke_* *Coil* Inductor_* L_*")
 		(path "/023ed7d3-fbe9-4017-a116-821cc1971589/266c93d9-89af-4563-8dc9-1e5d4f435a9c")
 		(sheetname "/Power/")
 		(sheetfile "Power.kicad_sch")
-		(attr smd)
+		(attr smd dnp)
 		(fp_line
 			(start -3.04 3.23)
 			(end 2.96 3.23)
@@ -34981,7 +35488,7 @@
 				)
 			)
 		)
-		(property "LCSC" "DNF"
+		(property "LCSC" "C25741"
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -35193,7 +35700,7 @@
 				)
 			)
 		)
-		(property "LCSC" "DNF"
+		(property "LCSC" "C25890"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -35405,7 +35912,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C1581"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -35683,10 +36190,23 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "71680980-a021-4f11-8f91-6858ff259e7c")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/e86b2ea6-d99f-434f-aafb-2d5deecd7ca6/a277da8b-ee50-440f-b6d6-0a9f890c249b")
 		(sheetname "/VIA/")
 		(sheetfile "VIA.kicad_sch")
-		(attr smd)
+		(attr smd dnp)
 		(fp_line
 			(start -4.875 4.875)
 			(end -4.875 -4.875)
@@ -36300,7 +36820,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -36526,11 +37046,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "87d7b3a3-6ed4-41f8-a442-bd8b4ec0e3b7")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "LED* LED_SMD:* LED_THT:*")
 		(path "/023ed7d3-fbe9-4017-a116-821cc1971589/373e9651-25a4-4f5b-89db-faf595b4aa43")
 		(sheetname "/Power/")
 		(sheetfile "Power.kicad_sch")
-		(attr smd)
+		(attr smd dnp)
 		(fp_line
 			(start -1.685 -0.96)
 			(end -1.685 0.96)
@@ -36773,11 +37306,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "a8795545-4464-49f7-9769-99022deb286a")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "D*DO?35*")
 		(path "/2b6fed47-3df7-424e-b6fe-61f4842b9a70/6ed32727-4ca9-40a6-a817-2c8d8b187a30")
 		(sheetname "/Keyboard IF/")
 		(sheetfile "KeyboardIF.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start 6.58 0)
 			(end 5.93 0)
@@ -37160,6 +37706,19 @@
 				)
 			)
 		)
+		(property "LCSC" "C45783"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "7eacf7e3-c6d9-4cdd-a6af-a67dc5816615")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/023ed7d3-fbe9-4017-a116-821cc1971589/91eac3a9-0b31-42ea-840d-3b2d0c870b09")
 		(sheetname "/Power/")
@@ -37379,7 +37938,7 @@
 		(path "/023ed7d3-fbe9-4017-a116-821cc1971589/453610ce-05cf-4cf3-9757-65ec86bed3b6")
 		(sheetname "/Power/")
 		(sheetfile "Power.kicad_sch")
-		(attr through_hole exclude_from_bom)
+		(attr through_hole exclude_from_bom dnp)
 		(fp_circle
 			(center 0 0)
 			(end 1.5 0)
@@ -37505,7 +38064,7 @@
 				)
 			)
 		)
-		(property "Value" "TXB0108PW"
+		(property "Value" "TXS0108"
 			(at 0 4.2 90)
 			(layer "F.Fab")
 			(uuid "4785cd90-c24e-4741-bda0-be05b88ea881")
@@ -37540,7 +38099,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C53406"
+		(property "LCSC" "C17206"
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -38028,7 +38587,7 @@
 		(path "/825e1c9a-e371-499a-ad28-43b57b6b2827/b6ec370e-902c-4c49-8b8c-5dcfdcf359df")
 		(sheetname "/DIsplay Connector/")
 		(sheetfile "DisplayConnector.kicad_sch")
-		(attr smd)
+		(attr smd dnp)
 		(fp_line
 			(start -0.153641 -0.38)
 			(end 0.153641 -0.38)
@@ -38223,7 +38782,7 @@
 				)
 			)
 		)
-		(property "LCSC" "DNF"
+		(property "LCSC" "C25076"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -38435,7 +38994,7 @@
 				)
 			)
 		)
-		(property "LCSC" "DNF"
+		(property "LCSC" "C25890"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -38647,11 +39206,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2c61ceaf-9c2b-49f7-a3c2-25b74026b824")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/d5afc5d6-c446-466d-ac54-32ad85bd9dec/85725c59-5cae-4b05-82c1-b4bfdd83cad0")
 		(sheetname "/Glue_Addr/")
 		(sheetfile "Glue_Addr.kicad_sch")
-		(attr smd)
+		(attr smd dnp)
 		(fp_line
 			(start 0.745 3.11)
 			(end 0.745 3.11)
@@ -39162,7 +39734,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C23179"
+		(property "LCSC" "C25744"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -39374,7 +39946,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C23179"
+		(property "LCSC" "C25756"
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -40281,7 +40853,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -40493,7 +41065,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C23179"
+		(property "LCSC" "C11702"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -40705,6 +41277,19 @@
 				)
 			)
 		)
+		(property "LCSC" "C45783"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "534a977c-840d-4584-942e-7e179c9ddd00")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/e762d4e1-6eae-4d69-baef-1dedfb10bbd7/3a8611a5-77fc-4235-a340-b4176c91afa4")
 		(sheetname "/ExpansionSlot0/")
@@ -40904,7 +41489,7 @@
 				)
 			)
 		)
-		(property "LCSC" "DNF"
+		(property "LCSC" "C25890"
 			(at 0 0 135)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -41116,7 +41701,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C23179"
+		(property "LCSC" "C11702"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -41328,11 +41913,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "4b55004e-948f-4fd0-98da-c5b6abd5c9d4")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Jumper* TestPoint*3Pads* TestPoint*Bridge*")
 		(path "/023ed7d3-fbe9-4017-a116-821cc1971589/1d4223a6-4ffc-4985-8e10-f5fa7a2e55c8")
 		(sheetname "/Power/")
 		(sheetfile "Power.kicad_sch")
-		(attr exclude_from_pos_files exclude_from_bom)
+		(attr exclude_from_pos_files exclude_from_bom dnp)
 		(fp_line
 			(start -2.05 -1)
 			(end 2.05 -1)
@@ -41525,6 +42123,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "LCSC" "C45783"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c7d5c9fb-73f1-49e5-9761-ab1b37805fa6")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -41728,7 +42339,7 @@
 				)
 			)
 		)
-		(property "LCSC" ""
+		(property "LCSC" "C1622"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -42266,7 +42877,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -42478,7 +43089,7 @@
 				)
 			)
 		)
-		(property "LCSC" "DNF"
+		(property "LCSC" "C25890"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -42706,7 +43317,7 @@
 		(path "/de1c22ef-612b-4b13-ad87-36cb980f337b")
 		(sheetname "/")
 		(sheetfile "LT6502.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start 1.16 -1.33)
 			(end 1.16 39.43)
@@ -43503,7 +44114,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C23179"
+		(property "LCSC" "C25850"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -43867,11 +44478,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 225)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "554dbadc-b44d-4728-b8d5-04a318837455")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "?QFP*10x10mm*P0.8mm*")
 		(path "/2a865a8f-7bbf-40b5-9d81-dd91d27df374")
 		(sheetname "/")
 		(sheetfile "LT6502.kicad_sch")
-		(attr smd)
+		(attr smd dnp)
 		(fp_line
 			(start 4.875 4.875)
 			(end -4.875 4.875)
@@ -44499,11 +45123,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "a1c1daa9-e993-4af2-a018-73bb4e547509")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "LED* LED_SMD:* LED_THT:*")
 		(path "/023ed7d3-fbe9-4017-a116-821cc1971589/bd292d29-4437-4190-b8d7-ec3b7c5426e0")
 		(sheetname "/Power/")
 		(sheetfile "Power.kicad_sch")
-		(attr smd)
+		(attr smd dnp)
 		(fp_line
 			(start 1 -0.96)
 			(end -1.685 -0.96)
@@ -44932,7 +45569,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C23179"
+		(property "LCSC" "C11702"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -45164,7 +45801,7 @@
 		(path "/023ed7d3-fbe9-4017-a116-821cc1971589/d2580a2f-cf32-4f35-8e89-8b23d56b6829")
 		(sheetname "/Power/")
 		(sheetfile "Power.kicad_sch")
-		(attr through_hole exclude_from_bom)
+		(attr through_hole exclude_from_bom dnp)
 		(fp_circle
 			(center 0 0)
 			(end 1.5 0)
@@ -45325,11 +45962,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d9249c96-5230-4aa0-9088-5222ea08a9f1")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/023ed7d3-fbe9-4017-a116-821cc1971589/fb7a899d-737e-4180-b141-8dfce9aafbe2")
 		(sheetname "/Power/")
 		(sheetfile "Power.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -45590,6 +46240,19 @@
 				)
 			)
 		)
+		(property "LCSC" "C45783"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "57a82a08-6559-493f-bb09-d3ab5bf5e16a")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/023ed7d3-fbe9-4017-a116-821cc1971589/f7b091ce-2d24-4c9e-8bfb-3be933b1b363")
 		(sheetname "/Power/")
@@ -45802,7 +46465,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C444350"
+		(property "LCSC" "DNF"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -45819,7 +46482,7 @@
 		(path "/1b746815-ea43-4a9b-a810-d668c3e9fbf9/57309fc6-efb2-499a-9663-8eea2bf93c0e")
 		(sheetname "/CompactFlash/")
 		(sheetfile "CompactFlash.kicad_sch")
-		(attr smd)
+		(attr smd dnp)
 		(fp_line
 			(start 15.989 -5.45)
 			(end 22.25 -5.45)
@@ -46709,11 +47372,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "968fb765-ca54-45ab-9152-1a19b4b156f4")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/2b6fed47-3df7-424e-b6fe-61f4842b9a70/f0af7a07-b696-4f67-b269-888fe68f72d2")
 		(sheetname "/Keyboard IF/")
 		(sheetfile "KeyboardIF.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.27 -1.27)
 			(end 0 -1.27)
@@ -47648,7 +48324,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C23179"
+		(property "LCSC" "C25756"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -48310,7 +48986,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -48542,7 +49218,7 @@
 		(path "/7bd40c60-bb79-47f8-862c-3602d4cfed76/09c806a0-d73a-4ab7-b567-5d36a72d4e7d")
 		(sheetname "/60FAKE50/")
 		(sheetfile "60FAKE50.kicad_sch")
-		(attr smd)
+		(attr smd dnp)
 		(fp_line
 			(start -4.7 -1.78)
 			(end -4.7 0)
@@ -49012,11 +49688,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d48c324d-064a-4133-a01d-ac2aa0cde51b")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Connector*:*_2x??_*")
 		(path "/e86b2ea6-d99f-434f-aafb-2d5deecd7ca6/6f480204-cb2c-44d2-96f7-e61c476697f8")
 		(sheetname "/VIA/")
 		(sheetfile "VIA.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -12.63 8.95)
 			(end -4 8.95)
@@ -49851,11 +50540,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f8baff29-8c51-45c4-beef-4880b89e0b82")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Connector*:*_2x??_*")
 		(path "/825e1c9a-e371-499a-ad28-43b57b6b2827/3e893bf0-3359-489c-9414-94dbeec2a932")
 		(sheetname "/DIsplay Connector/")
 		(sheetfile "DisplayConnector.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 49.64)
 			(end 3.92 49.64)
@@ -51219,7 +51921,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C23179"
+		(property "LCSC" "C11702"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -51427,6 +52129,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "LCSC" "C11702"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "ac3ebe9f-5be8-4c26-a70e-af6ac043369c")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -51859,7 +52574,7 @@
 		(path "/d5afc5d6-c446-466d-ac54-32ad85bd9dec/41c3ea52-2a1e-4d43-af68-3817077d7a56")
 		(sheetname "/Glue_Addr/")
 		(sheetfile "Glue_Addr.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start 6.69 -1.38)
 			(end 3.93 -1.38)
@@ -52867,7 +53582,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -53365,7 +54080,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -53577,7 +54292,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 0 0 45)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -53789,7 +54504,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -54001,7 +54716,7 @@
 				)
 			)
 		)
-		(property "LCSC" "DNF"
+		(property "LCSC" "C25744"
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -54272,6 +54987,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "5e9907fd-f6b2-4b08-bda7-56fbd9e2eb7c")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "LCSC" "C128212"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "25d8ed77-d212-4925-9f1a-03535bde1b4e")
 			(effects
 				(font
 					(size 1 1)
@@ -54787,7 +55515,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C96123"
+		(property "LCSC" "C22367835"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -55211,7 +55939,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -55423,11 +56151,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "1f546b00-4546-4c0c-8d25-eb4b672a67f8")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "DIP*W15.24mm*")
 		(path "/2b6fed47-3df7-424e-b6fe-61f4842b9a70/7d8c86f5-da5c-4b47-8550-618eb58c09b7")
 		(sheetname "/Keyboard IF/")
 		(sheetfile "KeyboardIF.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start 14.08 -1.33)
 			(end 8.62 -1.33)
@@ -55935,7 +56676,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C23179"
+		(property "LCSC" "C11702"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -56497,7 +57238,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C23179"
+		(property "LCSC" "C25744"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -56846,7 +57587,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C23179"
+		(property "LCSC" "C11565"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -57058,7 +57799,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C14663"
+		(property "LCSC" "C113803"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -57270,7 +58011,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -57482,7 +58223,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C23179"
+		(property "LCSC" "C25917"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -57690,6 +58431,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "LCSC" "C11702"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e133f92a-b54d-4993-a7aa-cab1da17a23a")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -58031,6 +58785,19 @@
 				)
 			)
 		)
+		(property "LCSC" "C11702"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "ba19aa2b-75b4-4b9c-b217-286727ff3cf3")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/1b746815-ea43-4a9b-a810-d668c3e9fbf9/d7a1e41b-5a15-4dd8-bbb6-d49e9f44fc7e")
 		(sheetname "/CompactFlash/")
@@ -58195,7 +58962,7 @@
 				)
 			)
 		)
-		(property "Value" "TXB0108PW"
+		(property "Value" "TXS0108"
 			(at 0 4.2 90)
 			(layer "F.Fab")
 			(uuid "3925dc01-4de5-47a0-a4a6-6abffa8a98aa")
@@ -58230,7 +58997,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C53406"
+		(property "LCSC" "C17206"
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -58727,11 +59494,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "73836bdf-5597-4f58-862d-4ae220d6fca6")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "D*DO?35*")
 		(path "/e762d4e1-6eae-4d69-baef-1dedfb10bbd7/717dd6b9-2fcc-4bfb-81f2-681bf6671ffd")
 		(sheetname "/ExpansionSlot0/")
 		(sheetfile "Expansion.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start 2.53 -1.12)
 			(end 2.53 1.12)
@@ -58975,7 +59755,7 @@
 				)
 			)
 		)
-		(property "LCSC" "DNF"
+		(property "LCSC" "C25890"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -59200,11 +59980,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "a3f61910-743d-4866-8f78-2775288975a4")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "SOP*8.4*18.16*P1.27*")
 		(path "/1eb7e35b-d75a-4fa3-960f-a3ecb4bd8a64")
 		(sheetname "/")
 		(sheetfile "LT6502.kicad_sch")
-		(attr smd)
+		(attr smd dnp)
 		(fp_line
 			(start -4.31 -9.19)
 			(end 4.31 -9.19)
@@ -59765,7 +60558,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -59977,11 +60770,24 @@
 				)
 			)
 		)
+		(property "LCSC" "DNF"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "0e16d23a-2381-4b37-bc8c-522fd64773b7")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/d5afc5d6-c446-466d-ac54-32ad85bd9dec/10ab4e1d-a8d3-4490-a0a6-70c62f0e42b9")
 		(sheetname "/Glue_Addr/")
 		(sheetfile "Glue_Addr.kicad_sch")
-		(attr smd)
+		(attr smd dnp)
 		(fp_line
 			(start 0.745 -1.61)
 			(end 0.745 -0.61)
@@ -60341,6 +61147,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "LCSC" "C45783"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "65465ff4-8871-4053-84c8-d121176a16fa")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -60968,7 +61787,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C23179"
+		(property "LCSC" "C25850"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -61180,6 +61999,19 @@
 				)
 			)
 		)
+		(property "LCSC" "C19110"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "5aecf692-0864-421e-96e9-612e55396388")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/023ed7d3-fbe9-4017-a116-821cc1971589/b411c584-2515-40b3-a511-4a67690ca5b0")
 		(sheetname "/Power/")
@@ -61375,6 +62207,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "LCSC" "C844598"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6e33b98c-c762-45bc-9a96-3b757487beed")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -61578,7 +62423,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C49678"
+		(property "LCSC" "C113803"
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -62214,7 +63059,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C23179"
+		(property "LCSC" "C25744"
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -97978,37 +98823,37 @@
 				(xy 308.171791 129.653207) (xy 308.147176 129.63504) (xy 308.117945 129.586528) (xy 308.131579 129.531557)
 				(xy 308.180091 129.502326) (xy 308.191119 129.5015) (xy 317.216587 129.5015) (xy 317.268913 129.523174)
 				(xy 318.845102 131.099363) (xy 318.845105 131.099365) (xy 318.882702 131.114938) (xy 318.937172 131.1375)
-				(xy 319.853831 131.1375) (xy 319.906157 131.159174) (xy 319.927831 131.2115) (xy 319.91536 131.252611)
-				(xy 319.914508 131.253887) (xy 319.908233 131.263278) (xy 319.8995 131.30718) (xy 319.8995 131.73682)
-				(xy 319.906614 131.772588) (xy 319.895565 131.828135) (xy 319.861604 131.878962) (xy 319.861604 131.878963)
-				(xy 319.85 131.937302) (xy 319.85 131.957) (xy 323.75 131.957) (xy 323.75 131.937302) (xy 323.738395 131.878963)
-				(xy 323.704434 131.828138) (xy 323.693384 131.772591) (xy 323.7005 131.73682) (xy 323.7005 131.30718)
-				(xy 323.691767 131.263278) (xy 323.679962 131.245611) (xy 323.668914 131.190063) (xy 323.679963 131.163388)
-				(xy 323.681767 131.160688) (xy 323.691767 131.145722) (xy 323.7005 131.10182) (xy 323.7005 130.67218)
-				(xy 323.691767 130.628278) (xy 323.679962 130.610611) (xy 323.668914 130.555063) (xy 323.679963 130.528388)
-				(xy 323.685943 130.519438) (xy 323.691767 130.510722) (xy 323.7005 130.46682) (xy 323.7005 130.03718)
-				(xy 323.691767 129.993278) (xy 323.679962 129.975611) (xy 323.668914 129.920063) (xy 323.679963 129.893388)
-				(xy 323.681851 129.890562) (xy 323.691767 129.875722) (xy 323.7005 129.83182) (xy 323.7005 129.40218)
-				(xy 323.691767 129.358278) (xy 323.679962 129.340611) (xy 323.668914 129.285063) (xy 323.679963 129.258388)
-				(xy 323.68464 129.251388) (xy 323.691767 129.240722) (xy 323.7005 129.19682) (xy 323.7005 128.76718)
-				(xy 323.691767 128.723278) (xy 323.679962 128.705611) (xy 323.668914 128.650063) (xy 323.679963 128.623388)
-				(xy 323.682064 128.620244) (xy 323.691767 128.605722) (xy 323.7005 128.56182) (xy 323.7005 128.13218)
-				(xy 323.691767 128.088278) (xy 323.679962 128.070611) (xy 323.668914 128.015063) (xy 323.679963 127.988388)
-				(xy 323.68464 127.981388) (xy 323.691767 127.970722) (xy 323.7005 127.92682) (xy 323.7005 127.49718)
-				(xy 323.691767 127.453278) (xy 323.679962 127.435611) (xy 323.668914 127.380063) (xy 323.679963 127.353388)
-				(xy 323.682561 127.3495) (xy 323.691767 127.335722) (xy 323.7005 127.29182) (xy 323.7005 126.86218)
-				(xy 323.691767 126.818278) (xy 323.679962 126.800611) (xy 323.668914 126.745063) (xy 323.679963 126.718388)
-				(xy 323.685943 126.709438) (xy 323.691767 126.700722) (xy 323.7005 126.65682) (xy 323.7005 126.22718)
-				(xy 323.691767 126.183278) (xy 323.679962 126.165611) (xy 323.668914 126.110063) (xy 323.679963 126.083388)
-				(xy 323.681411 126.081221) (xy 323.691767 126.065722) (xy 323.7005 126.02182) (xy 323.7005 125.59218)
-				(xy 323.691767 125.548278) (xy 323.679962 125.530611) (xy 323.668914 125.475063) (xy 323.679963 125.448388)
-				(xy 323.682561 125.4445) (xy 323.691767 125.430722) (xy 323.7005 125.38682) (xy 323.7005 124.95718)
-				(xy 323.691767 124.913278) (xy 323.679962 124.895611) (xy 323.668914 124.840063) (xy 323.679963 124.813388)
-				(xy 323.691767 124.795722) (xy 323.7005 124.75182) (xy 323.7005 124.32218) (xy 323.691767 124.278278)
-				(xy 323.679962 124.260611) (xy 323.668914 124.205063) (xy 323.679963 124.178388) (xy 323.684115 124.172174)
-				(xy 323.691767 124.160722) (xy 323.7005 124.11682) (xy 323.7005 123.68718) (xy 323.693385 123.651411)
-				(xy 323.704434 123.595863) (xy 323.738396 123.545035) (xy 323.75 123.486697) (xy 323.75 123.467)
-				(xy 319.85 123.467) (xy 319.85 123.486697) (xy 319.861603 123.545034) (xy 319.863322 123.549183)
+				(xy 319.036827 131.1375) (xy 319.853831 131.1375) (xy 319.906157 131.159174) (xy 319.927831 131.2115)
+				(xy 319.91536 131.252611) (xy 319.914508 131.253887) (xy 319.908233 131.263278) (xy 319.8995 131.30718)
+				(xy 319.8995 131.73682) (xy 319.906614 131.772588) (xy 319.895565 131.828135) (xy 319.861604 131.878962)
+				(xy 319.861604 131.878963) (xy 319.85 131.937302) (xy 319.85 131.957) (xy 323.75 131.957) (xy 323.75 131.937302)
+				(xy 323.738395 131.878963) (xy 323.704434 131.828138) (xy 323.693384 131.772591) (xy 323.7005 131.73682)
+				(xy 323.7005 131.30718) (xy 323.691767 131.263278) (xy 323.679962 131.245611) (xy 323.668914 131.190063)
+				(xy 323.679963 131.163388) (xy 323.681767 131.160688) (xy 323.691767 131.145722) (xy 323.7005 131.10182)
+				(xy 323.7005 130.67218) (xy 323.691767 130.628278) (xy 323.679962 130.610611) (xy 323.668914 130.555063)
+				(xy 323.679963 130.528388) (xy 323.685943 130.519438) (xy 323.691767 130.510722) (xy 323.7005 130.46682)
+				(xy 323.7005 130.03718) (xy 323.691767 129.993278) (xy 323.679962 129.975611) (xy 323.668914 129.920063)
+				(xy 323.679963 129.893388) (xy 323.681851 129.890562) (xy 323.691767 129.875722) (xy 323.7005 129.83182)
+				(xy 323.7005 129.40218) (xy 323.691767 129.358278) (xy 323.679962 129.340611) (xy 323.668914 129.285063)
+				(xy 323.679963 129.258388) (xy 323.68464 129.251388) (xy 323.691767 129.240722) (xy 323.7005 129.19682)
+				(xy 323.7005 128.76718) (xy 323.691767 128.723278) (xy 323.679962 128.705611) (xy 323.668914 128.650063)
+				(xy 323.679963 128.623388) (xy 323.682064 128.620244) (xy 323.691767 128.605722) (xy 323.7005 128.56182)
+				(xy 323.7005 128.13218) (xy 323.691767 128.088278) (xy 323.679962 128.070611) (xy 323.668914 128.015063)
+				(xy 323.679963 127.988388) (xy 323.68464 127.981388) (xy 323.691767 127.970722) (xy 323.7005 127.92682)
+				(xy 323.7005 127.49718) (xy 323.691767 127.453278) (xy 323.679962 127.435611) (xy 323.668914 127.380063)
+				(xy 323.679963 127.353388) (xy 323.682561 127.3495) (xy 323.691767 127.335722) (xy 323.7005 127.29182)
+				(xy 323.7005 126.86218) (xy 323.691767 126.818278) (xy 323.679962 126.800611) (xy 323.668914 126.745063)
+				(xy 323.679963 126.718388) (xy 323.685943 126.709438) (xy 323.691767 126.700722) (xy 323.7005 126.65682)
+				(xy 323.7005 126.22718) (xy 323.691767 126.183278) (xy 323.679962 126.165611) (xy 323.668914 126.110063)
+				(xy 323.679963 126.083388) (xy 323.681411 126.081221) (xy 323.691767 126.065722) (xy 323.7005 126.02182)
+				(xy 323.7005 125.59218) (xy 323.691767 125.548278) (xy 323.679962 125.530611) (xy 323.668914 125.475063)
+				(xy 323.679963 125.448388) (xy 323.682561 125.4445) (xy 323.691767 125.430722) (xy 323.7005 125.38682)
+				(xy 323.7005 124.95718) (xy 323.691767 124.913278) (xy 323.679962 124.895611) (xy 323.668914 124.840063)
+				(xy 323.679963 124.813388) (xy 323.691767 124.795722) (xy 323.7005 124.75182) (xy 323.7005 124.32218)
+				(xy 323.691767 124.278278) (xy 323.679962 124.260611) (xy 323.668914 124.205063) (xy 323.679963 124.178388)
+				(xy 323.684115 124.172174) (xy 323.691767 124.160722) (xy 323.7005 124.11682) (xy 323.7005 123.68718)
+				(xy 323.693385 123.651411) (xy 323.704434 123.595863) (xy 323.738396 123.545035) (xy 323.75 123.486697)
+				(xy 323.75 123.467) (xy 319.85 123.467) (xy 319.85 123.486697) (xy 319.861603 123.545034) (xy 319.863322 123.549183)
 				(xy 319.863321 123.60582) (xy 319.823271 123.645868) (xy 319.794954 123.6515) (xy 319.516974 123.6515)
 				(xy 319.488656 123.645867) (xy 319.429828 123.6215) (xy 317.121862 123.6215) (xy 317.069536 123.599826)
 				(xy 317.047862 123.5475) (xy 317.047862 123.500923) (xy 317.045871 123.48376) (xy 317.045093 123.477048)
