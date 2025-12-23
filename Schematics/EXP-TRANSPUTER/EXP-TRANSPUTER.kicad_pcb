@@ -352,7 +352,7 @@
 	(footprint "SO20W"
 		(layer "F.Cu")
 		(uuid "0117dda0-a6a1-4b3f-b116-ba6c5305e322")
-		(at 116.268146 77.731717 -90)
+		(at 116.945594 73.647109 -90)
 		(descr "Wide Small Outline package 300 mil")
 		(property "Reference" "IC2"
 			(at 0.127 0.9525 0)
@@ -2039,7 +2039,7 @@
 	(footprint "Connector_PinSocket_2.54mm:PinSocket_1x10_P2.54mm_Vertical"
 		(layer "F.Cu")
 		(uuid "12ba62c7-9168-4c16-acbb-d6f0afa38349")
-		(at 162.888146 66.271717)
+		(at 163.565594 62.187109)
 		(descr "Through hole straight socket strip, 1x10, 2.54mm pitch, single row (from Kicad 4.0.7), script generated")
 		(tags "Through hole socket strip THT 1x10 2.54mm single row")
 		(property "Reference" "J5"
@@ -2679,7 +2679,7 @@
 	(footprint "SOP28N"
 		(layer "F.Cu")
 		(uuid "2ab9d024-afd7-4ea3-a341-134f9214521b")
-		(at 132.252146 69.416717 -90)
+		(at 132.929594 65.332109 -90)
 		(property "Reference" "IC5"
 			(at 1.2065 0 90)
 			(unlocked yes)
@@ -3513,7 +3513,7 @@
 	(footprint "Connector_PinSocket_2.54mm:PinSocket_2x10_P2.54mm_Vertical"
 		(layer "F.Cu")
 		(uuid "2b29711e-86e7-4f06-8afc-4274e0297966")
-		(at 160.348146 66.271717)
+		(at 161.025594 62.187109)
 		(descr "Through hole straight socket strip, 2x10, 2.54mm pitch, double cols (from Kicad 4.0.7), script generated")
 		(tags "Through hole socket strip THT 2x10 2.54mm double row")
 		(property "Reference" "J3"
@@ -4288,7 +4288,7 @@
 	(footprint "Connector_PinSocket_2.54mm:PinSocket_2x03_P2.54mm_Vertical"
 		(layer "F.Cu")
 		(uuid "34fe8086-ff8c-46ea-808e-1604f115d686")
-		(at 167.968146 66.271717)
+		(at 168.645594 62.187109)
 		(descr "Through hole straight socket strip, 2x03, 2.54mm pitch, double cols (from Kicad 4.0.7), script generated")
 		(tags "Through hole socket strip THT 2x03 2.54mm double row")
 		(property "Reference" "J7"
@@ -4596,7 +4596,7 @@
 	(footprint "LTL-4221NHBP:LTL4221NHBP"
 		(layer "F.Cu")
 		(uuid "3a9c343b-b970-4a9e-a2c1-c979e772ee5e")
-		(at 172.992115 100.545592)
+		(at 173.669563 96.460984)
 		(descr "LTL-4221NHBP-2")
 		(tags "LED")
 		(property "Reference" "D2"
@@ -7511,7 +7511,7 @@
 	(footprint "LTL-4221NHBP:LTL4221NHBP"
 		(layer "F.Cu")
 		(uuid "58916390-f38e-4767-9e9b-e010ccff0f26")
-		(at 180.492115 100.55082)
+		(at 181.169563 96.466212)
 		(descr "LTL-4221NHBP-2")
 		(tags "LED")
 		(property "Reference" "D1"
@@ -8258,7 +8258,7 @@
 	(footprint "Connector_PinSocket_2.54mm:PinSocket_1x10_P2.54mm_Vertical"
 		(layer "F.Cu")
 		(uuid "74561fec-5c77-40f8-9d2d-112796ae426c")
-		(at 175.588146 66.271717)
+		(at 176.265594 62.187109)
 		(descr "Through hole straight socket strip, 1x10, 2.54mm pitch, single row (from Kicad 4.0.7), script generated")
 		(tags "Through hole socket strip THT 1x10 2.54mm single row")
 		(property "Reference" "J6"
@@ -9732,7 +9732,7 @@
 	(footprint "Connector_PinSocket_2.54mm:PinSocket_2x03_P2.54mm_Vertical"
 		(layer "F.Cu")
 		(uuid "86ef2b41-d16f-4ef9-84ef-908cf1536310")
-		(at 173.048146 66.271717)
+		(at 173.725594 62.187109)
 		(descr "Through hole straight socket strip, 2x03, 2.54mm pitch, double cols (from Kicad 4.0.7), script generated")
 		(tags "Through hole socket strip THT 2x03 2.54mm double row")
 		(property "Reference" "J8"
@@ -10372,7 +10372,7 @@
 	(footprint "LTL-4221NHBP:LTL4221NHBP"
 		(layer "F.Cu")
 		(uuid "9af1733b-52a4-481d-be0b-e41b736f632a")
-		(at 157.692115 100.545592)
+		(at 158.369563 96.460984)
 		(descr "LTL-4221NHBP-2")
 		(tags "LED")
 		(property "Reference" "D2"
@@ -10687,7 +10687,7 @@
 	(footprint "SO20W"
 		(layer "F.Cu")
 		(uuid "9b1050d9-23a7-42e0-a399-6434dd750772")
-		(at 116.147346 93.246717 -90)
+		(at 116.824794 89.162109 -90)
 		(descr "Wide Small Outline package 300 mil")
 		(property "Reference" "IC2"
 			(at 0.127 0.9525 0)
@@ -11540,7 +11540,7 @@
 	(footprint "SOP28N"
 		(layer "F.Cu")
 		(uuid "9c8151e4-66f8-4c35-af77-3481aaf27f10")
-		(at 147.018146 90.281717 -90)
+		(at 147.695594 86.197109 -90)
 		(property "Reference" "IC5"
 			(at 1.2065 0 90)
 			(unlocked yes)
@@ -13515,7 +13515,7 @@
 	(footprint "Package_LCC:PLCC-44_THT-Socket"
 		(layer "F.Cu")
 		(uuid "b3dd0012-ce4d-42a1-bc67-bbb63b63b60a")
-		(at 90.628146 84.331717)
+		(at 90.463421 82.086002)
 		(descr "PLCC, 44 pins, through hole")
 		(tags "plcc leaded")
 		(property "Reference" "U2"
@@ -14768,7 +14768,7 @@
 	(footprint "LTL-4221NHBP:LTL4221NHBP"
 		(layer "F.Cu")
 		(uuid "b722edac-20a0-4f36-b418-24ab955ad34e")
-		(at 165.192115 100.55082)
+		(at 165.869563 96.466212)
 		(descr "LTL-4221NHBP-2")
 		(tags "LED")
 		(property "Reference" "D1"
@@ -15083,7 +15083,7 @@
 	(footprint "Connector_PinSocket_2.54mm:PinSocket_2x03_P2.54mm_Vertical"
 		(layer "F.Cu")
 		(uuid "b77c9426-0a19-418f-b889-3ff65f30b08f")
-		(at 173.048146 84.051717)
+		(at 173.725594 79.967109)
 		(descr "Through hole straight socket strip, 2x03, 2.54mm pitch, double cols (from Kicad 4.0.7), script generated")
 		(tags "Through hole socket strip THT 2x03 2.54mm double row")
 		(property "Reference" "J10"
@@ -16224,7 +16224,7 @@
 	(footprint "Connector_PinSocket_2.54mm:PinSocket_2x10_P2.54mm_Vertical"
 		(layer "F.Cu")
 		(uuid "ba3ec098-8a3f-4e27-9d59-28e5990982c5")
-		(at 180.668146 66.271717)
+		(at 181.345594 62.187109)
 		(descr "Through hole straight socket strip, 2x10, 2.54mm pitch, double cols (from Kicad 4.0.7), script generated")
 		(tags "Through hole socket strip THT 2x10 2.54mm double row")
 		(property "Reference" "J4"
@@ -16656,7 +16656,7 @@
 	(footprint "Package_DIP:DIP-28_W15.24mm"
 		(layer "F.Cu")
 		(uuid "bb12456c-b377-4529-afc0-b032bfc66358")
-		(at 74.008146 75.451717 90)
+		(at 73.843421 73.206002 90)
 		(descr "28-lead though-hole mounted DIP package, row spacing 15.24mm (600 mils)")
 		(tags "THT DIP DIL PDIP 2.54mm 15.24mm 600mil")
 		(property "Reference" "U11"
@@ -17188,7 +17188,7 @@
 	(footprint "SOP28N"
 		(layer "F.Cu")
 		(uuid "bed0fb63-768c-4d21-af3f-7de580c716c2")
-		(at 147.268146 69.231717 -90)
+		(at 147.945594 65.147109 -90)
 		(property "Reference" "IC5"
 			(at 1.2065 0 90)
 			(unlocked yes)
@@ -18875,7 +18875,7 @@
 	(footprint "SOP28N"
 		(layer "F.Cu")
 		(uuid "e97104c1-7c9b-4d2a-9b83-e04981867a8f")
-		(at 132.002146 90.466717 -90)
+		(at 132.679594 86.382109 -90)
 		(property "Reference" "IC5"
 			(at 1.2065 0 90)
 			(unlocked yes)
@@ -19709,7 +19709,7 @@
 	(footprint "Connector_PinSocket_2.54mm:PinSocket_2x03_P2.54mm_Vertical"
 		(layer "F.Cu")
 		(uuid "ec0cd7c5-f186-4057-8488-0f094651fa49")
-		(at 167.968146 84.051717)
+		(at 168.645594 79.967109)
 		(descr "Through hole straight socket strip, 2x03, 2.54mm pitch, double cols (from Kicad 4.0.7), script generated")
 		(tags "Through hole socket strip THT 2x03 2.54mm double row")
 		(property "Reference" "J9"
@@ -20868,7 +20868,7 @@
 	)
 	(gr_rect
 		(start 68 41)
-		(end 241 105)
+		(end 240 101)
 		(stroke
 			(width 0.05)
 			(type default)
@@ -20879,10 +20879,86 @@
 	)
 	(dimension
 		(type orthogonal)
+		(layer "Dwgs.User")
+		(uuid "30bb1f9e-3d3e-4aef-9543-04ce9c85fac9")
+		(pts
+			(xy 240 41) (xy 240 101)
+		)
+		(height 9)
+		(orientation 1)
+		(format
+			(prefix "")
+			(suffix "")
+			(units 3)
+			(units_format 0)
+			(precision 4)
+			(suppress_zeroes yes)
+		)
+		(style
+			(thickness 0.1)
+			(arrow_length 1.27)
+			(text_position_mode 0)
+			(arrow_direction outward)
+			(extension_height 0.58642)
+			(extension_offset 0.5)
+			(keep_text_aligned yes)
+		)
+		(gr_text "60"
+			(at 247.85 71 90)
+			(layer "Dwgs.User")
+			(uuid "30bb1f9e-3d3e-4aef-9543-04ce9c85fac9")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+	)
+	(dimension
+		(type orthogonal)
+		(layer "Dwgs.User")
+		(uuid "827f2a5b-bc5a-4f7e-b7c6-6147043d3c14")
+		(pts
+			(xy 240 101) (xy 68 101)
+		)
+		(height 9)
+		(orientation 0)
+		(format
+			(prefix "")
+			(suffix "")
+			(units 3)
+			(units_format 0)
+			(precision 4)
+			(suppress_zeroes yes)
+		)
+		(style
+			(thickness 0.1)
+			(arrow_length 1.27)
+			(text_position_mode 0)
+			(arrow_direction outward)
+			(extension_height 0.58642)
+			(extension_offset 0.5)
+			(keep_text_aligned yes)
+		)
+		(gr_text "172"
+			(at 154 108.85 0)
+			(layer "Dwgs.User")
+			(uuid "827f2a5b-bc5a-4f7e-b7c6-6147043d3c14")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+	)
+	(dimension
+		(type orthogonal)
 		(layer "Edge.Cuts")
 		(uuid "34fb1b91-f23f-4b5e-8f2d-0589bafb3659")
 		(pts
-			(xy 70 41) (xy 75.45 41.2)
+			(xy 68 41.2) (xy 75.45 41.2)
 		)
 		(height -2.15)
 		(orientation 0)
@@ -20903,8 +20979,8 @@
 			(extension_offset 0.5)
 			(keep_text_aligned yes)
 		)
-		(gr_text "5.45"
-			(at 72.725 37.7 0)
+		(gr_text "7.45"
+			(at 71.725 37.9 0)
 			(layer "Edge.Cuts")
 			(uuid "34fb1b91-f23f-4b5e-8f2d-0589bafb3659")
 			(effects
