@@ -9390,6 +9390,18 @@
 				(xyz -0 -0 180)
 			)
 		)
+		(model "/media/paula/Data/Repositories/LT6502/Schematics/EXP-TRANSPUTER/EXP-TRANSPUTER.step"
+			(hide yes)
+			(offset
+				(xyz 162.5 -26.5 -1.5)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz -0 -0 180)
+			)
+		)
 	)
 	(footprint "Capacitor_SMD:C_0805_2012Metric"
 		(layer "F.Cu")
@@ -64326,6 +64338,44 @@
 				(bold yes)
 			)
 			(justify left bottom)
+		)
+	)
+	(dimension
+		(type orthogonal)
+		(layer "F.SilkS")
+		(uuid "c227431c-d811-4a95-8f89-f855628c7ba5")
+		(pts
+			(xy 191.1 159.4) (xy 185.65 159.45)
+		)
+		(height -1.55)
+		(orientation 0)
+		(format
+			(prefix "")
+			(suffix "")
+			(units 3)
+			(units_format 0)
+			(precision 4)
+			(suppress_zeroes yes)
+		)
+		(style
+			(thickness 0.1)
+			(arrow_length 1.27)
+			(text_position_mode 0)
+			(arrow_direction outward)
+			(extension_height 0.58642)
+			(extension_offset 0.5)
+			(keep_text_aligned yes)
+		)
+		(gr_text "5.45"
+			(at 188.375 156.75 0)
+			(layer "F.SilkS")
+			(uuid "c227431c-d811-4a95-8f89-f855628c7ba5")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.1)
+				)
+			)
 		)
 	)
 	(dimension
