@@ -127,6 +127,7 @@
 			(psnegative no)
 			(psa4output no)
 			(plot_black_and_white yes)
+			(plotinvisibletext no)
 			(sketchpadsonfab no)
 			(plotpadnumbers no)
 			(hidednponfab no)
@@ -4596,13 +4597,13 @@
 	(footprint "LTL-4221NHBP:LTL4221NHBP"
 		(layer "F.Cu")
 		(uuid "3a9c343b-b970-4a9e-a2c1-c979e772ee5e")
-		(at 173.669563 96.460984)
+		(at 174.73 95.044772)
 		(descr "LTL-4221NHBP-2")
 		(tags "LED")
 		(property "Reference" "D2"
 			(at 1.27 2.45 0)
 			(layer "F.SilkS")
-			(uuid "372d52c6-3567-44b0-a375-70292ab20588")
+			(uuid "d8ca0ec1-6f42-469e-a660-ab02e5723c99")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4614,7 +4615,7 @@
 			(at 1.27 2.45 0)
 			(layer "F.SilkS")
 			(hide yes)
-			(uuid "313d2146-fe61-4a84-8ab7-f05608c0b2fc")
+			(uuid "99e7d64a-6ffa-4056-8281-525bd1d1bd11")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4626,7 +4627,7 @@
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "29654965-dfc0-4417-a6bc-49a94f61d42f")
+			(uuid "ac684701-fdf9-46bf-9e51-969bc253f294")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4638,7 +4639,7 @@
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "04a85946-c8a2-4835-bd29-528f2292cd61")
+			(uuid "86f84c9a-3c4f-4165-a923-8ba6b0a991ee")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7511,13 +7512,13 @@
 	(footprint "LTL-4221NHBP:LTL4221NHBP"
 		(layer "F.Cu")
 		(uuid "58916390-f38e-4767-9e9b-e010ccff0f26")
-		(at 181.169563 96.466212)
+		(at 182.23 95.05)
 		(descr "LTL-4221NHBP-2")
 		(tags "LED")
 		(property "Reference" "D1"
 			(at 1.27 2.45 0)
 			(layer "F.SilkS")
-			(uuid "f4e23b87-255a-4c0a-93b1-bf09fefd68f8")
+			(uuid "d7ed982a-daa8-457e-bb5b-cbb4675c6fc3")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7529,7 +7530,7 @@
 			(at 1.27 2.45 0)
 			(layer "F.SilkS")
 			(hide yes)
-			(uuid "db7adefe-9201-4266-b63b-eb8d96200af6")
+			(uuid "5e74aef1-360a-4d0a-bfea-784e56b5f5c4")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7541,7 +7542,7 @@
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "edb90004-8d03-489f-8bda-b40adf0a674b")
+			(uuid "9d5db2e4-8abc-4cc8-b398-a367beb635db")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7553,7 +7554,7 @@
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "069c41d0-b271-485f-ae34-727be0bc5e7c")
+			(uuid "bf129513-3b47-4657-b592-abd5cd11677d")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10372,13 +10373,13 @@
 	(footprint "LTL-4221NHBP:LTL4221NHBP"
 		(layer "F.Cu")
 		(uuid "9af1733b-52a4-481d-be0b-e41b736f632a")
-		(at 158.369563 96.460984)
+		(at 159.43 95.044772)
 		(descr "LTL-4221NHBP-2")
 		(tags "LED")
 		(property "Reference" "D2"
 			(at 1.27 2.45 0)
 			(layer "F.SilkS")
-			(uuid "6c97b472-d008-498d-9799-7dd792de93e5")
+			(uuid "0193d9dd-da98-46ac-8cdb-9112c0aa23bd")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10390,7 +10391,7 @@
 			(at 1.27 2.45 0)
 			(layer "F.SilkS")
 			(hide yes)
-			(uuid "f762ce14-bbd4-4360-8d30-2a961c833690")
+			(uuid "68050ed5-a80f-4083-ad96-d8ddd3babacb")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10402,7 +10403,7 @@
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "d7920b0b-4cd2-41b2-9463-ea7e33835bcf")
+			(uuid "27ebf604-0688-45f9-a08b-84451fcb84ed")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10414,7 +10415,7 @@
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "eaab989d-19c5-4b7f-a969-2106cd1fbff9")
+			(uuid "987f7094-5a6a-4920-b2f4-cab931d56383")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13515,7 +13516,7 @@
 	(footprint "Package_LCC:PLCC-44_THT-Socket"
 		(layer "F.Cu")
 		(uuid "b3dd0012-ce4d-42a1-bc67-bbb63b63b60a")
-		(at 90.463421 82.086002)
+		(at 89.77 80.65)
 		(descr "PLCC, 44 pins, through hole")
 		(tags "plcc leaded")
 		(property "Reference" "U2"
@@ -14768,13 +14769,13 @@
 	(footprint "LTL-4221NHBP:LTL4221NHBP"
 		(layer "F.Cu")
 		(uuid "b722edac-20a0-4f36-b418-24ab955ad34e")
-		(at 165.869563 96.466212)
+		(at 166.93 95.05)
 		(descr "LTL-4221NHBP-2")
 		(tags "LED")
 		(property "Reference" "D1"
 			(at 1.27 2.45 0)
 			(layer "F.SilkS")
-			(uuid "3a2a04a4-adaa-4a06-9d5d-bb920bbdbbf4")
+			(uuid "742fbc3c-fe48-48b5-987a-a054229773fe")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14786,7 +14787,7 @@
 			(at 1.27 2.45 0)
 			(layer "F.SilkS")
 			(hide yes)
-			(uuid "b0f35686-be2d-48ad-b10f-3111f3e17be1")
+			(uuid "5b1cc43b-e736-421a-9884-78b280967459")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14798,7 +14799,7 @@
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "cdd65c87-f237-4d79-83b0-8efa15372223")
+			(uuid "c129f4a4-989d-460b-8dd5-cd73fc205fcf")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14810,7 +14811,7 @@
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "7c8eb91f-e2b4-434e-98a2-a47cf17206a3")
+			(uuid "e687379e-0993-4a6f-a4cc-077438dc94ca")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16656,7 +16657,7 @@
 	(footprint "Package_DIP:DIP-28_W15.24mm"
 		(layer "F.Cu")
 		(uuid "bb12456c-b377-4529-afc0-b032bfc66358")
-		(at 73.843421 73.206002 90)
+		(at 73.15 71.77 90)
 		(descr "28-lead though-hole mounted DIP package, row spacing 15.24mm (600 mils)")
 		(tags "THT DIP DIL PDIP 2.54mm 15.24mm 600mil")
 		(property "Reference" "U11"
@@ -20866,16 +20867,65 @@
 			)
 		)
 	)
-	(gr_rect
+	(gr_line
 		(start 68 41)
-		(end 240 101)
+		(end 68 101)
 		(stroke
 			(width 0.05)
 			(type default)
 		)
-		(fill no)
 		(layer "Edge.Cuts")
-		(uuid "3e7d11b6-f4c2-4a79-b7d8-7fcb0979901b")
+		(uuid "0081faee-ce58-4f78-a7f3-9553fa88993c")
+	)
+	(gr_line
+		(start 68 101)
+		(end 233 101)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "Edge.Cuts")
+		(uuid "024f2361-cd59-409f-942b-fdef147f121f")
+	)
+	(gr_line
+		(start 240 96.5)
+		(end 240 41)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "Edge.Cuts")
+		(uuid "49ea742b-fd7f-403c-b864-6f9e40cc369e")
+	)
+	(gr_line
+		(start 240 96.5)
+		(end 233 96.5)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "Edge.Cuts")
+		(uuid "72596b50-c10b-465f-9e6c-cfc31df1aa85")
+	)
+	(gr_line
+		(start 240 41)
+		(end 68 41)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "Edge.Cuts")
+		(uuid "936aad20-542b-4db1-813f-e0780fdfcd3e")
+	)
+	(gr_line
+		(start 233 101)
+		(end 233 96.5)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "Edge.Cuts")
+		(uuid "987fd267-b9eb-4ed9-8223-4e364db3bd82")
 	)
 	(dimension
 		(type orthogonal)
@@ -20945,6 +20995,82 @@
 			(at 154 108.85 0)
 			(layer "Dwgs.User")
 			(uuid "827f2a5b-bc5a-4f7e-b7c6-6147043d3c14")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+	)
+	(dimension
+		(type orthogonal)
+		(layer "Dwgs.User")
+		(uuid "9b7891b8-f519-47e7-98d3-9c1a47a208ea")
+		(pts
+			(xy 240 101) (xy 233 101)
+		)
+		(height 4.5)
+		(orientation 0)
+		(format
+			(prefix "")
+			(suffix "")
+			(units 3)
+			(units_format 0)
+			(precision 4)
+			(suppress_zeroes yes)
+		)
+		(style
+			(thickness 0.1)
+			(arrow_length 1.27)
+			(text_position_mode 0)
+			(arrow_direction outward)
+			(extension_height 0.58642)
+			(extension_offset 0.5)
+			(keep_text_aligned yes)
+		)
+		(gr_text "7"
+			(at 236.5 104.35 0)
+			(layer "Dwgs.User")
+			(uuid "9b7891b8-f519-47e7-98d3-9c1a47a208ea")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+	)
+	(dimension
+		(type orthogonal)
+		(layer "Dwgs.User")
+		(uuid "e9a7a20f-38d9-4166-8f0f-b6803ec1ce24")
+		(pts
+			(xy 240 101) (xy 240 96.5)
+		)
+		(height 4.5)
+		(orientation 1)
+		(format
+			(prefix "")
+			(suffix "")
+			(units 3)
+			(units_format 0)
+			(precision 4)
+			(suppress_zeroes yes)
+		)
+		(style
+			(thickness 0.1)
+			(arrow_length 1.27)
+			(text_position_mode 0)
+			(arrow_direction outward)
+			(extension_height 0.58642)
+			(extension_offset 0.5)
+			(keep_text_aligned yes)
+		)
+		(gr_text "4.5"
+			(at 243.35 98.75 90)
+			(layer "Dwgs.User")
+			(uuid "e9a7a20f-38d9-4166-8f0f-b6803ec1ce24")
 			(effects
 				(font
 					(size 1 1)
