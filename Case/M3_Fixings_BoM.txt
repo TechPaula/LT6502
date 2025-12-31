@@ -1,0 +1,7 @@
+M3 heat-fix threaded inserts x 14
+M3 20mm x 4
+M3 30mm x 4
+M3 6mm x 6
+M3 15mm spacer x 4
+M3 washer x 4
+
