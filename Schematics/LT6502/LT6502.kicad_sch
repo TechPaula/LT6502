@@ -3699,7 +3699,7 @@
 		)
 		(uuid "28e8a834-81a1-4fbc-b82f-b09030834fa9")
 	)
-	(text_box "V1.0-V1.1 Changes\nAdded cutout for reset switch\nAdded cutout for LS1 and moved it\nExpanded pads on L2 for ease of soldering\nChange R46 to 51K\nChange R47 to 120K\nAdded Pull ups to SLOW0 and SLOW1\nAdd Display Data Enable line"
+	(text_box "V1.0-V1.1 Changes\nAdded cutout for reset switch\nAdded cutout for LS1 and moved it\nExpanded pads on L2 for ease of soldering\nChange R46 to 51K\nChange R47 to 120K\nAdded Pull ups to SLOW0 and SLOW1\nAdd Display Data Enable line\nNote CF_nCS and CF_nRES are swapped (oops), fixed in CPLD"
 		(exclude_from_sim no)
 		(at 179.07 238.76 0)
 		(size 100.33 38.1)
