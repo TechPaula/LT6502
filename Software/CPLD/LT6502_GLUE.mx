@@ -16,8 +16,8 @@ Device	  f1508isptqfp100;
 /* SYSTEM signals */
 Pin 87 = CLK;       /* MAIN OSC CLOCK IN */
 Pin 93 = !RESET;    /* GLOBAL RESET IN */
-Pin 84 = Q0;        /* Sent to expansion header, CLK/2 OUT (not stretched) */
-Pin 83 = CLK_OUT;   /* sent to expansion header OUT */
+Pin 84 = CLK_OUT;   /* Sent to expansion header, WAS Q0 but VIA/ACIA connected to pin 83, oops */
+Pin 83 = Q0;        /* sent to expansion header OUT, NOW CLK/2 */
 
 Pin 96 = !SLOW0;    /* CPU Clock Slow bit 0, INPUT */
 Pin 97 = !SLOW1;    /* CPU Clock Slow bit 1, INPUT */
@@ -49,6 +49,28 @@ Pin 47 = WR_FT;            /* OUTPUT */
 Pin 49 = RXF;	             /* BIT 0 of 6850 register, INPUT */
 Pin 50 = TXE;	             /* BIT 1 of 6850 register, INPUT */
                            /* Had to swap pin 49/50, no idea why */
+
+/* 65C22 VIA */
+Pin 76 = !VIA_nCS;
+
+
+/* Expansion card */
+Pin 78 = !EXP_nCS;
+
+
+/* Compact Flash */
+Pin 80 = !CF_nRES;       /* OUT, was nCS, but I swapped pins on the schematic, DOH! */
+Pin 81 = !CF_nCS;        /* OUT, was nRES, but I swapped pins on the schematic, DOH! */
+
+
+/* Keyboard Serial port, 65C51 */
+Pin 77 = !ACIA_nCS;
+
+
+/* Display */
+Pin 98 = !DISP_nCS;
+Pin 27 = DISP_DATA_EN;
+Pin  6 = DISP_BL;
 
 
 /* Address bus all are INPUT */
@@ -133,10 +155,6 @@ PHI2.D = !PHI2
 
 
 
-
-
-
-
 /* FT245 Serial port 0xBFF0 - 0xBFFF */			
 FT_CS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & A5 & A4;
 
@@ -144,15 +162,43 @@ RD_FT = PHI2 & FT_CS & A0 &  RnW;		/* 0xBFF1 */
 WR_FT = PHI2 & FT_CS & A0 & !RnW;		/* 0xBFF1 */ 
 
 D0.oe = FT_CS & !A0 & RnW; 			/* 0xBFF0 */
+
 D1.oe = FT_CS & !A0 & RnW; 			/* 0xBFF0 */
 
 D0 = !RXF;				
 D1 = !TXE;			
 
 
+/* Keyboard Serial port, 6551, 0xBFE0 - 0xBFEF */
+ACIA_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & A5 & !A4;
+ 
+/***********************/
+/* GAP 0xBFF0 - 0xBFCF */
+/***********************/
+
+/* Display 0xBFD0 - 0xBFDF */
+DISP_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & !A5 & A4;
+DISP_DATA_EN = DISP_nCS;
+DISP_BL = 'b'1;
+
+
+/* Onboard VIA 65c22 0xBFC0 - 0xBFCF */
+VIA_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & !A5 & !A4;
+
+
+/* Compact Flash 0xBFB0 - 0xBFBF */
+CF_nCS  = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & !A6 & A5 & A4;
+CF_nRES = RESET;
+
+
+/* Expansion Slot 0xBE00 - 0xBEFF*/
+EXP_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & !A8   &   !A7 & !A6 & !A5 & !A4;
+
+
 /* ROM 0xC000 - 0xFFFF */
 ROM_nR  = A15 & A14;   /* ROM Read address */
 ROM_nCS = 'b'1;        /* ROM chip select always active */
+
 
 /* RAM bank 0 0x0000 - 0x7FFF */			
 RAM_nCS0 = !A15;	
@@ -160,11 +206,14 @@ RW = PHI2 & !RnW;
 RD = PHI2 & RnW;
 
 /* RAM bank 1 0x8000 - 0xBDFF */
-RAM_nCS1 = A15 & !A14 & !FT_CS;
+RAM_nCS1 = A15 & !A14 & !FT_CS & !ACIA_nCS & !DISP_nCS & !VIA_nCS & !CF_nCS & !EXP_nCS;
+
 
 /* system wide logic */
 CLK_OUT = CLK;
 LED = FT_CS;
+
+
 
 /* END OF FILE */
 /*****************************************************/

@@ -2,6 +2,7 @@ CHIP "D:\REPOSITORIES\LT6502\SOFTWARE\CPLD\LT6502_GLUE"
 BEGIN
 
     DEVICE = "TQFP100";
+    "DISP_nCS"                                : OUTPUT_PIN = 98 ;
     "SLOW1"                                   : INPUT_PIN = 97 ;
     "SLOW0"                                   : INPUT_PIN = 96 ;
     "LED"                                     : OUTPUT_PIN = 94 ;
@@ -15,6 +16,7 @@ BEGIN
     "A13"                                     : INPUT_PIN = 9 ;
     "A14"                                     : INPUT_PIN = 8 ;
     "A15"                                     : INPUT_PIN = 7 ;
+    "DISP_BL"                                 : OUTPUT_PIN = 6 ;
     "TDI"                                     : INPUT_PIN = 4 ;
     "A0"                                      : INPUT_PIN = 25 ;
     "A4"                                      : INPUT_PIN = 21 ;
@@ -25,6 +27,7 @@ BEGIN
     "TMS"                                     : INPUT_PIN = 15 ;
     "RD"                                      : OUTPUT_PIN = 37 ;
     "RW"                                      : OUTPUT_PIN = 36 ;
+    "DISP_DATA_EN"                            : OUTPUT_PIN = 27 ;
     "RAM_nCS1"                                : OUTPUT_PIN = 40 ;
     "RAM_nCS0"                                : OUTPUT_PIN = 42 ;
     "ROM_nR"                                  : OUTPUT_PIN = 45 ;
@@ -38,8 +41,13 @@ BEGIN
     "TCK"                                     : INPUT_PIN = 62 ;
     "TDO"                                     : INPUT_PIN = 73 ;
     "PHI2"                                    : OUTPUT_PIN = 75 ;
-    "CLK_OUT"                                 : OUTPUT_PIN = 83 ;
-    "Q0"                                      : OUTPUT_PIN = 84 ;
+    "VIA_nCS"                                 : OUTPUT_PIN = 76 ;
+    "ACIA_nCS"                                : OUTPUT_PIN = 77 ;
+    "EXP_nCS"                                 : OUTPUT_PIN = 78 ;
+    "CF_nRES"                                 : OUTPUT_PIN = 80 ;
+    "CF_nCS"                                  : OUTPUT_PIN = 81 ;
+    "Q0"                                      : OUTPUT_PIN = 83 ;
+    "CLK_OUT"                                 : OUTPUT_PIN = 84 ;
     "RnW"                                     : INPUT_PIN = 90 ;
     "CLK"                                     : INPUT_PIN = 87 ;
 END;

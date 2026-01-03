@@ -1,4 +1,5 @@
 CHIP "D:\REPOSITORIES\LT6502\SOFTWARE\CPLD\LT6502_GLUE" ASSIGNED TO AN TQFP100
+DISP_nCS					: 98
 SLOW1					: 97
 SLOW0					: 96
 LED					: 94
@@ -12,6 +13,7 @@ A12					: 10
 A13					: 9
 A14					: 8
 A15					: 7
+DISP_BL					: 6
 TDI					: 4
 A0					: 25
 A4					: 21
@@ -22,6 +24,7 @@ A8					: 16
 TMS					: 15
 RD					: 37
 RW					: 36
+DISP_DATA_EN					: 27
 RAM_nCS1					: 40
 RAM_nCS0					: 42
 ROM_nR					: 45
@@ -35,7 +38,12 @@ D0					: 60
 TCK					: 62
 TDO					: 73
 PHI2					: 75
-CLK_OUT					: 83
-Q0					: 84
+VIA_nCS					: 76
+ACIA_nCS					: 77
+EXP_nCS					: 78
+CF_nRES					: 80
+CF_nCS					: 81
+Q0					: 83
+CLK_OUT					: 84
 RnW					: 90
 CLK					: 87

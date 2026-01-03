@@ -1,4 +1,4 @@
-Atmel ATF1508AS Fitter Version 1.8.7.8 ,running Sat Jan 03 12:27:03 2026
+Atmel ATF1508AS Fitter Version 1.8.7.8 ,running Sat Jan 03 17:02:30 2026
 
 
 fit1508 D:\REPOSITORIES\LT6502\SOFTWARE\CPLD\LT6502_GLUE.tt2 -CUPL -dev P1508T100 -JTAG ON
@@ -51,6 +51,10 @@ fit1508 D:\REPOSITORIES\LT6502\SOFTWARE\CPLD\LT6502_GLUE.tt2 -CUPL -dev P1508T10
 ---------------------------------------------------------
  Fitter_Pass 1, Preassign = KEEP, LOGIC_DOUBLING : OFF 
  ... 
+ ## Warning : Placement fail 
+---------------------------------------------------------
+ Fitter_Pass 2, Preassign = KEEP, CASCADE_LOGIC : (TRY) 
+ ... 
 
 Performing global Output Enable pin assignments ...
 
@@ -72,6 +76,7 @@ CLK assigned to pin  87
 
 Attempt to place floating signals ...
 ------------------------------------
+DISP_nCS is placed at pin 98 (MC 8)
 SLOW1 is placed at pin 97 (MC 9)
 SLOW0 is placed at pin 96 (MC 11)
 LED is placed at pin 94 (MC 13)
@@ -85,6 +90,7 @@ A12 is placed at pin 10 (MC 22)
 A13 is placed at pin 9 (MC 24)
 A14 is placed at pin 8 (MC 25)
 A15 is placed at pin 7 (MC 27)
+DISP_BL is placed at pin 6 (MC 29)
 TDI is placed at pin 4 (MC 32)
 A0 is placed at pin 25 (MC 33)
 A4 is placed at pin 21 (MC 40)
@@ -95,6 +101,7 @@ A8 is placed at pin 16 (MC 46)
 TMS is placed at pin 15 (MC 48)
 RD is placed at pin 37 (MC 49)
 RW is placed at pin 36 (MC 51)
+DISP_DATA_EN is placed at pin 27 (MC 64)
 RAM_nCS1 is placed at pin 40 (MC 65)
 RAM_nCS0 is placed at pin 42 (MC 69)
 ROM_nR is placed at pin 45 (MC 72)
@@ -103,25 +110,32 @@ WR_FT is placed at pin 47 (MC 75)
 RD_FT is placed at pin 48 (MC 77)
 RXF is placed at pin 49 (MC 78)
 TXE is placed at pin 50 (MC 80)
+XXL_72 is placed at foldback expander node 380 (MC 80)
 D1 is placed at pin 58 (MC 91)
 D0 is placed at pin 60 (MC 93)
 TCK is placed at pin 62 (MC 96)
 TDO is placed at pin 73 (MC 112)
 PHI2 is placed at pin 75 (MC 113)
-CLK_OUT is placed at pin 83 (MC 125)
-Q0 is placed at pin 84 (MC 126)
+VIA_nCS is placed at pin 76 (MC 115)
+ACIA_nCS is placed at pin 77 (MC 117)
+EXP_nCS is placed at pin 78 (MC 118)
+CF_nRES is placed at pin 80 (MC 121)
+CF_nCS is placed at pin 81 (MC 123)
+Q0 is placed at pin 83 (MC 125)
+CLK_OUT is placed at pin 84 (MC 126)
 
                                                                                              
                                                                                              
                                                                                              
                                                                                              
-                                                      C                                      
-                                                      L                                      
-                          S S     R                   K                                      
-                          L L     E                   _                                      
-                          O O G L S   V R     C G     O V                                    
-                          W W N E E   C n     L N   Q U C                                    
-                          1 0 D D T   C W     K D   0 T C                                    
+                        D                                         A                          
+                        I                           C       C   E C V                        
+                        S                           L     C F   X I I                        
+                        P S S     R                 K     F _   P A A                        
+                        _ L L     E                 _     _ n   _ _ _                        
+                        n O O G L S   V R     C G   O   V n R   n n n                        
+                        C W W N E E   C n     L N   U Q C C E   C C C                        
+                        S 1 0 D D T   C W     K D   T 0 C S S   S S S                        
                   ------------------------------------------------------                     
                  / 100  98  96  94  92  90  88  86  84  82  80  78  76  \                   
                 /     99  97  95  93  91  89  87  85  83  81  79  77     \                  
@@ -130,7 +144,7 @@ Q0 is placed at pin 84 (MC 126)
            VCC | 3                                                     73 | TDO              
            TDI | 4                                                     72 |                  
                | 5                                                     71 |                  
-               | 6                                                     70 |                  
+       DISP_BL | 6                                                     70 |                  
            A15 | 7                                                     69 |                  
            A14 | 8                                                     68 |                  
            A13 | 9                                                     67 |                  
@@ -153,14 +167,18 @@ Q0 is placed at pin 84 (MC 126)
                 \     27  29  31  33  35  37  39  41  43  45   47  49    /                  
                  \  26  28  30  32  34  36  38  40  42  44  46  48   50 /                   
                   ------------------------------------------------------                     
-T                   G               V   R R G V R   R G   R R W R R                          
-X                   N               C   W D N C A   A N   O O R D X                          
-E                   D               C       D C M   M D   M M _ _ F                          
-                                                _   _     _ _ F F                            
-                                                n   n     n n T T                            
-                                                C   C     R C                                
-                                                S   S       S                                
-                                                1   0                                        
+T                   G D             V   R R G V R   R G   R R W R R                          
+X                   N I             C   W D N C A   A N   O O R D X                          
+E                   D S             C       D C M   M D   M M _ _ F                          
+                      P                         _   _     _ _ F F                            
+                      _                         n   n     n n T T                            
+                      D                         C   C     R C                                
+                      A                         S   S       S                                
+                      T                         1   0                                        
+                      A                                                                      
+                      _                                                                      
+                      E                                                                      
+                      N                                                                      
 
 
 
@@ -176,64 +194,75 @@ Universal-Interconnect-Multiplexer assignments
 ------------------------------------------------
 FanIn assignment for block A [19]
 {
-A15,A7,A12,A13,A11,A14,A5,A8,A10,A6,A4,A9,
+A15,A12,A13,A11,A5,A6,A8,A10,A4,A14,A9,A7,
 PHI2,
 Q0,Q2,Q1,
 RESET,
 SLOW1,SLOW0,
 }
 Multiplexer assignment for block A
-SLOW1			(MC18	P)   : MUX 0		Ref (A9p)
 A15			(MC16	P)   : MUX 2		Ref (B27p)
-A7			(MC8	P)   : MUX 4		Ref (C45p)
+Q0			(MC4	P)   : MUX 4		Ref (H125p)
 PHI2			(MC3	P)   : MUX 5		Ref (H113p)
-SLOW0			(MC19	P)   : MUX 6		Ref (A11p)
 A12			(MC13	P)   : MUX 7		Ref (B22p)
+SLOW1			(MC18	P)   : MUX 8		Ref (A9p)
 A13			(MC14	P)   : MUX 9		Ref (B24p)
+SLOW0			(MC19	P)   : MUX 10		Ref (A11p)
 A11			(MC12	P)   : MUX 11		Ref (B21p)
-RESET			(MC17	P)   : MUX 12		Ref (A14p)
-A14			(MC15	P)   : MUX 14		Ref (B25p)
 A5			(MC6	P)   : MUX 16		Ref (C41p)
+A6			(MC7	P)   : MUX 18		Ref (C43p)
 A8			(MC9	P)   : MUX 20		Ref (C46p)
+RESET			(MC17	P)   : MUX 22		Ref (A14p)
 A10			(MC11	P)   : MUX 27		Ref (B19p)
-A6			(MC7	P)   : MUX 28		Ref (C43p)
 A4			(MC5	P)   : MUX 29		Ref (C40p)
-Q0			(MC4	P)   : MUX 30		Ref (H126p)
+A14			(MC15	P)   : MUX 30		Ref (B25p)
 A9			(MC10	P)   : MUX 33		Ref (B17p)
+A7			(MC8	P)   : MUX 34		Ref (C45p)
 Q2			(MC2	FB)  : MUX 37		Ref (A15fb)
 Q1			(MC1	FB)  : MUX 39		Ref (A14fb)
 
-FanIn assignment for block D [2]
+FanIn assignment for block D [3]
 {
+DISP_nCS,
 PHI2,
 RnW,
 }
 Multiplexer assignment for block D
-RnW			(MC2	FB)  : MUX 4		Ref (OE2)
-PHI2			(MC1	P)   : MUX 5		Ref (H113p)
+DISP_nCS		(MC1	P)   : MUX 3		Ref (A8p)
+RnW			(MC3	FB)  : MUX 4		Ref (OE2)
+PHI2			(MC2	P)   : MUX 5		Ref (H113p)
 
-FanIn assignment for block E [15]
+FanIn assignment for block E [20]
 {
-A15,A13,A0,A6,A10,A12,A14,A9,A5,A7,A8,A4,A11,
+A15,A5,A0,A12,A13,A6,A10,A14,A9,A11,A7,A4,A8,ACIA_nCS,
+CF_nCS,
+DISP_nCS,
+EXP_nCS,
 PHI2,
 RnW,
+VIA_nCS,
 }
 Multiplexer assignment for block E
-A15			(MC13	P)   : MUX 2		Ref (B27p)
-A13			(MC11	P)   : MUX 3		Ref (B24p)
-RnW			(MC14	FB)  : MUX 4		Ref (OE2)
-A0			(MC15	P)   : MUX 5		Ref (C33p)
-A6			(MC4	P)   : MUX 10		Ref (C43p)
-A10			(MC8	P)   : MUX 11		Ref (B19p)
-A12			(MC10	P)   : MUX 13		Ref (B22p)
-A14			(MC12	P)   : MUX 14		Ref (B25p)
-A9			(MC7	P)   : MUX 15		Ref (B17p)
-A5			(MC3	P)   : MUX 16		Ref (C41p)
-A7			(MC5	P)   : MUX 18		Ref (C45p)
-A8			(MC6	P)   : MUX 20		Ref (C46p)
-A4			(MC2	P)   : MUX 21		Ref (C40p)
-A11			(MC9	P)   : MUX 31		Ref (B21p)
-PHI2			(MC1	P)   : MUX 33		Ref (H113p)
+A15			(MC18	P)   : MUX 0		Ref (B27p)
+A5			(MC8	P)   : MUX 2		Ref (C41p)
+DISP_nCS		(MC1	P)   : MUX 3		Ref (A8p)
+A0			(MC20	P)   : MUX 5		Ref (C33p)
+A12			(MC15	P)   : MUX 7		Ref (B22p)
+CF_nCS			(MC6	P)   : MUX 8		Ref (H123p)
+A13			(MC16	P)   : MUX 9		Ref (B24p)
+A6			(MC9	P)   : MUX 10		Ref (C43p)
+A10			(MC13	P)   : MUX 11		Ref (B19p)
+VIA_nCS			(MC3	P)   : MUX 13		Ref (H115p)
+A14			(MC17	P)   : MUX 14		Ref (B25p)
+A9			(MC12	P)   : MUX 15		Ref (B17p)
+RnW			(MC19	FB)  : MUX 16		Ref (OE2)
+A11			(MC14	P)   : MUX 17		Ref (B21p)
+A7			(MC10	P)   : MUX 18		Ref (C45p)
+A4			(MC7	P)   : MUX 21		Ref (C40p)
+EXP_nCS			(MC5	P)   : MUX 25		Ref (H118p)
+A8			(MC11	P)   : MUX 26		Ref (C46p)
+ACIA_nCS		(MC4	P)   : MUX 31		Ref (H117p)
+PHI2			(MC2	P)   : MUX 33		Ref (H113p)
 
 FanIn assignment for block F [16]
 {
@@ -259,34 +288,59 @@ A10			(MC7	P)   : MUX 27		Ref (B19p)
 A14			(MC11	P)   : MUX 30		Ref (B25p)
 A11			(MC8	P)   : MUX 31		Ref (B21p)
 
-FanIn assignment for block H [6]
+FanIn assignment for block H [18]
 {
+A15,A12,A10,A6,A11,A5,A8,A13,A4,A14,A9,A7,
 CLK,
 PHI2,
-Q2,Q0,Q1,
+Q0,Q2,Q1,
 RESET,
 }
 Multiplexer assignment for block H
-Q2			(MC2	FB)  : MUX 5		Ref (A15fb)
-Q0			(MC4	P)   : MUX 6		Ref (H126p)
-RESET			(MC5	P)   : MUX 8		Ref (A14p)
-Q1			(MC1	FB)  : MUX 9		Ref (A14fb)
-PHI2			(MC3	P)   : MUX 11		Ref (H113p)
-CLK			(MC6	FB)  : MUX 39		Ref (GCLK)
+A15			(MC16	P)   : MUX 2		Ref (B27p)
+Q0			(MC4	P)   : MUX 4		Ref (H125p)
+PHI2			(MC3	P)   : MUX 5		Ref (H113p)
+A12			(MC13	P)   : MUX 7		Ref (B22p)
+RESET			(MC17	P)   : MUX 8		Ref (A14p)
+A10			(MC11	P)   : MUX 9		Ref (B19p)
+A6			(MC7	P)   : MUX 10		Ref (C43p)
+A11			(MC12	P)   : MUX 11		Ref (B21p)
+A5			(MC6	P)   : MUX 16		Ref (C41p)
+A8			(MC9	P)   : MUX 20		Ref (C46p)
+CLK			(MC18	FB)  : MUX 23		Ref (GCLK)
+A13			(MC14	P)   : MUX 25		Ref (B24p)
+A4			(MC5	P)   : MUX 29		Ref (C40p)
+A14			(MC15	P)   : MUX 30		Ref (B25p)
+A9			(MC10	P)   : MUX 33		Ref (B17p)
+A7			(MC8	P)   : MUX 34		Ref (C45p)
+Q2			(MC2	FB)  : MUX 37		Ref (A15fb)
+Q1			(MC1	FB)  : MUX 39		Ref (A14fb)
 
 Creating JEDEC file D:\REPOSITORIES\LT6502\SOFTWARE\CPLD\LT6502_GLUE.jed ...
 
 TQFP100 programmed logic:
 -----------------------------------
+!CF_nCS = (A4 & A5 & !A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15);
+
+CF_nRES = RESET;
+
+!ACIA_nCS = (!A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15);
+
 CLK_OUT = CLK;
 
 D0 = !RXF;
 
 D1 = !TXE;
 
+DISP_BL = 1;
+
 !LED = (A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15);
 
 !PHI2.D = (PHI2.Q & Q0.Q & Q1.Q & Q2.Q);
+
+!DISP_nCS = (A4 & !A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15);
+
+!EXP_nCS = (!A4 & !A5 & !A6 & !A7 & !A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15);
 
 !Q0.D = (PHI2.Q & Q0.Q);
 
@@ -299,23 +353,30 @@ Q2.D = ((PHI2.Q & !Q1.Q & Q2.Q)
 	# (PHI2.Q & Q1.Q & !Q2.Q & Q0.Q)
 	# (!PHI2.Q & SLOW1));
 
-RAM_nCS0 = A15;
-
-RAM_nCS1 = (!A15
-	# (A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13)
-	# A14);
-
 !RD = (PHI2.Q & RnW);
+
+ROM_nCS = 0;
+
+RAM_nCS0 = A15;
 
 !RD_FT = (A0 & A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15 & PHI2.Q & RnW);
 
-ROM_nCS = 0;
+!VIA_nCS = (!A4 & !A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15);
 
 !ROM_nR = (A14 & A15);
 
 !RW = (PHI2.Q & !RnW);
 
 WR_FT = (A0 & A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15 & PHI2.Q & !RnW);
+
+DISP_DATA_EN = !DISP_nCS;
+
+RAM_nCS1 = (!EXP_nCS
+	# !VIA_nCS
+	# (A13 & A12 & A11 & A10 & A9 & A8 & A7 & A6 & A5 & A4)
+	# XXL_72);
+
+!XXL_72 = (ACIA_nCS & CF_nCS & DISP_nCS & !A14 & A15);
 
 D0.OE = (!A0 & A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15 & RnW);
 
@@ -341,6 +402,7 @@ Q2.AR = !RESET;
 TQFP100 Pin/Node Placement:
 ------------------------------------
 Pin 4  = TDI; /* MC 32 */
+Pin 6  = DISP_BL; /* MC 29 */
 Pin 7  = A15; /* MC 27 */
 Pin 8  = A14; /* MC 25 */
 Pin 9  = A13; /* MC 24 */
@@ -355,6 +417,7 @@ Pin 19 = A6; /* MC 43 */
 Pin 20 = A5; /* MC 41 */ 
 Pin 21 = A4; /* MC 40 */ 
 Pin 25 = A0; /* MC 33 */ 
+Pin 27 = DISP_DATA_EN; /* MC 64 */ 
 Pin 36 = RW; /* MC 51 */ 
 Pin 37 = RD; /* MC 49 */ 
 Pin 40 = RAM_nCS1; /* MC 65 */ 
@@ -370,14 +433,21 @@ Pin 60 = D0; /* MC 93 */
 Pin 62 = TCK; /* MC 96 */ 
 Pin 73 = TDO; /* MC 112 */ 
 Pin 75 = PHI2; /* MC 113 */ 
-Pin 83 = CLK_OUT; /* MC 125 */ 
-Pin 84 = Q0; /* MC 126 */ 
+Pin 76 = VIA_nCS; /* MC 115 */ 
+Pin 77 = ACIA_nCS; /* MC 117 */ 
+Pin 78 = EXP_nCS; /* MC 118 */ 
+Pin 80 = CF_nRES; /* MC 121 */ 
+Pin 81 = CF_nCS; /* MC 123 */ 
+Pin 83 = Q0; /* MC 125 */ 
+Pin 84 = CLK_OUT; /* MC 126 */ 
 Pin 87 = CLK;
 Pin 90 = RnW;
 Pin 93 = RESET; /* MC 14 */ 
 Pin 94 = LED; /* MC 13 */ 
 Pin 96 = SLOW0; /* MC 11 */ 
 Pin 97 = SLOW1; /* MC  9 */
+Pin 98 = DISP_nCS; /* MC  8 */
+PINNODE 380 = XXL_72; /* MC 80 Foldback */
 PINNODE 614 = Q1; /* MC 14 Feedback */
 PINNODE 615 = Q2; /* MC 15 Feedback */
 
@@ -398,160 +468,160 @@ DCERP Field = Summary of Allocations.
 
 For input only = INPUT.
 
-MCell Pin# Oe   PinDrive  DCERP  FBDrive  DCERP  Foldback  CascadeOut     TotPT output_slew
-MC1   2         --               --              --        --             0     slow
-MC2   0         --               --              --        --             0     slow
-MC3   1         --               --              --        --             0     slow
-MC4   0         --               --              --        --             0     slow
-MC5   100       --               --              --        --             0     slow
-MC6   99        --               --              --        --             0     slow
-MC7   0         --               --              --        --             0     slow
-MC8   98        --               --              --        --             0     slow
-MC9   97   --   SLOW1     INPUT  --              --        --             0     slow
-MC10  0         --               --              --        --             0     slow
-MC11  96   --   SLOW0     INPUT  --              --        --             0     slow
-MC12  0         --               --              --        --             0     slow
-MC13  94   on   LED       C----  --              --        --             1     slow
-MC14  93   --   RESET     INPUT  Q1       Dg-r-  --        --             4     slow
-MC15  0         --               Q2       Dg-r-  NA        --             5     slow
-MC16  92        --               --              --        --             0     slow
-MC17  14   --   A9        INPUT  --              --        --             0     slow
-MC18  0         --               --              --        --             0     slow
-MC19  13   --   A10       INPUT  --              --        --             0     slow
-MC20  0         --               --              --        --             0     slow
-MC21  12   --   A11       INPUT  --              --        --             0     slow
-MC22  10   --   A12       INPUT  --              --        --             0     slow
-MC23  0         --               --              --        --             0     slow
-MC24  9    --   A13       INPUT  --              --        --             0     slow
-MC25  8    --   A14       INPUT  --              --        --             0     slow
-MC26  0         --               --              --        --             0     slow
-MC27  7    --   A15       INPUT  --              --        --             0     slow
-MC28  0         --               --              --        --             0     slow
-MC29  6         --               --              --        --             0     slow
-MC30  5         --               --              --        --             0     slow
-MC31  0         --               --              --        --             0     slow
-MC32  4    --   TDI       INPUT  --              --        --             0     slow
-MC33  25   --   A0        INPUT  --              --        --             0     slow
-MC34  0         --               --              --        --             0     slow
-MC35  24        --               --              --        --             0     slow
-MC36  0         --               --              --        --             0     slow
-MC37  23        --               --              --        --             0     slow
-MC38  22        --               --              --        --             0     slow
-MC39  0         --               --              --        --             0     slow
-MC40  21   --   A4        INPUT  --              --        --             0     slow
-MC41  20   --   A5        INPUT  --              --        --             0     slow
-MC42  0         --               --              --        --             0     slow
-MC43  19   --   A6        INPUT  --              --        --             0     slow
-MC44  0         --               --              --        --             0     slow
-MC45  17   --   A7        INPUT  --              --        --             0     slow
-MC46  16   --   A8        INPUT  --              --        --             0     slow
-MC47  0         --               --              --        --             0     slow
-MC48  15   --   TMS       INPUT  --              --        --             0     slow
-MC49  37   on   RD        C----  --              --        --             1     slow
-MC50  0         --               --              --        --             0     slow
-MC51  36   on   RW        C----  --              --        --             1     slow
-MC52  0         --               --              --        --             0     slow
-MC53  35        --               --              --        --             0     slow
-MC54  33        --               --              --        --             0     slow
-MC55  0         --               --              --        --             0     slow
-MC56  32        --               --              --        --             0     slow
-MC57  31        --               --              --        --             0     slow
-MC58  0         --               --              --        --             0     slow
-MC59  30        --               --              --        --             0     slow
-MC60  0         --               --              --        --             0     slow
-MC61  29        --               --              --        --             0     slow
-MC62  28        --               --              --        --             0     slow
-MC63  0         --               --              --        --             0     slow
-MC64  27        --               --              --        --             0     slow
-MC65  40   on   RAM_nCS1  C----  --              --        --             3     slow
-MC66  0         --               --              --        --             0     slow
-MC67  41        --               --              --        --             0     slow
-MC68  0         --               --              --        --             0     slow
-MC69  42   on   RAM_nCS0  C----  --              --        --             1     slow
-MC70  44        --               --              --        --             0     slow
-MC71  0         --               --              --        --             0     slow
-MC72  45   on   ROM_nR    C----  --              --        --             1     slow
-MC73  46   on   ROM_nCS   C----  --              --        --             0     slow
-MC74  0         --               --              --        --             0     slow
-MC75  47   on   WR_FT     C----  --              --        --             1     slow
-MC76  0         --               --              --        --             0     slow
-MC77  48   on   RD_FT     C----  --              --        --             1     slow
-MC78  49   --   RXF       INPUT  --              --        --             0     slow
-MC79  0         --               --              --        --             0     slow
-MC80  50   --   TXE       INPUT  --              --        --             0     slow
-MC81  52        --               --              --        --             0     slow
-MC82  0         --               --              --        --             0     slow
-MC83  53        --               --              --        --             0     slow
-MC84  0         --               --              --        --             0     slow
-MC85  54        --               --              --        --             0     slow
-MC86  55        --               --              --        --             0     slow
-MC87  0         --               --              --        --             0     slow
-MC88  56        --               --              --        --             0     slow
-MC89  57        --               --              --        --             0     slow
-MC90  0         --               --              --        --             0     slow
-MC91  58   PT   D1        C----  --              --        --             2     slow
-MC92  0         --               --              --        --             0     slow
-MC93  60   PT   D0        C----  --              --        --             2     slow
-MC94  61        --               --              --        --             0     slow
-MC95  0         --               --              --        --             0     slow
-MC96  62   --   TCK       INPUT  --              --        --             0     slow
-MC97  63        --               --              --        --             0     slow
-MC98  0         --               --              --        --             0     slow
-MC99  64        --               --              --        --             0     slow
-MC100 0         --               --              --        --             0     slow
-MC101 65        --               --              --        --             0     slow
-MC102 67        --               --              --        --             0     slow
-MC103 0         --               --              --        --             0     slow
-MC104 68        --               --              --        --             0     slow
-MC105 69        --               --              --        --             0     slow
-MC106 0         --               --              --        --             0     slow
-MC107 70        --               --              --        --             0     slow
-MC108 0         --               --              --        --             0     slow
-MC109 71        --               --              --        --             0     slow
-MC110 72        --               --              --        --             0     slow
-MC111 0         --               --              --        --             0     slow
-MC112 73   --   TDO       INPUT  --              --        --             0     slow
-MC113 75   on   PHI2      Dg-r-  --              --        --             2     slow
-MC114 0         --               --              --        --             0     slow
-MC115 76        --               --              --        --             0     slow
-MC116 0         --               --              --        --             0     slow
-MC117 77        --               --              --        --             0     slow
-MC118 78        --               --              --        --             0     slow
-MC119 0         --               --              --        --             0     slow
-MC120 79        --               --              --        --             0     slow
-MC121 80        --               --              --        --             0     slow
-MC122 0         --               --              --        --             0     slow
-MC123 81        --               --              --        --             0     slow
-MC124 0         --               --              --        --             0     slow
-MC125 83   on   CLK_OUT   C----  --              --        --             1     slow
-MC126 84   on   Q0        Dg-r-  --              --        --             2     slow
-MC127 0         --               --              --        --             0     slow
-MC128 85        --               --              --        --             0     slow
-MC0   90        RnW       INPUT  --              --        --             0     slow
-MC0   89        --               --              --        --             0     slow
-MC0   88        --               --              --        --             0     slow
-MC0   87        CLK       INPUT  --              --        --             0     slow
+MCell Pin# Oe   PinDrive     DCERP  FBDrive  DCERP  Foldback  CascadeOut     TotPT output_slew
+MC1   2         --                  --              --        --             0     slow
+MC2   0         --                  --              --        --             0     slow
+MC3   1         --                  --              --        --             0     slow
+MC4   0         --                  --              --        --             0     slow
+MC5   100       --                  --              --        --             0     slow
+MC6   99        --                  --              --        --             0     slow
+MC7   0         --                  --              --        --             0     slow
+MC8   98   on   DISP_nCS     C----  --              --        --             1     slow
+MC9   97   --   SLOW1        INPUT  --              --        --             0     slow
+MC10  0         --                  --              --        --             0     slow
+MC11  96   --   SLOW0        INPUT  --              --        --             0     slow
+MC12  0         --                  --              --        --             0     slow
+MC13  94   on   LED          C----  --              --        --             1     slow
+MC14  93   --   RESET        INPUT  Q1       Dg-r-  --        --             4     slow
+MC15  0         --                  Q2       Dg-r-  NA        --             5     slow
+MC16  92        --                  --              --        --             0     slow
+MC17  14   --   A9           INPUT  --              --        --             0     slow
+MC18  0         --                  --              --        --             0     slow
+MC19  13   --   A10          INPUT  --              --        --             0     slow
+MC20  0         --                  --              --        --             0     slow
+MC21  12   --   A11          INPUT  --              --        --             0     slow
+MC22  10   --   A12          INPUT  --              --        --             0     slow
+MC23  0         --                  --              --        --             0     slow
+MC24  9    --   A13          INPUT  --              --        --             0     slow
+MC25  8    --   A14          INPUT  --              --        --             0     slow
+MC26  0         --                  --              --        --             0     slow
+MC27  7    --   A15          INPUT  --              --        --             0     slow
+MC28  0         --                  --              --        --             0     slow
+MC29  6    on   DISP_BL      C----  --              --        --             0     slow
+MC30  5         --                  --              --        --             0     slow
+MC31  0         --                  --              --        --             0     slow
+MC32  4    --   TDI          INPUT  --              --        --             0     slow
+MC33  25   --   A0           INPUT  --              --        --             0     slow
+MC34  0         --                  --              --        --             0     slow
+MC35  24        --                  --              --        --             0     slow
+MC36  0         --                  --              --        --             0     slow
+MC37  23        --                  --              --        --             0     slow
+MC38  22        --                  --              --        --             0     slow
+MC39  0         --                  --              --        --             0     slow
+MC40  21   --   A4           INPUT  --              --        --             0     slow
+MC41  20   --   A5           INPUT  --              --        --             0     slow
+MC42  0         --                  --              --        --             0     slow
+MC43  19   --   A6           INPUT  --              --        --             0     slow
+MC44  0         --                  --              --        --             0     slow
+MC45  17   --   A7           INPUT  --              --        --             0     slow
+MC46  16   --   A8           INPUT  --              --        --             0     slow
+MC47  0         --                  --              --        --             0     slow
+MC48  15   --   TMS          INPUT  --              --        --             0     slow
+MC49  37   on   RD           C----  --              --        --             1     slow
+MC50  0         --                  --              --        --             0     slow
+MC51  36   on   RW           C----  --              --        --             1     slow
+MC52  0         --                  --              --        --             0     slow
+MC53  35        --                  --              --        --             0     slow
+MC54  33        --                  --              --        --             0     slow
+MC55  0         --                  --              --        --             0     slow
+MC56  32        --                  --              --        --             0     slow
+MC57  31        --                  --              --        --             0     slow
+MC58  0         --                  --              --        --             0     slow
+MC59  30        --                  --              --        --             0     slow
+MC60  0         --                  --              --        --             0     slow
+MC61  29        --                  --              --        --             0     slow
+MC62  28        --                  --              --        --             0     slow
+MC63  0         --                  --              --        --             0     slow
+MC64  27   on   DISP_DATA_EN C----  --              --        --             1     slow
+MC65  40   on   RAM_nCS1     C----  --              --        --             4     slow
+MC66  0         --                  --              --        --             0     slow
+MC67  41        --                  --              --        --             0     slow
+MC68  0         --                  --              --        --             0     slow
+MC69  42   on   RAM_nCS0     C----  --              --        --             1     slow
+MC70  44        --                  --              --        --             0     slow
+MC71  0         --                  --              --        --             0     slow
+MC72  45   on   ROM_nR       C----  --              --        --             1     slow
+MC73  46   on   ROM_nCS      C----  --              --        --             0     slow
+MC74  0         --                  --              --        --             0     slow
+MC75  47   on   WR_FT        C----  --              --        --             1     slow
+MC76  0         --                  --              --        --             0     slow
+MC77  48   on   RD_FT        C----  --              --        --             1     slow
+MC78  49   --   RXF          INPUT  --              --        --             0     slow
+MC79  0         --                  --              --        --             0     slow
+MC80  50   --   TXE          INPUT  --              XXL_72    --             1     slow
+MC81  52        --                  --              --        --             0     slow
+MC82  0         --                  --              --        --             0     slow
+MC83  53        --                  --              --        --             0     slow
+MC84  0         --                  --              --        --             0     slow
+MC85  54        --                  --              --        --             0     slow
+MC86  55        --                  --              --        --             0     slow
+MC87  0         --                  --              --        --             0     slow
+MC88  56        --                  --              --        --             0     slow
+MC89  57        --                  --              --        --             0     slow
+MC90  0         --                  --              --        --             0     slow
+MC91  58   PT   D1           C----  --              --        --             2     slow
+MC92  0         --                  --              --        --             0     slow
+MC93  60   PT   D0           C----  --              --        --             2     slow
+MC94  61        --                  --              --        --             0     slow
+MC95  0         --                  --              --        --             0     slow
+MC96  62   --   TCK          INPUT  --              --        --             0     slow
+MC97  63        --                  --              --        --             0     slow
+MC98  0         --                  --              --        --             0     slow
+MC99  64        --                  --              --        --             0     slow
+MC100 0         --                  --              --        --             0     slow
+MC101 65        --                  --              --        --             0     slow
+MC102 67        --                  --              --        --             0     slow
+MC103 0         --                  --              --        --             0     slow
+MC104 68        --                  --              --        --             0     slow
+MC105 69        --                  --              --        --             0     slow
+MC106 0         --                  --              --        --             0     slow
+MC107 70        --                  --              --        --             0     slow
+MC108 0         --                  --              --        --             0     slow
+MC109 71        --                  --              --        --             0     slow
+MC110 72        --                  --              --        --             0     slow
+MC111 0         --                  --              --        --             0     slow
+MC112 73   --   TDO          INPUT  --              --        --             0     slow
+MC113 75   on   PHI2         Dg-r-  --              --        --             2     slow
+MC114 0         --                  --              --        --             0     slow
+MC115 76   on   VIA_nCS      C----  --              --        --             1     slow
+MC116 0         --                  --              --        --             0     slow
+MC117 77   on   ACIA_nCS     C----  --              --        --             1     slow
+MC118 78   on   EXP_nCS      C----  --              --        --             1     slow
+MC119 0         --                  --              --        --             0     slow
+MC120 79        --                  --              --        --             0     slow
+MC121 80   on   CF_nRES      C----  --              --        --             1     slow
+MC122 0         --                  --              --        --             0     slow
+MC123 81   on   CF_nCS       C----  --              --        --             1     slow
+MC124 0         --                  --              --        --             0     slow
+MC125 83   on   Q0           Dg-r-  --              --        --             2     slow
+MC126 84   on   CLK_OUT      C----  --              --        --             1     slow
+MC127 0         --                  --              --        --             0     slow
+MC128 85        --                  --              --        --             0     slow
+MC0   90        RnW          INPUT  --              --        --             0     slow
+MC0   89        --                  --              --        --             0     slow
+MC0   88        --                  --              --        --             0     slow
+MC0   87        CLK          INPUT  --              --        --             0     slow
 
 Logic Array Block	Logic Cells	I/O Pins	Foldbacks	TotalPT		FanIN	Cascades
-A: LC1	- LC16		3/16(18%)	4/16(25%)	0/16(0%)	10/80(12%)	(19)	0
-B: LC17	- LC32		0/16(0%)	8/16(50%)	0/16(0%)	0/80(0%)	(2)	0
-C: LC33	- LC48		0/16(0%)	7/16(43%)	0/16(0%)	0/80(0%)	(15)	0
-D: LC49	- LC64		2/16(12%)	2/16(12%)	0/16(0%)	2/80(2%)	(16)	0
-E: LC65	- LC80		6/16(37%)	8/16(50%)	0/16(0%)	7/80(8%)	(6)	0
-F: LC81	- LC96		2/16(12%)	3/16(18%)	0/16(0%)	4/80(5%)	(6)	0
-G: LC97	- LC112		0/16(0%)	1/16(6%)	0/16(0%)	0/80(0%)	(6)	0
-H: LC113- LC128		3/16(18%)	3/16(18%)	0/16(0%)	5/80(6%)	(6)	0
+A: LC1	- LC16		4/16(25%)	5/16(31%)	0/16(0%)	11/80(13%)	(19)	0
+B: LC17	- LC32		1/16(6%)	9/16(56%)	0/16(0%)	0/80(0%)	(3)	0
+C: LC33	- LC48		0/16(0%)	7/16(43%)	0/16(0%)	0/80(0%)	(20)	0
+D: LC49	- LC64		3/16(18%)	3/16(18%)	0/16(0%)	3/80(3%)	(16)	0
+E: LC65	- LC80		6/16(37%)	8/16(50%)	1/16(6%)	9/80(11%)	(18)	0
+F: LC81	- LC96		2/16(12%)	3/16(18%)	0/16(0%)	4/80(5%)	(18)	0
+G: LC97	- LC112		0/16(0%)	1/16(6%)	0/16(0%)	0/80(0%)	(18)	0
+H: LC113- LC128		8/16(50%)	8/16(50%)	0/16(0%)	10/80(12%)	(18)	0
 
 Total dedicated input used:	2/4 	(50%)
-Total I/O pins used		36/80 	(45%)
-Total Logic cells used 		16/128 	(12%)
+Total I/O pins used		44/80 	(55%)
+Total Logic cells used 		24/128 	(18%)
 Total Flip-Flop used 		4/128 	(3%)
-Total Foldback logic used 	0/128 	(0%)
-Total Nodes+FB/MCells 		16/128 	(12%)
+Total Foldback logic used 	1/128 	(0%)
+Total Nodes+FB/MCells 		25/128 	(19%)
 Total cascade used 		0
 Total input pins 		24
-Total output pins 		14
-Total Pts 			28
+Total output pins 		22
+Total Pts 			37
 Creating pla file D:\REPOSITORIES\LT6502\SOFTWARE\CPLD\LT6502_GLUE.tt3 with 0 inputs 0 outputs, 0 pins 0 nodes and 0 pterms...
 
 ----------------  End fitter, Design FITS
