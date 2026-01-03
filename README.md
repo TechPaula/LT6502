@@ -4,7 +4,7 @@ A 6502 based laptop design
 Yes, I know I'm crazy, but I figured why not. I'm enjoying working the [PC6502](https://github.com/TechPaula/PC6502/) project but having a little tower of PCBs on the sofa isn't the best.
 It'll be simple, these are the preliminary specs;
 * 65C02 running at 8MHz
-* 48K RAM
+* 46K RAM
 * BASIC in ROM
 * 65C22 VIA (for timers and some IO)
 * 10.1" DIsplay (with built in font/simple graphics)
@@ -42,7 +42,9 @@ The memory map is subject to change in some parts, though I expect the RAM, ROM 
 ##### peripherals
 | Address | subAddr range | RW | What is it | Notes |
 |-------|-----|----|----|---------------|
-|0xBEBO|BEB0-BFAF|RW| Expansion slot | |
+|0xBEBO|00-FF|RW| Expansion slot | |
+|0xBF00|00-9F|  | Unused Currently | |
+|0xBFAO|0-F| W| Bepper | Not sure |
 |0xBFBO|0-7|RW| Compact Flash |  |
 |0xBFCO|0-F|RW| 65C22 |  on board VIA |
 |0xBFDO|0-F|RW| Display |   |
