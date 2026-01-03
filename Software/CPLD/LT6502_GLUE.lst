@@ -1,0 +1,202 @@
+LISTING FOR LOGIC DESCRIPTION FILE: LT6502_GLUE.pld                  Page 1
+
+CUPL(WM): Universal Compiler for Programmable Logic
+Version 5.0a Serial# 60008009
+Copyright (c) 1983, 1998 Logical Devices, Inc.
+Created Sat Jan 03 10:28:06 2026
+
+  1:Name     PC6502_CPU_14;
+  2:PartNo   ;
+  3:Date     15/08/24;
+  4:Revision ;
+  5:Designer Shonky/Paula;
+  6:Company  ;
+  7:Assembly ;
+  8:Location ;
+  9:Device    f1508isptqfp100;
+ 10:
+ 11:/*********************************************************
+ 12: *                     INPUT PINS                        *
+ 13: *********************************************************/
+ 14:
+ 15:
+ 16:/* SYSTEM signals */
+ 17:Pin 87 = CLK;       /* MAIN OSC CLOCK IN */
+ 18:Pin 93 = !RESET;    /* GLOBAL RESET IN */
+ 19:Pin 84 = Q0;        /* Sent to expansion header, CLK/2 OUT (not stretched) */
+ 20:Pin 83 = CLK_OUT;   /* sent to expansion header OUT */
+ 21:
+ 22:Pin 96 = !SLOW0;    /* CPU Clock Slow bit 0, INPUT */
+ 23:Pin 97 = !SLOW1;    /* CPU Clock Slow bit 1, INPUT */
+ 24:
+ 25:Pin 37 = !RD;       /* OUTPUT */
+ 26:Pin 36 = !RW;       /* OUTPUT */
+ 27:
+ 28:Pin 94 = !LED;      /* Test LED output */
+ 29:
+ 30:
+ 31:/* CPU signals */
+ 32:Pin 75 = PHI2;      /* CPU_CLK OUTPUT */
+ 33:Pin 90 = RnW;       /* INPUT */
+ 34:
+ 35:
+ 36:/* ROM Enables */
+ 37:Pin 45 = !ROM_nR;    /* OUTPUT */
+ 38:Pin 46 = !ROM_nCS;   /* OUTPUT */
+ 39:
+ 40:
+ 41:/* RAM CS */
+ 42:Pin 42 = !RAM_nCS0;    /* OUTPUT */
+ 43:/* Pin 40 = !RAM_nCS1; */
+ 44:
+ 45:
+ 46:/* FT245, Console, Signals */
+ 47:Pin 48 = !RD_FT;           /* OUTPUT */
+ 48:Pin 47 = WR_FT;            /* OUTPUT */
+ 49:Pin 49 = RXF;                /* BIT 0 of 6850 register, INPUT */
+ 50:Pin 50 = TXE;                /* BIT 1 of 6850 register, INPUT */
+ 51:                           /* Had to swap pin 49/50, no idea why */
+ 52:
+ 53:
+
+LISTING FOR LOGIC DESCRIPTION FILE: LT6502_GLUE.pld                  Page 2
+
+CUPL(WM): Universal Compiler for Programmable Logic
+Version 5.0a Serial# 60008009
+Copyright (c) 1983, 1998 Logical Devices, Inc.
+Created Sat Jan 03 10:28:06 2026
+
+ 54:/* Address bus all are INPUT */
+ 55:Pin 25 = A0;
+ 56:Pin 24 = A1;
+ 57:Pin 23 = A2;
+ 58:Pin 22 = A3;
+ 59:Pin 21 = A4;
+ 60:Pin 20 = A5;
+ 61:Pin 19 = A6;
+ 62:Pin 17 = A7;
+ 63:Pin 16 = A8;
+ 64:Pin 14 = A9;
+ 65:Pin 13 = A10;
+ 66:Pin 12 = A11;
+ 67:Pin 10 = A12;
+ 68:Pin  9 = A13;
+ 69:Pin  8 = A14;
+ 70:Pin  7 = A15;
+ 71:
+ 72:
+ 73:/* Data bus */
+ 74:Pin 60 = D0;
+ 75:Pin 58 = D1;
+ 76:Pin 57 = D2;
+ 77:Pin 56 = D3;
+ 78:Pin 55 = D4;
+ 79:Pin 54 = D5;
+ 80:Pin 53 = D6;
+ 81:Pin 52 = D7;
+ 82:
+ 83:
+ 84:
+ 85:/*********************************************************
+ 86: *                        PINNODES                       *
+ 87: *********************************************************/
+ 88:
+ 89:/* Clock Stretch nodes */
+ 90:Pinnode  0  = Q1;
+ 91:Pinnode  0  = Q2;
+ 92:
+ 93:/*********************************************************
+ 94: *                        VARIABLES                      *
+ 95: *********************************************************/
+ 96:
+ 97:
+ 98:
+ 99:
+100:/*********************************************************
+101: *                     LOGIC EQUATIONS                   *
+102: *********************************************************/
+103:
+104:
+105:/* Clock Stretching */
+106:Q0.ck = CLK;
+107:Q1.ck = CLK;
+
+LISTING FOR LOGIC DESCRIPTION FILE: LT6502_GLUE.pld                  Page 3
+
+CUPL(WM): Universal Compiler for Programmable Logic
+Version 5.0a Serial# 60008009
+Copyright (c) 1983, 1998 Logical Devices, Inc.
+Created Sat Jan 03 10:28:06 2026
+
+108:Q2.ck = CLK;
+109:PHI2.ck = CLK;
+110:
+111:Q0.ar = RESET;
+112:Q1.ar = RESET;
+113:Q2.ar = RESET;
+114:PHI2.ar = RESET;
+115:
+116:Q0.D = !PHI2
+117:       # PHI2 & !Q0;
+118:
+119:Q1.D = !PHI2 & !SLOW0
+120:       # PHI2 & !Q1 & Q0
+121:       # PHI2 & Q1 & !Q0;
+122:
+123:Q2.D = !PHI2 & !SLOW1
+124:       # PHI2 & Q2 & !Q1
+125:       # PHI2 & Q2 & !Q0        
+126:       # PHI2 & !Q2 & Q1 & Q0;
+127:
+128:PHI2.D = !PHI2
+129:       # PHI2 & !Q2     
+130:       # PHI2 & !Q1
+131:       # PHI2 & !Q0     
+132:       # !PHI2 & Q2 & Q1 & Q0;
+133:
+134:
+135:
+136:
+137:
+138:
+139:
+140:/* FT245 Serial port 0xA000 - 0xA00F */                 
+141:FT_CS = A15 & !A14 & A13 & !A12 & !A11 & !A10 & !A9 & !A8 & !A7 & !A6 & !A5 & !A4;
+142:
+143:RD_FT = PHI2 & FT_CS & A0 &  RnW;               /* 0xA001 */
+144:WR_FT = PHI2 & FT_CS & A0 & !RnW;               /* 0xA001 */ 
+145:
+146:D0.oe = FT_CS & !A0 & RnW;                      /* 0xA000 */
+147:D1.oe = FT_CS & !A0 & RnW;                      /* 0xA000 */
+148:
+149:D0 = !RXF;                              
+150:D1 = !TXE;                      
+151:
+152:
+153:/* ROM 0xC000 - 0xFFFF */
+154:ROM_nR  = A15 & A14;   /* ROM Read address */
+155:ROM_nCS = 'b'1;        /* ROM chip select always active */
+156:
+157:/* RAM 0x0000 - 0x7FFF */                       
+158:RAM_nCS0 = !A15;        
+159:RW = PHI2 & !RnW;
+160:RD = PHI2 & RnW;
+161:
+
+LISTING FOR LOGIC DESCRIPTION FILE: LT6502_GLUE.pld                  Page 4
+
+CUPL(WM): Universal Compiler for Programmable Logic
+Version 5.0a Serial# 60008009
+Copyright (c) 1983, 1998 Logical Devices, Inc.
+Created Sat Jan 03 10:28:06 2026
+
+162:/* system wide logic */
+163:CLK_OUT = CLK;
+164:LED = FT_CS;
+165:
+166:/* END OF FILE */
+167:/*****************************************************/
+168:
+
+
+

@@ -1,0 +1,187 @@
+
+*******************************************************************************
+                                 PC6502_CPU_14
+*******************************************************************************
+
+CUPL(WM)        5.0a Serial# 60008009
+Device          f1508isptqfp100  Library DLIB-h-40-2
+Created         Sat Jan 03 10:28:06 2026
+Name            PC6502_CPU_14
+Partno          
+Revision        
+Date            15/08/24
+Designer        Shonky/Paula
+Company         
+Assembly        
+Location        
+
+===============================================================================
+                            Expanded Product Terms
+===============================================================================
+
+CLK_OUT =>
+    CLK
+
+D0 =>
+    !RXF
+
+D0.oe  =>
+    !A0 & !A4 & !A5 & !A6 & !A7 & !A8 & !A9 & !A10 & !A11 & !A12 & A13 & !A14 & 
+      A15 & RnW
+
+D1 =>
+    !TXE
+
+D1.oe  =>
+    !A0 & !A4 & !A5 & !A6 & !A7 & !A8 & !A9 & !A10 & !A11 & !A12 & A13 & !A14 & 
+      A15 & RnW
+
+FT_CS =>
+    !A4 & !A5 & !A6 & !A7 & !A8 & !A9 & !A10 & !A11 & !A12 & A13 & !A14 & A15
+
+LED =>
+    !A4 & !A5 & !A6 & !A7 & !A8 & !A9 & !A10 & !A11 & !A12 & A13 & !A14 & A15
+
+PHI2.d  =>
+    !PHI2
+  # PHI2 & !Q2
+  # PHI2 & !Q1
+  # PHI2 & !Q0
+
+PHI2.ar  =>
+    RESET
+
+PHI2.ck  =>
+    CLK
+
+Q0.d  =>
+    !PHI2
+  # PHI2 & !Q0
+
+Q0.ar  =>
+    RESET
+
+Q0.ck  =>
+    CLK
+
+Q1.d  =>
+    !PHI2 & !SLOW0
+  # PHI2 & Q0 & !Q1
+  # PHI2 & !Q0 & Q1
+
+Q1.ar  =>
+    RESET
+
+Q1.ck  =>
+    CLK
+
+Q2.d  =>
+    !PHI2 & !SLOW1
+  # PHI2 & !Q1 & Q2
+  # PHI2 & !Q0 & Q2
+  # PHI2 & Q0 & Q1 & !Q2
+
+Q2.ar  =>
+    RESET
+
+Q2.ck  =>
+    CLK
+
+RAM_nCS0 =>
+    !A15
+
+RD =>
+    PHI2 & RnW
+
+RD_FT =>
+    A0 & !A4 & !A5 & !A6 & !A7 & !A8 & !A9 & !A10 & !A11 & !A12 & A13 & !A14 & 
+      A15 & PHI2 & RnW
+
+ROM_nCS =>
+    1 
+
+ROM_nR =>
+    A14 & A15
+
+RW =>
+    PHI2 & !RnW
+
+WR_FT =>
+    A0 & !A4 & !A5 & !A6 & !A7 & !A8 & !A9 & !A10 & !A11 & !A12 & A13 & !A14 & 
+      A15 & PHI2 & !RnW
+
+
+===============================================================================
+                                 Symbol Table
+===============================================================================
+
+Pin Variable                                    Pterms   Max     Min    
+Pol   Name              Ext     Pin     Type     Used   Pterms  Level   
+--- --------            ---     ---     ----    ------  ------  -----   
+
+    A0                          25       V        -       -       -     
+    A1                          24       V        -       -       -     
+    A2                          23       V        -       -       -     
+    A3                          22       V        -       -       -     
+    A4                          21       V        -       -       -     
+    A5                          20       V        -       -       -     
+    A6                          19       V        -       -       -     
+    A7                          17       V        -       -       -     
+    A8                          16       V        -       -       -     
+    A9                          14       V        -       -       -     
+    A10                         13       V        -       -       -     
+    A11                         12       V        -       -       -     
+    A12                         10       V        -       -       -     
+    A13                         9        V        -       -       -     
+    A14                         8        V        -       -       -     
+    A15                         7        V        -       -       -     
+    CLK                         87       V        -       -       -     
+    CLK_OUT                     83       V        1       0       1     
+    D0                          60       V        1       0       1     
+    D0                  oe      60       X        1       0       1     
+    D1                          58       V        1       0       1     
+    D1                  oe      58       X        1       0       1     
+    D2                          57       V        -       -       -     
+    D3                          56       V        -       -       -     
+    D4                          55       V        -       -       -     
+    D5                          54       V        -       -       -     
+    D6                          53       V        -       -       -     
+    D7                          52       V        -       -       -     
+    FT_CS                       0        I        1       -       -     
+ !  LED                         94       V        1       0       1     
+    PHI2                        75       V        -       -       -     
+    PHI2                d       75       X        4       0       1     
+    PHI2                ar      75       X        1       0       1     
+    PHI2                ck      75       X        1       0       1     
+    Q0                          84       V        -       -       -     
+    Q0                  d       84       X        2       0       1     
+    Q0                  ar      84       X        1       0       1     
+    Q0                  ck      84       X        1       0       1     
+    Q1                          0        N        -       -       -     
+    Q1                  d       0        M        3       0       1     
+    Q1                  ar      0        M        1       0       1     
+    Q1                  ck      0        M        1       0       1     
+    Q2                          0        N        -       -       -     
+    Q2                  d       0        M        4       0       1     
+    Q2                  ar      0        M        1       0       1     
+    Q2                  ck      0        M        1       0       1     
+ !  RAM_nCS0                    42       V        1       0       1     
+ !  RD                          37       V        1       0       1     
+ !  RD_FT                       48       V        1       0       1     
+ !  RESET                       93       V        -       -       -     
+ !  ROM_nCS                     46       V        1       0       1     
+ !  ROM_nR                      45       V        1       0       1     
+ !  RW                          36       V        1       0       1     
+    RXF                         49       V        -       -       -     
+    RnW                         90       V        -       -       -     
+ !  SLOW0                       96       V        -       -       -     
+ !  SLOW1                       97       V        -       -       -     
+    TXE                         50       V        -       -       -     
+    WR_FT                       47       V        1       0       1     
+
+
+LEGEND    D : default variable         F : field      G : group
+          I : intermediate variable    N : node       M : extended node
+          U : undefined                V : variable   X : extended variable
+          T : function
+

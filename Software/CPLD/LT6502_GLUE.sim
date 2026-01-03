@@ -1,0 +1,139 @@
+%SIGNAL
+PIN  25 =  A0 
+PIN  24 =  A1 
+PIN  23 =  A2 
+PIN  22 =  A3 
+PIN  21 =  A4 
+PIN  20 =  A5 
+PIN  19 =  A6 
+PIN  17 =  A7 
+PIN  16 =  A8 
+PIN  14 =  A9 
+PIN  13 =  A10 
+PIN  12 =  A11 
+PIN  10 =  A12 
+PIN   9 =  A13 
+PIN   8 =  A14 
+PIN   7 =  A15 
+PIN  87 =  CLK 
+PIN  83 =  CLK_OUT 
+PIN  60 =  D0 
+PIN  58 =  D1 
+PIN  57 =  D2 
+PIN  56 =  D3 
+PIN  55 =  D4 
+PIN  54 =  D5 
+PIN  53 =  D6 
+PIN  52 =  D7 
+PIN  94 = !LED 
+PIN  75 =  PHI2 
+PIN  84 =  Q0 
+PIN   0 =  Q1 
+PIN   0 =  Q2 
+PIN  42 = !RAM_nCS0 
+PIN  37 = !RD 
+PIN  48 = !RD_FT 
+PIN  93 = !RESET 
+PIN  46 = !ROM_nCS 
+PIN  45 = !ROM_nR 
+PIN  36 = !RW 
+PIN  49 =  RXF 
+PIN  90 =  RnW 
+PIN  96 = !SLOW0 
+PIN  97 = !SLOW1 
+PIN  50 =  TXE 
+PIN  47 =  WR_FT 
+%END
+
+%FIELD
+%END
+
+%EQUATION
+CLK_OUT =>
+    CLK
+
+D0 =>
+    !RXF
+
+D0.oe  =>
+    !A0 & !A4 & !A5 & !A6 & !A7 & !A8 & !A9 & !A10 & !A11 & !A12 & A13 & !A14 & A15 & RnW
+
+D1 =>
+    !TXE
+
+D1.oe  =>
+    !A0 & !A4 & !A5 & !A6 & !A7 & !A8 & !A9 & !A10 & !A11 & !A12 & A13 & !A14 & A15 & RnW
+
+FT_CS =>
+    !A4 & !A5 & !A6 & !A7 & !A8 & !A9 & !A10 & !A11 & !A12 & A13 & !A14 & A15
+
+LED =>
+    !A4 & !A5 & !A6 & !A7 & !A8 & !A9 & !A10 & !A11 & !A12 & A13 & !A14 & A15
+
+PHI2.d  =>
+    !PHI2
+  # PHI2 & !Q2
+  # PHI2 & !Q1
+  # PHI2 & !Q0
+
+PHI2.ar  =>
+    RESET
+
+PHI2.ck  =>
+    CLK
+
+Q0.d  =>
+    !PHI2
+  # PHI2 & !Q0
+
+Q0.ar  =>
+    RESET
+
+Q0.ck  =>
+    CLK
+
+Q1.d  =>
+    !PHI2 & !SLOW0
+  # PHI2 & Q0 & !Q1
+  # PHI2 & !Q0 & Q1
+
+Q1.ar  =>
+    RESET
+
+Q1.ck  =>
+    CLK
+
+Q2.d  =>
+    !PHI2 & !SLOW1
+  # PHI2 & !Q1 & Q2
+  # PHI2 & !Q0 & Q2
+  # PHI2 & Q0 & Q1 & !Q2
+
+Q2.ar  =>
+    RESET
+
+Q2.ck  =>
+    CLK
+
+RAM_nCS0 =>
+    !A15
+
+RD =>
+    PHI2 & RnW
+
+RD_FT =>
+    A0 & !A4 & !A5 & !A6 & !A7 & !A8 & !A9 & !A10 & !A11 & !A12 & A13 & !A14 & A15 & PHI2 & RnW
+
+ROM_nCS =>
+    1 
+
+ROM_nR =>
+    A14 & A15
+
+RW =>
+    PHI2 & !RnW
+
+WR_FT =>
+    A0 & !A4 & !A5 & !A6 & !A7 & !A8 & !A9 & !A10 & !A11 & !A12 & A13 & !A14 & A15 & PHI2 & !RnW
+
+%END
