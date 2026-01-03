@@ -1,0 +1,52 @@
+#######################################
+# Syntax Coloring Map 
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+SparkFun_STUSB4500	KEYWORD1
+STUSB4500	KEYWORD1
+
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+begin	KEYWORD2
+read	KEYWORD2
+write	KEYWORD2
+softReset	KEYWORD2
+
+getVoltage	KEYWORD2
+getCurrent	KEYWORD2
+getLowerVoltageLimit	KEYWORD2
+getUpperVoltageLimit	KEYWORD2
+getFlexCurrent	KEYWORD2
+getPdoNumber	KEYWORD2
+getExternalPower	KEYWORD2
+getUsbCommCapable	KEYWORD2
+getConfigOkGpio	KEYWORD2
+getGpioCtrl	KEYWORD2
+getPowerAbove5vOnly	KEYWORD2
+getReqSrcCurrent	KEYWORD2
+
+setVoltage	KEYWORD2 
+setCurrent	KEYWORD2
+setLowerVoltageLimit	KEYWORD2
+setUpperVoltageLimit	KEYWORD2
+setFlexCurrent	KEYWORD2
+setPdoNumber	KEYWORD2
+setExternalPower	KEYWORD2
+setUsbCommCapable	KEYWORD2
+setConfigOkGpio	KEYWORD2
+setGpioCtrl	KEYWORD2
+setPowerAbove5vOnly	KEYWORD2
+setReqSrcCurrent	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+DEFAULT	LITERAL1
