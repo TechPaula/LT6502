@@ -37,12 +37,12 @@ The memory map is subject to change in some parts, though I expect the RAM, ROM 
 |-------|-----|----|----|----|---------------|
 | 0x0000|0x02FF| 768 | 0x300 | RAM | This includes Zeropage and other bits BASIC may need |
 | 0x0300|0x07FF| 1280 | 0x500 | RAM | This is going to be for the compact flash reading/writing |
-| 0x0800|0xBEAF| 46768 | 0xB6B0 | ROM | BASIC RAM available |
+| 0x0800|0xBDFF| 46592 | 0xB6B0 | ROM | BASIC RAM available |
 
 ##### peripherals
 | Address | subAddr range | RW | What is it | Notes |
 |-------|-----|----|----|---------------|
-|0xBEBO|00-FF|RW| Expansion slot | |
+|0xBE0O|00-FF|RW| Expansion slot | |
 |0xBF00|00-9F|  | Unused Currently | |
 |0xBFAO|0-F| W| Bepper | Not sure |
 |0xBFBO|0-7|RW| Compact Flash |  |
