@@ -37,14 +37,14 @@ The memory map is subject to change in some parts, though I expect the RAM, ROM 
 | 0x0800|0xBEAF| 46768 | 0xB6B0 | ROM | BASIC RAM available |
 
 ##### peripherals
-| Address | subAddr | RW | What is it | Notes |
+| Address | subAddr range | RW | What is it | Notes |
 |-------|-----|----|----|---------------|
-|0xBEBO|00-FF|RW| Expansion slot | |
+|0xBEBO|BEB0-BFAF|RW| Expansion slot | |
 |0xBFBO|0-7|RW| Compact Flash |  |
 |0xBFCO|0-F|RW| 65C22 |  on board VIA |
 |0xBFDO|0-F|RW| Display |   |
 |0xBFEO|0-F|RW| 65C21 | internal keyboard  |
-|0xBFF0|0-F|RW| Console | FTDI USB console port   |
+|0xBFF0|0-1|RW| Console | FTDI USB console port   |
 
 
 
