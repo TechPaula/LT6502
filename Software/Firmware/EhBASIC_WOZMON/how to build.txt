@@ -1,0 +1,7 @@
+Mods for CA65 by Shonky! November 2025
+
+Uses CA65 to assemble and LD65 to link, Linux commands are:
+
+ca65 min_mon.asm -o basic.o -l basic.lst
+ld65 -C basic.cfg basic.o -o basic.bin
+minipro -S -p SST39SF010A -w basic.bin

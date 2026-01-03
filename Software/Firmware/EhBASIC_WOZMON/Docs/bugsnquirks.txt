@@ -1,0 +1,432 @@
+EhBASIC 2.22 has a few bugs and quirks that you should know about.
+
+1. The interrupt system is severely broken.
+
+When an IRQ occurs and IRQ_vec is called in min_mon.asm the interrupt is only
+registered with IRQbase but the interrupt source is not serviced nor is the
+interrupt disable bit set at RTI. As a consequence the interrupt is immediately
+called again and again and IRQbase is trashed until the interrupt is serviced
+by the ON IRQ handler in basic.
+
+The problem is discussed in http://forum.6502.org/viewtopic.php?f=5&t=2411
+How I solved the problem for my emulator:
+https://github.com/Klaus2m5/AVR_emulated_6502_4SBC/tree/master/EhBASIC
+
+However, you should keep in mind that the interrupt service capacity in EhBASIC
+is very limited. In a 2MHz system more than 100 interrupts per second or
+interrupts requiring less than 10ms service time should be handled in machine
+language. The numbers are worse if the interrupt handler gets more complex.
+
+Of course, a hybrid solution is always possible. You could service the interrupt
+in machine language and flag an interrupt to basic only after a buffer is
+filled/emptied or a count is reached.
+
+
+2. String handling when the string is in the input buffer.
+fixed in 2.22p3
+
+When a string is entered via the input buffer (Ibuffs - Ibuffe) in Ehbasic it
+is transient because it gets overwritten by the next input. In this case it
+needs to be copied to the string area. In all other cases the string remains in
+place and only a pointer needs to be set to the string location. 
+
+There is a bug in EhBASIC to determine where the string is.
+
+!! The original version of this patch broke the number to string conversion as
+in STR$(). Github user mgcaret provided a fix included in version 2 !! 
+
+LAB_20DC
+      STX   Sendh             ; save string end high byte
+      LDA   ssptr_h           ; get string start high byte
+      CMP   #>Ram_base        ; compare with start of program memory
+      BCS   LAB_RTST          ; branch if not in utility area
+This does not work, if RAM_base is below the input buffer or EhBASIC itself is
+below RAM_base. The fix requires the input buffer not to cross a page boundary:
+
+LAB_20DC
+      STX   Sendh             ; save string end high byte
+      LDA   ssptr_h           ; get string start high byte
+; *** begin RAM above code / Ibuff above EhBASIC patch V2 ***
+; *** replace
+;      CMP   #>Ram_base        ; compare with start of program memory
+;      BCS   LAB_RTST          ; branch if not in utility area
+; *** with
+      BEQ   LAB_MVST          ; fix STR$() using page zero via LAB_296E
+      CMP   #>Ibuffs          ; compare with location of input buffer page
+      BNE   LAB_RTST          ; branch if not in utility area
+LAB_MVST
+; *** end   RAM above code / Ibuff above EhBASIC patch V2 ***
+
+
+3. Output of some functions limited to integers is negative.
+
+This is not a bug but documented behavior.
+
+Affected functions FRE(), SADD(), VARPTR(), DEEK()
+
+If you want to use FRE() with large RAM you must write:
+
+? FRE(0)-(FRE(0)<0)*$10000
+
+If you really want to deviate from the beaten path, you can add a routine to
+convert unsigned integers and jump to it from the functions that you want to
+respond with an unsigned number. It replaces LAB_AYFC for these functions.
+
+; save and convert unsigned integer AY to FAC1
+LAB_UAYFC
+      LSR   Dtypef            ; clear data type flag, $FF=string, $00=numeric
+      STA   FAC1_1            ; save FAC1 mantissa1
+      STY   FAC1_2            ; save FAC1 mantissa2
+      LDX   #$90              ; set exponent=2^16 (integer)
+      SEC                     ; always positive
+      JMP   LAB_STFA          ; set exp=X, clear FAC1_3, normalise and return
+      
+You cannot apply this routine to operators which also use LAB_AYFC (=, OR, AND
+EOR <<, >>) as they require signed integers. The value -1 is asigned to a
+comparison evaluating as TRUE. Therefore logical operators must be able to
+evaluate -1 correctly.
+
+
+4. Use of decimal mode and invalid BCD
+fixed in 2.22p
+
+There is only one place in EhBASIC where decimal mode is used. HEX$() uses
+invalid BCD to convert a number to a hexadecimal string. Some processors do not
+support decimal mode and emulators most of the time will not support invalid
+BCD (nibbles in the range of $A - $F). 
+
+LAB_AL2X
+      CMP   #$0A              ; set carry for +1 if >9
+      ADC   #'0'              ; add ASCII "0"
+      STA   (str_pl),Y        ; save to temp string
+      DEY                     ; decrement counter
+      RTS
+
+A patch is available to disable use of decimal mode in EhBASIC.
+
+LAB_AL2X
+      CMP   #$0A              ; set carry for +1 if >9
+; *** begin disable decimal mode patch ***
+; *** insert
+      BCC   LAB_AL20          ; skip adjust if <= 9
+      ADC   #$06              ; adjust for A to F
+LAB_AL20
+; *** end   disable decimal mode patch ***
+      ADC   #'0'              ; add ASCII "0"
+      STA   (str_pl),Y        ; save to temp string
+      DEY                     ; decrement counter
+      RTS
+      
+At the same time you must disable SED & CLD at the HEX$() function.
+
+LAB_HEXS
+      CPX   #$07              ; max + 1
+      BCS   BinFErr           ; exit if too big ( > or = )
+
+      STX   TempB             ; save # of characters
+
+      LDA   #$06              ; need 6 bytes for string
+      JSR   LAB_MSSP          ; make string space A bytes long
+      LDY   #$05              ; set string index
+
+; *** disable decimal mode patch - comment next line ***
+;      SED                     ; need decimal mode for nibble convert
+      LDA   nums_3            ; get lowest byte
+      JSR   LAB_A2HX          ; convert A to ASCII hex byte and output
+      LDA   nums_2            ; get middle byte
+      JSR   LAB_A2HX          ; convert A to ASCII hex byte and output
+      LDA   nums_1            ; get highest byte
+      JSR   LAB_A2HX          ; convert A to ASCII hex byte and output
+; *** disable decimal mode patch - comment next line ***
+;      CLD                     ; back to binary
+
+
+5. Ibuffs located at $xx00
+fixed in 2.22p
+
+If the input buffer is located at the beginning of a page then any direct
+statement (RUN, LIST, ...) is read from Ibuffs-$100 resulting in unexpected
+behavior of EhBASIC.
+
+A patch is available from Daryl Rictor. I took the freedom to add conditional
+assembly.
+
+LAB_142A
+      INY                     ; increment pointer
+      INY                     ; increment pointer (makes it next line pointer high byte)
+      STA   Ibuffs,Y          ; save [EOL] (marks [EOT] in immediate mode)
+      INY                     ; adjust for line copy
+      INY                     ; adjust for line copy
+      INY                     ; adjust for line copy
+; *** begin patch for when Ibuffs is $xx00 - Daryl Rictor ***
+; *** insert
+      .IF   Ibuffs&$FF==0
+      LDA   Bpntrl            ; test for $00
+      BNE   LAB_142P          ; not $00
+      DEC   Bpntrh            ; allow for increment when $xx00
+LAB_142P
+      .ENDIF
+; *** end   patch for when Ibuffs is $xx00 - Daryl Rictor ***
+; end of patch
+      DEC   Bpntrl            ; allow for increment
+      RTS
+
+The conditional in the patch above requires Ibuffs to be known at pass 1 during
+assembly. The standard definition of Ibuffs does not satisfy this requirement.
+We need to replace it like below:
+
+; Ibuffs can now be anywhere in RAM, ensure that the max length is < $80,
+; the input buffer must not cross a page boundary and must not overlap with
+; program RAM pages!
+
+;Ibuffs            = IRQ_vec+$14
+Ibuffs            = VEC_SV+$16
+                              ; start of input buffer after IRQ/NMI code
+Ibuffe            = Ibuffs+$47; end of input buffer
+
+
+6. First statement after direct mode does not set the continue pointer
+fixed in 2.22p2
+
+After a RUN or GOTO in direct mode CONT does not work for the first statement in
+run mode. It throws a "Can't continue error". If that first statement is INPUT
+then "Redo from start" causes a subsequent syntax error.
+
+It is actually a hen and egg problem as the continue pointer (Cpntrh/l) is saved
+during the inner loop if not in direct mode, but direct mode (Clineh = $FF) is
+only cleared later in the same loop.
+
+The fix is in the patched folder (version 2.22p2). The continue counter is now
+always saved and the decision to continue is postponed until the CONT statement
+is executed and based on the fact that the continue pointer must not point to
+the input buffer in run mode.
+
+LAB_1491
+      LDX   #des_sk           ; set descriptor stack pointer
+      STX   next_s            ; save descriptor stack pointer
+      PLA                     ; pull return address low byte
+      TAX                     ; copy return address low byte
+      PLA                     ; pull return address high byte
+      STX   LAB_SKFE          ; save to cleared stack
+      STA   LAB_SKFF          ; save to cleared stack
+      LDX   #$FD              ; new stack pointer
+      TXS                     ; reset stack
+      LDA   #$00              ; clear byte
+;*** fix p2: no longer necessary as the continue pointer is saved anyway
+;      STA   Cpntrh            ; clear continue pointer high byte
+      STA   Sufnxf            ; clear subscript/FNX flag
+.........................................................................
+LAB_15C2
+      JSR   LAB_1629          ; do CRTL-C check vector
+      LDA   Bpntrl            ; get BASIC execute pointer low byte
+      LDY   Bpntrh            ; get BASIC execute pointer high byte
+
+      LDX   Clineh            ; continue line is $FFxx for immediate mode
+                              ; ($00xx for RUN from immediate mode)
+      INX                     ; increment it (now $00 if immediate mode)
+;*** fix p2: skip no longer necessary as the continue pointer is saved anyway
+;      BEQ   LAB_15D1          ; branch if null (immediate mode)
+
+      STA   Cpntrl            ; save continue pointer low byte
+      STY   Cpntrh            ; save continue pointer high byte
+.........................................................................
+LAB_163B
+      BNE   LAB_167A          ; if wasn't CTRL-C or there is a following byte return
+
+      LDA   Bpntrh            ; get the BASIC execute pointer high byte
+;*** fix p2: skip no longer necessary as the continue pointer is saved anyway
+;      EOR   #>Ibuffs          ; compare with buffer address high byte (Cb unchanged)
+;      BEQ   LAB_164F          ; branch if the BASIC pointer is in the input buffer
+;                              ; (can't continue in immediate mode)
+;                              ; else ..
+;      EOR   #>Ibuffs          ; correct the bits
+      LDY   Bpntrl            ; get BASIC execute pointer low byte
+.........................................................................
+LAB_CONT
+      BNE   LAB_167A          ; if following byte exit to do syntax error
+
+      LDY   Cpntrh            ; get continue pointer high byte
+      CPY   #>Ibuffs          ; *** fix p2: test direct mode
+      BNE   LAB_166C          ; go do continue if we can
+.........................................................................
+LAB_1934
+      JSR   LAB_CKRN          ; check not Direct, back here if ok
+      JSR   LAB_INLN          ; print "? " and get BASIC input
+      LDA   #$00              ; set mode = INPUT
+      CMP   Ibuffs            ; test first byte in buffer
+      BNE   LAB_1953          ; branch if not null input
+
+; *** change p2: keep carry set to throw break message
+;      CLC                     ; was null input so clear carry to exit program
+      JMP   LAB_1647          ; go do BREAK exit
+
+
+7. String compare of equal strings in direct mode returns FALSE
+fixed in 2.22p4
+
+The string descriptor pointer of the 1st string is loaded to FAC1 mantissa
+bytes 2 & 3 and is later tranferred to FAC2 via the stack. The subroutine to put
+FAC1 on the stack is rounding up if FAC1_r is > $7F. In string operations FAC1_r
+is not initialized and rounding up may offset the string pointer high byte.
+
+A patch is available to initialize FAC1_r to < $80 if the variable type is
+string.
+
+LAB_1C25
+; *** begin patch  string pointer high byte trashed when moved to stack
+; *** add
+      LSR   FAC1_r            ; clear bit 7 (<$80) = do not round up
+; *** end patch
+      RTS
+      
+
+8. FALSE value stored to a variable after string compare is not exactly zero
+fixed in 2.22p4
+
+When strings are compared and the result is stored to a variable (x=a$=b$) a
+FALSE result is not exactly 0 but only less than 1-E16. So IF var evaluates as
+true and falsely executes the statements after THEN.
+
+After a compare FAC1 contains the result. The LET command should store FAC1 into
+the variable but actually stores a string pointer.
+
+A patch is available to fix the LET command.
+
+LAB_LET
+      JSR   LAB_GVAR          ; get var address
+      STA   Lvarpl            ; save var address low byte
+      STY   Lvarph            ; save var address high byte
+      LDA   #TK_EQUAL         ; get = token
+      JSR   LAB_SCCA          ; scan for CHR$(A), else do syntax error then warm start
+      LDA   Dtypef            ; get data type flag, $FF=string, $00=numeric
+      PHA                     ; push data type flag
+      JSR   LAB_EVEX          ; evaluate expression
+      PLA                     ; pop data type flag
+      ROL                     ; set carry if type = string
+; *** begin patch  result of a string compare stores string pointer to variable
+;                  but should store FAC1 (true/false value)
+; *** replace
+;      JSR   LAB_CKTM          ; type match check, set C for string
+;      BNE   LAB_17D5          ; branch if string
+; *** with
+      JSR   LAB_CKTM          ; type match check, keep C (expected type)
+      BCS   LAB_17D5          ; branch if string
+; *** end patch
+
+      JMP   LAB_PFAC          ; pack FAC1 into variable (Lvarpl) and return
+
+
+9. The stack floor protection does not cater for background interrupts
+fixed in 2.22p4
+
+EhBASIC makes heavy use of the stack. FOR, DO and GOSUB put their data
+structures on the stack and can be nested only limited by the stack size. The
+remaining free bytes on the stack are checked everytime a data structure is to
+be stored on the stack. However, this check is not catering for the additional
+stack space required by background interrupts of a monitor or operating system.
+
+A patch is available to configure a value to raise the protected stack floor.
+
+LAB_1212
+; *** patch - additional stack floor protection for background interrupts
+; *** add
+      .IF   Stack_floor
+      CLC                     ; prep ADC
+      ADC   #Stack_floor      ; stack pointer lower limit before interrupts
+      .ENDIF
+; *** end patch
+      STA   TempB             ; save result in temp byte
+      TSX                     ; copy stack
+      CPX   TempB             ; compare new "limit" with stack
+      BCC   LAB_OMER          ; if stack < limit do "Out of memory" error then warm start
+
+      RTS
+
+You should also define Stack_floor with other configuation items. I put it just
+after RAM_top.
+
+Stack_floor       = 16        ; bytes left free on stack for background interrupts
+
+
+10. Conditional NEXT throws a "NEXT without FOR Error"
+fixed in 2.22p4
+
+If a NEXT statement is executed after IF THEN the FOR structure cannot be found.
+The NEXT expects the FOR structure at a fixed offset on the stack but the
+IF THEN puts an additional address on the stack. The additional address is
+required as EhBASIC allows an ELSE statement on the same line and the statement
+after the ELSE needs to be skipped.
+
+The same is also true for other commands that need to find a data structure on
+the stack. The code already contained a fix for a conditional RETURN but it
+could not be used for LOOP (UNTIL/WHILE) or NEXT as it does not allow resuming
+execution after falling through.
+
+I have a fix that simply discards the original call to the "interpret statement"
+routine (The one that executed the IF) and replaces the final RTS with a JMP to
+the interpreter loop. This also eliminates the need to have a separate fix for
+RETURN. To my big surprise even nested IFs work correctly.
+
+LAB_174D
+; *** patch       allow NEXT, LOOP & RETURN to find FOR, DO or GOSUB structure on stack
+; *** replace
+;      CMP   #TK_RETURN        ; compare the byte with the token for RETURN
+;      BNE   LAB_174G          ; if it wasn't RETURN go interpret BASIC code from (Bpntrl)
+;                              ; and return to this code to process any following code
+;
+;      JMP   LAB_1602          ; else it was RETURN so interpret BASIC code from (Bpntrl)
+;                              ; but don't return here
+;
+;LAB_174G
+;      JSR   LAB_15FF          ; interpret BASIC code from (Bpntrl)
+;
+;; the IF was executed and there may be a following ELSE so the code needs to return
+;; here to check and ignore the ELSE if present
+;
+;      LDY   #$00              ; clear the index
+;      LDA   (Bpntrl),Y        ; get the next BASIC byte
+;      CMP   #TK_ELSE          ; compare it with the token for ELSE
+;      BEQ   LAB_DATA          ; if ELSE ignore the following statement
+;
+;; there was no ELSE so continue execution of IF <expr> THEN <stat> [: <stat>]. any
+;; following ELSE will, correctly, cause a syntax error
+;
+;      RTS                     ; else return to the interpreter inner loop
+;
+; *** with
+      PLA                     ; discard interpreter loop return address
+      PLA                     ; so data structures are at the correct stack offset
+      JSR   LAB_GBYT          ; restore token or variable
+      JSR   LAB_15FF          ; interpret BASIC code from (Bpntrl)
+
+; the IF was executed and there may be a following ELSE so the code needs to return
+; here to check and ignore the ELSE if present
+
+      LDY   #$00              ; clear the index
+      LDA   (Bpntrl),Y        ; get the next BASIC byte
+      CMP   #TK_ELSE          ; compare it with the token for ELSE
+      BNE   LAB_no_ELSE       ; no - continue on this line
+      JSR   LAB_DATA          ; yes - skip the rest of the line
+
+; there was no ELSE so continue execution of IF <expr> THEN <stat> [: <stat>]. any
+; following ELSE will, correctly, cause a syntax error
+
+LAB_no_ELSE
+      JMP LAB_15C2            ; return to the interpreter inner loop
+; *** end patch  allow NEXT, LOOP & RETURN to find FOR, DO or GOSUB structure on stack
+
+
+11. Additional bugs brought up by users Ruud and dclxvi of the 6502.org forum
+
+See http://forum.6502.org/viewtopic.php?f=5&t=5500
+       sanity check for RAM top allows values below RAM base
+    http://forum.6502.org/viewtopic.php?f=5&t=5606
+       #1 TO expression with a subtract may evaluate with the sign bit flipped
+       #3 call to LAB_1B5B may return to an address -$100 (page not incremented)
+       #4 string concatenate followed by MINUS or NOT() crashes EhBASIC
+       #5 garbage collection may cause an overlap with temporary strings
+       #6 floating point multiply rounding bug
+       #7 VAL() may cause string variables to be trashed
+    All above have been fixed in 2.22p5. See the thread for additional quirks.
+
+
