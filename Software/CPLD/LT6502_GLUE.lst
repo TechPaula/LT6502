@@ -3,7 +3,7 @@ LISTING FOR LOGIC DESCRIPTION FILE: LT6502_GLUE.pld                  Page 1
 CUPL(WM): Universal Compiler for Programmable Logic
 Version 5.0a Serial# 60008009
 Copyright (c) 1983, 1998 Logical Devices, Inc.
-Created Sat Jan 03 10:28:06 2026
+Created Sat Jan 03 12:01:30 2026
 
   1:Name     PC6502_CPU_14;
   2:PartNo   ;
@@ -64,7 +64,7 @@ LISTING FOR LOGIC DESCRIPTION FILE: LT6502_GLUE.pld                  Page 2
 CUPL(WM): Universal Compiler for Programmable Logic
 Version 5.0a Serial# 60008009
 Copyright (c) 1983, 1998 Logical Devices, Inc.
-Created Sat Jan 03 10:28:06 2026
+Created Sat Jan 03 12:01:30 2026
 
  54:/* Address bus all are INPUT */
  55:Pin 25 = A0;
@@ -126,7 +126,7 @@ LISTING FOR LOGIC DESCRIPTION FILE: LT6502_GLUE.pld                  Page 3
 CUPL(WM): Universal Compiler for Programmable Logic
 Version 5.0a Serial# 60008009
 Copyright (c) 1983, 1998 Logical Devices, Inc.
-Created Sat Jan 03 10:28:06 2026
+Created Sat Jan 03 12:01:30 2026
 
 108:Q2.ck = CLK;
 109:PHI2.ck = CLK;
@@ -160,8 +160,8 @@ Created Sat Jan 03 10:28:06 2026
 137:
 138:
 139:
-140:/* FT245 Serial port 0xA000 - 0xA00F */                 
-141:FT_CS = A15 & !A14 & A13 & !A12 & !A11 & !A10 & !A9 & !A8 & !A7 & !A6 & !A5 & !A4;
+140:/* FT245 Serial port 0xBFF0 - 0xBFFF */                 
+141:FT_CS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & A5 & A4;
 142:
 143:RD_FT = PHI2 & FT_CS & A0 &  RnW;               /* 0xA001 */
 144:WR_FT = PHI2 & FT_CS & A0 & !RnW;               /* 0xA001 */ 
@@ -173,7 +173,7 @@ Created Sat Jan 03 10:28:06 2026
 150:D1 = !TXE;                      
 151:
 152:
-153:/* ROM 0xC000 - 0xFFFF */
+153:/* ROM 0xC000 - 0xFF */
 154:ROM_nR  = A15 & A14;   /* ROM Read address */
 155:ROM_nCS = 'b'1;        /* ROM chip select always active */
 156:
@@ -188,7 +188,7 @@ LISTING FOR LOGIC DESCRIPTION FILE: LT6502_GLUE.pld                  Page 4
 CUPL(WM): Universal Compiler for Programmable Logic
 Version 5.0a Serial# 60008009
 Copyright (c) 1983, 1998 Logical Devices, Inc.
-Created Sat Jan 03 10:28:06 2026
+Created Sat Jan 03 12:01:30 2026
 
 162:/* system wide logic */
 163:CLK_OUT = CLK;

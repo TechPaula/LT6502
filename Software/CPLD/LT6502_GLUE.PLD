@@ -137,14 +137,14 @@ PHI2.D = !PHI2
 
 
 
-/* FT245 Serial port 0xA000 - 0xA00F */			
-FT_CS = A15 & !A14 & A13 & !A12 & !A11 & !A10 & !A9 & !A8 & !A7 & !A6 & !A5 & !A4;
+/* FT245 Serial port 0xBFF0 - 0xBFFF */			
+FT_CS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & A5 & A4;
 
-RD_FT = PHI2 & FT_CS & A0 &  RnW;		/* 0xA001 */
-WR_FT = PHI2 & FT_CS & A0 & !RnW;		/* 0xA001 */ 
+RD_FT = PHI2 & FT_CS & A0 &  RnW;		/* 0xBFF1 */
+WR_FT = PHI2 & FT_CS & A0 & !RnW;		/* 0xBFF1 */ 
 
-D0.oe = FT_CS & !A0 & RnW; 			/* 0xA000 */
-D1.oe = FT_CS & !A0 & RnW; 			/* 0xA000 */
+D0.oe = FT_CS & !A0 & RnW; 			/* 0xBFF0 */
+D1.oe = FT_CS & !A0 & RnW; 			/* 0xBFF0 */
 
 D0 = !RXF;				
 D1 = !TXE;			

@@ -137,8 +137,8 @@ PHI2.D = !PHI2
 
 
 
-/* FT245 Serial port 0xA000 - 0xA00F */			
-FT_CS = A15 & !A14 & A13 & !A12 & !A11 & !A10 & !A9 & !A8 & !A7 & !A6 & !A5 & !A4;
+/* FT245 Serial port 0xBFF0 - 0xBFFF */			
+FT_CS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & A5 & A4;
 
 RD_FT = PHI2 & FT_CS & A0 &  RnW;		/* 0xA001 */
 WR_FT = PHI2 & FT_CS & A0 & !RnW;		/* 0xA001 */ 
@@ -150,7 +150,7 @@ D0 = !RXF;
 D1 = !TXE;			
 
 
-/* ROM 0xC000 - 0xFFFF */
+/* ROM 0xC000 - 0xFF */
 ROM_nR  = A15 & A14;   /* ROM Read address */
 ROM_nCS = 'b'1;        /* ROM chip select always active */
 

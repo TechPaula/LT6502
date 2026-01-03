@@ -1,4 +1,4 @@
-Atmel ATF1508AS Fitter Version 1.8.7.8 ,running Sat Jan 03 10:28:11 2026
+Atmel ATF1508AS Fitter Version 1.8.7.8 ,running Sat Jan 03 12:01:35 2026
 
 
 fit1508 D:\REPOSITORIES\LT6502\SOFTWARE\CPLD\LT6502_GLUE.tt2 -CUPL -dev P1508T100 -JTAG ON
@@ -283,7 +283,7 @@ D0 = !RXF;
 
 D1 = !TXE;
 
-!LED = (!A4 & !A5 & !A6 & !A7 & !A8 & !A9 & !A10 & !A11 & !A12 & A13 & !A14 & A15);
+!LED = (A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15);
 
 !PHI2.D = (PHI2.Q & Q0.Q & Q1.Q & Q2.Q);
 
@@ -302,7 +302,7 @@ RAM_nCS0 = A15;
 
 !RD = (PHI2.Q & RnW);
 
-!RD_FT = (A0 & !A4 & !A5 & !A6 & !A7 & !A8 & !A9 & !A10 & !A11 & !A12 & A13 & !A14 & A15 & PHI2.Q & RnW);
+!RD_FT = (A0 & A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15 & PHI2.Q & RnW);
 
 ROM_nCS = 0;
 
@@ -310,11 +310,11 @@ ROM_nCS = 0;
 
 !RW = (PHI2.Q & !RnW);
 
-WR_FT = (A0 & !A4 & !A5 & !A6 & !A7 & !A8 & !A9 & !A10 & !A11 & !A12 & A13 & !A14 & A15 & PHI2.Q & !RnW);
+WR_FT = (A0 & A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15 & PHI2.Q & !RnW);
 
-D0.OE = (!A0 & !A4 & !A5 & !A6 & !A7 & !A8 & !A9 & !A10 & !A11 & !A12 & A13 & !A14 & A15 & RnW);
+D0.OE = (!A0 & A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15 & RnW);
 
-D1.OE = (!A0 & !A4 & !A5 & !A6 & !A7 & !A8 & !A9 & !A10 & !A11 & !A12 & A13 & !A14 & A15 & RnW);
+D1.OE = (!A0 & A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15 & RnW);
 
 PHI2.C = CLK;
 
