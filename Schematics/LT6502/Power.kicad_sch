@@ -5123,6 +5123,66 @@
 		)
 		(uuid "18710e9e-42eb-48fb-bdba-0e9f0c2f0437")
 	)
+	(text "ORANGE"
+		(exclude_from_sim no)
+		(at 306.07 218.948 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "4a785527-d81f-4a57-b314-20efb37458f5")
+	)
+	(text "RED"
+		(exclude_from_sim no)
+		(at 305.816 204.978 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "ae439918-d6cf-4668-a0aa-5d9e4469830c")
+	)
+	(text "GREEN"
+		(exclude_from_sim no)
+		(at 359.918 189.23 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "ca97e0ec-9982-4702-94fd-4156bd4d2dd1")
+	)
+	(text "WHITE"
+		(exclude_from_sim no)
+		(at 305.816 191.008 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "d7e76284-1d47-4faa-a651-dd9ae3d21cbf")
+	)
+	(text_box "Rilim = 15K\ngives max charge current 3A!\n\nRilim = 51K\ngives max charge of 900mA\n\n"
+		(exclude_from_sim no)
+		(at 114.3 226.06 0)
+		(size 31.75 16.51)
+		(margins 0.9525 0.9525 0.9525 0.9525)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(fill
+			(type none)
+		)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left top)
+		)
+		(uuid "07a408e8-c25a-4fbf-b92e-86826c7bb573")
+	)
 	(text_box "Need to generate 5V & 3.3V\nexpect 5V to be at 2A\nBattery powered (18650??) \nUSB C charging."
 		(exclude_from_sim no)
 		(at 337.82 218.44 0)
@@ -5143,10 +5203,10 @@
 		)
 		(uuid "3cafbb0d-935b-4cf4-b3cd-113f02a344cd")
 	)
-	(text_box "Riset = 62K \nRsense = 40mR\ngives 960mA charging"
+	(text_box "Riset = 62K \nRsense = 40mR\ngives 960mA charging\n\nRiset = 120K\nRSense = 40mR\nGives 500mA charging"
 		(exclude_from_sim no)
-		(at 213.36 254 0)
-		(size 29.21 10.16)
+		(at 114.3 245.11 0)
+		(size 31.75 16.51)
 		(margins 0.9525 0.9525 0.9525 0.9525)
 		(stroke
 			(width 0)
@@ -5162,6 +5222,26 @@
 			(justify left top)
 		)
 		(uuid "3f06e0da-8046-4e8e-9717-272a7546c8cc")
+	)
+	(text_box "Rolim = 42.2K\ngives sax output current 1.3A\n\nRolim = 22K\nGives max output current 2.5A"
+		(exclude_from_sim no)
+		(at 114.3 264.16 0)
+		(size 31.75 16.51)
+		(margins 0.9525 0.9525 0.9525 0.9525)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(fill
+			(type none)
+		)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left top)
+		)
+		(uuid "a1fb786e-fc00-466c-a4a8-521246a355db")
 	)
 	(junction
 		(at 299.72 158.75)
@@ -9410,7 +9490,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "07cffb45-08f6-43c4-a764-d719e69c8bd4")
 		(property "Reference" "D10"
@@ -9496,7 +9576,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(uuid "08804df4-0a06-45c3-b335-64a78a53f37b")
 		(property "Reference" "J4"
 			(at 283.21 238.76 0)
@@ -10811,7 +10891,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "266c93d9-89af-4563-8dc9-1e5d4f435a9c")
 		(property "Reference" "L1"
@@ -11521,7 +11601,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "320596f1-9a14-4ea7-9496-bd104a37198b")
 		(property "Reference" "R34"
 			(at 119.38 112.268 90)
@@ -11598,7 +11678,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "32380930-b94d-49d4-aea1-e8c4c3109a95")
 		(property "Reference" "D9"
@@ -11835,7 +11915,7 @@
 				)
 			)
 		)
-		(property "Value" "15K"
+		(property "Value" "51K"
 			(at 159.9988 233.5961 90)
 			(effects
 				(font
@@ -11869,7 +11949,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C25756"
+		(property "LCSC" "???"
 			(at 160.02 231.14 90)
 			(effects
 				(font
@@ -11999,7 +12079,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "373e9651-25a4-4f5b-89db-faf595b4aa43")
 		(property "Reference" "D18"
@@ -13545,7 +13625,7 @@
 				)
 			)
 		)
-		(property "Value" "62K 0.1%"
+		(property "Value" "120K"
 			(at 168.8888 238.6761 90)
 			(effects
 				(font
@@ -13579,7 +13659,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C852874"
+		(property "LCSC" "???"
 			(at 168.91 236.22 90)
 			(effects
 				(font
@@ -16810,7 +16890,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "bd292d29-4437-4190-b8d7-ec3b7c5426e0")
 		(property "Reference" "D8"
@@ -16961,7 +17041,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "c3a243c4-40d0-439e-a4ff-cb207a5b4b49")
 		(property "Reference" "R38"
 			(at 125.73 112.268 90)
@@ -17323,7 +17403,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(uuid "cd895106-b595-453c-959b-261b756add7a")
 		(property "Reference" "S1"
 			(at 281.94 148.59 0)
@@ -18645,7 +18725,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "e735304b-8c6a-4c53-8745-102cc0b34ff4")
 		(property "Reference" "J3"
@@ -19862,7 +19942,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "fb7a899d-737e-4180-b141-8dfce9aafbe2")
 		(property "Reference" "J2"
@@ -19944,7 +20024,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "fdb98dd0-e729-49e2-a68b-483791d37e98")
 		(property "Reference" "L2"

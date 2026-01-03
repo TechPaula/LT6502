@@ -4580,7 +4580,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(uuid "11f484bc-54d0-402e-984b-0fda77dad678")
 		(property "Reference" "R67"
 			(at 151.13 63.246 90)
@@ -4998,7 +4998,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "3e893bf0-3359-489c-9414-94dbeec2a932")
 		(property "Reference" "J5"
