@@ -25,6 +25,8 @@ The memory map is subject to change in some parts, though I expect the RAM, ROM 
 #### High Level
 | Start | End | Size (Dec) | Size (Hex) | What is it | Notes |
 |-------|-----|----|----|----|---------------|
-| 0x0000|0xBFFF| 49152 | 0xC000 | RAM | This includes Zeropage and other bits BASIC may need |
-| 0xC000|0xEFFF| 12288 | 0x3000 | ROM | holding OSI basic to start, maybe EhBasic later |
-| 0xF000|0xFFF9|  4089 | 0x0FF9 | Peripherals | to be figured out |
+| 0x0000|0xBEAF| 48816 | 0xBEB0 | RAM | This includes Zeropage and other bits BASIC may need |
+| 0xC000|0xFFFF| 12288 | 0x3000 | ROM | holding OSI basic to start, maybe EhBasic later |
+|-------|-----|----|----|----|---------------|
+
+
