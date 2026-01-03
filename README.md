@@ -25,8 +25,16 @@ The memory map is subject to change in some parts, though I expect the RAM, ROM 
 #### High Level
 | Start | End | Size (Dec) | Size (Hex) | What is it | Notes |
 |-------|-----|----|----|----|---------------|
-| 0x0000|0xBEAF| 48816 | 0xBEB0 | RAM | This includes Zeropage and other bits BASIC may need |
-| 0xC000|0xFFFF| 12288 | 0x3000 | ROM | holding OSI basic to start, maybe EhBasic later |
+| 0x0000|0xBEAF| 48816 | 0xBEB0 | RAM | This includes Zeropage and other bits BASIC may need (more below) |
+| 0xBEB0|0xBFFF| 336 | 0x150 | peripherals | This is where the peripherals are mapped (see below) |
+| 0xC000|0xFFFF| 12288 | 0x3000 | ROM | holding EhBASIC, eWoz monitor and vectors |
+
+##### RAM breakdown
+| Start | End | Size (Dec) | Size (Hex) | What is it | Notes |
 |-------|-----|----|----|----|---------------|
+| 0x0000|0x02FF| 768 | 0x300 | RAM | This includes Zeropage and other bits BASIC may need |
+| 0x0300|0x07FF| 1280 | 0x500 | RAM | This is going to be for the compact flash reading/writing |
+| 0x0800|0xBEAF| 46768 | 0xB6B0 | ROM | BASIC RAM available |
+
 
 
