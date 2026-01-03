@@ -40,7 +40,7 @@ Pin 46 = !ROM_nCS;   /* OUTPUT */
 
 /* RAM CS */
 Pin 42 = !RAM_nCS0;    /* OUTPUT */
-/* Pin 40 = !RAM_nCS1; */
+Pin 40 = !RAM_nCS1;    /* OUTPUT */
 
 
 /* FT245, Console, Signals */
@@ -154,10 +154,13 @@ D1 = !TXE;
 ROM_nR  = A15 & A14;   /* ROM Read address */
 ROM_nCS = 'b'1;        /* ROM chip select always active */
 
-/* RAM 0x0000 - 0x7FFF */			
+/* RAM bank 0 0x0000 - 0x7FFF */			
 RAM_nCS0 = !A15;	
 RW = PHI2 & !RnW;
 RD = PHI2 & RnW;
+
+/* RAM bank 1 0x8000 - 0xBDFF */
+RAM_nCS1 = A15 & !A14 & !FT_CS;
 
 /* system wide logic */
 CLK_OUT = CLK;

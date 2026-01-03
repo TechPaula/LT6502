@@ -31,6 +31,7 @@ PIN  84 =  Q0
 PIN   0 =  Q1 
 PIN   0 =  Q2 
 PIN  42 = !RAM_nCS0 
+PIN  40 = !RAM_nCS1 
 PIN  37 = !RD 
 PIN  48 = !RD_FT 
 PIN  93 = !RESET 
@@ -117,6 +118,18 @@ Q2.ck  =>
 
 RAM_nCS0 =>
     !A15
+
+RAM_nCS1 =>
+    !A13 & !A14 & A15
+  # !A12 & !A14 & A15
+  # !A11 & !A14 & A15
+  # !A10 & !A14 & A15
+  # !A9 & !A14 & A15
+  # !A8 & !A14 & A15
+  # !A7 & !A14 & A15
+  # !A6 & !A14 & A15
+  # !A4 & !A14 & A15
+  # !A5 & !A14 & A15
 
 RD =>
     PHI2 & RnW

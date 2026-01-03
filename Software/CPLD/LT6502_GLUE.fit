@@ -1,4 +1,4 @@
-Atmel ATF1508AS Fitter Version 1.8.7.8 ,running Sat Jan 03 12:01:35 2026
+Atmel ATF1508AS Fitter Version 1.8.7.8 ,running Sat Jan 03 12:27:03 2026
 
 
 fit1508 D:\REPOSITORIES\LT6502\SOFTWARE\CPLD\LT6502_GLUE.tt2 -CUPL -dev P1508T100 -JTAG ON
@@ -95,6 +95,7 @@ A8 is placed at pin 16 (MC 46)
 TMS is placed at pin 15 (MC 48)
 RD is placed at pin 37 (MC 49)
 RW is placed at pin 36 (MC 51)
+RAM_nCS1 is placed at pin 40 (MC 65)
 RAM_nCS0 is placed at pin 42 (MC 69)
 ROM_nR is placed at pin 45 (MC 72)
 ROM_nCS is placed at pin 46 (MC 73)
@@ -152,14 +153,14 @@ Q0 is placed at pin 84 (MC 126)
                 \     27  29  31  33  35  37  39  41  43  45   47  49    /                  
                  \  26  28  30  32  34  36  38  40  42  44  46  48   50 /                   
                   ------------------------------------------------------                     
-T                   G               V   R R G V     R G   R R W R R                          
-X                   N               C   W D N C     A N   O O R D X                          
-E                   D               C       D C     M D   M M _ _ F                          
-                                                    _     _ _ F F                            
-                                                    n     n n T T                            
-                                                    C     R C                                
-                                                    S       S                                
-                                                    0                                        
+T                   G               V   R R G V R   R G   R R W R R                          
+X                   N               C   W D N C A   A N   O O R D X                          
+E                   D               C       D C M   M D   M M _ _ F                          
+                                                _   _     _ _ F F                            
+                                                n   n     n n T T                            
+                                                C   C     R C                                
+                                                S   S       S                                
+                                                1   0                                        
 
 
 
@@ -300,6 +301,10 @@ Q2.D = ((PHI2.Q & !Q1.Q & Q2.Q)
 
 RAM_nCS0 = A15;
 
+RAM_nCS1 = (!A15
+	# (A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13)
+	# A14);
+
 !RD = (PHI2.Q & RnW);
 
 !RD_FT = (A0 & A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15 & PHI2.Q & RnW);
@@ -352,6 +357,7 @@ Pin 21 = A4; /* MC 40 */
 Pin 25 = A0; /* MC 33 */ 
 Pin 36 = RW; /* MC 51 */ 
 Pin 37 = RD; /* MC 49 */ 
+Pin 40 = RAM_nCS1; /* MC 65 */ 
 Pin 42 = RAM_nCS0; /* MC 69 */ 
 Pin 45 = ROM_nR; /* MC 72 */ 
 Pin 46 = ROM_nCS; /* MC 73 */ 
@@ -457,7 +463,7 @@ MC61  29        --               --              --        --             0     
 MC62  28        --               --              --        --             0     slow
 MC63  0         --               --              --        --             0     slow
 MC64  27        --               --              --        --             0     slow
-MC65  40        --               --              --        --             0     slow
+MC65  40   on   RAM_nCS1  C----  --              --        --             3     slow
 MC66  0         --               --              --        --             0     slow
 MC67  41        --               --              --        --             0     slow
 MC68  0         --               --              --        --             0     slow
@@ -531,21 +537,21 @@ A: LC1	- LC16		3/16(18%)	4/16(25%)	0/16(0%)	10/80(12%)	(19)	0
 B: LC17	- LC32		0/16(0%)	8/16(50%)	0/16(0%)	0/80(0%)	(2)	0
 C: LC33	- LC48		0/16(0%)	7/16(43%)	0/16(0%)	0/80(0%)	(15)	0
 D: LC49	- LC64		2/16(12%)	2/16(12%)	0/16(0%)	2/80(2%)	(16)	0
-E: LC65	- LC80		5/16(31%)	7/16(43%)	0/16(0%)	4/80(5%)	(6)	0
+E: LC65	- LC80		6/16(37%)	8/16(50%)	0/16(0%)	7/80(8%)	(6)	0
 F: LC81	- LC96		2/16(12%)	3/16(18%)	0/16(0%)	4/80(5%)	(6)	0
 G: LC97	- LC112		0/16(0%)	1/16(6%)	0/16(0%)	0/80(0%)	(6)	0
 H: LC113- LC128		3/16(18%)	3/16(18%)	0/16(0%)	5/80(6%)	(6)	0
 
 Total dedicated input used:	2/4 	(50%)
-Total I/O pins used		35/80 	(43%)
-Total Logic cells used 		15/128 	(11%)
+Total I/O pins used		36/80 	(45%)
+Total Logic cells used 		16/128 	(12%)
 Total Flip-Flop used 		4/128 	(3%)
 Total Foldback logic used 	0/128 	(0%)
-Total Nodes+FB/MCells 		15/128 	(11%)
+Total Nodes+FB/MCells 		16/128 	(12%)
 Total cascade used 		0
 Total input pins 		24
-Total output pins 		13
-Total Pts 			25
+Total output pins 		14
+Total Pts 			28
 Creating pla file D:\REPOSITORIES\LT6502\SOFTWARE\CPLD\LT6502_GLUE.tt3 with 0 inputs 0 outputs, 0 pins 0 nodes and 0 pterms...
 
 ----------------  End fitter, Design FITS

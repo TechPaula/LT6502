@@ -22,6 +22,7 @@ A8					: 16
 TMS					: 15
 RD					: 37
 RW					: 36
+RAM_nCS1					: 40
 RAM_nCS0					: 42
 ROM_nR					: 45
 ROM_nCS					: 46

@@ -5,7 +5,7 @@
 
 CUPL(WM)        5.0a Serial# 60008009
 Device          f1508isptqfp100  Library DLIB-h-40-2
-Created         Sat Jan 03 12:01:30 2026
+Created         Sat Jan 03 12:26:57 2026
 Name            PC6502_CPU_14
 Partno          
 Revision        
@@ -90,6 +90,18 @@ Q2.ck  =>
 RAM_nCS0 =>
     !A15
 
+RAM_nCS1 =>
+    !A13 & !A14 & A15
+  # !A12 & !A14 & A15
+  # !A11 & !A14 & A15
+  # !A10 & !A14 & A15
+  # !A9 & !A14 & A15
+  # !A8 & !A14 & A15
+  # !A7 & !A14 & A15
+  # !A6 & !A14 & A15
+  # !A4 & !A14 & A15
+  # !A5 & !A14 & A15
+
 RD =>
     PHI2 & RnW
 
@@ -166,6 +178,7 @@ Pol   Name              Ext     Pin     Type     Used   Pterms  Level
     Q2                  ar      0        M        1       0       1     
     Q2                  ck      0        M        1       0       1     
  !  RAM_nCS0                    42       V        1       0       1     
+ !  RAM_nCS1                    40       V        10      0       1     
  !  RD                          37       V        1       0       1     
  !  RD_FT                       48       V        1       0       1     
  !  RESET                       93       V        -       -       -     

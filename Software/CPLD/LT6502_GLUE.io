@@ -25,6 +25,7 @@ BEGIN
     "TMS"                                     : INPUT_PIN = 15 ;
     "RD"                                      : OUTPUT_PIN = 37 ;
     "RW"                                      : OUTPUT_PIN = 36 ;
+    "RAM_nCS1"                                : OUTPUT_PIN = 40 ;
     "RAM_nCS0"                                : OUTPUT_PIN = 42 ;
     "ROM_nR"                                  : OUTPUT_PIN = 45 ;
     "ROM_nCS"                                 : OUTPUT_PIN = 46 ;

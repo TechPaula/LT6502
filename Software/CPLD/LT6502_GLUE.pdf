@@ -5,7 +5,7 @@
   {Program "CUPL(WM) Version 5.0a"}
   {DBtype "Schematic"}
   {DBvrev 1.01}
-  {DBtime "Sat Jan 03 12:01:30 2026 "}
+  {DBtime "Sat Jan 03 12:26:57 2026 "}
   {DBunit "MIL"}
   {DBgrid 10}
   {Lyrstr "WIRES" 1 "BUS" 1 "GATE" 2 "IEEE" 2 "PINFUN" 3 "PINNUM" 1 
@@ -66,15 +66,16 @@
    {P SLOW1' {Pt "INPUT"}{Lq 0}{Ploc 100 20}}
    {P RW' {Pt "I/O"}{Lq 0}{Ploc 330 20}}
    {P RD' {Pt "I/O"}{Lq 0}{Ploc 330 40}}
-   {P RAM_NCS0' {Pt "I/O"}{Lq 0}{Ploc 330 60}}
-   {P ROM_NR' {Pt "I/O"}{Lq 0}{Ploc 330 80}}
-   {P ROM_NCS' {Pt "I/O"}{Lq 0}{Ploc 330 100}}
-   {P WR_FT {Pt "I/O"}{Lq 0}{Ploc 330 120}}
-   {P RD_FT' {Pt "I/O"}{Lq 0}{Ploc 330 140}}
-   {P D1 {Pt "I/O"}{Lq 0}{Ploc 330 160}}
-   {P D0 {Pt "I/O"}{Lq 0}{Ploc 330 180}}
-   {P CLK_OUT {Pt "I/O"}{Lq 0}{Ploc 330 200}}
-   {P LED' {Pt "I/O"}{Lq 0}{Ploc 330 220}}
+   {P RAM_NCS1' {Pt "I/O"}{Lq 0}{Ploc 330 60}}
+   {P RAM_NCS0' {Pt "I/O"}{Lq 0}{Ploc 330 80}}
+   {P ROM_NR' {Pt "I/O"}{Lq 0}{Ploc 330 100}}
+   {P ROM_NCS' {Pt "I/O"}{Lq 0}{Ploc 330 120}}
+   {P WR_FT {Pt "I/O"}{Lq 0}{Ploc 330 140}}
+   {P RD_FT' {Pt "I/O"}{Lq 0}{Ploc 330 160}}
+   {P D1 {Pt "I/O"}{Lq 0}{Ploc 330 180}}
+   {P D0 {Pt "I/O"}{Lq 0}{Ploc 330 200}}
+   {P CLK_OUT {Pt "I/O"}{Lq 0}{Ploc 330 220}}
+   {P LED' {Pt "I/O"}{Lq 0}{Ploc 330 240}}
   }
 
   {PKG
@@ -128,8 +129,9 @@
    {Pnl 310 190}
    {Pnl 310 210}
    {Pnl 310 230}
+   {Pnl 310 250}
 
-   {Sd A 87 90 7 8 9 10 12 13 14 16 17 19 20 21 22 23 24 25 49 50 52 53 54 55 56 57 75 84 93 96 97 36 37 42 45 46 47 48 58 60 83 94}
+   {Sd A 87 90 7 8 9 10 12 13 14 16 17 19 20 21 22 23 24 25 49 50 52 53 54 55 56 57 75 84 93 96 97 36 37 40 42 45 46 47 48 58 60 83 94}
   }
 
   {PIC
@@ -182,14 +184,16 @@
    {L 310 80 330 80}
    {C 305 100 5}
    {L 310 100 330 100}
-   {L 300 120 330 120}
-   {C 305 140 5}
-   {L 310 140 330 140}
-   {L 300 160 330 160}
+   {C 305 120 5}
+   {L 310 120 330 120}
+   {L 300 140 330 140}
+   {C 305 160 5}
+   {L 310 160 330 160}
    {L 300 180 330 180}
    {L 300 200 330 200}
-   {C 305 220 5}
-   {L 310 220 330 220}
+   {L 300 220 330 220}
+   {C 305 240 5}
+   {L 310 240 330 240}
    [Ly "PINNAM"]
    [Tj "LC"]
    {T "CLK" 140 640}
@@ -226,15 +230,16 @@
    [Tj "RC"]
    {T "RW'" 290 20}
    {T "RD'" 290 40}
-   {T "RAM_NCS0'" 290 60}
-   {T "ROM_NR'" 290 80}
-   {T "ROM_NCS'" 290 100}
-   {T "WR_FT" 290 120}
-   {T "RD_FT'" 290 140}
-   {T "D1" 290 160}
-   {T "D0" 290 180}
-   {T "CLK_OUT" 290 200}
-   {T "LED'" 290 220}
+   {T "RAM_NCS1'" 290 60}
+   {T "RAM_NCS0'" 290 80}
+   {T "ROM_NR'" 290 100}
+   {T "ROM_NCS'" 290 120}
+   {T "WR_FT" 290 140}
+   {T "RD_FT'" 290 160}
+   {T "D1" 290 180}
+   {T "D0" 290 200}
+   {T "CLK_OUT" 290 220}
+   {T "LED'" 290 240}
    [Ly "DEVICE"]
    [Tj "CT"]
    {T "F1508ISPTQFP100" 215 -10}
@@ -323,6 +328,8 @@
    {N RW'
    }
    {N RD'
+   }
+   {N RAM_NCS1'
    }
    {N RAM_NCS0'
    }
