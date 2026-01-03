@@ -17,6 +17,9 @@ It'll be simple, these are the preliminary specs;
 
 ## Status
 2025-11-12 - Initial commit with work in progress PCB, Schematics complete.
+2025-12-30 - PCBs arrived!
+2026-01-01 - Initial power up of PCBs gives all the correct voltages
+2025-01-03 - Bring up of board with simple ROM/RAM/Console working.
 
 
 ### Memory Map
