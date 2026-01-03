@@ -2255,6 +2255,16 @@
 			(embedded_fonts no)
 		)
 	)
+	(text "GREEN"
+		(exclude_from_sim no)
+		(at 209.296 95.504 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "13a8a18f-670a-4268-98f3-b0da073838bb")
+	)
 	(text "Based on\nhttps://www.waveguide.se/?article=8-bit-compact-flash-interface\n& https://planck6502.com/fabrication/cf_board-schematic.pdf"
 		(exclude_from_sim no)
 		(at 137.414 120.142 0)
@@ -3952,7 +3962,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "57309fc6-efb2-499a-9663-8eea2bf93c0e")
 		(property "Reference" "J8"
@@ -4007,6 +4017,15 @@
 			)
 		)
 		(property "LCSC" "DNF"
+			(at 144.78 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" " 710-693120035011 "
 			(at 144.78 77.47 0)
 			(effects
 				(font
@@ -4864,7 +4883,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "d7bf9c30-97ac-415a-a022-fe72d1fc3dc2")
 		(property "Reference" "D11"

@@ -1,0 +1,19 @@
+1. Program STUSB4500
+2. Check voltages on TP3 (should be 5V)
+3. Solder D5, D6 and D7
+4. Solder R62 and R63
+5. Solder L1
+6. Solder FB1
+7. Solder L2
+8. Power up
+9. Check Voltage at TP1 (should be 5V)
+10. Check Voltage at TP4 (should be 3.3V)
+11. Check Voltage at TP2 (should be Battery charge voltage)
+12. Solder D8, D9, D10 & D18
+13. Solder S1
+14. Check TP6 (should be 5V)
+15. Connet Battery (if I have one)
+16. Confirm battery charges
+17. Confirm system powers from battery (5V and 3.3V are present)
+
+

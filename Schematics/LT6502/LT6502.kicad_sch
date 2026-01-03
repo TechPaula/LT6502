@@ -886,6 +886,113 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Connector:TestPoint"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0.762)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "TP"
+				(at 0 6.858 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "TestPoint"
+				(at 0 5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 5.08 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 5.08 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "test point"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "test point tp"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "Pin* Test*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "TestPoint_0_1"
+				(circle
+					(center 0 3.302)
+					(radius 0.762)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "TestPoint_1_1"
+				(pin passive line
+					(at 0 0 90)
+					(length 2.54)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Device:C"
 			(pin_numbers
 				(hide yes)
@@ -3592,6 +3699,26 @@
 		)
 		(uuid "28e8a834-81a1-4fbc-b82f-b09030834fa9")
 	)
+	(text_box "V1.0-V1.1 Changes\nAdded cutout for reset switch\nAdded cutout for LS1 and moved it\nExpanded pads on L2 for ease of soldering\nChange R46 to 51K\nChange R47 to 120K\nAdded Pull ups to SLOW0 and SLOW1"
+		(exclude_from_sim no)
+		(at 179.07 238.76 0)
+		(size 100.33 38.1)
+		(margins 0.9525 0.9525 0.9525 0.9525)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(fill
+			(type none)
+		)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left top)
+		)
+		(uuid "6a83a232-9a23-4ebb-8963-5be714048a10")
+	)
 	(junction
 		(at 83.82 46.99)
 		(diameter 0)
@@ -3603,6 +3730,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "18df8345-193e-4a8a-81ca-4b1ec08666a2")
+	)
+	(junction
+		(at 52.07 181.61)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "23ea510b-322c-47ef-a5b4-9297dea01195")
 	)
 	(junction
 		(at 162.56 49.53)
@@ -5461,7 +5594,7 @@
 	)
 	(wire
 		(pts
-			(xy 237.49 238.76) (xy 245.11 238.76)
+			(xy 233.68 226.06) (xy 241.3 226.06)
 		)
 		(stroke
 			(width 0)
@@ -7014,6 +7147,16 @@
 		)
 		(uuid "8b4aa8d3-8d23-45b6-943a-e558c48efaaf")
 	)
+	(wire
+		(pts
+			(xy 62.23 180.34) (xy 62.23 181.61)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8c10af4d-3283-41f3-9379-819d50525840")
+	)
 	(bus
 		(pts
 			(xy 149.86 102.87) (xy 149.86 105.41)
@@ -7084,6 +7227,16 @@
 			(type default)
 		)
 		(uuid "8ddf118f-8c84-4c4d-aba2-70713e448eba")
+	)
+	(wire
+		(pts
+			(xy 62.23 181.61) (xy 52.07 181.61)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8e3dbbb4-c1d6-43fe-af74-1c6e0fb42d9c")
 	)
 	(wire
 		(pts
@@ -11860,7 +12013,7 @@
 	)
 	(global_label "AUDIO"
 		(shape input)
-		(at 245.11 238.76 0)
+		(at 241.3 226.06 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -11870,7 +12023,7 @@
 		)
 		(uuid "ee0bd38d-443e-4011-bfb0-4b5d2da15a7a")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 253.7196 238.76 0)
+			(at 249.9096 226.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12691,7 +12844,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "1eb7e35b-d75a-4fa3-960f-a3ecb4bd8a64")
 		(property "Reference" "U3"
@@ -13197,7 +13350,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "2a865a8f-7bbf-40b5-9d81-dd91d27df374")
 		(property "Reference" "U2"
@@ -14690,6 +14843,82 @@
 			(project "LT6502"
 				(path "/a2243a34-697c-4939-97f7-df548e421864"
 					(reference "#PWR0229")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 62.23 180.34 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp yes)
+		(uuid "87f8bd43-4912-427b-b28e-caecbce7e56f")
+		(property "Reference" "TP7"
+			(at 60.96 174.752 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TestPoint"
+			(at 64.77 178.3079 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Loop_D1.80mm_Drill1.0mm_Beaded"
+			(at 67.31 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 67.31 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 62.23 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "DNF"
+			(at 62.23 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "434bf895-530a-44a2-8daa-8788d6e6e9e1")
+		)
+		(instances
+			(project "LT6502"
+				(path "/a2243a34-697c-4939-97f7-df548e421864"
+					(reference "TP7")
 					(unit 1)
 				)
 			)
@@ -16511,7 +16740,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "d20602fd-e9a9-4cf0-bcd5-7a357fbeb8bf")
 		(property "Reference" "U4"
@@ -16820,7 +17049,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(uuid "d807554e-d768-4528-89c4-4e99b11c6f87")
 		(property "Reference" "S2"
 			(at 27.178 183.134 0)
@@ -17168,7 +17397,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(uuid "de1c22ef-612b-4b13-ad87-36cb980f337b")
 		(property "Reference" "U5"
 			(at 337.185 158.75 0)
@@ -18022,7 +18251,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "f1adfc9e-5c3a-4a3e-8463-a737d0e2b0ba")
 		(property "Reference" "U1"
@@ -18818,7 +19047,7 @@
 		)
 	)
 	(sheet
-		(at 201.93 233.68)
+		(at 198.12 220.98)
 		(size 35.56 10.16)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -18834,7 +19063,7 @@
 		)
 		(uuid "598e71c9-5c06-425f-ac54-aba71004555d")
 		(property "Sheetname" "AUDIO"
-			(at 201.93 232.9684 0)
+			(at 198.12 220.2684 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18843,7 +19072,7 @@
 			)
 		)
 		(property "Sheetfile" "Audio.kicad_sch"
-			(at 201.93 244.4246 0)
+			(at 198.12 231.7246 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18852,7 +19081,7 @@
 			)
 		)
 		(pin "AUDIO_IN" input
-			(at 237.49 238.76 0)
+			(at 233.68 226.06 0)
 			(uuid "9a51c9f2-e1ea-4b39-947d-c71cecd63805")
 			(effects
 				(font
@@ -19047,7 +19276,7 @@
 			(color 0 0 0 0.0000)
 		)
 		(uuid "825e1c9a-e371-499a-ad28-43b57b6b2827")
-		(property "Sheetname" "DIsplay Connector"
+		(property "Sheetname" "Display Connector"
 			(at 190.5 122.4784 0)
 			(effects
 				(font

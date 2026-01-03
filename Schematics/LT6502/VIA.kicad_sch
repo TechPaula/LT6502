@@ -4612,7 +4612,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(uuid "31465d37-6450-4f55-b1fe-5ff89c63abba")
 		(property "Reference" "J12"
 			(at 198.882 130.556 0)
@@ -4915,7 +4915,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(uuid "6f480204-cb2c-44d2-96f7-e61c476697f8")
 		(property "Reference" "J11"
 			(at 194.31 86.868 0)
@@ -5141,7 +5141,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "a277da8b-ee50-440f-b6d6-0a9f890c249b")
 		(property "Reference" "IC3"
@@ -5527,7 +5527,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(uuid "d240af55-c1fe-4122-9426-f4f5cc526b05")
 		(property "Reference" "D16"
 			(at 125.476 83.82 0)
@@ -5687,7 +5687,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(uuid "e8b0392a-4771-4212-b48c-509390ecf5ba")
 		(property "Reference" "J13"
 			(at 197.104 53.848 0)
