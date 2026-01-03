@@ -3,9 +3,9 @@ A 6502 based laptop design
 
 Yes, I know I'm crazy, but I figured why not. I'm enjoying working the [PC6502](https://github.com/TechPaula/PC6502/) project but having a little tower of PCBs on the sofa isn't the best.
 It'll be simple, these are the preliminary specs;
-* 65C02 running at 14MHz
+* 65C02 running at 8MHz
 * 48K RAM
-* 12K of ROM
+* BASIC in ROM
 * 65C22 VIA (for timers and some IO)
 * 10.1" DIsplay (with built in font/simple graphics)
 * Built in keyboard
@@ -13,7 +13,7 @@ It'll be simple, these are the preliminary specs;
 * 10000mAh battery built in
 * USBC powered/charged
 * Serial Console
-* 1 internal expansion slot and 1 external expansion slot
+* 1 internal expansion slot 
 
 ## Status
 2025-11-12 - Initial commit with work in progress PCB, Schematics complete.
