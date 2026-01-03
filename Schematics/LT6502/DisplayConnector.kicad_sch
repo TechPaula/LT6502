@@ -2383,6 +2383,12 @@
 		(uuid "5a614a0f-2ac8-453d-bc96-0fe1c6119f04")
 	)
 	(junction
+		(at 123.19 102.87)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "94d55836-421b-41ed-b59f-f5cfbcc2e7f2")
+	)
+	(junction
 		(at 207.01 50.8)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2795,16 +2801,6 @@
 	)
 	(wire
 		(pts
-			(xy 110.49 110.49) (xy 110.49 121.92)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "213d5d16-1035-43db-a0b8-34d881f853a1")
-	)
-	(wire
-		(pts
 			(xy 157.48 66.04) (xy 187.96 66.04)
 		)
 		(stroke
@@ -2882,6 +2878,16 @@
 			(type default)
 		)
 		(uuid "2d2a3116-16b8-4f34-92a8-20df9c249386")
+	)
+	(wire
+		(pts
+			(xy 123.19 101.6) (xy 123.19 102.87)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "31b51488-0c55-4a34-830d-6af486da1e58")
 	)
 	(wire
 		(pts
@@ -3035,6 +3041,16 @@
 	)
 	(wire
 		(pts
+			(xy 110.49 102.87) (xy 110.49 121.92)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "47be206d-5aa0-494c-ac1a-1a7b78ca3215")
+	)
+	(wire
+		(pts
 			(xy 107.95 50.8) (xy 109.22 50.8)
 		)
 		(stroke
@@ -3103,6 +3119,16 @@
 		)
 		(uuid "5a8727bd-1c1b-4403-85c6-899bf69c521b")
 	)
+	(wire
+		(pts
+			(xy 110.49 102.87) (xy 123.19 102.87)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5adde140-e805-4b4f-bd75-9a8a69b92db5")
+	)
 	(bus
 		(pts
 			(xy 62.23 124.46) (xy 62.23 127)
@@ -3132,6 +3158,16 @@
 			(type default)
 		)
 		(uuid "61d27084-e59d-49ba-9a46-02bee7caa7bb")
+	)
+	(wire
+		(pts
+			(xy 123.19 93.98) (xy 123.19 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "628be8d5-1a2b-4cb2-a439-eb4577be0051")
 	)
 	(wire
 		(pts
@@ -3395,6 +3431,16 @@
 	)
 	(wire
 		(pts
+			(xy 123.19 111.76) (xy 123.19 113.03)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "91a634ba-d7a5-4843-b5a6-5325aab335a3")
+	)
+	(wire
+		(pts
 			(xy 184.15 63.5) (xy 187.96 63.5)
 		)
 		(stroke
@@ -3452,6 +3498,16 @@
 			(type default)
 		)
 		(uuid "9fb9df69-d755-4412-86af-2264b402d42a")
+	)
+	(wire
+		(pts
+			(xy 123.19 102.87) (xy 123.19 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a3fa38c9-dfae-4f3a-9c75-7381f2273f86")
 	)
 	(wire
 		(pts
@@ -3612,6 +3668,16 @@
 			(type default)
 		)
 		(uuid "c49abd67-a408-4479-9fde-c053f7375cf8")
+	)
+	(wire
+		(pts
+			(xy 111.76 91.44) (xy 123.19 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c552fc51-7d2c-406c-9386-98f9629090c2")
 	)
 	(wire
 		(pts
@@ -4363,6 +4429,17 @@
 		)
 		(uuid "16e33fd8-6ba7-4e8b-8343-9e49e0156093")
 	)
+	(hierarchical_label "DISP_DATA_EN"
+		(shape input)
+		(at 111.76 91.44 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "1f71b704-b59b-442a-9a3e-491d7ff167c7")
+	)
 	(hierarchical_label "DISP_nWAIT"
 		(shape output)
 		(at 80.01 66.04 180)
@@ -4788,6 +4865,70 @@
 			(project "LT6502"
 				(path "/a2243a34-697c-4939-97f7-df548e421864/825e1c9a-e371-499a-ad28-43b57b6b2827"
 					(reference "#PWR0141")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 123.19 113.03 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "20ee244e-8ec5-4954-a60f-f180027fe406")
+		(property "Reference" "#PWR0237"
+			(at 123.19 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 123.19 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 123.19 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 123.19 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 123.19 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "1fa33c93-7473-425b-9e23-86831be3ec27")
+		)
+		(instances
+			(project "LT6502"
+				(path "/a2243a34-697c-4939-97f7-df548e421864/825e1c9a-e371-499a-ad28-43b57b6b2827"
+					(reference "#PWR0237")
 					(unit 1)
 				)
 			)
@@ -6018,6 +6159,84 @@
 	)
 	(symbol
 		(lib_id "Device:R")
+		(at 123.19 107.95 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "9ae34d88-dbcb-4247-a2fd-1d5a09bca347")
+		(property "Reference" "R92"
+			(at 125.73 106.6799 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "3K3"
+			(at 125.73 109.2199 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 121.412 107.95 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 123.19 107.95 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 123.19 107.95 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25890"
+			(at 123.19 107.95 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "05100933-b3c3-4867-9752-334b96f169e7")
+		)
+		(pin "2"
+			(uuid "bb89d3c5-0902-41fc-9dfc-10933e619b3e")
+		)
+		(instances
+			(project "LT6502"
+				(path "/a2243a34-697c-4939-97f7-df548e421864/825e1c9a-e371-499a-ad28-43b57b6b2827"
+					(reference "R92")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
 		(at 241.3 63.5 270)
 		(mirror x)
 		(unit 1)
@@ -6368,71 +6587,6 @@
 		)
 	)
 	(symbol
-		(lib_id "power:+3.3V")
-		(at 110.49 110.49 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "c332e3eb-341e-477f-9970-7a8859a67dfe")
-		(property "Reference" "#PWR0147"
-			(at 110.49 114.3 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "+3.3V"
-			(at 110.49 106.68 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 110.49 110.49 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 110.49 110.49 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 110.49 110.49 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "827a17ee-ae91-48d9-a1fc-882a4ba93869")
-		)
-		(instances
-			(project "LT6502"
-				(path "/a2243a34-697c-4939-97f7-df548e421864/825e1c9a-e371-499a-ad28-43b57b6b2827"
-					(reference "#PWR0147")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:GND")
 		(at 99.06 152.4 0)
 		(mirror y)
@@ -6688,6 +6842,84 @@
 			(project "LT6502"
 				(path "/a2243a34-697c-4939-97f7-df548e421864/825e1c9a-e371-499a-ad28-43b57b6b2827"
 					(reference "#PWR0224")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 123.19 97.79 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "f444eb48-8993-4c46-8caf-3fcf85b8d41c")
+		(property "Reference" "R91"
+			(at 125.73 96.5199 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "1K8"
+			(at 125.73 99.0599 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 121.412 97.79 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 123.19 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 123.19 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25890"
+			(at 123.19 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "29532a4f-0a6d-4a0c-915a-958b056094f1")
+		)
+		(pin "2"
+			(uuid "b40d175a-0cfb-4439-95cd-b5c6555acd95")
+		)
+		(instances
+			(project "LT6502"
+				(path "/a2243a34-697c-4939-97f7-df548e421864/825e1c9a-e371-499a-ad28-43b57b6b2827"
+					(reference "R91")
 					(unit 1)
 				)
 			)

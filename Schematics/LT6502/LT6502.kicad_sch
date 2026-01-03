@@ -3699,7 +3699,7 @@
 		)
 		(uuid "28e8a834-81a1-4fbc-b82f-b09030834fa9")
 	)
-	(text_box "V1.0-V1.1 Changes\nAdded cutout for reset switch\nAdded cutout for LS1 and moved it\nExpanded pads on L2 for ease of soldering\nChange R46 to 51K\nChange R47 to 120K\nAdded Pull ups to SLOW0 and SLOW1"
+	(text_box "V1.0-V1.1 Changes\nAdded cutout for reset switch\nAdded cutout for LS1 and moved it\nExpanded pads on L2 for ease of soldering\nChange R46 to 51K\nChange R47 to 120K\nAdded Pull ups to SLOW0 and SLOW1\nAdd Display Data Enable line"
 		(exclude_from_sim no)
 		(at 179.07 238.76 0)
 		(size 100.33 38.1)
@@ -4947,7 +4947,7 @@
 	)
 	(wire
 		(pts
-			(xy 242.57 109.22) (xy 255.27 109.22)
+			(xy 242.57 111.76) (xy 255.27 111.76)
 		)
 		(stroke
 			(width 0)
@@ -5077,7 +5077,7 @@
 	)
 	(wire
 		(pts
-			(xy 260.35 99.06) (xy 260.35 138.43)
+			(xy 260.35 101.6) (xy 260.35 138.43)
 		)
 		(stroke
 			(width 0)
@@ -5240,7 +5240,7 @@
 	)
 	(wire
 		(pts
-			(xy 261.62 96.52) (xy 261.62 140.97)
+			(xy 261.62 99.06) (xy 261.62 140.97)
 		)
 		(stroke
 			(width 0)
@@ -5928,7 +5928,7 @@
 	)
 	(wire
 		(pts
-			(xy 242.57 104.14) (xy 257.81 104.14)
+			(xy 242.57 106.68) (xy 257.81 106.68)
 		)
 		(stroke
 			(width 0)
@@ -5938,7 +5938,7 @@
 	)
 	(wire
 		(pts
-			(xy 242.57 96.52) (xy 261.62 96.52)
+			(xy 242.57 99.06) (xy 261.62 99.06)
 		)
 		(stroke
 			(width 0)
@@ -6068,6 +6068,16 @@
 	)
 	(wire
 		(pts
+			(xy 242.57 96.52) (xy 262.89 96.52)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "45bf147b-2da8-4b9b-8c46-3173d8e134bc")
+	)
+	(wire
+		(pts
 			(xy 111.76 105.41) (xy 39.37 105.41)
 		)
 		(stroke
@@ -6138,7 +6148,7 @@
 	)
 	(wire
 		(pts
-			(xy 242.57 101.6) (xy 259.08 101.6)
+			(xy 242.57 104.14) (xy 259.08 104.14)
 		)
 		(stroke
 			(width 0)
@@ -6277,6 +6287,16 @@
 			(type default)
 		)
 		(uuid "5356957c-aeb0-400a-bf5c-d30c0522b61e")
+	)
+	(wire
+		(pts
+			(xy 262.89 96.52) (xy 262.89 143.51)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "53769eef-50e5-434b-809d-fa7ed680c636")
 	)
 	(wire
 		(pts
@@ -6615,7 +6635,7 @@
 	)
 	(wire
 		(pts
-			(xy 255.27 109.22) (xy 255.27 128.27)
+			(xy 255.27 111.76) (xy 255.27 128.27)
 		)
 		(stroke
 			(width 0)
@@ -6797,7 +6817,7 @@
 	)
 	(wire
 		(pts
-			(xy 256.54 106.68) (xy 256.54 130.81)
+			(xy 256.54 109.22) (xy 256.54 130.81)
 		)
 		(stroke
 			(width 0)
@@ -7240,7 +7260,7 @@
 	)
 	(wire
 		(pts
-			(xy 257.81 104.14) (xy 257.81 133.35)
+			(xy 257.81 106.68) (xy 257.81 133.35)
 		)
 		(stroke
 			(width 0)
@@ -7393,7 +7413,7 @@
 	)
 	(wire
 		(pts
-			(xy 242.57 106.68) (xy 256.54 106.68)
+			(xy 242.57 109.22) (xy 256.54 109.22)
 		)
 		(stroke
 			(width 0)
@@ -7970,7 +7990,7 @@
 	)
 	(wire
 		(pts
-			(xy 259.08 101.6) (xy 259.08 135.89)
+			(xy 259.08 104.14) (xy 259.08 135.89)
 		)
 		(stroke
 			(width 0)
@@ -8662,6 +8682,16 @@
 	)
 	(wire
 		(pts
+			(xy 262.89 143.51) (xy 242.57 143.51)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ee2d5fe0-f5af-4221-bcee-c95e9d02df3b")
+	)
+	(wire
+		(pts
 			(xy 316.23 53.34) (xy 306.07 53.34)
 		)
 		(stroke
@@ -8957,7 +8987,7 @@
 	)
 	(wire
 		(pts
-			(xy 242.57 99.06) (xy 260.35 99.06)
+			(xy 242.57 101.6) (xy 260.35 101.6)
 		)
 		(stroke
 			(width 0)
@@ -19262,7 +19292,7 @@
 	)
 	(sheet
 		(at 190.5 123.19)
-		(size 52.07 20.32)
+		(size 52.07 22.86)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
@@ -19286,7 +19316,7 @@
 			)
 		)
 		(property "Sheetfile" "DisplayConnector.kicad_sch"
-			(at 190.5 144.0946 0)
+			(at 190.5 146.6346 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19377,6 +19407,16 @@
 		(pin "DISP_EN" input
 			(at 242.57 133.35 0)
 			(uuid "c086b6ff-5777-46ac-8a80-addd9fbad88c")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DISP_DATA_EN" input
+			(at 242.57 143.51 0)
+			(uuid "15ba99f2-e1c3-41c7-a3f3-8a3a0fb60e90")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19636,7 +19676,7 @@
 			)
 		)
 		(pin "DISP_EN" output
-			(at 242.57 104.14 0)
+			(at 242.57 106.68 0)
 			(uuid "4d0f542d-28ff-4c81-8c91-6701de9dc28c")
 			(effects
 				(font
@@ -19646,7 +19686,7 @@
 			)
 		)
 		(pin "DISP_nCS" output
-			(at 242.57 109.22 0)
+			(at 242.57 111.76 0)
 			(uuid "553389af-0f2e-4efd-a2da-c5b42e403dd6")
 			(effects
 				(font
@@ -19656,7 +19696,7 @@
 			)
 		)
 		(pin "DISP_nWAIT" input
-			(at 242.57 96.52 0)
+			(at 242.57 99.06 0)
 			(uuid "6167ed72-50d2-4396-8314-b0c0ded2ca23")
 			(effects
 				(font
@@ -19666,7 +19706,7 @@
 			)
 		)
 		(pin "DISP_nINT" input
-			(at 242.57 99.06 0)
+			(at 242.57 101.6 0)
 			(uuid "e1c4a790-7a83-4624-8812-748f6fadb5d3")
 			(effects
 				(font
@@ -19676,7 +19716,7 @@
 			)
 		)
 		(pin "DISP_nRES" output
-			(at 242.57 106.68 0)
+			(at 242.57 109.22 0)
 			(uuid "24f8d34e-32d2-4276-96b2-09a81cba7d4b")
 			(effects
 				(font
@@ -19686,7 +19726,7 @@
 			)
 		)
 		(pin "DISP_BL" output
-			(at 242.57 101.6 0)
+			(at 242.57 104.14 0)
 			(uuid "c2861b98-845b-4387-a89c-05c06a2bcb85")
 			(effects
 				(font
@@ -19783,6 +19823,16 @@
 					(size 1.27 1.27)
 				)
 				(justify left)
+			)
+		)
+		(pin "DISP_DATA_EN" output
+			(at 242.57 96.52 0)
+			(uuid "6f37d7c5-6e6a-4356-8f68-e847e8bbeb15")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
 			)
 		)
 		(instances
