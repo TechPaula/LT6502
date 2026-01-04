@@ -20,6 +20,7 @@ It'll be simple, these are the preliminary specs;
 2025-12-30 - PCBs arrived!
 2026-01-01 - Initial power up of PCBs gives all the correct voltages
 2025-01-03 - Bring up of board with simple ROM/RAM/Console working.
+2025-01-04 - VIA working, ACIA working, comms to/from the keyboard in basic working. Begun integrating keyboard into firmware
 
 
 ### Memory Map
