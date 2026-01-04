@@ -1,8 +1,8 @@
-Name     PC6502_CPU_14;
+Name     LT6502_GLUE;
 PartNo   ;
-Date     15/08/24;
+Date     02/01/26;
 Revision ;
-Designer Shonky/Paula;
+Designer Paula;
 Company  ;
 Assembly ;
 Location ;
