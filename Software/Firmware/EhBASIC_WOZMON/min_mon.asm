@@ -25,6 +25,16 @@ IO_AREA	= $BFF0		; set I/O area for this monitor (Console port)
 ACIAStatus	= IO_AREA		; FT245 Status
 ACIAData	= IO_AREA+$01	; FT245 Data in/out
 
+; START Paula's code blob 1
+A_rxd           = $BFE0 ; ACIA receive data port
+A_txd           = $BFE0 ; ACIA transmit data port
+A_sts           = $BFE1 ; ACIA status port
+A_res           = $BFE1 ; ACIA reset port
+A_cmd           = $BFE2 ; ACIA command port
+A_ctl           = $BFE3 ; ACIA control port
+MyDL 			= $FF
+MyDL2		 	= $FE
+; END Paula's code blob 1
 
 
 ; now the code. all this does is set up the vectors and interrupt code
@@ -37,7 +47,7 @@ ACIAData	= IO_AREA+$01	; FT245 Data in/out
 
 RES_vec
 	CLD				; clear decimal mode
-	LDX	#$FF			; empty stack
+	LDX	#$FF		; empty stack
 	TXS				; set the stack
 
 ; set up vectors and interrupt code, copy them to page 2
@@ -46,18 +56,60 @@ RES_vec
 LAB_stlp
 	LDA	LAB_vec-1,Y		; get byte from interrupt code
 	STA	VEC_IN-1,Y		; save to RAM
-	DEY				; decrement index/count
+	DEY					; decrement index/count
 	BNE	LAB_stlp		; loop if more to do
 
-; now do the signon message, Y = $00 here
+; set up 65c51
+;	STA A_res       ; soft reset (value not important)
+    LDA #$0B        ; set specific modes and functions
+    	            ; no parity, no echo, no Tx interrupt
+        	        ; no Rx interrupt, enable Tx/Rx
+    STA A_cmd       ; save to command register
+    LDA #$10        ; 8-N-1, 115200 baud
+    STA A_ctl       ; set control register
 
+
+; now do the signon message, Y = $00 here
 LAB_signon
 	LDA	LAB_mess,Y		; get byte from sign on message
-	BEQ	LAB_nokey		; exit loop if done
+	BEQ KYB_msg			; display next message
+;	BEQ	LAB_nokey		; exit loop if done
 
-	JSR	V_OUTP		; output character
-	INY				; increment index
+	JSR	V_OUTP			; output character
+	INY					; increment index
 	BNE	LAB_signon		; loop, branch always
+
+
+; START Paula's code blob 2
+KYB_msg
+	LDY #$00
+
+KYB_signon
+	LDA KYB_mess,Y
+	BEQ	LAB_nokey		; exit loop if done
+	STA A_txd			; send it to keyboard display
+
+	PHA					; save A
+
+	LDA #$FF			; 
+	STA MyDL
+
+KEYDL
+	LDA #$20
+	STA MyDL2
+KEYDL2
+	DEC MyDL2
+	BNE	KEYDL2
+
+	DEC MyDL
+	BNE KEYDL		; if not 0 increment more
+
+	PLA
+
+	INY					; increment index
+	BNE KYB_signon		; loop, always
+; END Paula's code blob 2
+
 
 LAB_nokey
 	JSR	V_INPT		; call scan input device
@@ -71,13 +123,20 @@ LAB_nokey
     BEQ LAB_dowoz
 
 	CMP	#'C'			; compare with [C]old start
-	BNE	RES_vec		; loop if not [C]old start
+	BNE	RES_vec			; loop if not [C]old start
+
+	LDA #$0D
+	STA A_txd			; clear keyboard screen
 
 	JMP	LAB_COLD		; do EhBASIC cold start
 
 LAB_dowarm
+	LDA #$0D
+	STA A_txd			; clear keyboard screen
 	JMP	LAB_WARM		; do EhBASIC warm start
 LAB_dowoz
+	LDA #$0D
+	STA A_txd			; clear keyboard screen
     JMP EWOZ
 
 ; byte out to simulated ACIA
@@ -152,6 +211,9 @@ END_CODE
 LAB_mess
 	.byte	$0D,$0A,"LT6502, EhBASIC [C]old/[W]arm or Woz[M]on ?",$00
 					; sign on string
+KYB_mess
+	.byte	$0D,"C/W/M ?",$00
+	
 
 ; system vectors
 

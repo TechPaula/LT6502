@@ -9395,6 +9395,16 @@ Current file: min_mon.asm
 00FE9E  1               ACIAStatus	= IO_AREA		; FT245 Status
 00FE9E  1               ACIAData	= IO_AREA+$01	; FT245 Data in/out
 00FE9E  1               
+00FE9E  1               ; START Paula's code blob 1
+00FE9E  1               A_rxd           = $BFE0 ; ACIA receive data port
+00FE9E  1               A_txd           = $BFE0 ; ACIA transmit data port
+00FE9E  1               A_sts           = $BFE1 ; ACIA status port
+00FE9E  1               A_res           = $BFE1 ; ACIA reset port
+00FE9E  1               A_cmd           = $BFE2 ; ACIA command port
+00FE9E  1               A_ctl           = $BFE3 ; ACIA control port
+00FE9E  1               MyDL 			= $FF
+00FE9E  1               MyDL2		 	= $FE
+00FE9E  1               ; END Paula's code blob 1
 00FE9E  1               
 00FE9E  1               
 00FE9E  1               ; now the code. all this does is set up the vectors and interrupt code
@@ -9407,128 +9417,182 @@ Current file: min_mon.asm
 00FF00  1               
 00FF00  1               RES_vec
 00FF00  1  D8           	CLD				; clear decimal mode
-00FF01  1  A2 FF        	LDX	#$FF			; empty stack
+00FF01  1  A2 FF        	LDX	#$FF		; empty stack
 00FF03  1  9A           	TXS				; set the stack
 00FF04  1               
 00FF04  1               ; set up vectors and interrupt code, copy them to page 2
 00FF04  1               
 00FF04  1  A0 1C        	LDY	#END_CODE-LAB_vec	; set index/count
 00FF06  1               LAB_stlp
-00FF06  1  B9 55 FF     	LDA	LAB_vec-1,Y		; get byte from interrupt code
+00FF06  1  B9 8D FF     	LDA	LAB_vec-1,Y		; get byte from interrupt code
 00FF09  1  99 04 02     	STA	VEC_IN-1,Y		; save to RAM
-00FF0C  1  88           	DEY				; decrement index/count
+00FF0C  1  88           	DEY					; decrement index/count
 00FF0D  1  D0 F7        	BNE	LAB_stlp		; loop if more to do
 00FF0F  1               
-00FF0F  1               ; now do the signon message, Y = $00 here
-00FF0F  1               
-00FF0F  1               LAB_signon
-00FF0F  1  B9 72 FF     	LDA	LAB_mess,Y		; get byte from sign on message
-00FF12  1  F0 06        	BEQ	LAB_nokey		; exit loop if done
-00FF14  1               
-00FF14  1  20 FC E0     	JSR	V_OUTP		; output character
-00FF17  1  C8           	INY				; increment index
-00FF18  1  D0 F5        	BNE	LAB_signon		; loop, branch always
-00FF1A  1               
-00FF1A  1               LAB_nokey
-00FF1A  1  20 F9 E0     	JSR	V_INPT		; call scan input device
-00FF1D  1  90 FB        	BCC	LAB_nokey		; loop if no key
-00FF1F  1               
-00FF1F  1  29 DF        	AND	#$DF			; mask xx0x xxxx, ensure upper case
-00FF21  1  C9 57        	CMP	#'W'			; compare with [W]arm start
-00FF23  1  F0 0B        	BEQ	LAB_dowarm		; branch if [W]arm start
-00FF25  1               
-00FF25  1  C9 4D            CMP #'M'
-00FF27  1  F0 0A            BEQ LAB_dowoz
-00FF29  1               
-00FF29  1  C9 43        	CMP	#'C'			; compare with [C]old start
-00FF2B  1  D0 D3        	BNE	RES_vec		; loop if not [C]old start
-00FF2D  1               
-00FF2D  1  4C 00 C0     	JMP	LAB_COLD		; do EhBASIC cold start
-00FF30  1               
-00FF30  1               LAB_dowarm
-00FF30  1  4C 00 00     	JMP	LAB_WARM		; do EhBASIC warm start
-00FF33  1               LAB_dowoz
-00FF33  1  4C 00 FC         JMP EWOZ
-00FF36  1               
-00FF36  1               ; byte out to simulated ACIA
-00FF36  1               
-00FF36  1               ACIAout
-00FF36  1  48           	PHA
-00FF37  1               SWait:
-00FF37  1  AD F0 BF     	LDA	ACIAStatus
-00FF3A  1  29 02        	AND	#2
-00FF3C  1  C9 02        	CMP	#2
-00FF3E  1  D0 F7        	BNE	SWait
-00FF40  1  68           	PLA
-00FF41  1  8D F1 BF     	STA	ACIAData
-00FF44  1  60           	RTS
-00FF45  1               
-00FF45  1               
-00FF45  1               
-00FF45  1               
-00FF45  1               
-00FF45  1               
-00FF45  1               
-00FF45  1               ; byte in from simulated ACIA
-00FF45  1               
-00FF45  1               ACIAin
-00FF45  1  AD F0 BF     	LDA	ACIAStatus
-00FF48  1  29 01        	AND	#1
-00FF4A  1  C9 01        	CMP	#1
-00FF4C  1  D0 05        	BNE	NoDataIn
-00FF4E  1  AD F1 BF     	LDA	ACIAData
-00FF51  1  38           	SEC		; Carry set if key available
-00FF52  1  60           	RTS
-00FF53  1               NoDataIn:
-00FF53  1  18           	CLC		; Carry clear if no key pressed
-00FF54  1  60           	RTS
-00FF55  1               
-00FF55  1               no_load				; empty load vector for EhBASIC
-00FF55  1               no_save				; empty save vector for EhBASIC
-00FF55  1  60           	RTS
+00FF0F  1               ; set up 65c51
+00FF0F  1               ;	STA A_res       ; soft reset (value not important)
+00FF0F  1  A9 0B            LDA #$0B        ; set specific modes and functions
+00FF11  1                   	            ; no parity, no echo, no Tx interrupt
+00FF11  1                       	        ; no Rx interrupt, enable Tx/Rx
+00FF11  1  8D E2 BF         STA A_cmd       ; save to command register
+00FF14  1  A9 10            LDA #$10        ; 8-N-1, 115200 baud
+00FF16  1  8D E3 BF         STA A_ctl       ; set control register
+00FF19  1               
+00FF19  1               
+00FF19  1               ; now do the signon message, Y = $00 here
+00FF19  1               LAB_signon
+00FF19  1  B9 AA FF     	LDA	LAB_mess,Y		; get byte from sign on message
+00FF1C  1  F0 06        	BEQ KYB_msg			; display next message
+00FF1E  1               ;	BEQ	LAB_nokey		; exit loop if done
+00FF1E  1               
+00FF1E  1  20 FC E0     	JSR	V_OUTP			; output character
+00FF21  1  C8           	INY					; increment index
+00FF22  1  D0 F5        	BNE	LAB_signon		; loop, branch always
+00FF24  1               
+00FF24  1               
+00FF24  1               ; START Paula's code blob 2
+00FF24  1               KYB_msg
+00FF24  1  A0 00        	LDY #$00
+00FF26  1               
+00FF26  1               KYB_signon
+00FF26  1  B9 D8 FF     	LDA KYB_mess,Y
+00FF29  1  F0 18        	BEQ	LAB_nokey		; exit loop if done
+00FF2B  1  8D E0 BF     	STA A_txd			; send it to keyboard display
+00FF2E  1               
+00FF2E  1  48           	PHA					; save A
+00FF2F  1               
+00FF2F  1  A9 FF        	LDA #$FF			;
+00FF31  1  85 FF        	STA MyDL
+00FF33  1               
+00FF33  1               KEYDL
+00FF33  1  A9 20        	LDA #$20
+00FF35  1  85 FE        	STA MyDL2
+00FF37  1               KEYDL2
+00FF37  1  C6 FE        	DEC MyDL2
+00FF39  1  D0 FC        	BNE	KEYDL2
+00FF3B  1               
+00FF3B  1  C6 FF        	DEC MyDL
+00FF3D  1  D0 F4        	BNE KEYDL		; if not 0 increment more
+00FF3F  1               
+00FF3F  1  68           	PLA
+00FF40  1               
+00FF40  1  C8           	INY					; increment index
+00FF41  1  D0 E3        	BNE KYB_signon		; loop, always
+00FF43  1               ; END Paula's code blob 2
+00FF43  1               
+00FF43  1               
+00FF43  1               LAB_nokey
+00FF43  1  20 F9 E0     	JSR	V_INPT		; call scan input device
+00FF46  1  90 FB        	BCC	LAB_nokey		; loop if no key
+00FF48  1               
+00FF48  1  29 DF        	AND	#$DF			; mask xx0x xxxx, ensure upper case
+00FF4A  1  C9 57        	CMP	#'W'			; compare with [W]arm start
+00FF4C  1  F0 10        	BEQ	LAB_dowarm		; branch if [W]arm start
+00FF4E  1               
+00FF4E  1  C9 4D            CMP #'M'
+00FF50  1  F0 14            BEQ LAB_dowoz
+00FF52  1               
+00FF52  1  C9 43        	CMP	#'C'			; compare with [C]old start
+00FF54  1  D0 AA        	BNE	RES_vec			; loop if not [C]old start
 00FF56  1               
-00FF56  1               ; vector tables
-00FF56  1               
-00FF56  1               LAB_vec
-00FF56  1  45 FF        	.word	ACIAin		; byte in from simulated ACIA
-00FF58  1  36 FF        	.word	ACIAout		; byte out to simulated ACIA
-00FF5A  1  55 FF        	.word	no_load		; null load vector for EhBASIC
-00FF5C  1  55 FF        	.word	no_save		; null save vector for EhBASIC
+00FF56  1  A9 0D        	LDA #$0D
+00FF58  1  8D E0 BF     	STA A_txd			; clear keyboard screen
+00FF5B  1               
+00FF5B  1  4C 00 C0     	JMP	LAB_COLD		; do EhBASIC cold start
 00FF5E  1               
-00FF5E  1               ; EhBASIC IRQ support
-00FF5E  1               
-00FF5E  1               IRQ_CODE
-00FF5E  1  48           	PHA				; save A
-00FF5F  1  A5 DF        	LDA	IrqBase		; get the IRQ flag byte
-00FF61  1  4A           	LSR				; shift the set b7 to b6, and on down ...
-00FF62  1  05 DF        	ORA	IrqBase		; OR the original back in
-00FF64  1  85 DF        	STA	IrqBase		; save the new IRQ flag byte
-00FF66  1  68           	PLA				; restore A
-00FF67  1  40           	RTI
-00FF68  1               
-00FF68  1               ; EhBASIC NMI support
-00FF68  1               
-00FF68  1               NMI_CODE
-00FF68  1  48           	PHA				; save A
-00FF69  1  A5 DC        	LDA	NmiBase		; get the NMI flag byte
-00FF6B  1  4A           	LSR				; shift the set b7 to b6, and on down ...
-00FF6C  1  05 DC        	ORA	NmiBase		; OR the original back in
-00FF6E  1  85 DC        	STA	NmiBase		; save the new NMI flag byte
-00FF70  1  68           	PLA				; restore A
-00FF71  1  40           	RTI
-00FF72  1               
-00FF72  1               END_CODE
-00FF72  1               
-00FF72  1               LAB_mess
-00FF72  1  0D 0A 4C 54  	.byte	$0D,$0A,"LT6502, EhBASIC [C]old/[W]arm or Woz[M]on ?",$00
-00FF76  1  36 35 30 32  
-00FF7A  1  2C 20 45 68  
-00FFA0  1               					; sign on string
+00FF5E  1               LAB_dowarm
+00FF5E  1  A9 0D        	LDA #$0D
+00FF60  1  8D E0 BF     	STA A_txd			; clear keyboard screen
+00FF63  1  4C 00 00     	JMP	LAB_WARM		; do EhBASIC warm start
+00FF66  1               LAB_dowoz
+00FF66  1  A9 0D        	LDA #$0D
+00FF68  1  8D E0 BF     	STA A_txd			; clear keyboard screen
+00FF6B  1  4C 00 FC         JMP EWOZ
+00FF6E  1               
+00FF6E  1               ; byte out to simulated ACIA
+00FF6E  1               
+00FF6E  1               ACIAout
+00FF6E  1  48           	PHA
+00FF6F  1               SWait:
+00FF6F  1  AD F0 BF     	LDA	ACIAStatus
+00FF72  1  29 02        	AND	#2
+00FF74  1  C9 02        	CMP	#2
+00FF76  1  D0 F7        	BNE	SWait
+00FF78  1  68           	PLA
+00FF79  1  8D F1 BF     	STA	ACIAData
+00FF7C  1  60           	RTS
+00FF7D  1               
+00FF7D  1               
+00FF7D  1               
+00FF7D  1               
+00FF7D  1               
+00FF7D  1               
+00FF7D  1               
+00FF7D  1               ; byte in from simulated ACIA
+00FF7D  1               
+00FF7D  1               ACIAin
+00FF7D  1  AD F0 BF     	LDA	ACIAStatus
+00FF80  1  29 01        	AND	#1
+00FF82  1  C9 01        	CMP	#1
+00FF84  1  D0 05        	BNE	NoDataIn
+00FF86  1  AD F1 BF     	LDA	ACIAData
+00FF89  1  38           	SEC		; Carry set if key available
+00FF8A  1  60           	RTS
+00FF8B  1               NoDataIn:
+00FF8B  1  18           	CLC		; Carry clear if no key pressed
+00FF8C  1  60           	RTS
+00FF8D  1               
+00FF8D  1               no_load				; empty load vector for EhBASIC
+00FF8D  1               no_save				; empty save vector for EhBASIC
+00FF8D  1  60           	RTS
+00FF8E  1               
+00FF8E  1               ; vector tables
+00FF8E  1               
+00FF8E  1               LAB_vec
+00FF8E  1  7D FF        	.word	ACIAin		; byte in from simulated ACIA
+00FF90  1  6E FF        	.word	ACIAout		; byte out to simulated ACIA
+00FF92  1  8D FF        	.word	no_load		; null load vector for EhBASIC
+00FF94  1  8D FF        	.word	no_save		; null save vector for EhBASIC
+00FF96  1               
+00FF96  1               ; EhBASIC IRQ support
+00FF96  1               
+00FF96  1               IRQ_CODE
+00FF96  1  48           	PHA				; save A
+00FF97  1  A5 DF        	LDA	IrqBase		; get the IRQ flag byte
+00FF99  1  4A           	LSR				; shift the set b7 to b6, and on down ...
+00FF9A  1  05 DF        	ORA	IrqBase		; OR the original back in
+00FF9C  1  85 DF        	STA	IrqBase		; save the new IRQ flag byte
+00FF9E  1  68           	PLA				; restore A
+00FF9F  1  40           	RTI
 00FFA0  1               
-00FFA0  1               ; system vectors
+00FFA0  1               ; EhBASIC NMI support
 00FFA0  1               
-00FFA0  1               	.segment "VECTS"
-00FFA0  1               	.org	$FFFA
+00FFA0  1               NMI_CODE
+00FFA0  1  48           	PHA				; save A
+00FFA1  1  A5 DC        	LDA	NmiBase		; get the NMI flag byte
+00FFA3  1  4A           	LSR				; shift the set b7 to b6, and on down ...
+00FFA4  1  05 DC        	ORA	NmiBase		; OR the original back in
+00FFA6  1  85 DC        	STA	NmiBase		; save the new NMI flag byte
+00FFA8  1  68           	PLA				; restore A
+00FFA9  1  40           	RTI
+00FFAA  1               
+00FFAA  1               END_CODE
+00FFAA  1               
+00FFAA  1               LAB_mess
+00FFAA  1  0D 0A 4C 54  	.byte	$0D,$0A,"LT6502, EhBASIC [C]old/[W]arm or Woz[M]on ?",$00
+00FFAE  1  36 35 30 32  
+00FFB2  1  2C 20 45 68  
+00FFD8  1               					; sign on string
+00FFD8  1               KYB_mess
+00FFD8  1  0D 43 2F 57  	.byte	$0D,"C/W/M ?",$00
+00FFDC  1  2F 4D 20 3F  
+00FFE0  1  00           
+00FFE1  1               
+00FFE1  1               
+00FFE1  1               ; system vectors
+00FFE1  1               
+00FFE1  1               	.segment "VECTS"
+00FFE1  1               	.org	$FFFA
 00FFFA  1               
 00FFFA  1  17 02        	.word	NMI_vec		; NMI vector
 00FFFC  1  00 FF        	.word	RES_vec		; RESET vector
