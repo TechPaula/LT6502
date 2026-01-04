@@ -1,16 +1,16 @@
 
 *******************************************************************************
-                                 PC6502_CPU_14
+                                  LT6502_GLUE
 *******************************************************************************
 
 CUPL(WM)        5.0a Serial# 60008009
 Device          f1508isptqfp100  Library DLIB-h-40-2
-Created         Sat Jan 03 17:02:25 2026
-Name            PC6502_CPU_14
+Created         Sun Jan 04 15:03:38 2026
+Name            LT6502_GLUE
 Partno          
 Revision        
-Date            15/08/24
-Designer        Shonky/Paula
+Date            02/01/26
+Designer        Paula
 Company         
 Assembly        
 Location        

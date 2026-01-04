@@ -1,20 +1,20 @@
 #$ TOOL CUPL
 # Berkeley PLA format generated using CUPL(WM) 5.0a
 # Serial#  60008009
-# Created  Sat Jan 03 17:02:25 2026
+# Created  Sun Jan 04 15:03:38 2026
 #
-#    Name        PC6502_CPU_14
+#    Name        LT6502_GLUE
 #    Partno      
 #    Revision    
-#    Date        15/08/24
-#    Designer    Shonky/Paula
+#    Date        02/01/26
+#    Designer    Paula
 #    Company     
 #    Assembly    
 #    Location    
 #
-#$ TITLE  PC6502_CPU_14
-#$ MODULE  PC6502_C
-#$ JEDECFILE  PC6502_C
+#$ TITLE  LT6502_GLUE
+#$ MODULE  LT6502_G
+#$ JEDECFILE  LT6502_G
 #$ DEVICE  f1508isptqfp100
 #$ PINS  51 A0+:25 A1+:24 A2+:23 A3+:22 A4+:21 A5+:20 A6+:19 A7+:17 A8+:16 A9+:14 A10+:13 A11+:12 A12+:10 A13+:9 A14+:8 A15+:7 ACIA_nCS+:77 CF_nCS+:81 CF_nRES+:80 CLK+:87 CLK_OUT+:84 D0+:60 D1+:58 D2+:57 D3+:56 D4+:55 D5+:54 D6+:53 D7+:52 DISP_BL+:6 DISP_DATA_EN+:27 DISP_nCS+:98 EXP_nCS+:78 LED+:94 PHI2+:75 Q0+:83 RAM_nCS0+:42 RAM_nCS1+:40 RD+:37 RD_FT+:48 RESET+:93 ROM_nCS+:46 ROM_nR+:45 RW+:36 RXF+:49 RnW+:90 SLOW0+:96 SLOW1+:97 TXE+:50 VIA_nCS+:76 WR_FT+:47 
 #$ NODES  2 Q1+ Q2+ 

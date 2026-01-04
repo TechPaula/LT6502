@@ -1,8 +1,8 @@
-Name     PC6502_CPU_14;
+Name     LT6502_GLUE;
 PartNo   ;
-Date     15/08/24;
+Date     02/01/26;
 Revision ;
-Designer Shonky/Paula;
+Designer Paula;
 Company  ;
 Assembly ;
 Location ;
@@ -168,14 +168,7 @@ D1.oe = FT_CS & !A0 & RnW; 			/* 0xBFF0 */
 D0 = !RXF;				
 D1 = !TXE;			
 
-
-/* Keyboard Serial port, 6551, 0xBFE0 - 0xBFEF */
-ACIA_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & A5 & !A4;
  
-/***********************/
-/* GAP 0xBFF0 - 0xBFCF */
-/***********************/
-
 /* Display 0xBFD0 - 0xBFDF */
 DISP_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & !A5 & A4;
 DISP_DATA_EN = DISP_nCS;
@@ -193,6 +186,15 @@ CF_nRES = RESET;
 
 /* Expansion Slot 0xBE00 - 0xBEFF*/
 EXP_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & !A8   &   !A7 & !A6 & !A5 & !A4;
+
+
+/* Keyboard ACIA - 0xBFE0 - 0xBFEF */
+ACIA_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & A5 & !A4;
+ 
+
+/***********************/
+/* GAP 0xBFF0 - 0xBFCF */
+/***********************/
 
 
 /* ROM 0xC000 - 0xFFFF */
