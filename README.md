@@ -29,7 +29,8 @@ It'll be simple, these are the preliminary specs;
 
 ## To do (probably in order)
 * Finish soldering on parts (Compact Flash/LEDs/speaker/etc)
-* Confirm Battery charging and providing power 
+* Confirm Battery charging and providing power
+* Fix buggy keyscan code on MEGA644P
 * Connect Display and get that working
 * Confirm CF working
 * add SAVE / LOAD / DIR style commands
