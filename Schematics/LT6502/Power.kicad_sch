@@ -5112,6 +5112,131 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "power:VPP"
+			(power)
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "#PWR"
+				(at 0 -3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Value" "VPP"
+				(at 0 3.556 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Power symbol creates a global label with name \"VPP\""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "global power"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "VPP_0_1"
+				(polyline
+					(pts
+						(xy -0.762 1.27) (xy 0 2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 2.54) (xy 0.762 1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "VPP_1_1"
+				(pin power_in line
+					(at 0 0 90)
+					(length 0)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 	)
 	(text "Ensure the 3 power modes are 5V\nOnly before soldering"
 		(exclude_from_sim no)
@@ -5344,6 +5469,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "2e5eb762-e0cc-4706-8be4-8ec1a1fe30e7")
+	)
+	(junction
+		(at 184.15 133.35)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "32ca09ae-a3b5-4290-ae62-63dab34ad393")
 	)
 	(junction
 		(at 200.66 133.35)
@@ -7135,7 +7266,7 @@
 	)
 	(wire
 		(pts
-			(xy 171.45 133.35) (xy 189.23 133.35)
+			(xy 171.45 133.35) (xy 184.15 133.35)
 		)
 		(stroke
 			(width 0)
@@ -7342,6 +7473,16 @@
 			(type default)
 		)
 		(uuid "6e3871b6-1645-4777-b0b9-f20d5ee81c5b")
+	)
+	(wire
+		(pts
+			(xy 184.15 128.27) (xy 184.15 133.35)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6efab321-e0ba-441c-9068-9df2e9512394")
 	)
 	(wire
 		(pts
@@ -8312,6 +8453,16 @@
 			(type default)
 		)
 		(uuid "c552948b-705d-47d0-be40-457ae887294a")
+	)
+	(wire
+		(pts
+			(xy 184.15 133.35) (xy 189.23 133.35)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c5f6992e-245b-49e5-be4d-e39ad66dab65")
 	)
 	(wire
 		(pts
@@ -13772,10 +13923,9 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "5055f5b5-cab8-4f4d-914e-8e2f68253f2f")
 		(property "Reference" "R66"
-			(at 313.69 209.55 90)
+			(at 314.96 211.074 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13783,7 +13933,7 @@
 			)
 		)
 		(property "Value" "1K"
-			(at 313.69 212.09 90)
+			(at 314.96 213.614 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15861,6 +16011,71 @@
 		)
 	)
 	(symbol
+		(lib_id "power:VPP")
+		(at 255.27 215.9 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "a08730e5-975f-4cf5-8613-9430c56ecb38")
+		(property "Reference" "#PWR0120"
+			(at 255.27 219.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "VSYS"
+			(at 255.27 211.836 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 255.27 215.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 255.27 215.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"VPP\""
+			(at 255.27 215.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "eb818022-acf6-4285-b641-bc1f408364f3")
+		)
+		(instances
+			(project "LT6502"
+				(path "/a2243a34-697c-4939-97f7-df548e421864/023ed7d3-fbe9-4017-a116-821cc1971589"
+					(reference "#PWR0120")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:VCC")
 		(at 137.16 199.39 0)
 		(unit 1)
@@ -16495,10 +16710,9 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "b4740c6c-f152-475d-99e9-a99fdabf6327")
 		(property "Reference" "R64"
-			(at 313.69 181.61 90)
+			(at 314.706 182.88 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16506,7 +16720,7 @@
 			)
 		)
 		(property "Value" "1K"
-			(at 313.69 184.15 90)
+			(at 314.706 185.42 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17647,6 +17861,71 @@
 		)
 	)
 	(symbol
+		(lib_id "power:VPP")
+		(at 184.15 128.27 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "cfe43029-1bcd-4263-9fe5-b7423fd3e22d")
+		(property "Reference" "#PWR0147"
+			(at 184.15 132.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "VSYS"
+			(at 184.15 124.206 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 184.15 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 184.15 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"VPP\""
+			(at 184.15 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "25ce487a-2f75-4dad-b8c7-299215a86ff3")
+		)
+		(instances
+			(project ""
+				(path "/a2243a34-697c-4939-97f7-df548e421864/023ed7d3-fbe9-4017-a116-821cc1971589"
+					(reference "#PWR0147")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R")
 		(at 287.02 92.71 90)
 		(mirror x)
@@ -17989,71 +18268,6 @@
 			(project "LT6502"
 				(path "/a2243a34-697c-4939-97f7-df548e421864/023ed7d3-fbe9-4017-a116-821cc1971589"
 					(reference "TP4")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:+5V")
-		(at 255.27 215.9 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "d750b62e-209a-4114-aee7-95e8d6a36956")
-		(property "Reference" "#PWR0120"
-			(at 255.27 219.71 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "+5V"
-			(at 255.27 212.344 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 255.27 215.9 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 255.27 215.9 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"+5V\""
-			(at 255.27 215.9 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "16e679c7-f006-4dac-a16a-12d383ac5e24")
-		)
-		(instances
-			(project "LT6502"
-				(path "/a2243a34-697c-4939-97f7-df548e421864/023ed7d3-fbe9-4017-a116-821cc1971589"
-					(reference "#PWR0120")
 					(unit 1)
 				)
 			)
@@ -19726,10 +19940,9 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "f8c7dba7-723c-4023-a3cf-d518015ec338")
 		(property "Reference" "R65"
-			(at 313.69 195.58 90)
+			(at 314.96 196.85 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19737,7 +19950,7 @@
 			)
 		)
 		(property "Value" "1K"
-			(at 313.69 198.12 90)
+			(at 314.96 199.39 90)
 			(effects
 				(font
 					(size 1.27 1.27)
