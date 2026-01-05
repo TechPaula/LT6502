@@ -55,11 +55,12 @@ uint8_t dispchar[8]={'-','L','T','6','5','0','2','-'};
 int8_t charpos = 0;
 uint8_t CAPSLED = 0;            // 0 = ON, 1 = OFF
 volatile uint8_t ColCount = 0;
-volatile uint8_t KeyPress = 0;
+volatile uint8_t KeyPress = 0xFF;
 volatile uint8_t KeyCol = 0;
 volatile uint8_t Sent = 1;
 volatile uint8_t olddataout = 255;
 volatile uint16_t debouncecount = 0;
+volatile uint8_t ColInc = 1;
 
 uint8_t ShiftStatus = 0;
 uint8_t CtrlStatus = 0;
@@ -71,17 +72,17 @@ uint8_t chartable[64]= {'A','B','C','D','E','F','G','H',
                         'Y','Z','0','1','2','3','4','5',
                         '6','7','8','9', 45, 61, 91, 93,
                          59, 39, 35, 44, 46, 47, 92, 32,
-                         17, 18, 19, 20,  8,  3, 13, 27,
-                          9,200,201,202,128,129,130,131
+                         17, 18, 19, 20,  8,  3, 13,255,
+                          9,200,201,255,255,255,255,255
 };
 uint8_t shiftchartable[64]={'a','b','c','d','e','f','g','h',
                             'i','j','k','l','m','n','o','p',
                             'q','r','s','t','u','v','w','x',
-                            'y','z', 41, 33, 34,'£', 36, 37,
+                            'y','z', 41, 33, 34,'ï¿½', 36, 37,
                              94, 38, 42, 40, 95, 43,123,125,
                              58, 64,126, 60, 62, 63,124, 32,
-                             17, 18, 19, 20,  8,  3, 13, 27,
-                              9,200,240,202,128,129,130,131
+                             17, 18, 19, 20,  8,  3, 13,255,
+                              9,200,240,255,255,255,255,255
 };
 
 
@@ -110,7 +111,7 @@ int main(int argc, char** argv)
     PORTC = 0b10000011;             // bottom right LED on
     PORTD = 0b00000000;
         
-    USART0_PutString("\r\nPC6502 Keybed alive!\r\n");
+    //USART0_PutString("\r\nPC6502 Keybed alive!\r\n");
     
     
     PORTA = 0x00;           // reset on board display
@@ -149,7 +150,10 @@ int main(int argc, char** argv)
         {
             cli();
                 
-            char dataout = 255;
+            uint8_t dataout = 255;
+
+            // Need to remember that we use the AVR to selectr the column
+            //      and then we read the data from the row.
             uint8_t temp = GetBitNum(KeyPress);             // sort which row we've read
             
             dataout = chartable[(8*temp)+KeyCol];      // fetch character from table
@@ -186,31 +190,33 @@ int main(int argc, char** argv)
                 }
             }
             
-            if(ShiftStatus && dataout < 128 && CapsLock)    // SHIFTED keyset
+            if(dataout < 128)
             {
-                dataout = shiftchartable[(8*temp)+KeyCol];      // fetch character from table
-                
-                ShiftStatus = 0;
-                CtrlStatus = 0;
-//                debouncecount = 0;                            // repeat breaks if you put this in
-            }
-            if((dataout < 128) && (dataout != olddataout))  // Send Normal ASCII Characters
-            {
-                USART0_Put(dataout);
-                olddataout = dataout;
-                debouncecount = 0;
-                if(dataout == 13)       // carriage return
+                if(ShiftStatus && CapsLock)    // SHIFTED keyset
                 {
-                    USART0_Put(10);     // also send line feed
+                    dataout = shiftchartable[(8*temp)+KeyCol];      // fetch character from table
+                    
+//                    ShiftStatus = 0;
+//                    CtrlStatus = 0;
+    //                debouncecount = 0;                            // repeat breaks if you put this in
                 }
-            }  
-            if(dataout == '£')      // pound sign!
-            {
-                USART0_Put(dataout);
-                olddataout = dataout;
-                debouncecount = 0;
+                if(dataout != olddataout)  // Send Normal ASCII Characters
+                {
+                    USART0_Put(dataout);
+                    olddataout = dataout;
+                    debouncecount = 0;
+                    if(dataout == 13)       // carriage return
+                    {
+                        USART0_Put(10);     // also send line feed
+                    }
+                }  
+                if(dataout == 'Â£')      // pound sign!
+                {
+                    USART0_Put(dataout);
+                    olddataout = dataout;
+                    debouncecount = 0;
+                }
             }
-
             KeyPress = 0xFF;
             Sent = 0x01;
 
@@ -272,30 +278,30 @@ int main(int argc, char** argv)
 /*** Count the bit position ****************************************************/
 uint8_t GetBitNum(uint8_t value)
 {
-    value = ~value;
     
-    uint8_t result = 255;
+    uint8_t lresult = 255;
     
-    uint8_t mask = 0b00000001;
+    uint8_t lmask = 0b00000001;
     
-    uint8_t count = 0;
+    uint8_t lcount = 0;
+
     
-    while(count < 8)
+    while(lcount < 8)
     {
-        if(value & mask)
+        if(~value & lmask)            // bitwise compare of value and mask, do they match? i.e. is that bit set?
         {
-            result = count;
-            count = 99;
-            break;
+            lresult = lcount;           // remember which bit is set
+            lcount = 99;                // exit while
+            break;                      // break if
         }
         else
         {
-            mask <<=1;
-            count++;
+            lmask <<=1;
+            lcount++;
         }
     }
     
-    return result;
+    return lresult;
 }
 
 
@@ -309,7 +315,7 @@ void UpdateDisplay(void)
         PORTA = dispchar[t] | 0x80;
         PORTD = t << 2;
         _delay_ms(1);
-        PORTC = 0b10000000 | (CAPSLED <<6);
+        PORTC = 0b00000000 | (CAPSLED <<6);    // changed MSB from 1 to 0 to stop keyLEDs flickering
         _delay_ms(1);
         PORTC = 0b00000011 | (CAPSLED <<6);
         t++;
@@ -406,20 +412,31 @@ ISR(TIMER1_COMPA_vect, ISR_BLOCK)
     {
         KeyPress = PINB;
         KeyCol = ColCount;
+        ColInc = 0;             
+    }
+    else if(PINB == 0xFF)
+    {
+        ColInc = 1;
     }
     
     ColCount++;
+    //ColCount += ColInc;       // this stops adjacent characters from going nuts, BUT also stops Shift from working
     
     if(ColCount > 7)
     {
         ColCount = 0;
-        debouncecount++;
-        if(debouncecount > 30)          // sets repeat time.
-        {
-            olddataout = 255;  
-            debouncecount = 0;
-        }
     }
+
+    debouncecount++;
+    if(debouncecount > (30*8))          // sets repeat time.
+    {
+        olddataout = 255;  
+        debouncecount = 0;
+        ShiftStatus = 0;
+        CtrlStatus = 0;
+    }
+
+
 
     PORTD = ColCount << 5;
     
