@@ -13,7 +13,11 @@ It'll be simple, these are the preliminary specs;
 * 10000mAh battery built in
 * USBC powered/charged
 * Serial Console
-* 1 internal expansion slot 
+* 1 internal expansion slot
+
+
+## Latest picture
+![Picture of the 6502 laptop as of 5th Jan 2026](https://raw.githubusercontent.com/TechPaula/LT6502/refs/heads/main/Images/Keyboard_hello_basic_Test.jpeg)
 
 ## Status
 * 2025-11-12 - Initial commit with work in progress PCB, Schematics complete.
@@ -21,6 +25,7 @@ It'll be simple, these are the preliminary specs;
 * 2026-01-01 - Initial power up of PCBs gives all the correct voltages
 * 2025-01-03 - Bring up of board with simple ROM/RAM/Console working.
 * 2025-01-04 - VIA working, ACIA working, comms to/from the keyboard in basic working. Begun integrating keyboard into firmware
+* 2025-01-05 - Keyboard now integrated into firmware, so you can type on the keyboard and don't need the console for input
 
 
 ### Memory Map
@@ -31,7 +36,16 @@ The memory map is subject to change in some parts, though I expect the RAM, ROM 
 |-------|-----|----|----|----|---------------|
 | 0x0000|0xBEAF| 48816 | 0xBEB0 | RAM | This includes Zeropage and other bits BASIC may need (more below) |
 | 0xBEB0|0xBFFF| 336 | 0x150 | peripherals | This is where the peripherals are mapped (see below) |
-| 0xC000|0xFFFF| 12288 | 0x3000 | ROM | holding EhBASIC, eWoz monitor and vectors |
+| 0xC000|0xFFFF| 12288 | 0x3000 | ROM | holding EhBASIC, eWoz monitor, bootstrap and vectors |
+
+##### ROM breakdown
+| Start | End | Size (Dec) | Size (Hex) | What is it | Notes |
+|-------|-----|----|----|----|---------------|
+| 0xC000|0xFAFF| 15104 | 0x3B0 | EhBASIC | EhBASIC 2.22p5 |
+| 0xFB00|0xFDFF| 768 | 0x300 | eWozMon | [Enhanced Wozmon](https://gist.github.com/BigEd/2760560) |
+| 0xFE00|0xFFF9| 506 | 0x1FA | Bootstrap | startup messages and also input/output/load/save vectors|
+| 0xFFFA|0xFFFF| 6 | 0x0A | 6502 Vectors | |
+
 
 ##### RAM breakdown
 | Start | End | Size (Dec) | Size (Hex) | What is it | Notes |
