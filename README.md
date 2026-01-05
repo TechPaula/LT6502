@@ -35,7 +35,7 @@ The memory map is subject to change in some parts, though I expect the RAM, ROM 
 | Start | End | Size (Dec) | Size (Hex) | What is it | Notes |
 |-------|-----|----|----|----|---------------|
 | 0x0000|0xBEAF| 48816 | 0xBEB0 | RAM | This includes Zeropage and other bits BASIC may need (more below) |
-| 0xBEB0|0xBFFF| 336 | 0x150 | peripherals | This is where the peripherals are mapped (see below) |
+| 0xBE00|0xBFFF| 512 | 0x200 | peripherals | This is where the peripherals are mapped (see below) |
 | 0xC000|0xFFFF| 12288 | 0x3000 | ROM | holding EhBASIC, eWoz monitor, bootstrap and vectors |
 
 ##### ROM breakdown
