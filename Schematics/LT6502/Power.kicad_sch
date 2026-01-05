@@ -9571,7 +9571,8 @@
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x02")
-		(at 283.21 245.11 0)
+		(at 283.21 247.65 0)
+		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -9579,7 +9580,7 @@
 		(dnp no)
 		(uuid "08804df4-0a06-45c3-b335-64a78a53f37b")
 		(property "Reference" "J4"
-			(at 283.21 238.76 0)
+			(at 283.21 250.444 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9587,7 +9588,7 @@
 			)
 		)
 		(property "Value" "BATTERY JST PH-2A"
-			(at 283.21 241.3 0)
+			(at 284.226 242.062 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9595,7 +9596,7 @@
 			)
 		)
 		(property "Footprint" "S2B-XH-A_LF__SN_:SHDRRA2W80P0X250_1X2_740X1150X610P"
-			(at 283.21 245.11 0)
+			(at 283.21 247.65 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9604,7 +9605,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 283.21 245.11 0)
+			(at 283.21 247.65 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9613,7 +9614,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 283.21 245.11 0)
+			(at 283.21 247.65 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9622,7 +9623,7 @@
 			)
 		)
 		(property "Mouser Part Number" "306-S2B-XH-ALFSN"
-			(at 283.21 245.11 0)
+			(at 283.21 247.65 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9631,7 +9632,7 @@
 			)
 		)
 		(property "LCSC" "DNF"
-			(at 283.21 245.11 0)
+			(at 283.21 247.65 0)
 			(effects
 				(font
 					(size 1.27 1.27)
