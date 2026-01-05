@@ -25,23 +25,24 @@ IO_AREA	= $BFF0		; set I/O area for this monitor (Console port)
 ACIAStatus	= IO_AREA		; FT245 Status
 ACIAData	= IO_AREA+$01	; FT245 Data in/out
 
-; START Paula's code blob 1
+; Keyboard ACIA (65c51) memory locations
 A_rxd           = $BFE0 ; ACIA receive data port
 A_txd           = $BFE0 ; ACIA transmit data port
 A_sts           = $BFE1 ; ACIA status port
 A_res           = $BFE1 ; ACIA reset port
 A_cmd           = $BFE2 ; ACIA command port
 A_ctl           = $BFE3 ; ACIA control port
+
+; Zeropage bits used for loops
 MyDL 			= $FF
 MyDL2		 	= $FE
-; END Paula's code blob 1
 
 
 ; now the code. all this does is set up the vectors and interrupt code
 ; and wait for the user to select [C]old or [W]arm start. nothing else
 ; fits in less than 128 bytes
 	.segment "IOHANDLER"
-	.org	$FF00			; pretend this is in a 1/8K ROM
+	.org	$FE00			; pretend this is in a 1/8K ROM
 
 ; reset vector points here
 
@@ -73,46 +74,27 @@ LAB_stlp
 LAB_signon
 	LDA	LAB_mess,Y		; get byte from sign on message
 	BEQ KYB_msg			; display next message
-;	BEQ	LAB_nokey		; exit loop if done
 
 	JSR	V_OUTP			; output character
 	INY					; increment index
 	BNE	LAB_signon		; loop, branch always
 
 
-; START Paula's code blob 2
+; send signon message to keyboard
 KYB_msg
 	LDY #$00
 
 KYB_signon
 	LDA KYB_mess,Y
 	BEQ	LAB_nokey		; exit loop if done
-	STA A_txd			; send it to keyboard display
 
-	PHA					; save A
-
-	LDA #$FF			; 
-	STA MyDL
-
-KEYDL
-	LDA #$20
-	STA MyDL2
-KEYDL2
-	DEC MyDL2
-	BNE	KEYDL2
-
-	DEC MyDL
-	BNE KEYDL		; if not 0 increment more
-
-	PLA
-
+	JSR KEYBout			;
 	INY					; increment index
 	BNE KYB_signon		; loop, always
-; END Paula's code blob 2
 
 
 LAB_nokey
-	JSR	V_INPT		; call scan input device
+	JSR	V_INPT			; call scan input device
 	BCC	LAB_nokey		; loop if no key
 
 	AND	#$DF			; mask xx0x xxxx, ensure upper case
@@ -140,7 +122,6 @@ LAB_dowoz
     JMP EWOZ
 
 ; byte out to simulated ACIA
-
 ACIAout
 	PHA
 SWait:
@@ -150,16 +131,48 @@ SWait:
 	BNE	SWait
 	PLA
 	STA	ACIAData
+
+; When screen is working insert screen text output code here
+
+
+
+
+
+
+; end of screen output code
+	RTS						; end of ACIAout
+
+
+; byte out to keyboard 65c51
+KEYBout
+	STA A_txd			; send character to keyboard display
+	PHA					; save A
+
+	LDA #$FF			
+	STA MyDL
+KEYDL				; Outer loop
+	LDA #$40
+	STA MyDL2
+KEYDL2				; Inner loop
+	DEC MyDL2
+	BNE	KEYDL2
+
+	DEC MyDL
+	BNE KEYDL		; if not 0 increment more
+
+	PLA
 	RTS
 
 
+LAB_WAIT_Rx
+    LDA A_sts       ; get ACIA status
+    AND #$08        ; mask rx buffer status flag
+    BEQ LAB_WAIT_Rx ; loop if rx buffer empty
+ 
+    LDA A_rxd       ; get byte from ACIA data port
 
 
-
-
-
-; byte in from simulated ACIA
-
+; byte in from simulated ACIA or Keyboard
 ACIAin
 	LDA	ACIAStatus
 	AND	#1
@@ -170,22 +183,33 @@ ACIAin
 	RTS
 NoDataIn:
 	CLC		; Carry clear if no key pressed
+
+KEY_WAIT_Rx
+    LDA A_sts       ; get ACIA status
+    AND #$08        ; mask rx buffer status flag
+    BEQ KEYB_NoData ; loop if rx buffer empty
+
+    LDA A_rxd       ; get byte from ACIA data port
+	SEC				; Carry set if key available
 	RTS
+	 
+KEYB_NoData
+	CLC				; Carry clear if no key pressed
+	RTS
+
 
 no_load				; empty load vector for EhBASIC
 no_save				; empty save vector for EhBASIC
 	RTS
 
 ; vector tables
-
 LAB_vec
-	.word	ACIAin		; byte in from simulated ACIA
-	.word	ACIAout		; byte out to simulated ACIA
-	.word	no_load		; null load vector for EhBASIC
-	.word	no_save		; null save vector for EhBASIC
+	.word	ACIAin		; byte in from simulated ACIA  	EhBASIC = V_INPT
+	.word	ACIAout		; byte out to simulated ACIA   	EhBASIC = V_OUTP
+	.word	no_load		; null load vector for EhBASIC	EhBASIC = V_LOAD
+	.word	no_save		; null save vector for EhBASIC	EhBASIC = V_SAVE
 
 ; EhBASIC IRQ support
-
 IRQ_CODE
 	PHA				; save A
 	LDA	IrqBase		; get the IRQ flag byte
@@ -196,7 +220,6 @@ IRQ_CODE
 	RTI
 
 ; EhBASIC NMI support
-
 NMI_CODE
 	PHA				; save A
 	LDA	NmiBase		; get the NMI flag byte
@@ -208,11 +231,12 @@ NMI_CODE
 
 END_CODE
 
-LAB_mess
-	.byte	$0D,$0A,"LT6502, EhBASIC [C]old/[W]arm or Woz[M]on ?",$00
-					; sign on string
-KYB_mess
+LAB_mess 					; sign on string (Console)
+	.byte	$0D,$0A,"LT6502 - [C]Cold/[W]arm or [M]onitor ?",$00
+
+KYB_mess					; sign on string (Keyboard)
 	.byte	$0D,"C/W/M ?",$00
+
 	
 
 ; system vectors

@@ -9003,599 +9003,623 @@ Current file: min_mon.asm
 00E836  2               ;ACIAStatus  = IO_AREA		; FT245 Status
 00E836  2               ;ACIAData    = IO_AREA+$01	; FT245 Data in/out
 00E836  2                  .segment "WOZMON"
-00E836  2                   .org    $FC00
-00FC00  2               
-00FC00  2               IN          = $0200          ;*Input buffer
-00FC00  2               XAML        = $24            ;*Index pointers
-00FC00  2               XAMH        = $25
-00FC00  2               STL         = $26
-00FC00  2               STH         = $27
-00FC00  2               L           = $28
-00FC00  2               H           = $29
-00FC00  2               YSAV        = $2A
-00FC00  2               MODE        = $2B
-00FC00  2               MSGL      = $2C
-00FC00  2               MSGH      = $2D
-00FC00  2               COUNTER      = $2E
-00FC00  2               CRC         = $2F
-00FC00  2               CRCCHECK   = $30
-00FC00  2               
-00FC00  2               
-00FC00  2               EWOZ:
-00FC00  2  D8                    CLD             ;Clear decimal arithmetic mode.
-00FC01  2  58                    CLI
-00FC02  2               ;        LDA #$1F        ;* Init ACIA to 19200 Baud.
-00FC02  2               ;        STA ACIA_CTRL
-00FC02  2               ;        LDA #$0B        ;* No Parity.
-00FC02  2               ;        STA ACIA_CMD
-00FC02  2  A9 0D                 LDA #$0D
-00FC04  2  20 22 FD              JSR ECHO      ;* New line.
-00FC07  2  A9 2B                 LDA #<MSG1
-00FC09  2  85 2C                 STA MSGL
-00FC0B  2  A9 FE                 LDA #>MSG1
-00FC0D  2  85 2D                 STA MSGH
-00FC0F  2  20 33 FD              JSR SHWMSG      ;* Show Welcome.
-00FC12  2  A9 0D                 LDA #$0D
-00FC14  2  20 22 FD              JSR ECHO      ;* New line.
-00FC17  2               SOFTRESET:
-00FC17  2  A9 9B                 LDA #$9B      ;* Auto escape.
-00FC19  2               NOTCR:
-00FC19  2  C9 88                 CMP #$88        ;"<-"? * Note this was chaged to $88 which is the back space key.
-00FC1B  2  F0 13                 BEQ BACKSPACE   ;Yes.
-00FC1D  2  C9 9B                 CMP #$9B        ;ESC?
-00FC1F  2  F0 03                 BEQ ESCAPE      ;Yes.
-00FC21  2  C8                    INY             ;Advance text index.
-00FC22  2  10 19                 BPL NEXTCHAR    ;Auto ESC if >127.
-00FC24  2               ESCAPE:
-00FC24  2  A9 DC                 LDA #$DC        ;"\"
-00FC26  2  20 22 FD              JSR ECHO        ;Output it.
-00FC29  2               GETLINE:
-00FC29  2  A9 8D                 LDA #$8D        ;CR.
-00FC2B  2  20 22 FD              JSR ECHO        ;Output it.
-00FC2E  2  A0 01                 LDY #$01        ;Initiallize text index.
-00FC30  2               BACKSPACE:
-00FC30  2  88                    DEY             ;Backup text index.
-00FC31  2  30 F6                 BMI GETLINE     ;Beyond start of line, reinitialize.
-00FC33  2  A9 A0                 LDA #$A0      ;*Space, overwrite the backspaced char.
-00FC35  2  20 22 FD              JSR ECHO
-00FC38  2  A9 88                 LDA #$88      ;*Backspace again to get to correct pos.
-00FC3A  2  20 22 FD              JSR ECHO
-00FC3D  2               NEXTCHAR:
-00FC3D  2  AD F0 BF              LDA ACIAStatus    ;*See if we got an incoming char
-00FC40  2  29 01                 AND #$01        ;*Test bit 3
-00FC42  2  C9 01                 CMP #$01
-00FC44  2  D0 F7                 BNE NEXTCHAR    ;*Wait for character
-00FC46  2  AD F1 BF              LDA ACIAData    ;*Load char
-00FC49  2  C9 60                 CMP #$60      ;*Is it Lower case
-00FC4B  2  30 02                 BMI   CONVERT      ;*Nope, just convert it
-00FC4D  2  29 5F                 AND #$5F      ;*If lower case, convert to Upper case
-00FC4F  2               CONVERT:
-00FC4F  2  09 80           ORA #$80        ;*Convert it to "ASCII Keyboard" Input
-00FC51  2  99 00 02                 STA IN,Y        ;Add to text buffer.
-00FC54  2  20 22 FD                 JSR ECHO        ;Display character.
-00FC57  2  C9 8D                    CMP #$8D        ;CR?
-00FC59  2  D0 BE                    BNE NOTCR       ;No.
-00FC5B  2  A0 FF                    LDY #$FF        ;Reset text index.
-00FC5D  2  A9 00                    LDA #$00        ;For XAM mode.
-00FC5F  2  AA                       TAX             ;0->X.
-00FC60  2               SETSTOR:
-00FC60  2  0A                ASL             ;Leaves $7B if setting STOR mode.
-00FC61  2               SETMODE:
-00FC61  2  85 2B             STA MODE        ;$00 = XAM, $7B = STOR, $AE = BLOK XAM.
-00FC63  2               BLSKIP:
-00FC63  2  C8                 INY             ;Advance text index.
-00FC64  2               NEXTITEM:
-00FC64  2  B9 00 02         LDA IN,Y        ;Get character.
-00FC67  2  C9 8D                    CMP #$8D        ;CR?
-00FC69  2  F0 BE                    BEQ GETLINE     ;Yes, done this line.
-00FC6B  2  C9 AE                    CMP #$AE        ;"."?
-00FC6D  2  90 F4                    BCC BLSKIP      ;Skip delimiter.
-00FC6F  2  F0 F0                    BEQ SETMODE     ;Set BLOCK XAM mode.
-00FC71  2  C9 BA                    CMP #$BA        ;":"?
-00FC73  2  F0 EB                    BEQ SETSTOR     ;Yes, set STOR mode.
-00FC75  2  C9 D2                 CMP #$D2        ;"R"?
-00FC77  2  F0 31                    BEQ RUN         ;Yes, run user program.
-00FC79  2  C9 CC                    CMP #$CC        ;* "L"?
-00FC7B  2  F0 36                    BEQ LOADINT     ;* Yes, Load Intel Code.
-00FC7D  2  86 28                    STX L           ;$00->L.
-00FC7F  2  86 29                    STX H           ; and H.
-00FC81  2  84 2A                    STY YSAV        ;Save Y for comparison.
-00FC83  2               NEXTHEX:
-00FC83  2  B9 00 02          LDA IN,Y        ;Get character for hex test.
-00FC86  2  49 B0                    EOR #$B0        ;Map digits to $0-9.
-00FC88  2  C9 0A                    CMP #$0A        ;Digit?
-00FC8A  2  90 06                    BCC DIG         ;Yes.
-00FC8C  2  69 88                    ADC #$88        ;Map letter "A"-"F" to $FA-FF.
-00FC8E  2  C9 FA                    CMP #$FA        ;Hex letter?
-00FC90  2  90 11                    BCC NOTHEX      ;No, character not hex.
-00FC92  2               DIG:
-00FC92  2  0A                    ASL
-00FC93  2  0A                       ASL             ;Hex digit to MSD of A.
-00FC94  2  0A                       ASL
-00FC95  2  0A                       ASL
-00FC96  2  A2 04                    LDX #$04        ;Shift count.
-00FC98  2               HEXSHIFT:
-00FC98  2  0A              ASL             ;Hex digit left MSB to carry.
-00FC99  2  26 28                    ROL L           ;Rotate into LSD.
-00FC9B  2  26 29                    ROL H           ;Rotate into MSD's.
-00FC9D  2  CA                       DEX             ;Done 4 shifts?
-00FC9E  2  D0 F8                    BNE HEXSHIFT    ;No, loop.
-00FCA0  2  C8                       INY             ;Advance text index.
-00FCA1  2  D0 E0                    BNE NEXTHEX     ;Always taken. Check next character for hex.
-00FCA3  2               NOTHEX:
-00FCA3  2  C4 2A              CPY YSAV        ;Check if L, H empty (no hex digits).
-00FCA5  2  D0 12                 BNE NOESCAPE   ;* Branch out of range, had to improvise...
-00FCA7  2  4C 24 FC                 JMP ESCAPE      ;Yes, generate ESC sequence.
-00FCAA  2               
-00FCAA  2               RUN:
-00FCAA  2  20 B0 FC              JSR ACTRUN      ;* JSR to the Address we want to run.
-00FCAD  2  4C 17 FC              JMP   SOFTRESET   ;* When returned for the program, reset EWOZ.
-00FCB0  2               ACTRUN:
-00FCB0  2  6C 24 00           JMP (XAML)      ;Run at current XAM index.
-00FCB3  2               
-00FCB3  2               LOADINT:
-00FCB3  2  20 40 FD           JSR LOADINTEL   ;* Load the Intel code.
-00FCB6  2  4C 17 FC              JMP   SOFTRESET   ;* When returned from the program, reset EWOZ.
-00FCB9  2               
-00FCB9  2               NOESCAPE:
-00FCB9  2  24 2B            BIT MODE        ;Test MODE byte.
-00FCBB  2  50 0D                    BVC NOTSTOR     ;B6=0 for STOR, 1 for XAM and BLOCK XAM
-00FCBD  2  A5 28                    LDA L           ;LSD's of hex data.
-00FCBF  2  81 26                    STA (STL, X)    ;Store at current "store index".
-00FCC1  2  E6 26                    INC STL         ;Increment store index.
-00FCC3  2  D0 9F                    BNE NEXTITEM    ;Get next item. (no carry).
-00FCC5  2  E6 27                    INC STH         ;Add carry to 'store index' high order.
-00FCC7  2               TONEXTITEM:
-00FCC7  2  4C 64 FC       JMP NEXTITEM    ;Get next command item.
-00FCCA  2               NOTSTOR:
-00FCCA  2  30 2B             BMI XAMNEXT     ;B7=0 for XAM, 1 for BLOCK XAM.
-00FCCC  2  A2 02                    LDX #$02        ;Byte count.
-00FCCE  2               SETADR:
-00FCCE  2  B5 27              LDA L-1,X       ;Copy hex data to
-00FCD0  2  95 25                    STA STL-1,X     ;"store index".
-00FCD2  2  95 23                    STA XAML-1,X    ;And to "XAM index'.
-00FCD4  2  CA                       DEX             ;Next of 2 bytes.
-00FCD5  2  D0 F7                    BNE SETADR      ;Loop unless X = 0.
-00FCD7  2               NXTPRNT:
-00FCD7  2               
-00FCD7  2  D0 14             BNE PRDATA      ;NE means no address to print.
-00FCD9  2  A9 8D                    LDA #$8D        ;CR.
-00FCDB  2  20 22 FD                 JSR ECHO        ;Output it.
-00FCDE  2  A5 25                    LDA XAMH        ;'Examine index' high-order byte.
-00FCE0  2  20 0F FD                 JSR PRBYTE      ;Output it in hex format.
-00FCE3  2  A5 24                    LDA XAML        ;Low-order "examine index" byte.
-00FCE5  2  20 0F FD                 JSR PRBYTE      ;Output it in hex format.
-00FCE8  2  A9 BA                    LDA #$BA        ;":".
-00FCEA  2  20 22 FD                 JSR ECHO        ;Output it.
-00FCED  2               PRDATA:
-00FCED  2               
-00FCED  2  A9 A0              LDA #$A0        ;Blank.
-00FCEF  2  20 22 FD                 JSR ECHO        ;Output it.
-00FCF2  2  A1 24                    LDA (XAML,X)    ;Get data byte at 'examine index".
-00FCF4  2  20 0F FD                 JSR PRBYTE      ;Output it in hex format.
-00FCF7  2               XAMNEXT:
-00FCF7  2  86 2B             STX MODE        ;0-> MODE (XAM mode).
-00FCF9  2  A5 24                    LDA XAML
-00FCFB  2  C5 28                    CMP L           ;Compare 'examine index" to hex data.
-00FCFD  2  A5 25                    LDA XAMH
-00FCFF  2  E5 29                    SBC H
-00FD01  2  B0 C4                    BCS TONEXTITEM  ;Not less, so no more data to output.
-00FD03  2  E6 24                    INC XAML
-00FD05  2  D0 02                    BNE MOD8CHK     ;Increment 'examine index".
-00FD07  2  E6 25                    INC XAMH
-00FD09  2               MOD8CHK:
-00FD09  2  A5 24             LDA XAML        ;Check low-order 'exainine index' byte
-00FD0B  2  29 0F                    AND #$0F        ;For MOD 8=0 ** changed to $0F to get 16 values per row **
-00FD0D  2  10 C8                    BPL NXTPRNT     ;Always taken.
-00FD0F  2               PRBYTE:
-00FD0F  2  48                 PHA             ;Save A for LSD.
-00FD10  2  4A                       LSR
-00FD11  2  4A                       LSR
-00FD12  2  4A                       LSR             ;MSD to LSD position.
-00FD13  2  4A                       LSR
-00FD14  2  20 18 FD                 JSR PRHEX       ;Output hex digit.
-00FD17  2  68                       PLA             ;Restore A.
-00FD18  2               PRHEX:
-00FD18  2  29 0F              AND   #$0F        ;Mask LSD for hex print.
-00FD1A  2  09 B0              ORA   #$B0        ;Add "0".
-00FD1C  2  C9 BA              CMP   #$BA        ;Digit?
-00FD1E  2  90 02              BCC   ECHO        ;Yes, output it.
-00FD20  2  69 06              ADC   #$06        ;Add offset for letter.
-00FD22  2               ECHO:
-00FD22  2  48                 PHA               ;*Save A
-00FD23  2  29 7F              AND   #$7F        ;*Change to "standard ASCII"
-00FD25  2  8D F1 BF           STA   ACIAData    ;*Send it.
-00FD28  2               @WAIT:
-00FD28  2  AD F0 BF           LDA   ACIAStatus  ;*Load status register for ACIA
-00FD2B  2  29 02              AND   #$02        ;*Mask bit 2.
-00FD2D  2  C9 02              CMP   #$02
-00FD2F  2  D0 F7              BNE    @WAIT      ;*ACIA not done yet, wait.
-00FD31  2  68                 PLA               ;*Restore A
-00FD32  2  60                 RTS               ;*Done, over and out...
-00FD33  2               
-00FD33  2               SHWMSG:
-00FD33  2  A0 00              LDY #$0
-00FD35  2               @PRINT:
-00FD35  2  B1 2C              LDA (MSGL),Y
-00FD37  2  F0 06                 BEQ @DONE
-00FD39  2  20 22 FD              JSR ECHO
-00FD3C  2  C8                    INY
-00FD3D  2  D0 F6                 BNE @PRINT
-00FD3F  2               @DONE:
-00FD3F  2  60                 RTS
-00FD40  2               
-00FD40  2               
-00FD40  2               ; Load an program in Intel Hex Format.
-00FD40  2               LOADINTEL:
-00FD40  2  A9 0D           LDA #$0D
-00FD42  2  20 22 FD              JSR ECHO      ;New line.
-00FD45  2  A9 40                 LDA #<MSG2
-00FD47  2  85 2C                 STA MSGL
-00FD49  2  A9 FE                 LDA #>MSG2
-00FD4B  2  85 2D                 STA MSGH
-00FD4D  2  20 33 FD              JSR SHWMSG      ;Show Start Transfer.
-00FD50  2  A9 0D                 LDA #$0D
-00FD52  2  20 22 FD              JSR ECHO      ;New line.
-00FD55  2  A0 00                 LDY #$00
-00FD57  2  84 30                 STY CRCCHECK   ;If CRCCHECK=0, all is good.
-00FD59  2               INTELLINE:
-00FD59  2  20 1E FE        JSR GETCHAR      ;Get char
-00FD5C  2  99 00 02              STA IN,Y      ;Store it
-00FD5F  2  C8                    INY            ;Next
-00FD60  2  C9 1B                 CMP   #$1B      ;Escape ?
-00FD62  2  F0 67                 BEQ   INTELDONE   ;Yes, abort.
-00FD64  2  C9 0D                 CMP #$0D      ;Did we find a new line ?
-00FD66  2  D0 F1                 BNE INTELLINE   ;Nope, continue to scan line.
-00FD68  2  A0 FF                 LDY #$FF      ;Find (:)
-00FD6A  2               FINDCOL:
-00FD6A  2  C8                 INY
-00FD6B  2  B9 00 02              LDA IN,Y
-00FD6E  2  C9 3A                 CMP #$3A      ; Is it Colon ?
-00FD70  2  D0 F8                 BNE FINDCOL      ; Nope, try next.
-00FD72  2  C8                    INY            ; Skip colon
-00FD73  2  A2 00                 LDX   #$00      ; Zero in X
-00FD75  2  86 2F                 STX   CRC         ; Zero Check sum
-00FD77  2  20 FB FD              JSR GETHEX      ; Get Number of bytes.
-00FD7A  2  85 2E                 STA COUNTER      ; Number of bytes in Counter.
-00FD7C  2  18                    CLC            ; Clear carry
-00FD7D  2  65 2F                 ADC CRC         ; Add CRC
-00FD7F  2  85 2F                 STA CRC         ; Store it
-00FD81  2  20 FB FD              JSR GETHEX      ; Get Hi byte
-00FD84  2  85 27                 STA STH         ; Store it
-00FD86  2  18                    CLC            ; Clear carry
-00FD87  2  65 2F                 ADC CRC         ; Add CRC
-00FD89  2  85 2F                 STA CRC         ; Store it
-00FD8B  2  20 FB FD              JSR GETHEX      ; Get Lo byte
-00FD8E  2  85 26                 STA STL         ; Store it
-00FD90  2  18                    CLC            ; Clear carry
-00FD91  2  65 2F                 ADC CRC         ; Add CRC
-00FD93  2  85 2F                 STA CRC         ; Store it
-00FD95  2  A9 2E                 LDA #$2E      ; Load "."
-00FD97  2  20 22 FD              JSR ECHO      ; Print it to indicate activity.
-00FD9A  2               NODOT:
-00FD9A  2  20 FB FD           JSR GETHEX      ; Get Control byte.
-00FD9D  2  C9 01                 CMP   #$01      ; Is it a Termination record ?
-00FD9F  2  F0 2A                 BEQ   INTELDONE   ; Yes, we are done.
-00FDA1  2  18                    CLC            ; Clear carry
-00FDA2  2  65 2F                 ADC CRC         ; Add CRC
-00FDA4  2  85 2F                 STA CRC         ; Store it
-00FDA6  2               INTELSTORE:
-00FDA6  2  20 FB FD           JSR GETHEX      ; Get Data Byte
-00FDA9  2  81 26              STA (STL,X)      ; Store it
-00FDAB  2  18                 CLC            ; Clear carry
-00FDAC  2  65 2F              ADC CRC         ; Add CRC
-00FDAE  2  85 2F              STA CRC         ; Store it
-00FDB0  2  E6 26              INC STL         ; Next Address
-00FDB2  2  D0 02              BNE TESTCOUNT   ; Test to see if Hi byte needs INC
-00FDB4  2  E6 27              INC STH         ; If so, INC it.
-00FDB6  2               TESTCOUNT:
-00FDB6  2  C6 2E              DEC   COUNTER      ; Count down.
-00FDB8  2  D0 EC              BNE INTELSTORE   ; Next byte
-00FDBA  2  20 FB FD           JSR GETHEX      ; Get Checksum
-00FDBD  2  A0 00              LDY #$00      ; Zero Y
-00FDBF  2  18                 CLC            ; Clear carry
-00FDC0  2  65 2F              ADC CRC         ; Add CRC
-00FDC2  2  F0 95              BEQ INTELLINE   ; Checksum OK.
-00FDC4  2  A9 01              LDA #$01      ; Flag CRC error.
-00FDC6  2  85 30              STA   CRCCHECK   ; Store it
-00FDC8  2  4C 59 FD           JMP INTELLINE   ; Process next line.
-00FDCB  2               
-00FDCB  2               INTELDONE:
-00FDCB  2  A5 30              LDA CRCCHECK   ; Test if everything is OK.
-00FDCD  2  F0 16              BEQ OKMESS      ; Show OK message.
-00FDCF  2  A9 0D              LDA #$0D
-00FDD1  2  20 22 FD           JSR ECHO      ;New line.
-00FDD4  2  A9 76              LDA #<MSG4      ; Load Error Message
-00FDD6  2  85 2C              STA MSGL
-00FDD8  2  A9 FE              LDA #>MSG4
-00FDDA  2  85 2D              STA MSGH
-00FDDC  2  20 33 FD           JSR SHWMSG      ;Show Error.
-00FDDF  2  A9 0D              LDA #$0D
-00FDE1  2  20 22 FD           JSR ECHO      ;New line.
-00FDE4  2  60                 RTS
-00FDE5  2               
-00FDE5  2               OKMESS:
-00FDE5  2  A9 0D              LDA #$0D
-00FDE7  2  20 22 FD           JSR ECHO      ;New line.
-00FDEA  2  A9 5F              LDA #<MSG3      ;Load OK Message.
-00FDEC  2  85 2C              STA MSGL
-00FDEE  2  A9 FE              LDA #>MSG3
-00FDF0  2  85 2D              STA MSGH
-00FDF2  2  20 33 FD           JSR SHWMSG      ;Show Done.
-00FDF5  2  A9 0D              LDA #$0D
-00FDF7  2  20 22 FD           JSR ECHO      ;New line.
-00FDFA  2  60                 RTS
-00FDFB  2               
-00FDFB  2               GETHEX:
-00FDFB  2  B9 00 02           LDA IN,Y      ;Get first char.
-00FDFE  2  49 30              EOR #$30
-00FE00  2  C9 0A              CMP #$0A
-00FE02  2  90 02              BCC DONEFIRST
-00FE04  2  69 08              ADC #$08
-00FE06  2               DONEFIRST:
-00FE06  2  0A                 ASL
-00FE07  2  0A                 ASL
-00FE08  2  0A                 ASL
-00FE09  2  0A                 ASL
-00FE0A  2  85 28              STA L
-00FE0C  2  C8                 INY
-00FE0D  2  B9 00 02           LDA IN,Y      ;Get next char.
-00FE10  2  49 30              EOR #$30
-00FE12  2  C9 0A              CMP #$0A
-00FE14  2  90 02              BCC DONESECOND
-00FE16  2  69 08              ADC #$08
-00FE18  2               DONESECOND:
-00FE18  2  29 0F              AND #$0F
-00FE1A  2  05 28              ORA L
-00FE1C  2  C8                 INY
-00FE1D  2  60                 RTS
-00FE1E  2               
-00FE1E  2               GETCHAR:
-00FE1E  2  AD F0 BF           LDA ACIAStatus     ;See if we got an incoming char
-00FE21  2  29 01              AND #$01        ;Test bit 3
-00FE23  2  C9 01              CMP #$01
-00FE25  2  D0 F7              BNE GETCHAR     ;Wait for character
-00FE27  2  AD F1 BF           LDA ACIAData    ;Load char
-00FE2A  2  60                 RTS
-00FE2B  2               
-00FE2B  2               MSG1:
-00FE2B  2  57 65 6C 63        .byte "Welcome to EWOZ 1.0.",0
-00FE2F  2  6F 6D 65 20  
-00FE33  2  74 6F 20 45  
-00FE40  2               MSG2:
-00FE40  2  53 74 61 72        .byte "Start Intel Hex code Transfer.",0
-00FE44  2  74 20 49 6E  
-00FE48  2  74 65 6C 20  
-00FE5F  2               MSG3:
-00FE5F  2  49 6E 74 65        .byte "Intel Hex Imported OK.",0
-00FE63  2  6C 20 48 65  
-00FE67  2  78 20 49 6D  
-00FE76  2               MSG4:
-00FE76  2  49 6E 74 65        .byte "Intel Hex Imported with checksum error.",0
-00FE7A  2  6C 20 48 65  
-00FE7E  2  78 20 49 6D  
-00FE9E  2               
-00FE9E  2               
-00FE9E  2               
-00FE9E  2               
-00FE9E  2               
-00FE9E  2               
-00FE9E  1               
-00FE9E  1               ; put the IRQ and MNI code in RAM so that it can be changed
-00FE9E  1               
-00FE9E  1               IRQ_vec	= VEC_SV+2		; IRQ code vector
-00FE9E  1               NMI_vec	= IRQ_vec+$0A	; NMI code vector
-00FE9E  1               
-00FE9E  1               ; setup for the 6502 simulator environment
-00FE9E  1               
-00FE9E  1               IO_AREA	= $BFF0		; set I/O area for this monitor (Console port)
-00FE9E  1               
-00FE9E  1               ;ACIAsimwr	= IO_AREA+$01	; simulated ACIA write port
-00FE9E  1               ;ACIAsimrd	= IO_AREA+$04	; simulated ACIA read port
-00FE9E  1               ACIAStatus	= IO_AREA		; FT245 Status
-00FE9E  1               ACIAData	= IO_AREA+$01	; FT245 Data in/out
-00FE9E  1               
-00FE9E  1               ; START Paula's code blob 1
-00FE9E  1               A_rxd           = $BFE0 ; ACIA receive data port
-00FE9E  1               A_txd           = $BFE0 ; ACIA transmit data port
-00FE9E  1               A_sts           = $BFE1 ; ACIA status port
-00FE9E  1               A_res           = $BFE1 ; ACIA reset port
-00FE9E  1               A_cmd           = $BFE2 ; ACIA command port
-00FE9E  1               A_ctl           = $BFE3 ; ACIA control port
-00FE9E  1               MyDL 			= $FF
-00FE9E  1               MyDL2		 	= $FE
-00FE9E  1               ; END Paula's code blob 1
-00FE9E  1               
-00FE9E  1               
-00FE9E  1               ; now the code. all this does is set up the vectors and interrupt code
-00FE9E  1               ; and wait for the user to select [C]old or [W]arm start. nothing else
-00FE9E  1               ; fits in less than 128 bytes
-00FE9E  1               	.segment "IOHANDLER"
-00FE9E  1               	.org	$FF00			; pretend this is in a 1/8K ROM
-00FF00  1               
-00FF00  1               ; reset vector points here
-00FF00  1               
-00FF00  1               RES_vec
-00FF00  1  D8           	CLD				; clear decimal mode
-00FF01  1  A2 FF        	LDX	#$FF		; empty stack
-00FF03  1  9A           	TXS				; set the stack
-00FF04  1               
-00FF04  1               ; set up vectors and interrupt code, copy them to page 2
-00FF04  1               
-00FF04  1  A0 1C        	LDY	#END_CODE-LAB_vec	; set index/count
-00FF06  1               LAB_stlp
-00FF06  1  B9 8D FF     	LDA	LAB_vec-1,Y		; get byte from interrupt code
-00FF09  1  99 04 02     	STA	VEC_IN-1,Y		; save to RAM
-00FF0C  1  88           	DEY					; decrement index/count
-00FF0D  1  D0 F7        	BNE	LAB_stlp		; loop if more to do
-00FF0F  1               
-00FF0F  1               ; set up 65c51
-00FF0F  1               ;	STA A_res       ; soft reset (value not important)
-00FF0F  1  A9 0B            LDA #$0B        ; set specific modes and functions
-00FF11  1                   	            ; no parity, no echo, no Tx interrupt
-00FF11  1                       	        ; no Rx interrupt, enable Tx/Rx
-00FF11  1  8D E2 BF         STA A_cmd       ; save to command register
-00FF14  1  A9 10            LDA #$10        ; 8-N-1, 115200 baud
-00FF16  1  8D E3 BF         STA A_ctl       ; set control register
-00FF19  1               
-00FF19  1               
-00FF19  1               ; now do the signon message, Y = $00 here
-00FF19  1               LAB_signon
-00FF19  1  B9 AA FF     	LDA	LAB_mess,Y		; get byte from sign on message
-00FF1C  1  F0 06        	BEQ KYB_msg			; display next message
-00FF1E  1               ;	BEQ	LAB_nokey		; exit loop if done
-00FF1E  1               
-00FF1E  1  20 FC E0     	JSR	V_OUTP			; output character
-00FF21  1  C8           	INY					; increment index
-00FF22  1  D0 F5        	BNE	LAB_signon		; loop, branch always
-00FF24  1               
-00FF24  1               
-00FF24  1               ; START Paula's code blob 2
-00FF24  1               KYB_msg
-00FF24  1  A0 00        	LDY #$00
-00FF26  1               
-00FF26  1               KYB_signon
-00FF26  1  B9 D8 FF     	LDA KYB_mess,Y
-00FF29  1  F0 18        	BEQ	LAB_nokey		; exit loop if done
-00FF2B  1  8D E0 BF     	STA A_txd			; send it to keyboard display
-00FF2E  1               
-00FF2E  1  48           	PHA					; save A
-00FF2F  1               
-00FF2F  1  A9 FF        	LDA #$FF			;
-00FF31  1  85 FF        	STA MyDL
-00FF33  1               
-00FF33  1               KEYDL
-00FF33  1  A9 20        	LDA #$20
-00FF35  1  85 FE        	STA MyDL2
-00FF37  1               KEYDL2
-00FF37  1  C6 FE        	DEC MyDL2
-00FF39  1  D0 FC        	BNE	KEYDL2
-00FF3B  1               
-00FF3B  1  C6 FF        	DEC MyDL
-00FF3D  1  D0 F4        	BNE KEYDL		; if not 0 increment more
-00FF3F  1               
-00FF3F  1  68           	PLA
-00FF40  1               
-00FF40  1  C8           	INY					; increment index
-00FF41  1  D0 E3        	BNE KYB_signon		; loop, always
-00FF43  1               ; END Paula's code blob 2
-00FF43  1               
-00FF43  1               
-00FF43  1               LAB_nokey
-00FF43  1  20 F9 E0     	JSR	V_INPT		; call scan input device
-00FF46  1  90 FB        	BCC	LAB_nokey		; loop if no key
-00FF48  1               
-00FF48  1  29 DF        	AND	#$DF			; mask xx0x xxxx, ensure upper case
-00FF4A  1  C9 57        	CMP	#'W'			; compare with [W]arm start
-00FF4C  1  F0 10        	BEQ	LAB_dowarm		; branch if [W]arm start
-00FF4E  1               
-00FF4E  1  C9 4D            CMP #'M'
-00FF50  1  F0 14            BEQ LAB_dowoz
-00FF52  1               
-00FF52  1  C9 43        	CMP	#'C'			; compare with [C]old start
-00FF54  1  D0 AA        	BNE	RES_vec			; loop if not [C]old start
-00FF56  1               
-00FF56  1  A9 0D        	LDA #$0D
-00FF58  1  8D E0 BF     	STA A_txd			; clear keyboard screen
-00FF5B  1               
-00FF5B  1  4C 00 C0     	JMP	LAB_COLD		; do EhBASIC cold start
-00FF5E  1               
-00FF5E  1               LAB_dowarm
-00FF5E  1  A9 0D        	LDA #$0D
-00FF60  1  8D E0 BF     	STA A_txd			; clear keyboard screen
-00FF63  1  4C 00 00     	JMP	LAB_WARM		; do EhBASIC warm start
-00FF66  1               LAB_dowoz
-00FF66  1  A9 0D        	LDA #$0D
-00FF68  1  8D E0 BF     	STA A_txd			; clear keyboard screen
-00FF6B  1  4C 00 FC         JMP EWOZ
-00FF6E  1               
-00FF6E  1               ; byte out to simulated ACIA
-00FF6E  1               
-00FF6E  1               ACIAout
-00FF6E  1  48           	PHA
-00FF6F  1               SWait:
-00FF6F  1  AD F0 BF     	LDA	ACIAStatus
-00FF72  1  29 02        	AND	#2
-00FF74  1  C9 02        	CMP	#2
-00FF76  1  D0 F7        	BNE	SWait
-00FF78  1  68           	PLA
-00FF79  1  8D F1 BF     	STA	ACIAData
-00FF7C  1  60           	RTS
-00FF7D  1               
-00FF7D  1               
-00FF7D  1               
-00FF7D  1               
-00FF7D  1               
-00FF7D  1               
-00FF7D  1               
-00FF7D  1               ; byte in from simulated ACIA
-00FF7D  1               
-00FF7D  1               ACIAin
-00FF7D  1  AD F0 BF     	LDA	ACIAStatus
-00FF80  1  29 01        	AND	#1
-00FF82  1  C9 01        	CMP	#1
-00FF84  1  D0 05        	BNE	NoDataIn
-00FF86  1  AD F1 BF     	LDA	ACIAData
-00FF89  1  38           	SEC		; Carry set if key available
-00FF8A  1  60           	RTS
-00FF8B  1               NoDataIn:
-00FF8B  1  18           	CLC		; Carry clear if no key pressed
-00FF8C  1  60           	RTS
-00FF8D  1               
-00FF8D  1               no_load				; empty load vector for EhBASIC
-00FF8D  1               no_save				; empty save vector for EhBASIC
-00FF8D  1  60           	RTS
-00FF8E  1               
-00FF8E  1               ; vector tables
-00FF8E  1               
-00FF8E  1               LAB_vec
-00FF8E  1  7D FF        	.word	ACIAin		; byte in from simulated ACIA
-00FF90  1  6E FF        	.word	ACIAout		; byte out to simulated ACIA
-00FF92  1  8D FF        	.word	no_load		; null load vector for EhBASIC
-00FF94  1  8D FF        	.word	no_save		; null save vector for EhBASIC
-00FF96  1               
-00FF96  1               ; EhBASIC IRQ support
-00FF96  1               
-00FF96  1               IRQ_CODE
-00FF96  1  48           	PHA				; save A
-00FF97  1  A5 DF        	LDA	IrqBase		; get the IRQ flag byte
-00FF99  1  4A           	LSR				; shift the set b7 to b6, and on down ...
-00FF9A  1  05 DF        	ORA	IrqBase		; OR the original back in
-00FF9C  1  85 DF        	STA	IrqBase		; save the new IRQ flag byte
-00FF9E  1  68           	PLA				; restore A
-00FF9F  1  40           	RTI
-00FFA0  1               
-00FFA0  1               ; EhBASIC NMI support
-00FFA0  1               
-00FFA0  1               NMI_CODE
-00FFA0  1  48           	PHA				; save A
-00FFA1  1  A5 DC        	LDA	NmiBase		; get the NMI flag byte
-00FFA3  1  4A           	LSR				; shift the set b7 to b6, and on down ...
-00FFA4  1  05 DC        	ORA	NmiBase		; OR the original back in
-00FFA6  1  85 DC        	STA	NmiBase		; save the new NMI flag byte
-00FFA8  1  68           	PLA				; restore A
-00FFA9  1  40           	RTI
-00FFAA  1               
-00FFAA  1               END_CODE
-00FFAA  1               
-00FFAA  1               LAB_mess
-00FFAA  1  0D 0A 4C 54  	.byte	$0D,$0A,"LT6502, EhBASIC [C]old/[W]arm or Woz[M]on ?",$00
-00FFAE  1  36 35 30 32  
-00FFB2  1  2C 20 45 68  
-00FFD8  1               					; sign on string
-00FFD8  1               KYB_mess
-00FFD8  1  0D 43 2F 57  	.byte	$0D,"C/W/M ?",$00
-00FFDC  1  2F 4D 20 3F  
-00FFE0  1  00           
-00FFE1  1               
-00FFE1  1               
-00FFE1  1               ; system vectors
-00FFE1  1               
-00FFE1  1               	.segment "VECTS"
-00FFE1  1               	.org	$FFFA
+00E836  2                   .org    $FB00
+00FB00  2               
+00FB00  2               IN          = $0200          ;*Input buffer
+00FB00  2               XAML        = $24            ;*Index pointers
+00FB00  2               XAMH        = $25
+00FB00  2               STL         = $26
+00FB00  2               STH         = $27
+00FB00  2               L           = $28
+00FB00  2               H           = $29
+00FB00  2               YSAV        = $2A
+00FB00  2               MODE        = $2B
+00FB00  2               MSGL      = $2C
+00FB00  2               MSGH      = $2D
+00FB00  2               COUNTER      = $2E
+00FB00  2               CRC         = $2F
+00FB00  2               CRCCHECK   = $30
+00FB00  2               
+00FB00  2               
+00FB00  2               EWOZ:
+00FB00  2  D8                    CLD             ;Clear decimal arithmetic mode.
+00FB01  2  58                    CLI
+00FB02  2               ;        LDA #$1F        ;* Init ACIA to 19200 Baud.
+00FB02  2               ;        STA ACIA_CTRL
+00FB02  2               ;        LDA #$0B        ;* No Parity.
+00FB02  2               ;        STA ACIA_CMD
+00FB02  2  A9 0D                 LDA #$0D
+00FB04  2  20 22 FC              JSR ECHO      ;* New line.
+00FB07  2  A9 2B                 LDA #<MSG1
+00FB09  2  85 2C                 STA MSGL
+00FB0B  2  A9 FD                 LDA #>MSG1
+00FB0D  2  85 2D                 STA MSGH
+00FB0F  2  20 33 FC              JSR SHWMSG      ;* Show Welcome.
+00FB12  2  A9 0D                 LDA #$0D
+00FB14  2  20 22 FC              JSR ECHO      ;* New line.
+00FB17  2               SOFTRESET:
+00FB17  2  A9 9B                 LDA #$9B      ;* Auto escape.
+00FB19  2               NOTCR:
+00FB19  2  C9 88                 CMP #$88        ;"<-"? * Note this was chaged to $88 which is the back space key.
+00FB1B  2  F0 13                 BEQ BACKSPACE   ;Yes.
+00FB1D  2  C9 9B                 CMP #$9B        ;ESC?
+00FB1F  2  F0 03                 BEQ ESCAPE      ;Yes.
+00FB21  2  C8                    INY             ;Advance text index.
+00FB22  2  10 19                 BPL NEXTCHAR    ;Auto ESC if >127.
+00FB24  2               ESCAPE:
+00FB24  2  A9 DC                 LDA #$DC        ;"\"
+00FB26  2  20 22 FC              JSR ECHO        ;Output it.
+00FB29  2               GETLINE:
+00FB29  2  A9 8D                 LDA #$8D        ;CR.
+00FB2B  2  20 22 FC              JSR ECHO        ;Output it.
+00FB2E  2  A0 01                 LDY #$01        ;Initiallize text index.
+00FB30  2               BACKSPACE:
+00FB30  2  88                    DEY             ;Backup text index.
+00FB31  2  30 F6                 BMI GETLINE     ;Beyond start of line, reinitialize.
+00FB33  2  A9 A0                 LDA #$A0      ;*Space, overwrite the backspaced char.
+00FB35  2  20 22 FC              JSR ECHO
+00FB38  2  A9 88                 LDA #$88      ;*Backspace again to get to correct pos.
+00FB3A  2  20 22 FC              JSR ECHO
+00FB3D  2               NEXTCHAR:
+00FB3D  2  AD F0 BF              LDA ACIAStatus    ;*See if we got an incoming char
+00FB40  2  29 01                 AND #$01        ;*Test bit 3
+00FB42  2  C9 01                 CMP #$01
+00FB44  2  D0 F7                 BNE NEXTCHAR    ;*Wait for character
+00FB46  2  AD F1 BF              LDA ACIAData    ;*Load char
+00FB49  2  C9 60                 CMP #$60      ;*Is it Lower case
+00FB4B  2  30 02                 BMI   CONVERT      ;*Nope, just convert it
+00FB4D  2  29 5F                 AND #$5F      ;*If lower case, convert to Upper case
+00FB4F  2               CONVERT:
+00FB4F  2  09 80           ORA #$80        ;*Convert it to "ASCII Keyboard" Input
+00FB51  2  99 00 02                 STA IN,Y        ;Add to text buffer.
+00FB54  2  20 22 FC                 JSR ECHO        ;Display character.
+00FB57  2  C9 8D                    CMP #$8D        ;CR?
+00FB59  2  D0 BE                    BNE NOTCR       ;No.
+00FB5B  2  A0 FF                    LDY #$FF        ;Reset text index.
+00FB5D  2  A9 00                    LDA #$00        ;For XAM mode.
+00FB5F  2  AA                       TAX             ;0->X.
+00FB60  2               SETSTOR:
+00FB60  2  0A                ASL             ;Leaves $7B if setting STOR mode.
+00FB61  2               SETMODE:
+00FB61  2  85 2B             STA MODE        ;$00 = XAM, $7B = STOR, $AE = BLOK XAM.
+00FB63  2               BLSKIP:
+00FB63  2  C8                 INY             ;Advance text index.
+00FB64  2               NEXTITEM:
+00FB64  2  B9 00 02         LDA IN,Y        ;Get character.
+00FB67  2  C9 8D                    CMP #$8D        ;CR?
+00FB69  2  F0 BE                    BEQ GETLINE     ;Yes, done this line.
+00FB6B  2  C9 AE                    CMP #$AE        ;"."?
+00FB6D  2  90 F4                    BCC BLSKIP      ;Skip delimiter.
+00FB6F  2  F0 F0                    BEQ SETMODE     ;Set BLOCK XAM mode.
+00FB71  2  C9 BA                    CMP #$BA        ;":"?
+00FB73  2  F0 EB                    BEQ SETSTOR     ;Yes, set STOR mode.
+00FB75  2  C9 D2                 CMP #$D2        ;"R"?
+00FB77  2  F0 31                    BEQ RUN         ;Yes, run user program.
+00FB79  2  C9 CC                    CMP #$CC        ;* "L"?
+00FB7B  2  F0 36                    BEQ LOADINT     ;* Yes, Load Intel Code.
+00FB7D  2  86 28                    STX L           ;$00->L.
+00FB7F  2  86 29                    STX H           ; and H.
+00FB81  2  84 2A                    STY YSAV        ;Save Y for comparison.
+00FB83  2               NEXTHEX:
+00FB83  2  B9 00 02          LDA IN,Y        ;Get character for hex test.
+00FB86  2  49 B0                    EOR #$B0        ;Map digits to $0-9.
+00FB88  2  C9 0A                    CMP #$0A        ;Digit?
+00FB8A  2  90 06                    BCC DIG         ;Yes.
+00FB8C  2  69 88                    ADC #$88        ;Map letter "A"-"F" to $FA-FF.
+00FB8E  2  C9 FA                    CMP #$FA        ;Hex letter?
+00FB90  2  90 11                    BCC NOTHEX      ;No, character not hex.
+00FB92  2               DIG:
+00FB92  2  0A                    ASL
+00FB93  2  0A                       ASL             ;Hex digit to MSD of A.
+00FB94  2  0A                       ASL
+00FB95  2  0A                       ASL
+00FB96  2  A2 04                    LDX #$04        ;Shift count.
+00FB98  2               HEXSHIFT:
+00FB98  2  0A              ASL             ;Hex digit left MSB to carry.
+00FB99  2  26 28                    ROL L           ;Rotate into LSD.
+00FB9B  2  26 29                    ROL H           ;Rotate into MSD's.
+00FB9D  2  CA                       DEX             ;Done 4 shifts?
+00FB9E  2  D0 F8                    BNE HEXSHIFT    ;No, loop.
+00FBA0  2  C8                       INY             ;Advance text index.
+00FBA1  2  D0 E0                    BNE NEXTHEX     ;Always taken. Check next character for hex.
+00FBA3  2               NOTHEX:
+00FBA3  2  C4 2A              CPY YSAV        ;Check if L, H empty (no hex digits).
+00FBA5  2  D0 12                 BNE NOESCAPE   ;* Branch out of range, had to improvise...
+00FBA7  2  4C 24 FB                 JMP ESCAPE      ;Yes, generate ESC sequence.
+00FBAA  2               
+00FBAA  2               RUN:
+00FBAA  2  20 B0 FB              JSR ACTRUN      ;* JSR to the Address we want to run.
+00FBAD  2  4C 17 FB              JMP   SOFTRESET   ;* When returned for the program, reset EWOZ.
+00FBB0  2               ACTRUN:
+00FBB0  2  6C 24 00           JMP (XAML)      ;Run at current XAM index.
+00FBB3  2               
+00FBB3  2               LOADINT:
+00FBB3  2  20 40 FC           JSR LOADINTEL   ;* Load the Intel code.
+00FBB6  2  4C 17 FB              JMP   SOFTRESET   ;* When returned from the program, reset EWOZ.
+00FBB9  2               
+00FBB9  2               NOESCAPE:
+00FBB9  2  24 2B            BIT MODE        ;Test MODE byte.
+00FBBB  2  50 0D                    BVC NOTSTOR     ;B6=0 for STOR, 1 for XAM and BLOCK XAM
+00FBBD  2  A5 28                    LDA L           ;LSD's of hex data.
+00FBBF  2  81 26                    STA (STL, X)    ;Store at current "store index".
+00FBC1  2  E6 26                    INC STL         ;Increment store index.
+00FBC3  2  D0 9F                    BNE NEXTITEM    ;Get next item. (no carry).
+00FBC5  2  E6 27                    INC STH         ;Add carry to 'store index' high order.
+00FBC7  2               TONEXTITEM:
+00FBC7  2  4C 64 FB       JMP NEXTITEM    ;Get next command item.
+00FBCA  2               NOTSTOR:
+00FBCA  2  30 2B             BMI XAMNEXT     ;B7=0 for XAM, 1 for BLOCK XAM.
+00FBCC  2  A2 02                    LDX #$02        ;Byte count.
+00FBCE  2               SETADR:
+00FBCE  2  B5 27              LDA L-1,X       ;Copy hex data to
+00FBD0  2  95 25                    STA STL-1,X     ;"store index".
+00FBD2  2  95 23                    STA XAML-1,X    ;And to "XAM index'.
+00FBD4  2  CA                       DEX             ;Next of 2 bytes.
+00FBD5  2  D0 F7                    BNE SETADR      ;Loop unless X = 0.
+00FBD7  2               NXTPRNT:
+00FBD7  2               
+00FBD7  2  D0 14             BNE PRDATA      ;NE means no address to print.
+00FBD9  2  A9 8D                    LDA #$8D        ;CR.
+00FBDB  2  20 22 FC                 JSR ECHO        ;Output it.
+00FBDE  2  A5 25                    LDA XAMH        ;'Examine index' high-order byte.
+00FBE0  2  20 0F FC                 JSR PRBYTE      ;Output it in hex format.
+00FBE3  2  A5 24                    LDA XAML        ;Low-order "examine index" byte.
+00FBE5  2  20 0F FC                 JSR PRBYTE      ;Output it in hex format.
+00FBE8  2  A9 BA                    LDA #$BA        ;":".
+00FBEA  2  20 22 FC                 JSR ECHO        ;Output it.
+00FBED  2               PRDATA:
+00FBED  2               
+00FBED  2  A9 A0              LDA #$A0        ;Blank.
+00FBEF  2  20 22 FC                 JSR ECHO        ;Output it.
+00FBF2  2  A1 24                    LDA (XAML,X)    ;Get data byte at 'examine index".
+00FBF4  2  20 0F FC                 JSR PRBYTE      ;Output it in hex format.
+00FBF7  2               XAMNEXT:
+00FBF7  2  86 2B             STX MODE        ;0-> MODE (XAM mode).
+00FBF9  2  A5 24                    LDA XAML
+00FBFB  2  C5 28                    CMP L           ;Compare 'examine index" to hex data.
+00FBFD  2  A5 25                    LDA XAMH
+00FBFF  2  E5 29                    SBC H
+00FC01  2  B0 C4                    BCS TONEXTITEM  ;Not less, so no more data to output.
+00FC03  2  E6 24                    INC XAML
+00FC05  2  D0 02                    BNE MOD8CHK     ;Increment 'examine index".
+00FC07  2  E6 25                    INC XAMH
+00FC09  2               MOD8CHK:
+00FC09  2  A5 24             LDA XAML        ;Check low-order 'exainine index' byte
+00FC0B  2  29 0F                    AND #$0F        ;For MOD 8=0 ** changed to $0F to get 16 values per row **
+00FC0D  2  10 C8                    BPL NXTPRNT     ;Always taken.
+00FC0F  2               PRBYTE:
+00FC0F  2  48                 PHA             ;Save A for LSD.
+00FC10  2  4A                       LSR
+00FC11  2  4A                       LSR
+00FC12  2  4A                       LSR             ;MSD to LSD position.
+00FC13  2  4A                       LSR
+00FC14  2  20 18 FC                 JSR PRHEX       ;Output hex digit.
+00FC17  2  68                       PLA             ;Restore A.
+00FC18  2               PRHEX:
+00FC18  2  29 0F              AND   #$0F        ;Mask LSD for hex print.
+00FC1A  2  09 B0              ORA   #$B0        ;Add "0".
+00FC1C  2  C9 BA              CMP   #$BA        ;Digit?
+00FC1E  2  90 02              BCC   ECHO        ;Yes, output it.
+00FC20  2  69 06              ADC   #$06        ;Add offset for letter.
+00FC22  2               ECHO:
+00FC22  2  48                 PHA               ;*Save A
+00FC23  2  29 7F              AND   #$7F        ;*Change to "standard ASCII"
+00FC25  2  8D F1 BF           STA   ACIAData    ;*Send it.
+00FC28  2               @WAIT:
+00FC28  2  AD F0 BF           LDA   ACIAStatus  ;*Load status register for ACIA
+00FC2B  2  29 02              AND   #$02        ;*Mask bit 2.
+00FC2D  2  C9 02              CMP   #$02
+00FC2F  2  D0 F7              BNE    @WAIT      ;*ACIA not done yet, wait.
+00FC31  2  68                 PLA               ;*Restore A
+00FC32  2  60                 RTS               ;*Done, over and out...
+00FC33  2               
+00FC33  2               SHWMSG:
+00FC33  2  A0 00              LDY #$0
+00FC35  2               @PRINT:
+00FC35  2  B1 2C              LDA (MSGL),Y
+00FC37  2  F0 06                 BEQ @DONE
+00FC39  2  20 22 FC              JSR ECHO
+00FC3C  2  C8                    INY
+00FC3D  2  D0 F6                 BNE @PRINT
+00FC3F  2               @DONE:
+00FC3F  2  60                 RTS
+00FC40  2               
+00FC40  2               
+00FC40  2               ; Load an program in Intel Hex Format.
+00FC40  2               LOADINTEL:
+00FC40  2  A9 0D           LDA #$0D
+00FC42  2  20 22 FC              JSR ECHO      ;New line.
+00FC45  2  A9 40                 LDA #<MSG2
+00FC47  2  85 2C                 STA MSGL
+00FC49  2  A9 FD                 LDA #>MSG2
+00FC4B  2  85 2D                 STA MSGH
+00FC4D  2  20 33 FC              JSR SHWMSG      ;Show Start Transfer.
+00FC50  2  A9 0D                 LDA #$0D
+00FC52  2  20 22 FC              JSR ECHO      ;New line.
+00FC55  2  A0 00                 LDY #$00
+00FC57  2  84 30                 STY CRCCHECK   ;If CRCCHECK=0, all is good.
+00FC59  2               INTELLINE:
+00FC59  2  20 1E FD        JSR GETCHAR      ;Get char
+00FC5C  2  99 00 02              STA IN,Y      ;Store it
+00FC5F  2  C8                    INY            ;Next
+00FC60  2  C9 1B                 CMP   #$1B      ;Escape ?
+00FC62  2  F0 67                 BEQ   INTELDONE   ;Yes, abort.
+00FC64  2  C9 0D                 CMP #$0D      ;Did we find a new line ?
+00FC66  2  D0 F1                 BNE INTELLINE   ;Nope, continue to scan line.
+00FC68  2  A0 FF                 LDY #$FF      ;Find (:)
+00FC6A  2               FINDCOL:
+00FC6A  2  C8                 INY
+00FC6B  2  B9 00 02              LDA IN,Y
+00FC6E  2  C9 3A                 CMP #$3A      ; Is it Colon ?
+00FC70  2  D0 F8                 BNE FINDCOL      ; Nope, try next.
+00FC72  2  C8                    INY            ; Skip colon
+00FC73  2  A2 00                 LDX   #$00      ; Zero in X
+00FC75  2  86 2F                 STX   CRC         ; Zero Check sum
+00FC77  2  20 FB FC              JSR GETHEX      ; Get Number of bytes.
+00FC7A  2  85 2E                 STA COUNTER      ; Number of bytes in Counter.
+00FC7C  2  18                    CLC            ; Clear carry
+00FC7D  2  65 2F                 ADC CRC         ; Add CRC
+00FC7F  2  85 2F                 STA CRC         ; Store it
+00FC81  2  20 FB FC              JSR GETHEX      ; Get Hi byte
+00FC84  2  85 27                 STA STH         ; Store it
+00FC86  2  18                    CLC            ; Clear carry
+00FC87  2  65 2F                 ADC CRC         ; Add CRC
+00FC89  2  85 2F                 STA CRC         ; Store it
+00FC8B  2  20 FB FC              JSR GETHEX      ; Get Lo byte
+00FC8E  2  85 26                 STA STL         ; Store it
+00FC90  2  18                    CLC            ; Clear carry
+00FC91  2  65 2F                 ADC CRC         ; Add CRC
+00FC93  2  85 2F                 STA CRC         ; Store it
+00FC95  2  A9 2E                 LDA #$2E      ; Load "."
+00FC97  2  20 22 FC              JSR ECHO      ; Print it to indicate activity.
+00FC9A  2               NODOT:
+00FC9A  2  20 FB FC           JSR GETHEX      ; Get Control byte.
+00FC9D  2  C9 01                 CMP   #$01      ; Is it a Termination record ?
+00FC9F  2  F0 2A                 BEQ   INTELDONE   ; Yes, we are done.
+00FCA1  2  18                    CLC            ; Clear carry
+00FCA2  2  65 2F                 ADC CRC         ; Add CRC
+00FCA4  2  85 2F                 STA CRC         ; Store it
+00FCA6  2               INTELSTORE:
+00FCA6  2  20 FB FC           JSR GETHEX      ; Get Data Byte
+00FCA9  2  81 26              STA (STL,X)      ; Store it
+00FCAB  2  18                 CLC            ; Clear carry
+00FCAC  2  65 2F              ADC CRC         ; Add CRC
+00FCAE  2  85 2F              STA CRC         ; Store it
+00FCB0  2  E6 26              INC STL         ; Next Address
+00FCB2  2  D0 02              BNE TESTCOUNT   ; Test to see if Hi byte needs INC
+00FCB4  2  E6 27              INC STH         ; If so, INC it.
+00FCB6  2               TESTCOUNT:
+00FCB6  2  C6 2E              DEC   COUNTER      ; Count down.
+00FCB8  2  D0 EC              BNE INTELSTORE   ; Next byte
+00FCBA  2  20 FB FC           JSR GETHEX      ; Get Checksum
+00FCBD  2  A0 00              LDY #$00      ; Zero Y
+00FCBF  2  18                 CLC            ; Clear carry
+00FCC0  2  65 2F              ADC CRC         ; Add CRC
+00FCC2  2  F0 95              BEQ INTELLINE   ; Checksum OK.
+00FCC4  2  A9 01              LDA #$01      ; Flag CRC error.
+00FCC6  2  85 30              STA   CRCCHECK   ; Store it
+00FCC8  2  4C 59 FC           JMP INTELLINE   ; Process next line.
+00FCCB  2               
+00FCCB  2               INTELDONE:
+00FCCB  2  A5 30              LDA CRCCHECK   ; Test if everything is OK.
+00FCCD  2  F0 16              BEQ OKMESS      ; Show OK message.
+00FCCF  2  A9 0D              LDA #$0D
+00FCD1  2  20 22 FC           JSR ECHO      ;New line.
+00FCD4  2  A9 76              LDA #<MSG4      ; Load Error Message
+00FCD6  2  85 2C              STA MSGL
+00FCD8  2  A9 FD              LDA #>MSG4
+00FCDA  2  85 2D              STA MSGH
+00FCDC  2  20 33 FC           JSR SHWMSG      ;Show Error.
+00FCDF  2  A9 0D              LDA #$0D
+00FCE1  2  20 22 FC           JSR ECHO      ;New line.
+00FCE4  2  60                 RTS
+00FCE5  2               
+00FCE5  2               OKMESS:
+00FCE5  2  A9 0D              LDA #$0D
+00FCE7  2  20 22 FC           JSR ECHO      ;New line.
+00FCEA  2  A9 5F              LDA #<MSG3      ;Load OK Message.
+00FCEC  2  85 2C              STA MSGL
+00FCEE  2  A9 FD              LDA #>MSG3
+00FCF0  2  85 2D              STA MSGH
+00FCF2  2  20 33 FC           JSR SHWMSG      ;Show Done.
+00FCF5  2  A9 0D              LDA #$0D
+00FCF7  2  20 22 FC           JSR ECHO      ;New line.
+00FCFA  2  60                 RTS
+00FCFB  2               
+00FCFB  2               GETHEX:
+00FCFB  2  B9 00 02           LDA IN,Y      ;Get first char.
+00FCFE  2  49 30              EOR #$30
+00FD00  2  C9 0A              CMP #$0A
+00FD02  2  90 02              BCC DONEFIRST
+00FD04  2  69 08              ADC #$08
+00FD06  2               DONEFIRST:
+00FD06  2  0A                 ASL
+00FD07  2  0A                 ASL
+00FD08  2  0A                 ASL
+00FD09  2  0A                 ASL
+00FD0A  2  85 28              STA L
+00FD0C  2  C8                 INY
+00FD0D  2  B9 00 02           LDA IN,Y      ;Get next char.
+00FD10  2  49 30              EOR #$30
+00FD12  2  C9 0A              CMP #$0A
+00FD14  2  90 02              BCC DONESECOND
+00FD16  2  69 08              ADC #$08
+00FD18  2               DONESECOND:
+00FD18  2  29 0F              AND #$0F
+00FD1A  2  05 28              ORA L
+00FD1C  2  C8                 INY
+00FD1D  2  60                 RTS
+00FD1E  2               
+00FD1E  2               GETCHAR:
+00FD1E  2  AD F0 BF           LDA ACIAStatus     ;See if we got an incoming char
+00FD21  2  29 01              AND #$01        ;Test bit 3
+00FD23  2  C9 01              CMP #$01
+00FD25  2  D0 F7              BNE GETCHAR     ;Wait for character
+00FD27  2  AD F1 BF           LDA ACIAData    ;Load char
+00FD2A  2  60                 RTS
+00FD2B  2               
+00FD2B  2               MSG1:
+00FD2B  2  57 65 6C 63        .byte "Welcome to EWOZ 1.0.",0
+00FD2F  2  6F 6D 65 20  
+00FD33  2  74 6F 20 45  
+00FD40  2               MSG2:
+00FD40  2  53 74 61 72        .byte "Start Intel Hex code Transfer.",0
+00FD44  2  74 20 49 6E  
+00FD48  2  74 65 6C 20  
+00FD5F  2               MSG3:
+00FD5F  2  49 6E 74 65        .byte "Intel Hex Imported OK.",0
+00FD63  2  6C 20 48 65  
+00FD67  2  78 20 49 6D  
+00FD76  2               MSG4:
+00FD76  2  49 6E 74 65        .byte "Intel Hex Imported with checksum error.",0
+00FD7A  2  6C 20 48 65  
+00FD7E  2  78 20 49 6D  
+00FD9E  2               
+00FD9E  2               
+00FD9E  2               
+00FD9E  2               
+00FD9E  2               
+00FD9E  2               
+00FD9E  1               
+00FD9E  1               ; put the IRQ and MNI code in RAM so that it can be changed
+00FD9E  1               
+00FD9E  1               IRQ_vec	= VEC_SV+2		; IRQ code vector
+00FD9E  1               NMI_vec	= IRQ_vec+$0A	; NMI code vector
+00FD9E  1               
+00FD9E  1               ; setup for the 6502 simulator environment
+00FD9E  1               
+00FD9E  1               IO_AREA	= $BFF0		; set I/O area for this monitor (Console port)
+00FD9E  1               
+00FD9E  1               ;ACIAsimwr	= IO_AREA+$01	; simulated ACIA write port
+00FD9E  1               ;ACIAsimrd	= IO_AREA+$04	; simulated ACIA read port
+00FD9E  1               ACIAStatus	= IO_AREA		; FT245 Status
+00FD9E  1               ACIAData	= IO_AREA+$01	; FT245 Data in/out
+00FD9E  1               
+00FD9E  1               ; Keyboard ACIA (65c51) memory locations
+00FD9E  1               A_rxd           = $BFE0 ; ACIA receive data port
+00FD9E  1               A_txd           = $BFE0 ; ACIA transmit data port
+00FD9E  1               A_sts           = $BFE1 ; ACIA status port
+00FD9E  1               A_res           = $BFE1 ; ACIA reset port
+00FD9E  1               A_cmd           = $BFE2 ; ACIA command port
+00FD9E  1               A_ctl           = $BFE3 ; ACIA control port
+00FD9E  1               
+00FD9E  1               ; Zeropage bits used for loops
+00FD9E  1               MyDL 			= $FF
+00FD9E  1               MyDL2		 	= $FE
+00FD9E  1               
+00FD9E  1               
+00FD9E  1               ; now the code. all this does is set up the vectors and interrupt code
+00FD9E  1               ; and wait for the user to select [C]old or [W]arm start. nothing else
+00FD9E  1               ; fits in less than 128 bytes
+00FD9E  1               	.segment "IOHANDLER"
+00FD9E  1               	.org	$FE00			; pretend this is in a 1/8K ROM
+00FE00  1               
+00FE00  1               ; reset vector points here
+00FE00  1               
+00FE00  1               RES_vec
+00FE00  1  D8           	CLD				; clear decimal mode
+00FE01  1  A2 FF        	LDX	#$FF		; empty stack
+00FE03  1  9A           	TXS				; set the stack
+00FE04  1               
+00FE04  1               ; set up vectors and interrupt code, copy them to page 2
+00FE04  1               
+00FE04  1  A0 1C        	LDY	#END_CODE-LAB_vec	; set index/count
+00FE06  1               LAB_stlp
+00FE06  1  B9 A8 FE     	LDA	LAB_vec-1,Y		; get byte from interrupt code
+00FE09  1  99 04 02     	STA	VEC_IN-1,Y		; save to RAM
+00FE0C  1  88           	DEY					; decrement index/count
+00FE0D  1  D0 F7        	BNE	LAB_stlp		; loop if more to do
+00FE0F  1               
+00FE0F  1               ; set up 65c51
+00FE0F  1               ;	STA A_res       ; soft reset (value not important)
+00FE0F  1  A9 0B            LDA #$0B        ; set specific modes and functions
+00FE11  1                   	            ; no parity, no echo, no Tx interrupt
+00FE11  1                       	        ; no Rx interrupt, enable Tx/Rx
+00FE11  1  8D E2 BF         STA A_cmd       ; save to command register
+00FE14  1  A9 10            LDA #$10        ; 8-N-1, 115200 baud
+00FE16  1  8D E3 BF         STA A_ctl       ; set control register
+00FE19  1               
+00FE19  1               
+00FE19  1               ; now do the signon message, Y = $00 here
+00FE19  1               LAB_signon
+00FE19  1  B9 C5 FE     	LDA	LAB_mess,Y		; get byte from sign on message
+00FE1C  1  F0 06        	BEQ KYB_msg			; display next message
+00FE1E  1               
+00FE1E  1  20 FC E0     	JSR	V_OUTP			; output character
+00FE21  1  C8           	INY					; increment index
+00FE22  1  D0 F5        	BNE	LAB_signon		; loop, branch always
+00FE24  1               
+00FE24  1               
+00FE24  1               ; send signon message to keyboard
+00FE24  1               KYB_msg
+00FE24  1  A0 00        	LDY #$00
+00FE26  1               
+00FE26  1               KYB_signon
+00FE26  1  B9 EE FE     	LDA KYB_mess,Y
+00FE29  1  F0 06        	BEQ	LAB_nokey		; exit loop if done
+00FE2B  1               
+00FE2B  1  20 6B FE     	JSR KEYBout			;
+00FE2E  1  C8           	INY					; increment index
+00FE2F  1  D0 F5        	BNE KYB_signon		; loop, always
+00FE31  1               
+00FE31  1               
+00FE31  1               LAB_nokey
+00FE31  1  20 F9 E0     	JSR	V_INPT			; call scan input device
+00FE34  1  90 FB        	BCC	LAB_nokey		; loop if no key
+00FE36  1               
+00FE36  1  29 DF        	AND	#$DF			; mask xx0x xxxx, ensure upper case
+00FE38  1  C9 57        	CMP	#'W'			; compare with [W]arm start
+00FE3A  1  F0 10        	BEQ	LAB_dowarm		; branch if [W]arm start
+00FE3C  1               
+00FE3C  1  C9 4D            CMP #'M'
+00FE3E  1  F0 14            BEQ LAB_dowoz
+00FE40  1               
+00FE40  1  C9 43        	CMP	#'C'			; compare with [C]old start
+00FE42  1  D0 BC        	BNE	RES_vec			; loop if not [C]old start
+00FE44  1               
+00FE44  1  A9 0D        	LDA #$0D
+00FE46  1  8D E0 BF     	STA A_txd			; clear keyboard screen
+00FE49  1               
+00FE49  1  4C 00 C0     	JMP	LAB_COLD		; do EhBASIC cold start
+00FE4C  1               
+00FE4C  1               LAB_dowarm
+00FE4C  1  A9 0D        	LDA #$0D
+00FE4E  1  8D E0 BF     	STA A_txd			; clear keyboard screen
+00FE51  1  4C 00 00     	JMP	LAB_WARM		; do EhBASIC warm start
+00FE54  1               LAB_dowoz
+00FE54  1  A9 0D        	LDA #$0D
+00FE56  1  8D E0 BF     	STA A_txd			; clear keyboard screen
+00FE59  1  4C 00 FB         JMP EWOZ
+00FE5C  1               
+00FE5C  1               ; byte out to simulated ACIA
+00FE5C  1               ACIAout
+00FE5C  1  48           	PHA
+00FE5D  1               SWait:
+00FE5D  1  AD F0 BF     	LDA	ACIAStatus
+00FE60  1  29 02        	AND	#2
+00FE62  1  C9 02        	CMP	#2
+00FE64  1  D0 F7        	BNE	SWait
+00FE66  1  68           	PLA
+00FE67  1  8D F1 BF     	STA	ACIAData
+00FE6A  1               
+00FE6A  1               ; When screen is working insert screen text output code here
+00FE6A  1               
+00FE6A  1               
+00FE6A  1               
+00FE6A  1               
+00FE6A  1               
+00FE6A  1               
+00FE6A  1               ; end of screen output code
+00FE6A  1  60           	RTS						; end of ACIAout
+00FE6B  1               
+00FE6B  1               
+00FE6B  1               ; byte out to keyboard 65c51
+00FE6B  1               KEYBout
+00FE6B  1  8D E0 BF     	STA A_txd			; send character to keyboard display
+00FE6E  1  48           	PHA					; save A
+00FE6F  1               
+00FE6F  1  A9 FF        	LDA #$FF
+00FE71  1  85 FF        	STA MyDL
+00FE73  1               KEYDL				; Outer loop
+00FE73  1  A9 40        	LDA #$40
+00FE75  1  85 FE        	STA MyDL2
+00FE77  1               KEYDL2				; Inner loop
+00FE77  1  C6 FE        	DEC MyDL2
+00FE79  1  D0 FC        	BNE	KEYDL2
+00FE7B  1               
+00FE7B  1  C6 FF        	DEC MyDL
+00FE7D  1  D0 F4        	BNE KEYDL		; if not 0 increment more
+00FE7F  1               
+00FE7F  1  68           	PLA
+00FE80  1  60           	RTS
+00FE81  1               
+00FE81  1               
+00FE81  1               LAB_WAIT_Rx
+00FE81  1  AD E1 BF         LDA A_sts       ; get ACIA status
+00FE84  1  29 08            AND #$08        ; mask rx buffer status flag
+00FE86  1  F0 F9            BEQ LAB_WAIT_Rx ; loop if rx buffer empty
+00FE88  1               
+00FE88  1  AD E0 BF         LDA A_rxd       ; get byte from ACIA data port
+00FE8B  1               
+00FE8B  1               
+00FE8B  1               ; byte in from simulated ACIA or Keyboard
+00FE8B  1               ACIAin
+00FE8B  1  AD F0 BF     	LDA	ACIAStatus
+00FE8E  1  29 01        	AND	#1
+00FE90  1  C9 01        	CMP	#1
+00FE92  1  D0 05        	BNE	NoDataIn
+00FE94  1  AD F1 BF     	LDA	ACIAData
+00FE97  1  38           	SEC		; Carry set if key available
+00FE98  1  60           	RTS
+00FE99  1               NoDataIn:
+00FE99  1  18           	CLC		; Carry clear if no key pressed
+00FE9A  1               
+00FE9A  1               KEY_WAIT_Rx
+00FE9A  1  AD E1 BF         LDA A_sts       ; get ACIA status
+00FE9D  1  29 08            AND #$08        ; mask rx buffer status flag
+00FE9F  1  F0 05            BEQ KEYB_NoData ; loop if rx buffer empty
+00FEA1  1               
+00FEA1  1  AD E0 BF         LDA A_rxd       ; get byte from ACIA data port
+00FEA4  1  38           	SEC				; Carry set if key available
+00FEA5  1  60           	RTS
+00FEA6  1               
+00FEA6  1               KEYB_NoData
+00FEA6  1  18           	CLC				; Carry clear if no key pressed
+00FEA7  1  60           	RTS
+00FEA8  1               
+00FEA8  1               
+00FEA8  1               no_load				; empty load vector for EhBASIC
+00FEA8  1               no_save				; empty save vector for EhBASIC
+00FEA8  1  60           	RTS
+00FEA9  1               
+00FEA9  1               ; vector tables
+00FEA9  1               LAB_vec
+00FEA9  1  8B FE        	.word	ACIAin		; byte in from simulated ACIA  	EhBASIC = V_INPT
+00FEAB  1  5C FE        	.word	ACIAout		; byte out to simulated ACIA   	EhBASIC = V_OUTP
+00FEAD  1  A8 FE        	.word	no_load		; null load vector for EhBASIC	EhBASIC = V_LOAD
+00FEAF  1  A8 FE        	.word	no_save		; null save vector for EhBASIC	EhBASIC = V_SAVE
+00FEB1  1               
+00FEB1  1               ; EhBASIC IRQ support
+00FEB1  1               IRQ_CODE
+00FEB1  1  48           	PHA				; save A
+00FEB2  1  A5 DF        	LDA	IrqBase		; get the IRQ flag byte
+00FEB4  1  4A           	LSR				; shift the set b7 to b6, and on down ...
+00FEB5  1  05 DF        	ORA	IrqBase		; OR the original back in
+00FEB7  1  85 DF        	STA	IrqBase		; save the new IRQ flag byte
+00FEB9  1  68           	PLA				; restore A
+00FEBA  1  40           	RTI
+00FEBB  1               
+00FEBB  1               ; EhBASIC NMI support
+00FEBB  1               NMI_CODE
+00FEBB  1  48           	PHA				; save A
+00FEBC  1  A5 DC        	LDA	NmiBase		; get the NMI flag byte
+00FEBE  1  4A           	LSR				; shift the set b7 to b6, and on down ...
+00FEBF  1  05 DC        	ORA	NmiBase		; OR the original back in
+00FEC1  1  85 DC        	STA	NmiBase		; save the new NMI flag byte
+00FEC3  1  68           	PLA				; restore A
+00FEC4  1  40           	RTI
+00FEC5  1               
+00FEC5  1               END_CODE
+00FEC5  1               
+00FEC5  1               LAB_mess 					; sign on string (Console)
+00FEC5  1  0D 0A 4C 54  	.byte	$0D,$0A,"LT6502 - [C]Cold/[W]arm or [M]onitor ?",$00
+00FEC9  1  36 35 30 32  
+00FECD  1  20 2D 20 5B  
+00FEEE  1               
+00FEEE  1               KYB_mess					; sign on string (Keyboard)
+00FEEE  1  0D 43 2F 57  	.byte	$0D,"C/W/M ?",$00
+00FEF2  1  2F 4D 20 3F  
+00FEF6  1  00           
+00FEF7  1               
+00FEF7  1               
+00FEF7  1               
+00FEF7  1               ; system vectors
+00FEF7  1               
+00FEF7  1               	.segment "VECTS"
+00FEF7  1               	.org	$FFFA
 00FFFA  1               
 00FFFA  1  17 02        	.word	NMI_vec		; NMI vector
-00FFFC  1  00 FF        	.word	RES_vec		; RESET vector
+00FFFC  1  00 FE        	.word	RES_vec		; RESET vector
 00FFFE  1  0D 02        	.word	IRQ_vec		; IRQ vector
 010000  1               
 010000  1               

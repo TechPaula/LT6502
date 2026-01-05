@@ -2596,6 +2596,26 @@
 			(embedded_fonts no)
 		)
 	)
+	(text_box "I should have routed CLK/2 to the VIA/ACIA instead of the 16MHz Clock\nSo I've swapped them in the CPLD.\n"
+		(exclude_from_sim no)
+		(at 190.5 59.69 0)
+		(size 30.48 12.7)
+		(margins 0.9525 0.9525 0.9525 0.9525)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(fill
+			(type none)
+		)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left top)
+		)
+		(uuid "3ecdcbbc-6641-453f-b2c7-0632f5d7e17a")
+	)
 	(text_box "As I'm unsure what I will do with these ports in the future I've added every CPU pin and a bunch of others that might be useful.\n\n\nnROMDISABLE: When pulled low, on board ROM is disabled.\nnRAMDISABLE: When pulled low, on board RAM1 is disabled.\n\nCPU_CLK could be stretched\nCLK is unstretched main clock\n\nCPLD_nDIS allows external card to disable address decoding on the CPLD"
 		(exclude_from_sim no)
 		(at 30.48 157.48 0)
@@ -3040,7 +3060,7 @@
 	)
 	(wire
 		(pts
-			(xy 180.34 63.5) (xy 161.29 63.5)
+			(xy 170.18 63.5) (xy 161.29 63.5)
 		)
 		(stroke
 			(width 0)
@@ -3231,7 +3251,7 @@
 	)
 	(wire
 		(pts
-			(xy 180.34 66.04) (xy 161.29 66.04)
+			(xy 170.18 66.04) (xy 161.29 66.04)
 		)
 		(stroke
 			(width 0)
@@ -3301,6 +3321,26 @@
 		)
 		(uuid "6b2b7158-0392-4dab-9c21-8a0a55048fcc")
 	)
+	(polyline
+		(pts
+			(xy 186.69 72.39) (xy 186.69 76.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "75a8f7e3-4c1b-4baa-a658-7a68b622eea1")
+	)
+	(polyline
+		(pts
+			(xy 194.31 72.39) (xy 186.69 72.39)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7a305111-2600-49cc-81f9-42e6ed627d30")
+	)
 	(wire
 		(pts
 			(xy 138.43 58.42) (xy 138.43 53.34)
@@ -3340,6 +3380,26 @@
 			(type default)
 		)
 		(uuid "8170b6f4-ff3c-4f20-a77c-dbcd8753c79d")
+	)
+	(polyline
+		(pts
+			(xy 179.07 76.2) (xy 186.69 76.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "82d8a608-9161-4aac-8c24-8701289bdd29")
+	)
+	(polyline
+		(pts
+			(xy 186.69 72.39) (xy 182.88 72.39)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "83da49f4-5677-45d5-81ec-5ced759b400a")
 	)
 	(wire
 		(pts
@@ -3766,6 +3826,16 @@
 		)
 		(uuid "c632ee4a-719d-4f67-adff-df4bd25bb18f")
 	)
+	(polyline
+		(pts
+			(xy 182.88 72.39) (xy 182.88 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c6e9bf51-739f-4706-9217-0b270ad3fc97")
+	)
 	(wire
 		(pts
 			(xy 148.59 88.9) (xy 120.65 88.9)
@@ -3967,6 +4037,16 @@
 		)
 		(uuid "f380fbe4-bbb6-477b-9544-8b3b9e6adfc2")
 	)
+	(polyline
+		(pts
+			(xy 177.8 73.66) (xy 182.88 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f4938c04-8310-4ef9-a0ad-88582d656776")
+	)
 	(wire
 		(pts
 			(xy 93.98 124.46) (xy 148.59 124.46)
@@ -4030,7 +4110,7 @@
 	)
 	(wire
 		(pts
-			(xy 170.18 71.12) (xy 161.29 71.12)
+			(xy 167.64 71.12) (xy 161.29 71.12)
 		)
 		(stroke
 			(width 0)
@@ -4291,7 +4371,7 @@
 	)
 	(hierarchical_label "RnW"
 		(shape input)
-		(at 180.34 63.5 0)
+		(at 170.18 63.5 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4368,7 +4448,7 @@
 	)
 	(hierarchical_label "CPU_CLK"
 		(shape input)
-		(at 170.18 71.12 0)
+		(at 167.64 71.12 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4500,7 +4580,7 @@
 	)
 	(hierarchical_label "nRES"
 		(shape input)
-		(at 180.34 66.04 0)
+		(at 170.18 66.04 0)
 		(effects
 			(font
 				(size 1.27 1.27)
