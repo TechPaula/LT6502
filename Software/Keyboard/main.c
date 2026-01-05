@@ -9,16 +9,17 @@
  *      Figure out what to do with the 'F' keys
  */
 
-#include <xc.h>
+//#include <xc.h>
+#include <avr/iom644p.h>
 
 // ATmega644P Configuration Bit Settings *** VERY IMPORTANT ***
-FUSES = {
-   	.low = 0xFF,        // LOW {SUT_CKSEL=EXTXOSC_8MHZ_XX_16KCK_65MS, CKOUT=CLEAR, CKDIV8=CLEAR}
-	.high = 0x99,       // HIGH {BOOTRST=CLEAR, BOOTSZ=4096W_7000, EESAVE=CLEAR, WDTON=CLEAR, SPIEN=SET, JTAGEN=SET, OCDEN=CLEAR}
-	.extended = 0xFF,   // EXTENDED {BODLEVEL=DISABLED}
-};
+//FUSES = {
+//   	.low = 0xFF,        // LOW {SUT_CKSEL=EXTXOSC_8MHZ_XX_16KCK_65MS, CKOUT=CLEAR, CKDIV8=CLEAR}
+//	.high = 0x99,       // HIGH {BOOTRST=CLEAR, BOOTSZ=4096W_7000, EESAVE=CLEAR, WDTON=CLEAR, SPIEN=SET, JTAGEN=SET, OCDEN=CLEAR}
+//	.extended = 0xFF,   // EXTENDED {BODLEVEL=DISABLED}
+//};
 
-LOCKBITS = 0xFF; // {LB=NO_LOCK, BLB0=NO_LOCK, BLB1=NO_LOCK}
+//LOCKBITS = 0xFF; // {LB=NO_LOCK, BLB0=NO_LOCK, BLB1=NO_LOCK}
 
 
 // defines that libs things may depend on
@@ -48,10 +49,9 @@ uint8_t USART0_CheckChar(void);     // check if a char is available
 void UpdateDisplay(void);           // Update the display
 uint8_t GetBitNum(uint8_t);
 
-
 /*** globbals ******************************************************************/
 char g_OutString[80];               // output buffer used with sprintf
-uint8_t dispchar[8]={'P','C','6','5','0','2','!',' '};
+uint8_t dispchar[8]={'-','L','T','6','5','0','2','-'};
 int8_t charpos = 0;
 uint8_t CAPSLED = 0;            // 0 = ON, 1 = OFF
 volatile uint8_t ColCount = 0;
