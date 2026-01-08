@@ -3,7 +3,7 @@ LISTING FOR LOGIC DESCRIPTION FILE: LT6502_GLUE.pld                  Page 1
 CUPL(WM): Universal Compiler for Programmable Logic
 Version 5.0a Serial# 60008009
 Copyright (c) 1983, 1998 Logical Devices, Inc.
-Created Sun Jan 04 15:03:38 2026
+Created Thu Jan 08 21:58:11 2026
 
   1:Name     LT6502_GLUE;
   2:PartNo   ;
@@ -64,7 +64,7 @@ LISTING FOR LOGIC DESCRIPTION FILE: LT6502_GLUE.pld                  Page 2
 CUPL(WM): Universal Compiler for Programmable Logic
 Version 5.0a Serial# 60008009
 Copyright (c) 1983, 1998 Logical Devices, Inc.
-Created Sun Jan 04 15:03:38 2026
+Created Thu Jan 08 21:58:11 2026
 
  54:Pin 76 = !VIA_nCS;
  55:
@@ -84,181 +84,199 @@ Created Sun Jan 04 15:03:38 2026
  69:
  70:/* Display */
  71:Pin 98 = !DISP_nCS;
- 72:Pin 27 = DISP_DATA_EN;
+ 72:Pin 27 = DISP_DATA_EN;    /* OUT, databus level shifter enable */
  73:Pin  6 = DISP_BL;
- 74:
- 75:
- 76:/* Address bus all are INPUT */
- 77:Pin 25 = A0;
- 78:Pin 24 = A1;
- 79:Pin 23 = A2;
- 80:Pin 22 = A3;
- 81:Pin 21 = A4;
- 82:Pin 20 = A5;
- 83:Pin 19 = A6;
- 84:Pin 17 = A7;
- 85:Pin 16 = A8;
- 86:Pin 14 = A9;
- 87:Pin 13 = A10;
- 88:Pin 12 = A11;
- 89:Pin 10 = A12;
- 90:Pin  9 = A13;
- 91:Pin  8 = A14;
- 92:Pin  7 = A15;
- 93:
- 94:
- 95:/* Data bus */
- 96:Pin 60 = D0;
- 97:Pin 58 = D1;
- 98:Pin 57 = D2;
- 99:Pin 56 = D3;
-100:Pin 55 = D4;
-101:Pin 54 = D5;
-102:Pin 53 = D6;
-103:Pin 52 = D7;
-104:
-105:
-106:
-107:/*********************************************************
+ 74:Pin 99 = !DISP_nRES;
+ 75:Pin 100 = DISP_E;         /* OUT, 6800 "E" signal
+ 76:
+ 77:
+ 78:/* Beeper */
+ 79:Pin 92 = BEEPER;
+ 80:
+ 81:
+ 82:/* Address bus all are INPUT */
+ 83:Pin 25 = A0;
+ 84:Pin 24 = A1;
+ 85:Pin 23 = A2;
+ 86:Pin 22 = A3;
+ 87:Pin 21 = A4;
+ 88:Pin 20 = A5;
+ 89:Pin 19 = A6;
+ 90:Pin 17 = A7;
+ 91:Pin 16 = A8;
+ 92:Pin 14 = A9;
+ 93:Pin 13 = A10;
+ 94:Pin 12 = A11;
+ 95:Pin 10 = A12;
+ 96:Pin  9 = A13;
+ 97:Pin  8 = A14;
+ 98:Pin  7 = A15;
+ 99:
+100:
+101:/* Data bus */
+102:Pin 60 = D0;
+103:Pin 58 = D1;
+104:Pin 57 = D2;
+105:Pin 56 = D3;
+106:Pin 55 = D4;
+107:Pin 54 = D5;
 
 LISTING FOR LOGIC DESCRIPTION FILE: LT6502_GLUE.pld                  Page 3
 
 CUPL(WM): Universal Compiler for Programmable Logic
 Version 5.0a Serial# 60008009
 Copyright (c) 1983, 1998 Logical Devices, Inc.
-Created Sun Jan 04 15:03:38 2026
+Created Thu Jan 08 21:58:11 2026
 
-108: *                        PINNODES                       *
-109: *********************************************************/
+108:Pin 53 = D6;
+109:Pin 52 = D7;
 110:
-111:/* Clock Stretch nodes */
-112:Pinnode  0  = Q1;
-113:Pinnode  0  = Q2;
-114:
-115:/*********************************************************
-116: *                        VARIABLES                      *
-117: *********************************************************/
-118:
-119:
+111:
+112:
+113:/*********************************************************
+114: *                        PINNODES                       *
+115: *********************************************************/
+116:
+117:/* Clock Stretch nodes */
+118:Pinnode  0  = Q1;
+119:Pinnode  0  = Q2;
 120:
 121:
-122:/*********************************************************
-123: *                     LOGIC EQUATIONS                   *
-124: *********************************************************/
-125:
-126:
-127:/* Clock Stretching */
-128:Q0.ck = CLK;
-129:Q1.ck = CLK;
-130:Q2.ck = CLK;
-131:PHI2.ck = CLK;
-132:
-133:Q0.ar = RESET;
-134:Q1.ar = RESET;
-135:Q2.ar = RESET;
-136:PHI2.ar = RESET;
-137:
-138:Q0.D = !PHI2
-139:       # PHI2 & !Q0;
+122:
+123:
+124:
+125:/*********************************************************
+126: *                     Clock Bits and bobs               *
+127: *********************************************************/
+128:
+129:
+130:/* Clock Stretching */
+131:Q0.ck = CLK;
+132:Q1.ck = CLK;
+133:Q2.ck = CLK;
+134:PHI2.ck = CLK;
+135:
+136:Q0.ar = RESET;
+137:Q1.ar = RESET;
+138:Q2.ar = RESET;
+139:PHI2.ar = RESET;
 140:
-141:Q1.D = !PHI2 & !SLOW0
-142:       # PHI2 & !Q1 & Q0
-143:       # PHI2 & Q1 & !Q0;
-144:
-145:Q2.D = !PHI2 & !SLOW1
-146:       # PHI2 & Q2 & !Q1
-147:       # PHI2 & Q2 & !Q0        
-148:       # PHI2 & !Q2 & Q1 & Q0;
-149:
-150:PHI2.D = !PHI2
-151:       # PHI2 & !Q2     
-152:       # PHI2 & !Q1
-153:       # PHI2 & !Q0     
-154:       # !PHI2 & Q2 & Q1 & Q0;
-155:
-156:
-157:
-158:/* FT245 Serial port 0xBFF0 - 0xBFFF */                 
-159:FT_CS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & A5 & A4;
-160:
-161:RD_FT = PHI2 & FT_CS & A0 &  RnW;               /* 0xBFF1 */
+141:Q0.D = !PHI2
+142:       # PHI2 & !Q0;
+143:
+144:Q1.D = !PHI2 & !SLOW0
+145:       # PHI2 & !Q1 & Q0
+146:       # PHI2 & Q1 & !Q0;
+147:
+148:Q2.D = !PHI2 & !SLOW1
+149:       # PHI2 & Q2 & !Q1
+150:       # PHI2 & Q2 & !Q0        
+151:       # PHI2 & !Q2 & Q1 & Q0;
+152:
+153:PHI2.D = !PHI2
+154:       # PHI2 & !Q2     
+155:       # PHI2 & !Q1
+156:       # PHI2 & !Q0     
+157:       # !PHI2 & Q2 & Q1 & Q0;
+158:
+159:/*********************************************************
+160: *                     Decode & glue                     *
+161: *********************************************************/
 
 LISTING FOR LOGIC DESCRIPTION FILE: LT6502_GLUE.pld                  Page 4
 
 CUPL(WM): Universal Compiler for Programmable Logic
 Version 5.0a Serial# 60008009
 Copyright (c) 1983, 1998 Logical Devices, Inc.
-Created Sun Jan 04 15:03:38 2026
+Created Thu Jan 08 21:58:11 2026
 
-162:WR_FT = PHI2 & FT_CS & A0 & !RnW;               /* 0xBFF1 */ 
+162:
 163:
-164:D0.oe = FT_CS & !A0 & RnW;                      /* 0xBFF0 */
-165:
-166:D1.oe = FT_CS & !A0 & RnW;                      /* 0xBFF0 */
-167:
-168:D0 = !RXF;                              
-169:D1 = !TXE;                      
-170:
-171: 
-172:/* Display 0xBFD0 - 0xBFDF */
-173:DISP_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & !A5 & A4;
-174:DISP_DATA_EN = DISP_nCS;
-175:DISP_BL = 'b'1;
+164:/* FT245 Serial port 0xBFF0 - 0xBFFF */                 
+165:FT_CS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & A5 & A4;
+166:
+167:RD_FT = PHI2 & FT_CS & A0 &  RnW;               /* 0xBFF1 */
+168:WR_FT = PHI2 & FT_CS & A0 & !RnW;               /* 0xBFF1 */ 
+169:
+170:D0.oe = FT_CS & !A0 & RnW;                      /* 0xBFF0 */
+171:
+172:D1.oe = FT_CS & !A0 & RnW;                      /* 0xBFF0 */
+173:
+174:D0 = !RXF;                              
+175:D1 = !TXE;                      
 176:
 177:
-178:/* Onboard VIA 65c22 0xBFC0 - 0xBFCF */
-179:VIA_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & !A5 & !A4;
+178:/* Keyboard ACIA - 0xBFE0 - 0xBFEF */
+179:ACIA_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & A5 & !A4;
 180:
-181:
-182:/* Compact Flash 0xBFB0 - 0xBFBF */
-183:CF_nCS  = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & !A6 & A5 & A4;
-184:CF_nRES = RESET;
-185:
-186:
-187:/* Expansion Slot 0xBE00 - 0xBEFF*/
-188:EXP_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & !A8   &   !A7 & !A6 & !A5 & !A4;
+181: 
+182:/* Display 0xBFD0 - 0xBFDF */
+183:DISP_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & !A5 & A4;
+184:DISP_DATA_EN = DISP_nCS;
+185:DISP_E = DISP_nCS & Q0;
+186:DISP_BL = 'b'1;
+187:DISP_nRES = RESET;
+188:
 189:
-190:
-191:/* Keyboard ACIA - 0xBFE0 - 0xBFEF */
-192:ACIA_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & A5 & !A4;
-193: 
-194:
-195:/***********************/
-196:/* GAP 0xBFF0 - 0xBFCF */
-197:/***********************/
+190:/* Onboard VIA 65c22 0xBFC0 - 0xBFCF */
+191:VIA_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & !A5 & !A4;
+192:
+193:
+194:/* Compact Flash 0xBFB0 - 0xBFBF */
+195:CF_nCS  = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & !A6 & A5 & A4;
+196:CF_nRES = RESET;
+197:
 198:
-199:
-200:/* ROM 0xC000 - 0xFFFF */
-201:ROM_nR  = A15 & A14;   /* ROM Read address */
-202:ROM_nCS = 'b'1;        /* ROM chip select always active */
-203:
+199:/* Beeper, a simple SR latch for now - 0xBFA0 - 0xBFAF */
+200:BEEP_CS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & !A6 & A5 & !A4;
+201:BEEP_S = D0 & BEEP_CS;
+202:BEEP_R = !D0 & BEEP_CS;
+203:BEEPER =  (BEEPER & !BEEP_R) # BEEP_S;
 204:
-205:/* RAM bank 0 0x0000 - 0x7FFF */                        
-206:RAM_nCS0 = !A15;        
-207:RW = PHI2 & !RnW;
-208:RD = PHI2 & RnW;
+205:
+206:/* Expansion Slot 0xBE00 - 0xBEFF*/
+207:EXP_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & !A8   &   !A7 & !A6 & !A5 & !A4;
+208:
 209:
-210:/* RAM bank 1 0x8000 - 0xBDFF */
-211:RAM_nCS1 = A15 & !A14 & !FT_CS & !ACIA_nCS & !DISP_nCS & !VIA_nCS & !CF_nCS & !EXP_nCS;
-212:
+210:/***********************/
+211:/* GAP 0xBFF0 - 0xBFCF */
+212:/***********************/
 213:
-214:/* system wide logic */
-215:CLK_OUT = CLK;
+214:
+215:/* ROM 0xC000 - 0xFFFF */
 
 LISTING FOR LOGIC DESCRIPTION FILE: LT6502_GLUE.pld                  Page 5
 
 CUPL(WM): Universal Compiler for Programmable Logic
 Version 5.0a Serial# 60008009
 Copyright (c) 1983, 1998 Logical Devices, Inc.
-Created Sun Jan 04 15:03:38 2026
+Created Thu Jan 08 21:58:11 2026
 
-216:LED = FT_CS;
-217:
+216:ROM_nR  = A15 & A14;   /* ROM Read address */
+217:ROM_nCS = 'b'1;        /* ROM chip select always active */
 218:
 219:
-220:/* END OF FILE */
-221:/*****************************************************/
-222:
+220:/* RAM bank 0 0x0000 - 0x7FFF */                        
+221:RAM_nCS0 = !A15;        
+222:RW = PHI2 & !RnW;
+223:RD = PHI2 & RnW;
+224:
+225:
+226:/* RAM bank 1 0x8000 - 0xBDFF */
+227:RAM_nCS1 = A15 & !A14 & !FT_CS & !ACIA_nCS & !DISP_nCS & !VIA_nCS & !CF_nCS & !EXP_nCS;
+228:
+229:
+230:
+231:
+232:/* system wide logic */
+233:CLK_OUT = CLK;
+234:LED = DISP_nCS;
+235:
+236:
+237:
+238:/* END OF FILE */
+239:/*****************************************************/
+240:
 
 
 

@@ -69,8 +69,14 @@ Pin 77 = !ACIA_nCS;
 
 /* Display */
 Pin 98 = !DISP_nCS;
-Pin 27 = DISP_DATA_EN;
+Pin 27 = DISP_DATA_EN;    /* OUT, databus level shifter enable */
 Pin  6 = DISP_BL;
+Pin 99 = !DISP_nRES;
+Pin 100 = DISP_E;         /* OUT, 6800 "E" signal
+
+
+/* Beeper */
+Pin 92 = BEEPER;
 
 
 /* Address bus all are INPUT */
@@ -112,15 +118,12 @@ Pin 52 = D7;
 Pinnode  0  = Q1;
 Pinnode  0  = Q2;
 
-/*********************************************************
- *                        VARIABLES                      *
- *********************************************************/
 
 
 
 
 /*********************************************************
- *                     LOGIC EQUATIONS                   *
+ *                     Clock Bits and bobs               *
  *********************************************************/
 
 
@@ -153,6 +156,9 @@ PHI2.D = !PHI2
        # PHI2 & !Q0	
        # !PHI2 & Q2 & Q1 & Q0;
 
+/*********************************************************
+ *                     Decode & glue                     *
+ *********************************************************/
 
 
 /* FT245 Serial port 0xBFF0 - 0xBFFF */			
@@ -168,11 +174,17 @@ D1.oe = FT_CS & !A0 & RnW; 			/* 0xBFF0 */
 D0 = !RXF;				
 D1 = !TXE;			
 
+
+/* Keyboard ACIA - 0xBFE0 - 0xBFEF */
+ACIA_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & A5 & !A4;
+
  
 /* Display 0xBFD0 - 0xBFDF */
 DISP_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & !A5 & A4;
 DISP_DATA_EN = DISP_nCS;
+DISP_E = DISP_nCS & Q0;
 DISP_BL = 'b'1;
+DISP_nRES = RESET;
 
 
 /* Onboard VIA 65c22 0xBFC0 - 0xBFCF */
@@ -184,13 +196,16 @@ CF_nCS  = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & !A6 & A5 &
 CF_nRES = RESET;
 
 
+/* Beeper, a simple SR latch for now - 0xBFA0 - 0xBFAF */
+BEEP_CS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & !A6 & A5 & !A4;
+BEEP_S = D0 & BEEP_CS;
+BEEP_R = !D0 & BEEP_CS;
+BEEPER =  (BEEPER & !BEEP_R) # BEEP_S;
+
+
 /* Expansion Slot 0xBE00 - 0xBEFF*/
 EXP_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & !A8   &   !A7 & !A6 & !A5 & !A4;
 
-
-/* Keyboard ACIA - 0xBFE0 - 0xBFEF */
-ACIA_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & A5 & !A4;
- 
 
 /***********************/
 /* GAP 0xBFF0 - 0xBFCF */
@@ -207,13 +222,16 @@ RAM_nCS0 = !A15;
 RW = PHI2 & !RnW;
 RD = PHI2 & RnW;
 
+
 /* RAM bank 1 0x8000 - 0xBDFF */
 RAM_nCS1 = A15 & !A14 & !FT_CS & !ACIA_nCS & !DISP_nCS & !VIA_nCS & !CF_nCS & !EXP_nCS;
 
 
+
+
 /* system wide logic */
 CLK_OUT = CLK;
-LED = FT_CS;
+LED = DISP_nCS;
 
 
 

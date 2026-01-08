@@ -1,11 +1,16 @@
 CHIP "D:\REPOSITORIES\LT6502\SOFTWARE\CPLD\LT6502_GLUE" ASSIGNED TO AN TQFP100
+DISP_E					: 100
+DISP_nRES					: 99
 DISP_nCS					: 98
 SLOW1					: 97
 SLOW0					: 96
+Q1					: 611
+Q2					: 612
 LED					: 94
 RESET					: 93
-Q1					: 614
-Q2					: 615
+XXL_79					: 614
+XXL_78					: 615
+BEEPER					: 92
 A9					: 14
 A10					: 13
 A11					: 12

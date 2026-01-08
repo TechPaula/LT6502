@@ -2,13 +2,18 @@ CHIP "D:\REPOSITORIES\LT6502\SOFTWARE\CPLD\LT6502_GLUE"
 BEGIN
 
     DEVICE = "TQFP100";
+    "DISP_E"                                  : OUTPUT_PIN = 100 ;
+    "DISP_nRES"                               : OUTPUT_PIN = 99 ;
     "DISP_nCS"                                : OUTPUT_PIN = 98 ;
     "SLOW1"                                   : INPUT_PIN = 97 ;
     "SLOW0"                                   : INPUT_PIN = 96 ;
+    "Q1"                                      : NODE_NUM = 611 ;
+    "Q2"                                      : NODE_NUM = 612 ;
     "LED"                                     : OUTPUT_PIN = 94 ;
     "RESET"                                   : INPUT_PIN = 93 ;
-    "Q1"                                      : NODE_NUM = 614 ;
-    "Q2"                                      : NODE_NUM = 615 ;
+    "XXL_79"                                  : NODE_NUM = 614 ;
+    "XXL_78"                                  : NODE_NUM = 615 ;
+    "BEEPER"                                  : OUTPUT_PIN = 92 ;
     "A9"                                      : INPUT_PIN = 14 ;
     "A10"                                     : INPUT_PIN = 13 ;
     "A11"                                     : INPUT_PIN = 12 ;

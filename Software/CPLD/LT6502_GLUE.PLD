@@ -231,7 +231,7 @@ RAM_nCS1 = A15 & !A14 & !FT_CS & !ACIA_nCS & !DISP_nCS & !VIA_nCS & !CF_nCS & !E
 
 /* system wide logic */
 CLK_OUT = CLK;
-LED = FT_CS;
+LED = DISP_nCS;
 
 
 

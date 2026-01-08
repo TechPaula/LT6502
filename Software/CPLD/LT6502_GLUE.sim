@@ -16,6 +16,7 @@ PIN   9 =  A13
 PIN   8 =  A14 
 PIN   7 =  A15 
 PIN  77 = !ACIA_nCS 
+PIN  92 =  BEEPER 
 PIN  81 = !CF_nCS 
 PIN  80 = !CF_nRES 
 PIN  87 =  CLK 
@@ -30,7 +31,9 @@ PIN  53 =  D6
 PIN  52 =  D7 
 PIN   6 =  DISP_BL 
 PIN  27 =  DISP_DATA_EN 
+PIN 100 =  DISP_E 
 PIN  98 = !DISP_nCS 
+PIN  99 = !DISP_nRES 
 PIN  78 = !EXP_nCS 
 PIN  94 = !LED 
 PIN  75 =  PHI2 
@@ -61,6 +64,31 @@ PIN  47 =  WR_FT
 ACIA_nCS =>
     !A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15
 
+BEEPER =>
+    BEEPER & D0
+  # !A15 & BEEPER
+  # A14 & BEEPER
+  # !A13 & BEEPER
+  # !A12 & BEEPER
+  # !A11 & BEEPER
+  # !A10 & BEEPER
+  # !A9 & BEEPER
+  # !A8 & BEEPER
+  # !A7 & BEEPER
+  # A6 & BEEPER
+  # !A5 & BEEPER
+  # A4 & BEEPER
+  # !A4 & A5 & !A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15 & D0
+
+BEEP_CS =>
+    !A4 & A5 & !A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15
+
+BEEP_R =>
+    !A4 & A5 & !A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15 & !D0
+
+BEEP_S =>
+    !A4 & A5 & !A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15 & D0
+
 CF_nCS =>
     A4 & A5 & !A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15
 
@@ -88,8 +116,14 @@ DISP_BL =>
 DISP_DATA_EN =>
     DISP_nCS
 
+DISP_E =>
+    DISP_nCS & Q0
+
 DISP_nCS =>
     A4 & !A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15
+
+DISP_nRES =>
+    RESET
 
 EXP_nCS =>
     !A4 & !A5 & !A6 & !A7 & !A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15
@@ -98,7 +132,7 @@ FT_CS =>
     A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15
 
 LED =>
-    A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15
+    DISP_nCS
 
 PHI2.d  =>
     !PHI2
