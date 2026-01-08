@@ -67,7 +67,7 @@ The memory map is subject to change in some parts, though I expect the RAM, ROM 
 |-------|-----|----|----|---------------|
 |0xBE0O|00-FF|RW| Expansion slot | |
 |0xBF00|00-9F|  | Unused Currently | |
-|0xBFAO|0-F| W| Bepper | Not sure |
+|0xBFAO|0-F| W| Beeper | Not sure |
 |0xBFBO|0-7|RW| Compact Flash |  |
 |0xBFCO|0-F|RW| 65C22 |  on board VIA |
 |0xBFDO|0-F|RW| Display |   |
