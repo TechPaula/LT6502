@@ -70,7 +70,7 @@ The memory map is subject to change in some parts, though I expect the RAM, ROM 
 |0xBFAO|0-F| W| Beeper | Not sure |
 |0xBFBO|0-7|RW| Compact Flash |  |
 |0xBFCO|0-F|RW| 65C22 |  on board VIA |
-|0xBFDO|0-F|RW| Display |   |
+|0xBFDO|0-F|0-1| Display |   |
 |0xBFEO|0-F|RW| 65C21 | internal keyboard  |
 |0xBFF0|0-1|RW| Console | FTDI USB console port   |
 
