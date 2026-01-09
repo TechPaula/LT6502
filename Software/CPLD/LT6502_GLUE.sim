@@ -126,7 +126,7 @@ DISP_nRES =>
     RESET
 
 EXP_nCS =>
-    !A4 & !A5 & !A6 & !A7 & !A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15
+    !A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15
 
 FT_CS =>
     A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15
@@ -190,9 +190,9 @@ RAM_nCS1 =>
   # !A9 & !A14 & A15 & !ACIA_nCS & !CF_nCS & !DISP_nCS & !EXP_nCS & !VIA_nCS
   # !A8 & !A14 & A15 & !ACIA_nCS & !CF_nCS & !DISP_nCS & !EXP_nCS & !VIA_nCS
   # !A7 & !A14 & A15 & !ACIA_nCS & !CF_nCS & !DISP_nCS & !EXP_nCS & !VIA_nCS
-  # !A6 & !A14 & A15 & !ACIA_nCS & !CF_nCS & !DISP_nCS & !EXP_nCS & !VIA_nCS
+  # !A4 & A6 & !A14 & A15 & !ACIA_nCS & !CF_nCS & !DISP_nCS & !EXP_nCS & !VIA_nCS
+  # A4 & !A6 & !A14 & A15 & !ACIA_nCS & !CF_nCS & !DISP_nCS & !EXP_nCS & !VIA_nCS
   # !A5 & !A14 & A15 & !ACIA_nCS & !CF_nCS & !DISP_nCS & !EXP_nCS & !VIA_nCS
-  # !A4 & !A14 & A15 & !ACIA_nCS & !CF_nCS & !DISP_nCS & !EXP_nCS & !VIA_nCS
 
 RD =>
     PHI2 & RnW

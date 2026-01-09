@@ -203,7 +203,7 @@ BEEPER =  (BEEPER & !BEEP_R) # BEEP_S;
 
 
 /* Expansion Slot 0xBE00 - 0xBEFF*/
-EXP_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & !A8   &   !A7 & !A6 & !A5 & !A4;
+EXP_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & !A8;
 
 
 /***********************/
@@ -223,7 +223,7 @@ RD = PHI2 & RnW;
 
 
 /* RAM bank 1 0x8000 - 0xBDFF */
-RAM_nCS1 = A15 & !A14 & !FT_CS & !ACIA_nCS & !DISP_nCS & !VIA_nCS & !CF_nCS & !EXP_nCS;
+RAM_nCS1 = A15 & !A14 & !FT_CS & !ACIA_nCS & !DISP_nCS & !VIA_nCS & !CF_nCS & !EXP_nCS & !BEEP_CS;
 
 
 

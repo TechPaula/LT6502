@@ -3,7 +3,7 @@ LISTING FOR LOGIC DESCRIPTION FILE: LT6502_GLUE.pld                  Page 1
 CUPL(WM): Universal Compiler for Programmable Logic
 Version 5.0a Serial# 60008009
 Copyright (c) 1983, 1998 Logical Devices, Inc.
-Created Fri Jan 09 11:12:31 2026
+Created Fri Jan 09 15:21:27 2026
 
   1:Name     LT6502_GLUE;
   2:PartNo   ;
@@ -64,7 +64,7 @@ LISTING FOR LOGIC DESCRIPTION FILE: LT6502_GLUE.pld                  Page 2
 CUPL(WM): Universal Compiler for Programmable Logic
 Version 5.0a Serial# 60008009
 Copyright (c) 1983, 1998 Logical Devices, Inc.
-Created Fri Jan 09 11:12:31 2026
+Created Fri Jan 09 15:21:27 2026
 
  54:Pin 76 = !VIA_nCS;
  55:
@@ -126,7 +126,7 @@ LISTING FOR LOGIC DESCRIPTION FILE: LT6502_GLUE.pld                  Page 3
 CUPL(WM): Universal Compiler for Programmable Logic
 Version 5.0a Serial# 60008009
 Copyright (c) 1983, 1998 Logical Devices, Inc.
-Created Fri Jan 09 11:12:31 2026
+Created Fri Jan 09 15:21:27 2026
 
 108:Pin 53 = D6;
 109:Pin 52 = D7;
@@ -188,7 +188,7 @@ LISTING FOR LOGIC DESCRIPTION FILE: LT6502_GLUE.pld                  Page 4
 CUPL(WM): Universal Compiler for Programmable Logic
 Version 5.0a Serial# 60008009
 Copyright (c) 1983, 1998 Logical Devices, Inc.
-Created Fri Jan 09 11:12:31 2026
+Created Fri Jan 09 15:21:27 2026
 
 162:
 163:
@@ -234,7 +234,7 @@ Created Fri Jan 09 11:12:31 2026
 203:
 204:
 205:/* Expansion Slot 0xBE00 - 0xBEFF*/
-206:EXP_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & !A8   &   !A7 & !A6 & !A5 & !A4;
+206:EXP_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & !A8;
 207:
 208:
 209:/***********************/
@@ -250,7 +250,7 @@ LISTING FOR LOGIC DESCRIPTION FILE: LT6502_GLUE.pld                  Page 5
 CUPL(WM): Universal Compiler for Programmable Logic
 Version 5.0a Serial# 60008009
 Copyright (c) 1983, 1998 Logical Devices, Inc.
-Created Fri Jan 09 11:12:31 2026
+Created Fri Jan 09 15:21:27 2026
 
 216:ROM_nCS = 'b'1;        /* ROM chip select always active */
 217:
@@ -262,7 +262,7 @@ Created Fri Jan 09 11:12:31 2026
 223:
 224:
 225:/* RAM bank 1 0x8000 - 0xBDFF */
-226:RAM_nCS1 = A15 & !A14 & !FT_CS & !ACIA_nCS & !DISP_nCS & !VIA_nCS & !CF_nCS & !EXP_nCS;
+226:RAM_nCS1 = A15 & !A14 & !FT_CS & !ACIA_nCS & !DISP_nCS & !VIA_nCS & !CF_nCS & !EXP_nCS & !BEEP_CS;
 227:
 228:
 229:

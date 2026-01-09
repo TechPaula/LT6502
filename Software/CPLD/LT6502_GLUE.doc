@@ -5,7 +5,7 @@
 
 CUPL(WM)        5.0a Serial# 60008009
 Device          f1508isptqfp100  Library DLIB-h-40-2
-Created         Fri Jan 09 11:12:31 2026
+Created         Fri Jan 09 15:21:27 2026
 Name            LT6502_GLUE
 Partno          
 Revision        
@@ -86,7 +86,7 @@ DISP_nRES =>
     RESET
 
 EXP_nCS =>
-    !A4 & !A5 & !A6 & !A7 & !A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15
+    !A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15
 
 FT_CS =>
     A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15
@@ -150,9 +150,11 @@ RAM_nCS1 =>
   # !A9 & !A14 & A15 & !ACIA_nCS & !CF_nCS & !DISP_nCS & !EXP_nCS & !VIA_nCS
   # !A8 & !A14 & A15 & !ACIA_nCS & !CF_nCS & !DISP_nCS & !EXP_nCS & !VIA_nCS
   # !A7 & !A14 & A15 & !ACIA_nCS & !CF_nCS & !DISP_nCS & !EXP_nCS & !VIA_nCS
-  # !A6 & !A14 & A15 & !ACIA_nCS & !CF_nCS & !DISP_nCS & !EXP_nCS & !VIA_nCS
+  # !A4 & A6 & !A14 & A15 & !ACIA_nCS & !CF_nCS & !DISP_nCS & !EXP_nCS & 
+      !VIA_nCS
+  # A4 & !A6 & !A14 & A15 & !ACIA_nCS & !CF_nCS & !DISP_nCS & !EXP_nCS & 
+      !VIA_nCS
   # !A5 & !A14 & A15 & !ACIA_nCS & !CF_nCS & !DISP_nCS & !EXP_nCS & !VIA_nCS
-  # !A4 & !A14 & A15 & !ACIA_nCS & !CF_nCS & !DISP_nCS & !EXP_nCS & !VIA_nCS
 
 RD =>
     PHI2 & RnW
