@@ -3,7 +3,7 @@ LISTING FOR LOGIC DESCRIPTION FILE: LT6502_GLUE.pld                  Page 1
 CUPL(WM): Universal Compiler for Programmable Logic
 Version 5.0a Serial# 60008009
 Copyright (c) 1983, 1998 Logical Devices, Inc.
-Created Thu Jan 08 21:58:11 2026
+Created Fri Jan 09 11:12:31 2026
 
   1:Name     LT6502_GLUE;
   2:PartNo   ;
@@ -64,7 +64,7 @@ LISTING FOR LOGIC DESCRIPTION FILE: LT6502_GLUE.pld                  Page 2
 CUPL(WM): Universal Compiler for Programmable Logic
 Version 5.0a Serial# 60008009
 Copyright (c) 1983, 1998 Logical Devices, Inc.
-Created Thu Jan 08 21:58:11 2026
+Created Fri Jan 09 11:12:31 2026
 
  54:Pin 76 = !VIA_nCS;
  55:
@@ -126,7 +126,7 @@ LISTING FOR LOGIC DESCRIPTION FILE: LT6502_GLUE.pld                  Page 3
 CUPL(WM): Universal Compiler for Programmable Logic
 Version 5.0a Serial# 60008009
 Copyright (c) 1983, 1998 Logical Devices, Inc.
-Created Thu Jan 08 21:58:11 2026
+Created Fri Jan 09 11:12:31 2026
 
 108:Pin 53 = D6;
 109:Pin 52 = D7;
@@ -188,7 +188,7 @@ LISTING FOR LOGIC DESCRIPTION FILE: LT6502_GLUE.pld                  Page 4
 CUPL(WM): Universal Compiler for Programmable Logic
 Version 5.0a Serial# 60008009
 Copyright (c) 1983, 1998 Logical Devices, Inc.
-Created Thu Jan 08 21:58:11 2026
+Created Fri Jan 09 11:12:31 2026
 
 162:
 163:
@@ -208,75 +208,74 @@ Created Thu Jan 08 21:58:11 2026
 177:
 178:/* Keyboard ACIA - 0xBFE0 - 0xBFEF */
 179:ACIA_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & A5 & !A4;
-180:
-181: 
-182:/* Display 0xBFD0 - 0xBFDF */
-183:DISP_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & !A5 & A4;
-184:DISP_DATA_EN = DISP_nCS;
-185:DISP_E = DISP_nCS & Q0;
-186:DISP_BL = 'b'1;
-187:DISP_nRES = RESET;
+180: 
+181:/* Display 0xBFD0 - 0xBFDF */
+182:DISP_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & !A5 & A4;
+183:DISP_DATA_EN = DISP_nCS;
+184:DISP_E = DISP_nCS & Q0;
+185:DISP_BL = 'b'1;
+186:DISP_nRES = RESET;
+187:
 188:
-189:
-190:/* Onboard VIA 65c22 0xBFC0 - 0xBFCF */
-191:VIA_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & !A5 & !A4;
+189:/* Onboard VIA 65c22 0xBFC0 - 0xBFCF */
+190:VIA_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & !A5 & !A4;
+191:
 192:
-193:
-194:/* Compact Flash 0xBFB0 - 0xBFBF */
-195:CF_nCS  = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & !A6 & A5 & A4;
-196:CF_nRES = RESET;
+193:/* Compact Flash 0xBFB0 - 0xBFBF */
+194:CF_nCS  = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & !A6 & A5 & A4;
+195:CF_nRES = RESET;
+196:
 197:
-198:
-199:/* Beeper, a simple SR latch for now - 0xBFA0 - 0xBFAF */
-200:BEEP_CS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & !A6 & A5 & !A4;
-201:BEEP_S = D0 & BEEP_CS;
-202:BEEP_R = !D0 & BEEP_CS;
-203:BEEPER =  (BEEPER & !BEEP_R) # BEEP_S;
+198:/* Beeper, a simple SR latch for now - 0xBFA0 - 0xBFAF */
+199:BEEP_CS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & !A6 & A5 & !A4;
+200:BEEP_S = D2 & BEEP_CS;
+201:BEEP_R = !D2 & BEEP_CS;
+202:BEEPER =  (BEEPER & !BEEP_R) # BEEP_S;
+203:
 204:
-205:
-206:/* Expansion Slot 0xBE00 - 0xBEFF*/
-207:EXP_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & !A8   &   !A7 & !A6 & !A5 & !A4;
+205:/* Expansion Slot 0xBE00 - 0xBEFF*/
+206:EXP_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & !A8   &   !A7 & !A6 & !A5 & !A4;
+207:
 208:
-209:
-210:/***********************/
-211:/* GAP 0xBFF0 - 0xBFCF */
-212:/***********************/
+209:/***********************/
+210:/* GAP 0xBFF0 - 0xBFCF */
+211:/***********************/
+212:
 213:
-214:
-215:/* ROM 0xC000 - 0xFFFF */
+214:/* ROM 0xC000 - 0xFFFF */
+215:ROM_nR  = A15 & A14;   /* ROM Read address */
 
 LISTING FOR LOGIC DESCRIPTION FILE: LT6502_GLUE.pld                  Page 5
 
 CUPL(WM): Universal Compiler for Programmable Logic
 Version 5.0a Serial# 60008009
 Copyright (c) 1983, 1998 Logical Devices, Inc.
-Created Thu Jan 08 21:58:11 2026
+Created Fri Jan 09 11:12:31 2026
 
-216:ROM_nR  = A15 & A14;   /* ROM Read address */
-217:ROM_nCS = 'b'1;        /* ROM chip select always active */
+216:ROM_nCS = 'b'1;        /* ROM chip select always active */
+217:
 218:
-219:
-220:/* RAM bank 0 0x0000 - 0x7FFF */                        
-221:RAM_nCS0 = !A15;        
-222:RW = PHI2 & !RnW;
-223:RD = PHI2 & RnW;
+219:/* RAM bank 0 0x0000 - 0x7FFF */                        
+220:RAM_nCS0 = !A15;        
+221:RW = PHI2 & !RnW;
+222:RD = PHI2 & RnW;
+223:
 224:
-225:
-226:/* RAM bank 1 0x8000 - 0xBDFF */
-227:RAM_nCS1 = A15 & !A14 & !FT_CS & !ACIA_nCS & !DISP_nCS & !VIA_nCS & !CF_nCS & !EXP_nCS;
+225:/* RAM bank 1 0x8000 - 0xBDFF */
+226:RAM_nCS1 = A15 & !A14 & !FT_CS & !ACIA_nCS & !DISP_nCS & !VIA_nCS & !CF_nCS & !EXP_nCS;
+227:
 228:
 229:
 230:
-231:
-232:/* system wide logic */
-233:CLK_OUT = CLK;
-234:LED = DISP_nCS;
+231:/* system wide logic */
+232:CLK_OUT = CLK;
+233:LED = CF_nCS;
+234:
 235:
 236:
-237:
-238:/* END OF FILE */
-239:/*****************************************************/
-240:
+237:/* END OF FILE */
+238:/*****************************************************/
+239:
 
 
 

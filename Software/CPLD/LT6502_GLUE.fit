@@ -1,4 +1,4 @@
-Atmel ATF1508AS Fitter Version 1.8.7.8 ,running Thu Jan 08 21:58:16 2026
+Atmel ATF1508AS Fitter Version 1.8.7.8 ,running Fri Jan 09 11:12:36 2026
 
 
 fit1508 D:\REPOSITORIES\LT6502\SOFTWARE\CPLD\LT6502_GLUE.tt2 -CUPL -dev P1508T100 -JTAG ON
@@ -85,8 +85,8 @@ Q1 is placed at feedback node 611 (MC 11)
 Q2 is placed at feedback node 612 (MC 12)
 LED is placed at pin 94 (MC 13)
 RESET is placed at pin 93 (MC 14)
-XXL_79 is placed at feedback node 614 (MC 14)
-XXL_78 is placed at feedback node 615 (MC 15)
+XXL_80 is placed at feedback node 614 (MC 14)
+XXL_79 is placed at feedback node 615 (MC 15)
 BEEPER is placed at pin 92 (MC 16)
 A9 is placed at pin 14 (MC 17)
 A10 is placed at pin 13 (MC 19)
@@ -115,7 +115,8 @@ WR_FT is placed at pin 47 (MC 75)
 RD_FT is placed at pin 48 (MC 77)
 RXF is placed at pin 49 (MC 78)
 TXE is placed at pin 50 (MC 80)
-XXL_80 is placed at foldback expander node 380 (MC 80)
+XXL_81 is placed at foldback expander node 380 (MC 80)
+D2 is placed at pin 57 (MC 89)
 D1 is placed at pin 58 (MC 91)
 D0 is placed at pin 60 (MC 93)
 TCK is placed at pin 62 (MC 96)
@@ -163,7 +164,7 @@ CLK_OUT is placed at pin 84 (MC 126)
             A8 | 16                                                    60 | D0               
             A7 | 17                                                    59 | GND              
            VCC | 18                                                    58 | D1               
-            A6 | 19                                                    57 |                  
+            A6 | 19                                                    57 | D2               
             A5 | 20                                                    56 |                  
             A4 | 21                                                    55 |                  
                | 22                                                    54 |                  
@@ -198,42 +199,44 @@ NC = Unused I/O pins which must be unconnected on the board
 
 Universal-Interconnect-Multiplexer assignments
 ------------------------------------------------
-FanIn assignment for block A [24]
+FanIn assignment for block A [25]
 {
-A15,A13,A6,A10,A12,A5,A11,A8,A4,A14,A9,A7,
+A15,A13,A10,A12,A5,A11,A6,A4,A8,A14,A9,A7,
 BEEPER,
-D0,DISP_nCS,
+CF_nCS,
+D2,DISP_nCS,
 PHI2,
 Q2,Q0,Q1,
 RESET,
 SLOW1,SLOW0,
-XXL_78,XXL_79,
+XXL_79,XXL_80,
 }
 Multiplexer assignment for block A
-SLOW1			(MC23	P)   : MUX 0		Ref (A9p)
+A15			(MC12	P)   : MUX 0		Ref (B27p)
 Q2			(MC3	FB)  : MUX 1		Ref (A12fb)
-A15			(MC12	P)   : MUX 2		Ref (B27p)
+D2			(MC23	P)   : MUX 2		Ref (F89p)
 A13			(MC14	P)   : MUX 3		Ref (B24p)
-D0			(MC7	P)   : MUX 4		Ref (F93p)
-XXL_78			(MC5	FB)  : MUX 5		Ref (A15fb)
+Q0			(MC9	P)   : MUX 4		Ref (H125p)
+XXL_79			(MC5	FB)  : MUX 5		Ref (A15fb)
 DISP_nCS		(MC1	P)   : MUX 7		Ref (A8p)
-A6			(MC21	P)   : MUX 10		Ref (C43p)
+SLOW1			(MC24	P)   : MUX 8		Ref (A9p)
+SLOW0			(MC25	P)   : MUX 10		Ref (A11p)
 A10			(MC17	P)   : MUX 11		Ref (B19p)
-RESET			(MC22	P)   : MUX 12		Ref (A14p)
 A12			(MC15	P)   : MUX 13		Ref (B22p)
+CF_nCS			(MC8	P)   : MUX 14		Ref (H123p)
 A5			(MC10	P)   : MUX 16		Ref (C41p)
 A11			(MC16	P)   : MUX 17		Ref (B21p)
-Q0			(MC9	P)   : MUX 18		Ref (H125p)
-PHI2			(MC8	P)   : MUX 19		Ref (H113p)
-A8			(MC19	P)   : MUX 20		Ref (C46p)
+A6			(MC21	P)   : MUX 18		Ref (C43p)
+PHI2			(MC7	P)   : MUX 19		Ref (H113p)
 A4			(MC11	P)   : MUX 21		Ref (C40p)
-SLOW0			(MC24	P)   : MUX 24		Ref (A11p)
+RESET			(MC22	P)   : MUX 22		Ref (A14p)
+A8			(MC19	P)   : MUX 26		Ref (C46p)
 Q1			(MC2	FB)  : MUX 27		Ref (A11fb)
 A14			(MC13	P)   : MUX 30		Ref (B25p)
 BEEPER			(MC6	P)   : MUX 32		Ref (A16p)
 A9			(MC18	P)   : MUX 33		Ref (B17p)
 A7			(MC20	P)   : MUX 34		Ref (C45p)
-XXL_79			(MC4	FB)  : MUX 39		Ref (A14fb)
+XXL_80			(MC4	FB)  : MUX 39		Ref (A14fb)
 
 FanIn assignment for block D [3]
 {
@@ -336,9 +339,9 @@ TQFP100 programmed logic:
 -----------------------------------
 BEEPER = ((BEEPER & !A5)
 	# (BEEPER & A4)
-	# (D0.PIN & A15 & !A14 & A13 & A12 & A11 & A10 & A9 & A8 & A7 & !A6 & A5 & !A4)
-	# XXL_78
-	# XXL_79);
+	# (D2 & A15 & !A14 & A13 & A12 & A11 & A10 & A9 & A8 & A7 & !A6 & A5 & !A4)
+	# XXL_79
+	# XXL_80);
 
 !CF_nCS = (A4 & A5 & !A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15);
 
@@ -389,7 +392,7 @@ ROM_nCS = 0;
 
 WR_FT = (A0 & A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15 & PHI2.Q & !RnW);
 
-LED = DISP_nCS;
+LED = CF_nCS;
 
 DISP_DATA_EN = !DISP_nCS;
 
@@ -398,21 +401,21 @@ DISP_E = (!DISP_nCS & Q0.Q);
 RAM_nCS1 = (!EXP_nCS
 	# !VIA_nCS
 	# (A13 & A12 & A11 & A10 & A9 & A8 & A7 & A6 & A5 & A4)
-	# XXL_80);
+	# XXL_81);
 
-XXL_78 = ((BEEPER & !A15)
+XXL_79 = ((BEEPER & !A15)
 	# (BEEPER & A14)
 	# (BEEPER & !A13)
 	# (BEEPER & !A12)
 	# (BEEPER & !A11));
 
-XXL_79 = ((BEEPER & !A10)
+XXL_80 = ((BEEPER & !A10)
 	# (BEEPER & !A9)
 	# (BEEPER & !A8)
 	# (BEEPER & !A7)
 	# (BEEPER & A6));
 
-!XXL_80 = (ACIA_nCS & CF_nCS & DISP_nCS & !A14 & A15);
+!XXL_81 = (ACIA_nCS & CF_nCS & DISP_nCS & !A14 & A15);
 
 D0.OE = (!A0 & A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15 & RnW);
 
@@ -464,6 +467,7 @@ Pin 47 = WR_FT; /* MC 75 */
 Pin 48 = RD_FT; /* MC 77 */ 
 Pin 49 = RXF; /* MC 78 */ 
 Pin 50 = TXE; /* MC 80 */ 
+Pin 57 = D2; /* MC 89 */ 
 Pin 58 = D1; /* MC 91 */ 
 Pin 60 = D0; /* MC 93 */ 
 Pin 62 = TCK; /* MC 96 */ 
@@ -486,11 +490,11 @@ Pin 97 = SLOW1; /* MC  9 */
 Pin 98 = DISP_nCS; /* MC  8 */
 Pin 99 = DISP_nRES; /* MC  6 */
 Pin 100 = DISP_E; /* MC  5 */
-PINNODE 380 = XXL_80; /* MC 80 Foldback */
+PINNODE 380 = XXL_81; /* MC 80 Foldback */
 PINNODE 611 = Q1; /* MC 11 Feedback */
 PINNODE 612 = Q2; /* MC 12 Feedback */
-PINNODE 614 = XXL_79; /* MC 14 Feedback */
-PINNODE 615 = XXL_78; /* MC 15 Feedback */
+PINNODE 614 = XXL_80; /* MC 14 Feedback */
+PINNODE 615 = XXL_79; /* MC 15 Feedback */
 
 ** Resource Usage **
 
@@ -523,8 +527,8 @@ MC10  0         --                  --              --        --             0  
 MC11  96   --   SLOW0        INPUT  Q1       Dg-r-  --        --             4     slow
 MC12  0         --                  Q2       Dg-r-  NA        --             5     slow
 MC13  94   on   LED          C----  --              --        --             1     slow
-MC14  93   --   RESET        INPUT  XXL_79   C----  NA        --             5     slow
-MC15  0         --                  XXL_78   C----  NA        --             5     slow
+MC14  93   --   RESET        INPUT  XXL_80   C----  NA        --             5     slow
+MC15  0         --                  XXL_79   C----  NA        --             5     slow
 MC16  92   on   BEEPER       C----  --              NA        --             5     slow
 MC17  14   --   A9           INPUT  --              --        --             0     slow
 MC18  0         --                  --              --        --             0     slow
@@ -589,7 +593,7 @@ MC76  0         --                  --              --        --             0  
 MC77  48   on   RD_FT        C----  --              --        --             1     slow
 MC78  49   --   RXF          INPUT  --              --        --             0     slow
 MC79  0         --                  --              --        --             0     slow
-MC80  50   --   TXE          INPUT  --              XXL_80    --             1     slow
+MC80  50   --   TXE          INPUT  --              XXL_81    --             1     slow
 MC81  52        --                  --              --        --             0     slow
 MC82  0         --                  --              --        --             0     slow
 MC83  53        --                  --              --        --             0     slow
@@ -598,7 +602,7 @@ MC85  54        --                  --              --        --             0  
 MC86  55        --                  --              --        --             0     slow
 MC87  0         --                  --              --        --             0     slow
 MC88  56        --                  --              --        --             0     slow
-MC89  57        --                  --              --        --             0     slow
+MC89  57   --   D2           INPUT  --              --        --             0     slow
 MC90  0         --                  --              --        --             0     slow
 MC91  58   PT   D1           C----  --              --        --             2     slow
 MC92  0         --                  --              --        --             0     slow
@@ -644,23 +648,23 @@ MC0   88        --                  --              --        --             0  
 MC0   87        CLK          INPUT  --              --        --             0     slow
 
 Logic Array Block	Logic Cells	I/O Pins	Foldbacks	TotalPT		FanIN	Cascades
-A: LC1	- LC16		9/16(56%)	8/16(50%)	0/16(0%)	28/80(35%)	(24)	0
+A: LC1	- LC16		9/16(56%)	8/16(50%)	0/16(0%)	28/80(35%)	(25)	0
 B: LC17	- LC32		1/16(6%)	9/16(56%)	0/16(0%)	0/80(0%)	(3)	0
 C: LC33	- LC48		0/16(0%)	7/16(43%)	0/16(0%)	0/80(0%)	(20)	0
 D: LC49	- LC64		3/16(18%)	3/16(18%)	0/16(0%)	3/80(3%)	(16)	0
 E: LC65	- LC80		6/16(37%)	8/16(50%)	1/16(6%)	9/80(11%)	(18)	0
-F: LC81	- LC96		2/16(12%)	3/16(18%)	0/16(0%)	4/80(5%)	(18)	0
+F: LC81	- LC96		2/16(12%)	4/16(25%)	0/16(0%)	4/80(5%)	(18)	0
 G: LC97	- LC112		0/16(0%)	1/16(6%)	0/16(0%)	0/80(0%)	(18)	0
 H: LC113- LC128		8/16(50%)	8/16(50%)	0/16(0%)	10/80(12%)	(18)	0
 
 Total dedicated input used:	2/4 	(50%)
-Total I/O pins used		47/80 	(58%)
+Total I/O pins used		48/80 	(60%)
 Total Logic cells used 		29/128 	(22%)
 Total Flip-Flop used 		4/128 	(3%)
 Total Foldback logic used 	1/128 	(0%)
 Total Nodes+FB/MCells 		30/128 	(23%)
 Total cascade used 		0
-Total input pins 		24
+Total input pins 		25
 Total output pins 		25
 Total Pts 			54
 Creating pla file D:\REPOSITORIES\LT6502\SOFTWARE\CPLD\LT6502_GLUE.tt3 with 0 inputs 0 outputs, 0 pins 0 nodes and 0 pterms...

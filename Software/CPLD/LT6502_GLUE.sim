@@ -65,7 +65,7 @@ ACIA_nCS =>
     !A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15
 
 BEEPER =>
-    BEEPER & D0
+    BEEPER & D2
   # !A15 & BEEPER
   # A14 & BEEPER
   # !A13 & BEEPER
@@ -78,16 +78,16 @@ BEEPER =>
   # A6 & BEEPER
   # !A5 & BEEPER
   # A4 & BEEPER
-  # !A4 & A5 & !A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15 & D0
+  # !A4 & A5 & !A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15 & D2
 
 BEEP_CS =>
     !A4 & A5 & !A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15
 
 BEEP_R =>
-    !A4 & A5 & !A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15 & !D0
+    !A4 & A5 & !A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15 & !D2
 
 BEEP_S =>
-    !A4 & A5 & !A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15 & D0
+    !A4 & A5 & !A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15 & D2
 
 CF_nCS =>
     A4 & A5 & !A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15
@@ -132,7 +132,7 @@ FT_CS =>
     A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15
 
 LED =>
-    DISP_nCS
+    CF_nCS
 
 PHI2.d  =>
     !PHI2

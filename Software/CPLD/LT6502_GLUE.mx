@@ -177,7 +177,6 @@ D1 = !TXE;
 
 /* Keyboard ACIA - 0xBFE0 - 0xBFEF */
 ACIA_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & A5 & !A4;
-
  
 /* Display 0xBFD0 - 0xBFDF */
 DISP_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & !A5 & A4;
@@ -198,8 +197,8 @@ CF_nRES = RESET;
 
 /* Beeper, a simple SR latch for now - 0xBFA0 - 0xBFAF */
 BEEP_CS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & !A6 & A5 & !A4;
-BEEP_S = D0 & BEEP_CS;
-BEEP_R = !D0 & BEEP_CS;
+BEEP_S = D2 & BEEP_CS;
+BEEP_R = !D2 & BEEP_CS;
 BEEPER =  (BEEPER & !BEEP_R) # BEEP_S;
 
 
@@ -231,7 +230,7 @@ RAM_nCS1 = A15 & !A14 & !FT_CS & !ACIA_nCS & !DISP_nCS & !VIA_nCS & !CF_nCS & !E
 
 /* system wide logic */
 CLK_OUT = CLK;
-LED = DISP_nCS;
+LED = CF_nCS;
 
 
 

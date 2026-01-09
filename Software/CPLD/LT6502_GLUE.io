@@ -11,8 +11,8 @@ BEGIN
     "Q2"                                      : NODE_NUM = 612 ;
     "LED"                                     : OUTPUT_PIN = 94 ;
     "RESET"                                   : INPUT_PIN = 93 ;
-    "XXL_79"                                  : NODE_NUM = 614 ;
-    "XXL_78"                                  : NODE_NUM = 615 ;
+    "XXL_80"                                  : NODE_NUM = 614 ;
+    "XXL_79"                                  : NODE_NUM = 615 ;
     "BEEPER"                                  : OUTPUT_PIN = 92 ;
     "A9"                                      : INPUT_PIN = 14 ;
     "A10"                                     : INPUT_PIN = 13 ;
@@ -41,6 +41,7 @@ BEGIN
     "RD_FT"                                   : OUTPUT_PIN = 48 ;
     "RXF"                                     : INPUT_PIN = 49 ;
     "TXE"                                     : INPUT_PIN = 50 ;
+    "D2"                                      : INPUT_PIN = 57 ;
     "D1"                                      : OUTPUT_PIN = 58 ;
     "D0"                                      : OUTPUT_PIN = 60 ;
     "TCK"                                     : INPUT_PIN = 62 ;
