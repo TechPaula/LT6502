@@ -15054,7 +15054,7 @@
 		(embedded_fonts no)
 		(model "CMS-160925-078SP-67.stp"
 			(offset
-				(xyz 0 0 -1.1)
+				(xyz 0 0.5 -1.1)
 			)
 			(scale
 				(xyz 1 1 1)
