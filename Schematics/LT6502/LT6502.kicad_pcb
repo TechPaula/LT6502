@@ -17140,7 +17140,7 @@
 				)
 			)
 		)
-		(property "Value" "1K"
+		(property "Value" "4K7"
 			(at 0 1.17 0)
 			(layer "F.Fab")
 			(uuid "fbe39cea-d3b7-4efa-89c7-22c0d125be68")
@@ -17175,7 +17175,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C11702"
+		(property "LCSC" ""
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -24759,7 +24759,7 @@
 				)
 			)
 		)
-		(property "Value" "0R"
+		(property "Value" "47K"
 			(at 0 1.17 0)
 			(layer "F.Fab")
 			(uuid "0313337d-382b-488a-96c4-12e1252151f3")
@@ -45940,7 +45940,7 @@
 				)
 			)
 		)
-		(property "Value" "1K"
+		(property "Value" "6K8"
 			(at 0 1.17 0)
 			(layer "F.Fab")
 			(uuid "cc42e4b0-8cf1-4900-a17f-1f5bffe5c3f0")
@@ -45975,7 +45975,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C11702"
+		(property "LCSC" ""
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -65473,7 +65473,7 @@
 			(justify left bottom)
 		)
 	)
-	(gr_text_box "V1.0-V1.1 Changes\nAdded cutout for reset switch\nAdded cutout for LS1 and moved it\nExpanded pads on L2 for ease of soldering\nChange R46 to 51K\nChange R47 to 120K\nAdded Pull ups to SLOW0 and SLOW1\nAdd Display Data Enable line\nNote CF_nCS and CF_nRES are swapped (oops), fixed in CPLD\nCLK and CLK/2 are swapped in CPLD\nFixed battery connector polarity to save swapping wires.\nChange top of R57 from 5V to VSYS to stop odd charging behaviour"
+	(gr_text_box "V1.0-V1.1 Changes\nAdded cutout for reset switch\nAdded cutout for LS1 and moved it\nExpanded pads on L2 for ease of soldering\nChange R46 to 51K\nChange R47 to 120K\nAdded Pull ups to SLOW0 and SLOW1\nAdd Display Data Enable line\nNote CF_nCS and CF_nRES are swapped (oops), fixed in CPLD\nCLK and CLK/2 are swapped in CPLD\nFixed battery connector polarity to save swapping wires.\nChange top of R57 from 5V to VSYS to stop odd charging behaviour\nChange R64 and R84 to reduce LED brightness\nChange R88 to reduce distortion on speaker\n"
 		(start 265.4 178.5)
 		(end 338.3 210.9)
 		(margins 1.0025 1.0025 1.0025 1.0025)

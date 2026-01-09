@@ -2567,7 +2567,7 @@
 				)
 			)
 		)
-		(property "Value" "0R"
+		(property "Value" "47K"
 			(at 55.9639 99.0388 90)
 			(effects
 				(font

@@ -1147,6 +1147,156 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Device:D_Schottky"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 1.016)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "D"
+				(at 0 2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "D_Schottky"
+				(at 0 -2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Schottky diode"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "diode Schottky"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "TO-???* *_Diode_* *SingleDiode* D_*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "D_Schottky_0_1"
+				(polyline
+					(pts
+						(xy -1.905 0.635) (xy -1.905 1.27) (xy -1.27 1.27) (xy -1.27 -1.27) (xy -0.635 -1.27) (xy -0.635 -0.635)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 1.27) (xy 1.27 -1.27) (xy -1.27 0) (xy 1.27 1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 0) (xy -1.27 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "D_Schottky_1_1"
+				(pin passive line
+					(at -3.81 0 0)
+					(length 2.54)
+					(name "K"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 3.81 0 180)
+					(length 2.54)
+					(name "A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Device:FerriteBead_Small"
 			(pin_numbers
 				(hide yes)
@@ -2529,6 +2679,16 @@
 			(embedded_fonts no)
 		)
 	)
+	(text "D1 and D14 are to ensure the\nFTDI245 has power when not \nconnected to USB which stops\nthe system from booting"
+		(exclude_from_sim no)
+		(at 180.086 36.576 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "4d2adc9a-5e3d-4adb-95fc-f61133205ac0")
+	)
 	(text "R31 Probably not needed"
 		(exclude_from_sim no)
 		(at 142.24 94.488 0)
@@ -2541,7 +2701,7 @@
 	)
 	(text "R29 & R30 are in case we\nwant to use USB-PD for power"
 		(exclude_from_sim no)
-		(at 110.236 41.91 0)
+		(at 104.14 48.514 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2574,12 +2734,6 @@
 		(uuid "0dffe54c-d482-4789-a8ad-2a1dd98721d1")
 	)
 	(junction
-		(at 129.54 45.72)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "2d59e7b2-3fa2-4305-a754-722946da9b41")
-	)
-	(junction
 		(at 64.77 58.42)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2608,6 +2762,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "3ce0b984-d222-445b-a0f1-2320072424ea")
+	)
+	(junction
+		(at 124.46 45.72)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "3d41191f-d119-4236-bd63-099a8066aec1")
 	)
 	(junction
 		(at 175.26 118.11)
@@ -2644,6 +2804,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "b3061980-76f8-4811-a8f6-47b61664a939")
+	)
+	(junction
+		(at 160.02 45.72)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "c61b8c2d-9579-4a03-b4d5-837f4bfd0a0a")
 	)
 	(junction
 		(at 152.4 69.85)
@@ -2785,7 +2951,7 @@
 	)
 	(wire
 		(pts
-			(xy 59.69 45.72) (xy 129.54 45.72)
+			(xy 59.69 45.72) (xy 124.46 45.72)
 		)
 		(stroke
 			(width 0)
@@ -2945,7 +3111,7 @@
 	)
 	(wire
 		(pts
-			(xy 129.54 45.72) (xy 129.54 52.07)
+			(xy 124.46 45.72) (xy 124.46 52.07)
 		)
 		(stroke
 			(width 0)
@@ -2985,6 +3151,16 @@
 	)
 	(wire
 		(pts
+			(xy 148.59 45.72) (xy 152.4 45.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5c9744c3-426b-4d9d-ab71-7c7f87ff2c36")
+	)
+	(wire
+		(pts
 			(xy 207.01 80.01) (xy 203.2 80.01)
 		)
 		(stroke
@@ -2992,6 +3168,16 @@
 			(type default)
 		)
 		(uuid "5d6c593d-0cae-42e8-a4f2-f57151bf2e45")
+	)
+	(wire
+		(pts
+			(xy 124.46 45.72) (xy 128.27 45.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5f11a2a0-9521-47b0-a93d-8e59f16de62d")
 	)
 	(wire
 		(pts
@@ -3005,7 +3191,17 @@
 	)
 	(wire
 		(pts
-			(xy 152.4 45.72) (xy 219.71 45.72)
+			(xy 173.99 29.21) (xy 180.34 29.21)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "73ded458-ee76-4ee6-ab47-8fc233b83daf")
+	)
+	(wire
+		(pts
+			(xy 152.4 45.72) (xy 160.02 45.72)
 		)
 		(stroke
 			(width 0)
@@ -3025,7 +3221,7 @@
 	)
 	(wire
 		(pts
-			(xy 144.78 45.72) (xy 152.4 45.72)
+			(xy 133.35 45.72) (xy 140.97 45.72)
 		)
 		(stroke
 			(width 0)
@@ -3062,6 +3258,26 @@
 			(type default)
 		)
 		(uuid "7d236719-5da4-4449-8eb4-54b085ec79f6")
+	)
+	(wire
+		(pts
+			(xy 160.02 29.21) (xy 160.02 45.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "817f3da1-980d-434b-a72a-c4dbe80980fe")
+	)
+	(wire
+		(pts
+			(xy 180.34 29.21) (xy 180.34 26.67)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9103e507-0f1c-4836-ad29-c56587fe4256")
 	)
 	(wire
 		(pts
@@ -3132,6 +3348,16 @@
 			(type default)
 		)
 		(uuid "9eeaead0-26da-4c63-a0bb-2630d97ee62d")
+	)
+	(wire
+		(pts
+			(xy 160.02 45.72) (xy 219.71 45.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9fbff786-c181-4fce-9388-080147f9c2ab")
 	)
 	(wire
 		(pts
@@ -3355,16 +3581,6 @@
 	)
 	(wire
 		(pts
-			(xy 129.54 45.72) (xy 139.7 45.72)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d280992a-af64-4e97-a287-6e83dfd5921c")
-	)
-	(wire
-		(pts
 			(xy 219.71 105.41) (xy 203.2 105.41)
 		)
 		(stroke
@@ -3372,6 +3588,16 @@
 			(type default)
 		)
 		(uuid "d3652ec5-cb28-4e28-815b-bf1a1b3f1447")
+	)
+	(wire
+		(pts
+			(xy 166.37 29.21) (xy 160.02 29.21)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d373bb14-0af9-4f1d-ac00-5e073c90c819")
 	)
 	(wire
 		(pts
@@ -4842,6 +5068,74 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:D_Schottky")
+		(at 170.18 29.21 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "8247b909-53dd-4c85-b5ff-82462a39c210")
+		(property "Reference" "D14"
+			(at 169.8625 22.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "D_Schottky"
+			(at 169.8625 25.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 170.18 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 170.18 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Schottky diode"
+			(at 170.18 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "dadfaa55-71dc-4d23-bfa6-d01b1ac0d30c")
+		)
+		(pin "1"
+			(uuid "04f87a48-b416-4b6b-953d-c50f2c35515c")
+		)
+		(instances
+			(project "LT6502"
+				(path "/a2243a34-697c-4939-97f7-df548e421864/7bd40c60-bb79-47f8-862c-3602d4cfed76"
+					(reference "D14")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 115.57 69.85 0)
 		(unit 1)
@@ -4986,7 +5280,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 129.54 59.69 0)
+		(at 124.46 59.69 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -4995,7 +5289,7 @@
 		(fields_autoplaced yes)
 		(uuid "940bc1ef-c5c4-46fc-a2da-cbb806a916b4")
 		(property "Reference" "#PWR0156"
-			(at 129.54 66.04 0)
+			(at 124.46 66.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5004,7 +5298,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 129.54 64.77 0)
+			(at 124.46 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5012,7 +5306,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 129.54 59.69 0)
+			(at 124.46 59.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5021,7 +5315,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 129.54 59.69 0)
+			(at 124.46 59.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5030,7 +5324,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 129.54 59.69 0)
+			(at 124.46 59.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5202,6 +5496,74 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:D_Schottky")
+		(at 144.78 45.72 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "a38ef889-4ee6-425a-b36f-868ae6f10017")
+		(property "Reference" "D1"
+			(at 145.0975 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "D_Schottky"
+			(at 145.0975 41.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 144.78 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 144.78 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Schottky diode"
+			(at 144.78 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "2efd1d51-bb61-4f7e-b2f8-9404e3105c30")
+		)
+		(pin "1"
+			(uuid "12cd56fa-76b0-4565-91cf-ac559de69fc3")
+		)
+		(instances
+			(project ""
+				(path "/a2243a34-697c-4939-97f7-df548e421864/7bd40c60-bb79-47f8-862c-3602d4cfed76"
+					(reference "D1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 44.45 91.44 0)
 		(unit 1)
@@ -5262,6 +5624,72 @@
 			(project "LT6502"
 				(path "/a2243a34-697c-4939-97f7-df548e421864/7bd40c60-bb79-47f8-862c-3602d4cfed76"
 					(reference "#PWR0153")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+5V")
+		(at 180.34 26.67 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "c7e3aa8b-f5a6-4bf7-8f86-35250a4dc186")
+		(property "Reference" "#PWR0238"
+			(at 180.34 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+5V"
+			(at 180.34 21.59 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 180.34 26.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 180.34 26.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 180.34 26.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "721ed425-df0e-41a0-a8b3-6d14b4b62ccd")
+		)
+		(instances
+			(project "LT6502"
+				(path "/a2243a34-697c-4939-97f7-df548e421864/7bd40c60-bb79-47f8-862c-3602d4cfed76"
+					(reference "#PWR0238")
 					(unit 1)
 				)
 			)
@@ -5335,7 +5763,7 @@
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 129.54 55.88 0)
+		(at 124.46 55.88 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -5344,7 +5772,7 @@
 		(fields_autoplaced yes)
 		(uuid "e1054d13-2b80-40cd-bf08-8e53baa555e1")
 		(property "Reference" "C38"
-			(at 133.35 54.6099 0)
+			(at 128.27 54.6099 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5353,7 +5781,7 @@
 			)
 		)
 		(property "Value" "100nF"
-			(at 133.35 57.1499 0)
+			(at 128.27 57.1499 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5362,7 +5790,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
-			(at 130.5052 59.69 0)
+			(at 125.4252 59.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5371,7 +5799,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 129.54 55.88 0)
+			(at 124.46 55.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5380,7 +5808,7 @@
 			)
 		)
 		(property "Description" "Unpolarized capacitor"
-			(at 129.54 55.88 0)
+			(at 124.46 55.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5389,7 +5817,7 @@
 			)
 		)
 		(property "LCSC" "C49678"
-			(at 129.54 55.88 0)
+			(at 124.46 55.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5414,7 +5842,7 @@
 	)
 	(symbol
 		(lib_id "Device:FerriteBead_Small")
-		(at 142.24 45.72 270)
+		(at 130.81 45.72 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -5423,7 +5851,7 @@
 		(fields_autoplaced yes)
 		(uuid "e3fc8b4c-0e3a-417c-9071-e7b54be14edc")
 		(property "Reference" "FB1"
-			(at 142.2781 39.37 90)
+			(at 130.8481 39.37 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5431,7 +5859,7 @@
 			)
 		)
 		(property "Value" "FerriteBead_Small"
-			(at 142.2781 41.91 90)
+			(at 130.8481 41.91 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5439,7 +5867,7 @@
 			)
 		)
 		(property "Footprint" "Inductor_SMD:L_0805_2012Metric_Pad1.05x1.20mm_HandSolder"
-			(at 142.24 43.942 90)
+			(at 130.81 43.942 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5448,7 +5876,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 142.24 45.72 0)
+			(at 130.81 45.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5457,7 +5885,7 @@
 			)
 		)
 		(property "Description" "Ferrite bead, small symbol"
-			(at 142.24 45.72 0)
+			(at 130.81 45.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5466,7 +5894,7 @@
 			)
 		)
 		(property "LCSC" "DNF"
-			(at 142.24 45.72 90)
+			(at 130.81 45.72 90)
 			(effects
 				(font
 					(size 1.27 1.27)

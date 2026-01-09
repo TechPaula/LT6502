@@ -9575,7 +9575,7 @@
 				)
 			)
 		)
-		(property "Value" "1K"
+		(property "Value" "6K8"
 			(at 367.03 181.61 90)
 			(effects
 				(font
@@ -9609,7 +9609,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C11702"
+		(property "LCSC" ""
 			(at 367.03 185.42 90)
 			(effects
 				(font
@@ -16719,7 +16719,7 @@
 				)
 			)
 		)
-		(property "Value" "1K"
+		(property "Value" "4K7"
 			(at 314.706 185.42 90)
 			(effects
 				(font
@@ -16753,7 +16753,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C11702"
+		(property "LCSC" ""
 			(at 313.69 187.96 90)
 			(effects
 				(font
