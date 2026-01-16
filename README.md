@@ -26,13 +26,11 @@ It'll be simple, these are the preliminary specs;
 * 2025-01-03 - Bring up of board with simple ROM/RAM/Console working.
 * 2025-01-04 - VIA working, ACIA working, comms to/from the keyboard in basic working. Begun integrating keyboard into firmware
 * 2025-01-05 - Keyboard now integrated into firmware, so you can type on the keyboard and don't need the console for input
+* 2025-01-09 - Compact flash working, Beeper also now working. Also runs from battery just fine.
 
 ## To do (probably in order)
-* Finish soldering on parts (Compact Flash/LEDs/speaker/etc)
-* Confirm Battery charging and providing power
 * Fix buggy keyscan code on MEGA644P
 * Connect Display and get that working
-* Confirm CF working
 * add SAVE / LOAD / DIR style commands
 
 
