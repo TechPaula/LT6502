@@ -5085,7 +5085,7 @@
 				)
 			)
 		)
-		(property "Value" "D_Schottky"
+		(property "Value" "B5819W SL"
 			(at 169.8625 25.4 0)
 			(effects
 				(font
@@ -5093,7 +5093,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Diode_SMD:D_SOD-123"
 			(at 170.18 29.21 0)
 			(effects
 				(font
@@ -5112,6 +5112,15 @@
 			)
 		)
 		(property "Description" "Schottky diode"
+			(at 170.18 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C8598"
 			(at 170.18 29.21 0)
 			(effects
 				(font
@@ -5503,25 +5512,24 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "a38ef889-4ee6-425a-b36f-868ae6f10017")
 		(property "Reference" "D1"
-			(at 145.0975 39.37 0)
+			(at 144.78 43.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Value" "D_Schottky"
-			(at 145.0975 41.91 0)
+		(property "Value" "B5819W SL"
+			(at 144.526 48.514 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Diode_SMD:D_SOD-123"
 			(at 144.78 45.72 0)
 			(effects
 				(font
@@ -5540,6 +5548,15 @@
 			)
 		)
 		(property "Description" "Schottky diode"
+			(at 144.78 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C8598"
 			(at 144.78 45.72 0)
 			(effects
 				(font

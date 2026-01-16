@@ -2423,38 +2423,6 @@
 		(uuid "1a9e94e4-e45e-4dc1-a382-e675f8f782b4")
 	)
 	(no_connect
-		(at 200.66 83.82)
-		(uuid "3ae248b3-bd2f-4590-9a38-e487e6dee7a7")
-	)
-	(no_connect
-		(at 200.66 78.74)
-		(uuid "4519beca-0b07-45f2-987a-d98937b32731")
-	)
-	(no_connect
-		(at 200.66 81.28)
-		(uuid "5212402d-ef27-43a8-88f7-bf611467af38")
-	)
-	(no_connect
-		(at 187.96 83.82)
-		(uuid "54c335ae-7027-467b-a318-a181183c121d")
-	)
-	(no_connect
-		(at 187.96 78.74)
-		(uuid "689197e9-60de-4875-97f4-8cd12d8a7983")
-	)
-	(no_connect
-		(at 187.96 76.2)
-		(uuid "7671a4a2-3ea4-4fb0-a372-9d3bd1cf05b6")
-	)
-	(no_connect
-		(at 200.66 76.2)
-		(uuid "82851876-1b5b-431b-81fd-c76818e52406")
-	)
-	(no_connect
-		(at 187.96 81.28)
-		(uuid "91fb5f51-5b8f-4adf-882a-9395a96886a0")
-	)
-	(no_connect
 		(at 200.66 60.96)
 		(uuid "ad1500e2-9edc-4b40-a7da-7be80be31914")
 	)
@@ -4232,7 +4200,7 @@
 		)
 	)
 	(global_label "3V3_RS"
-		(shape input)
+		(shape output)
 		(at 115.57 63.5 0)
 		(fields_autoplaced yes)
 		(effects
@@ -4276,7 +4244,7 @@
 		)
 	)
 	(global_label "3V3_RnW"
-		(shape input)
+		(shape output)
 		(at 115.57 55.88 0)
 		(fields_autoplaced yes)
 		(effects
@@ -4386,7 +4354,7 @@
 		)
 	)
 	(global_label "3V3_nINT"
-		(shape input)
+		(shape output)
 		(at 226.06 58.42 0)
 		(fields_autoplaced yes)
 		(effects
@@ -4657,7 +4625,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "11f484bc-54d0-402e-984b-0fda77dad678")
 		(property "Reference" "R67"
 			(at 151.13 63.246 90)
@@ -6243,7 +6211,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(uuid "b6ec370e-902c-4c49-8b8c-5dcfdcf359df")
 		(property "Reference" "R68"
 			(at 241.3 69.85 90)
