@@ -15,7 +15,7 @@
 ;ACIAStatus  = IO_AREA		; FT245 Status
 ;ACIAData    = IO_AREA+$01	; FT245 Data in/out
    .segment "WOZMON"
-    .org    $FB00
+    .org    $F000
 
 IN          = $0200          ;*Input buffer
 XAML        = $24            ;*Index pointers

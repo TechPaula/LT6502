@@ -42,7 +42,7 @@ MyDL2		 	= $FE
 ; and wait for the user to select [C]old or [W]arm start. nothing else
 ; fits in less than 128 bytes
 	.segment "IOHANDLER"
-	.org	$FE00			; pretend this is in a 1/8K ROM
+	.org	$F300			; pretend this is in a 1/8K ROM
 
 ; reset vector points here
 
