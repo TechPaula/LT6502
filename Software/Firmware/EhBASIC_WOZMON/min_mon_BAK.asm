@@ -45,8 +45,9 @@ BEEP_PW2		= $7F
 BEEP_LN			= $80
 
 ; bits for load/save
-;Itempl            = $11       ; temporary integer low byte, defined in EhBASIC
-;Itemph            = Itempl+1  ; temporary integer high byte, defined in EhBASIC
+;LAB_GBYT          = $C2       ; get current BASIC byte subroutine
+;Bpntrl            = $C3       ; BASIC execute (get byte) pointer low byte
+;Bpntrh            = Bpntrl+1  ; BASIC execute (get byte) pointer high byte
 
 ; now the code. all this does is set up the vectors and interrupt code
 ; and wait for the user to select [C]old or [W]arm start. nothing else
@@ -79,7 +80,7 @@ LAB_stlp
     LDA #$10        ; 8-N-1, 115200 baud
     STA A_ctl       ; set control register
 
-	JSR PWR_BEEP_LOW	; power beep
+;	JSR PWR_BEEP	; power beep
 
 ; now do the signon message, Y = $00 here
 LAB_signon
@@ -103,13 +104,14 @@ KYB_signon
 	INY					; increment index
 	BNE KYB_signon		; loop, always
 
+
 LAB_nokey
 	JSR	V_INPT			; call scan input device
 	BCC	LAB_nokey		; loop if no key
 
 	JSR	ACIAout			; output character
 
-	AND	#$DF			; mask xx0x xxxx, ensure upper case
+;	AND	#$DF			; mask xx0x xxxx, ensure upper case
 	CMP	#'W'			; compare with [W]arm start
 	BEQ	LAB_dowarm		; branch if [W]arm start
 
@@ -121,19 +123,16 @@ LAB_nokey
 
 	LDA #$0D
 	STA A_txd			; clear keyboard screen
-	
-	JSR PWR_BEEP_HIGH
+
 	JMP	LAB_COLD		; do EhBASIC cold start
 
 LAB_dowarm
 	LDA #$0D
 	STA A_txd			; clear keyboard screen
-	JSR PWR_BEEP_HIGH
 	JMP	LAB_WARM		; do EhBASIC warm start
 LAB_dowoz
 	LDA #$0D
 	STA A_txd			; clear keyboard screen
-	JSR PWR_BEEP_HIGH
     JMP EWOZ
 
 ; byte out to simulated ACIA
@@ -213,22 +212,10 @@ KEYB_NoData
 	RTS
 
 
-
-IO_LOAD				; load vector for EhBASIC
-IO_SAVE				; save vector for EhBASIC
-
-	JSR LAB_GFPN	; Get fixed point number as intenger
-
-	LDA Itempl		; This is the low byte 
-	JSR ACIAout
-	 
-	LDA Itemph		; this is the high byte
-	JSR ACIAout
-
-
+no_load				; empty load vector for EhBASIC
+no_save				; empty save vector for EhBASI	RTS
+C
 	RTS
-
-
 
 
 ; display init
@@ -236,84 +223,12 @@ DISP_INIT
 
 	rts
 
-; power on beep
-PWR_BEEP_LOW
-	LDA #BEEP_PW		; PULSE WIDTH	
-	STA MyDL	
-
-	LDA #BEEP_LN		; LENGTH	
-	STA MyDL2
-
-BEEP_LP1
-	LDA #$FF
-	STA A_Beeper
-	NOP
-	DEC MyDL
-	BNE BEEP_LP1
-
-	LDA #$FF			; SLOW DOWN
-	STA MyDL	
-BEEP_LP1A
-	NOP
-	DEC MyDL
-	BNE BEEP_LP1A
-
-	LDA #BEEP_PW
-	STA MyDL
-
-BEEP_LP2
-	LDA #$00
-	STA A_Beeper
-	NOP
-	DEC MyDL
-	BNE BEEP_LP2
-
-	DEC MyDL2
-	BNE BEEP_LP1
-
-	LDA #$FF			; SLOW DOWN
-	STA MyDL	
-BEEP_LP2A
-	NOP
-	DEC MyDL
-	BNE BEEP_LP2A
-
-	RTS
-
-PWR_BEEP_HIGH
-	; Second beep, higher pitch
-	LDA #BEEP_PW2		; PULSE WIDTH	
-	STA MyDL	
-
-	LDA #BEEP_LN		; LENGTH	
-	STA MyDL2
-
-BEEP_LP3
-	LDA #$FF
-	STA A_Beeper
-	DEC MyDL
-	BNE BEEP_LP3
-	
-	LDA #BEEP_PW2
-	STA MyDL
-
-BEEP_LP4
-	LDA #$00
-	STA A_Beeper
-	DEC MyDL
-	BNE BEEP_LP4
-
-	DEC MyDL2
-	BNE BEEP_LP3
-
-	RTS	
-
 ; vector tables
 LAB_vec
 	.word	ACIAin		; byte in from simulated ACIA  	EhBASIC = V_INPT
 	.word	ACIAout		; byte out to simulated ACIA   	EhBASIC = V_OUTP
-	.word	IO_LOAD		; null load vector for EhBASIC	EhBASIC = V_LOAD
-	.word	IO_SAVE		; null save vector for EhBASIC	EhBASIC = V_SAVE
+	.word	no_load		; null load vector for EhBASIC	EhBASIC = V_LOAD
+	.word	no_save		; null save vector for EhBASIC	EhBASIC = V_SAVE
 
 ; EhBASIC IRQ support
 IRQ_CODE
