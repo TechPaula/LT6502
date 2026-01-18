@@ -202,6 +202,12 @@ no_load				; empty load vector for EhBASIC
 no_save				; empty save vector for EhBASIC
 	RTS
 
+
+DISP_INIT
+
+	rts
+
+
 ; vector tables
 LAB_vec
 	.word	ACIAin		; byte in from simulated ACIA  	EhBASIC = V_INPT
@@ -228,6 +234,9 @@ NMI_CODE
 	STA	NmiBase		; save the new NMI flag byte
 	PLA				; restore A
 	RTI
+
+
+
 
 END_CODE
 
