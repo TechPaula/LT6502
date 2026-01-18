@@ -27,11 +27,16 @@ It'll be simple, these are the preliminary specs;
 * 2025-01-04 - VIA working, ACIA working, comms to/from the keyboard in basic working. Begun integrating keyboard into firmware
 * 2025-01-05 - Keyboard now integrated into firmware, so you can type on the keyboard and don't need the console for input
 * 2025-01-09 - Compact flash working, Beeper also now working. Also runs from battery just fine.
+* 2025-01-16 - Connected a 4.3" 800x480 RA8875 based display and got that working. I failed to get the LT7683 based display working.
+* 2025-01-17 - work on a number of case related things that did not quite work in actual life.
+* 2025-01-18 - Tweaked CPLD to slow down FTDI read/writes. Also begun work on bios, added start beep and begun work on load/save functions
 
+## In Progress
+* Add SAVE / LOAD / DIR style commands
+  
 ## To do (probably in order)
+* add in larger display (going to try a 10.1" RA8889 based 1024x600, fall back is a 9" RA8875 based 800x480)
 * Fix buggy keyscan code on MEGA644P
-* Connect Display and get that working
-* add SAVE / LOAD / DIR style commands
 
 
 ### Memory Map
@@ -65,7 +70,7 @@ The memory map is subject to change in some parts, though I expect the RAM, ROM 
 |-------|-----|----|----|---------------|
 |0xBE0O|00-FF|RW| Expansion slot | |
 |0xBF00|00-9F|  | Unused Currently | |
-|0xBFAO|0-F| W| Beeper | Not sure |
+|0xBFAO|0-0| W| Beeper | just write 0xFF and 0x00 to turn on/off the speaker |
 |0xBFBO|0-7|RW| Compact Flash |  |
 |0xBFCO|0-F|RW| 65C22 |  on board VIA |
 |0xBFDO|0-F|0-1| Display |   |
