@@ -39,8 +39,8 @@ It'll be simple, these are the preliminary specs;
 * Fix buggy keyscan code on MEGA644P
 
 
-### Memory Map
-The memory map is subject to change in some parts, though I expect the RAM, ROM and Peripheral blocks to stay the same.
+## Memory Map
+The memory map is fairly stable at the moment, everything seems to be working fine.
 
 #### High Level
 | Start | End | Size (Dec) | Size (Hex) | What is it | Notes |
@@ -56,7 +56,6 @@ The memory map is subject to change in some parts, though I expect the RAM, ROM 
 | 0xFB00|0xFDFF| 768 | 0x300 | eWozMon | [Enhanced Wozmon](https://gist.github.com/BigEd/2760560) |
 | 0xFE00|0xFFF9| 506 | 0x1FA | Bootstrap | startup messages and also input/output/load/save vectors|
 | 0xFFFA|0xFFFF| 6 | 0x0A | 6502 Vectors | |
-
 
 ##### RAM breakdown
 | Start | End | Size (Dec) | Size (Hex) | What is it | Notes |
