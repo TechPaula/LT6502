@@ -12,7 +12,7 @@ BEGIN
     "LED"                                     : OUTPUT_PIN = 94 ;
     "RESET"                                   : INPUT_PIN = 93 ;
     "XXL_81"                                  : NODE_NUM = 614 ;
-    "Q1"                                      : NODE_NUM = 615 ;
+    "Q2"                                      : NODE_NUM = 615 ;
     "BEEPER"                                  : OUTPUT_PIN = 92 ;
     "A9"                                      : INPUT_PIN = 14 ;
     "A10"                                     : INPUT_PIN = 13 ;
@@ -23,7 +23,7 @@ BEGIN
     "A15"                                     : INPUT_PIN = 7 ;
     "DISP_BL"                                 : OUTPUT_PIN = 6 ;
     "TDI"                                     : INPUT_PIN = 4 ;
-    "Q2"                                      : NODE_NUM = 632 ;
+    "Q1"                                      : NODE_NUM = 632 ;
     "A0"                                      : INPUT_PIN = 25 ;
     "A4"                                      : INPUT_PIN = 21 ;
     "A5"                                      : INPUT_PIN = 20 ;

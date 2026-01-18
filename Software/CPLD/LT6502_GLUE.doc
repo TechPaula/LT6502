@@ -5,7 +5,7 @@
 
 CUPL(WM)        5.0a Serial# 60008009
 Device          f1508isptqfp100  Library DLIB-h-40-2
-Created         Sun Jan 18 11:42:46 2026
+Created         Sun Jan 18 14:39:47 2026
 Name            LT6502_GLUE
 Partno          
 Revision        
@@ -117,8 +117,7 @@ Q0.ck  =>
     CLK
 
 Q1.d  =>
-    A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15 & !PHI2
-  # !PHI2 & !SLOW0
+    !PHI2 & !SLOW0
   # PHI2 & Q0 & !Q1
   # PHI2 & !Q0 & Q1
 
@@ -130,6 +129,19 @@ Q1.ck  =>
 
 Q2.d  =>
     !PHI2 & !SLOW1
+  # !CF_nCS & !PHI2
+  # !A15 & !PHI2
+  # A14 & !PHI2
+  # !A13 & !PHI2
+  # !A12 & !PHI2
+  # !A11 & !PHI2
+  # !A10 & !PHI2
+  # !A9 & !PHI2
+  # !A8 & !PHI2
+  # !A7 & !PHI2
+  # !A6 & !PHI2
+  # !A5 & !PHI2
+  # !A4 & !PHI2
   # PHI2 & !Q1 & Q2
   # PHI2 & !Q0 & Q2
   # PHI2 & Q0 & Q1 & !Q2
@@ -158,7 +170,18 @@ RAM_nCS1 =>
   # !A5 & !A14 & A15 & !ACIA_nCS & !CF_nCS & !DISP_nCS & !EXP_nCS & !VIA_nCS
 
 RD =>
-    PHI2 & RnW
+    !A15 & PHI2 & RnW
+  # A14 & PHI2 & RnW
+  # !A13 & PHI2 & RnW
+  # !A12 & PHI2 & RnW
+  # !A11 & PHI2 & RnW
+  # !A10 & PHI2 & RnW
+  # !A9 & PHI2 & RnW
+  # !A8 & PHI2 & RnW
+  # !A7 & PHI2 & RnW
+  # !A6 & PHI2 & RnW
+  # !A4 & PHI2 & RnW
+  # !A5 & PHI2 & RnW
 
 RD_FT =>
     A0 & A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15 & 
@@ -171,7 +194,18 @@ ROM_nR =>
     A14 & A15
 
 RW =>
-    PHI2 & !RnW
+    !A15 & PHI2 & !RnW
+  # A14 & PHI2 & !RnW
+  # !A13 & PHI2 & !RnW
+  # !A12 & PHI2 & !RnW
+  # !A11 & PHI2 & !RnW
+  # !A10 & PHI2 & !RnW
+  # !A9 & PHI2 & !RnW
+  # !A8 & PHI2 & !RnW
+  # !A7 & PHI2 & !RnW
+  # !A6 & PHI2 & !RnW
+  # !A4 & PHI2 & !RnW
+  # !A5 & PHI2 & !RnW
 
 VIA_nCS =>
     !A4 & !A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15
@@ -241,21 +275,21 @@ Pol   Name              Ext     Pin     Type     Used   Pterms  Level
     Q0                  ar      83       X        1       0       1     
     Q0                  ck      83       X        1       0       1     
     Q1                          0        N        -       -       -     
-    Q1                  d       0        M        4       0       1     
+    Q1                  d       0        M        3       0       1     
     Q1                  ar      0        M        1       0       1     
     Q1                  ck      0        M        1       0       1     
     Q2                          0        N        -       -       -     
-    Q2                  d       0        M        4       0       1     
+    Q2                  d       0        M        17      0       1     
     Q2                  ar      0        M        1       0       1     
     Q2                  ck      0        M        1       0       1     
  !  RAM_nCS0                    42       V        1       0       1     
  !  RAM_nCS1                    40       V        10      0       1     
- !  RD                          37       V        1       0       1     
+ !  RD                          37       V        12      0       1     
  !  RD_FT                       48       V        1       0       1     
  !  RESET                       93       V        -       -       -     
  !  ROM_nCS                     46       V        1       0       1     
  !  ROM_nR                      45       V        1       0       1     
- !  RW                          36       V        1       0       1     
+ !  RW                          36       V        12      0       1     
     RXF                         49       V        -       -       -     
     RnW                         90       V        -       -       -     
  !  SLOW0                       96       V        -       -       -     

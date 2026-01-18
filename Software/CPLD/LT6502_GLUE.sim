@@ -157,8 +157,7 @@ Q0.ck  =>
     CLK
 
 Q1.d  =>
-    A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15 & !PHI2
-  # !PHI2 & !SLOW0
+    !PHI2 & !SLOW0
   # PHI2 & Q0 & !Q1
   # PHI2 & !Q0 & Q1
 
@@ -170,6 +169,19 @@ Q1.ck  =>
 
 Q2.d  =>
     !PHI2 & !SLOW1
+  # !CF_nCS & !PHI2
+  # !A15 & !PHI2
+  # A14 & !PHI2
+  # !A13 & !PHI2
+  # !A12 & !PHI2
+  # !A11 & !PHI2
+  # !A10 & !PHI2
+  # !A9 & !PHI2
+  # !A8 & !PHI2
+  # !A7 & !PHI2
+  # !A6 & !PHI2
+  # !A5 & !PHI2
+  # !A4 & !PHI2
   # PHI2 & !Q1 & Q2
   # PHI2 & !Q0 & Q2
   # PHI2 & Q0 & Q1 & !Q2
@@ -196,7 +208,18 @@ RAM_nCS1 =>
   # !A5 & !A14 & A15 & !ACIA_nCS & !CF_nCS & !DISP_nCS & !EXP_nCS & !VIA_nCS
 
 RD =>
-    PHI2 & RnW
+    !A15 & PHI2 & RnW
+  # A14 & PHI2 & RnW
+  # !A13 & PHI2 & RnW
+  # !A12 & PHI2 & RnW
+  # !A11 & PHI2 & RnW
+  # !A10 & PHI2 & RnW
+  # !A9 & PHI2 & RnW
+  # !A8 & PHI2 & RnW
+  # !A7 & PHI2 & RnW
+  # !A6 & PHI2 & RnW
+  # !A4 & PHI2 & RnW
+  # !A5 & PHI2 & RnW
 
 RD_FT =>
     A0 & A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15 & PHI2 & RnW
@@ -208,7 +231,18 @@ ROM_nR =>
     A14 & A15
 
 RW =>
-    PHI2 & !RnW
+    !A15 & PHI2 & !RnW
+  # A14 & PHI2 & !RnW
+  # !A13 & PHI2 & !RnW
+  # !A12 & PHI2 & !RnW
+  # !A11 & PHI2 & !RnW
+  # !A10 & PHI2 & !RnW
+  # !A9 & PHI2 & !RnW
+  # !A8 & PHI2 & !RnW
+  # !A7 & PHI2 & !RnW
+  # !A6 & PHI2 & !RnW
+  # !A4 & PHI2 & !RnW
+  # !A5 & PHI2 & !RnW
 
 VIA_nCS =>
     !A4 & !A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15
