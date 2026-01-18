@@ -48,7 +48,7 @@ Pin 48 = !RD_FT;           /* OUTPUT */
 Pin 47 = WR_FT;            /* OUTPUT */
 Pin 49 = RXF;	             /* BIT 0 of 6850 register, INPUT */
 Pin 50 = TXE;	             /* BIT 1 of 6850 register, INPUT */
-                           /* Had to swap pin 49/50, no idea why */
+                           /* Had to swap pin 49/50, Labels swapped on schematic, DOH! */
 
 /* 65C22 VIA */
 Pin 76 = !VIA_nCS;
