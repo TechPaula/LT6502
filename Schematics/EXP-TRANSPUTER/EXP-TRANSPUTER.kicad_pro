@@ -490,7 +490,7 @@
       "plot": "",
       "pos_files": "",
       "specctra_dsn": "",
-      "step": "EXP-TRANSPUTER.step",
+      "step": "Expansion-Template.step",
       "svg": "",
       "vrml": ""
     },
@@ -611,8 +611,28 @@
   },
   "sheets": [
     [
-      "b4625a4d-abe2-4dda-ad1d-373b5653a39a",
+      "c16bdb00-c1a6-42ce-89ee-f8829384a2ef",
       "Root"
+    ],
+    [
+      "f2657965-e862-4a71-b6b9-15d71f478de7",
+      "Connector"
+    ],
+    [
+      "55b77dc2-87e7-4aba-a7a4-e9e441067365",
+      "LinkAdapter"
+    ],
+    [
+      "dd0825ec-9d75-4877-a33b-57bc1422bc74",
+      "TRAMOnBoard"
+    ],
+    [
+      "70462b80-6d36-4572-85be-64c540caa8d2",
+      "TRAMOnBoard1"
+    ],
+    [
+      "781e3b3d-cb28-46ce-a66c-f9dc05424089",
+      "GLUE"
     ]
   ],
   "text_variables": {}
