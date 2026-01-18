@@ -33,10 +33,16 @@ A_res           = $BFE1 ; ACIA reset port
 A_cmd           = $BFE2 ; ACIA command port
 A_ctl           = $BFE3 ; ACIA control port
 
+A_Beeper			= $BFA0 ; Beeper address
+
 ; Zeropage bits used for loops
 MyDL 			= $FF
 MyDL2		 	= $FE
+MyDL3			= $FD
 
+BEEP_PW			= $FF
+BEEP_PW2		= $7F
+BEEP_LN			= $80
 
 ; now the code. all this does is set up the vectors and interrupt code
 ; and wait for the user to select [C]old or [W]arm start. nothing else
@@ -69,6 +75,7 @@ LAB_stlp
     LDA #$10        ; 8-N-1, 115200 baud
     STA A_ctl       ; set control register
 
+	JSR PWR_BEEP	; power beep
 
 ; now do the signon message, Y = $00 here
 LAB_signon
@@ -203,10 +210,63 @@ no_save				; empty save vector for EhBASIC
 	RTS
 
 
+; display init
 DISP_INIT
 
 	rts
 
+; power on beep
+PWR_BEEP
+	LDA #BEEP_PW		; PITCH		
+	STA MyDL	
+
+	LDA #BEEP_LN		; LENGTH	
+	STA MyDL2
+
+BEEP_LP1
+	LDA #$FF
+	STA A_Beeper
+	DEC MyDL
+	BNE BEEP_LP1
+
+	LDA #BEEP_PW
+	STA MyDL
+
+BEEP_LP2
+	LDA #$00
+	STA A_Beeper
+	DEC MyDL
+	BNE BEEP_LP2
+
+	DEC MyDL2
+	BNE BEEP_LP1
+
+	; Second beep, higher pitch
+	LDA #BEEP_PW2		; PITCH		
+	STA MyDL	
+
+	LDA #BEEP_LN		; LENGTH	
+	STA MyDL2
+
+BEEP_LP3
+	LDA #$FF
+	STA A_Beeper
+	DEC MyDL
+	BNE BEEP_LP3
+	
+	LDA #BEEP_PW2
+	STA MyDL
+
+BEEP_LP4
+	LDA #$00
+	STA A_Beeper
+	DEC MyDL
+	BNE BEEP_LP4
+
+	DEC MyDL2
+	BNE BEEP_LP3
+
+	RTS
 
 ; vector tables
 LAB_vec
