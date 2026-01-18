@@ -3,7 +3,7 @@ LISTING FOR LOGIC DESCRIPTION FILE: LT6502_GLUE.pld                  Page 1
 CUPL(WM): Universal Compiler for Programmable Logic
 Version 5.0a Serial# 60008009
 Copyright (c) 1983, 1998 Logical Devices, Inc.
-Created Fri Jan 09 15:21:27 2026
+Created Sun Jan 18 11:42:46 2026
 
   1:Name     LT6502_GLUE;
   2:PartNo   ;
@@ -24,7 +24,7 @@ Created Fri Jan 09 15:21:27 2026
  17:Pin 87 = CLK;       /* MAIN OSC CLOCK IN */
  18:Pin 93 = !RESET;    /* GLOBAL RESET IN */
  19:Pin 84 = CLK_OUT;   /* Sent to expansion header, WAS Q0 but VIA/ACIA connected to pin 83, oops */
- 20:Pin 83 = Q0;        /* sent to expansion header OUT, NOW CLK/2 */
+ 20:Pin 83 = Q0;        /* sent to expansion header OUT, NOW CLK/2, same speed as CPU unstretched */
  21:
  22:Pin 96 = !SLOW0;    /* CPU Clock Slow bit 0, INPUT */
  23:Pin 97 = !SLOW1;    /* CPU Clock Slow bit 1, INPUT */
@@ -64,7 +64,7 @@ LISTING FOR LOGIC DESCRIPTION FILE: LT6502_GLUE.pld                  Page 2
 CUPL(WM): Universal Compiler for Programmable Logic
 Version 5.0a Serial# 60008009
 Copyright (c) 1983, 1998 Logical Devices, Inc.
-Created Fri Jan 09 15:21:27 2026
+Created Sun Jan 18 11:42:46 2026
 
  54:Pin 76 = !VIA_nCS;
  55:
@@ -126,7 +126,7 @@ LISTING FOR LOGIC DESCRIPTION FILE: LT6502_GLUE.pld                  Page 3
 CUPL(WM): Universal Compiler for Programmable Logic
 Version 5.0a Serial# 60008009
 Copyright (c) 1983, 1998 Logical Devices, Inc.
-Created Fri Jan 09 15:21:27 2026
+Created Sun Jan 18 11:42:46 2026
 
 108:Pin 53 = D6;
 109:Pin 52 = D7;
@@ -164,7 +164,7 @@ Created Fri Jan 09 15:21:27 2026
 141:Q0.D = !PHI2
 142:       # PHI2 & !Q0;
 143:
-144:Q1.D = !PHI2 & !SLOW0
+144:Q1.D = !PHI2 & (!SLOW0 # FT_CS)
 145:       # PHI2 & !Q1 & Q0
 146:       # PHI2 & Q1 & !Q0;
 147:
@@ -188,7 +188,7 @@ LISTING FOR LOGIC DESCRIPTION FILE: LT6502_GLUE.pld                  Page 4
 CUPL(WM): Universal Compiler for Programmable Logic
 Version 5.0a Serial# 60008009
 Copyright (c) 1983, 1998 Logical Devices, Inc.
-Created Fri Jan 09 15:21:27 2026
+Created Sun Jan 18 11:42:46 2026
 
 162:
 163:
@@ -250,7 +250,7 @@ LISTING FOR LOGIC DESCRIPTION FILE: LT6502_GLUE.pld                  Page 5
 CUPL(WM): Universal Compiler for Programmable Logic
 Version 5.0a Serial# 60008009
 Copyright (c) 1983, 1998 Logical Devices, Inc.
-Created Fri Jan 09 15:21:27 2026
+Created Sun Jan 18 11:42:46 2026
 
 216:ROM_nCS = 'b'1;        /* ROM chip select always active */
 217:

@@ -1,4 +1,4 @@
-Atmel ATF1508AS Fitter Version 1.8.7.8 ,running Fri Jan 09 15:21:32 2026
+Atmel ATF1508AS Fitter Version 1.8.7.8 ,running Sun Jan 18 11:42:52 2026
 
 
 fit1508 D:\REPOSITORIES\LT6502\SOFTWARE\CPLD\LT6502_GLUE.tt2 -CUPL -dev P1508T100 -JTAG ON
@@ -81,12 +81,12 @@ DISP_nRES is placed at pin 99 (MC 6)
 DISP_nCS is placed at pin 98 (MC 8)
 SLOW1 is placed at pin 97 (MC 9)
 SLOW0 is placed at pin 96 (MC 11)
-Q2 is placed at feedback node 611 (MC 11)
-XXL_79 is placed at feedback node 612 (MC 12)
+XXL_79 is placed at feedback node 611 (MC 11)
+XXL_80 is placed at feedback node 612 (MC 12)
 LED is placed at pin 94 (MC 13)
 RESET is placed at pin 93 (MC 14)
-XXL_80 is placed at feedback node 614 (MC 14)
-XXL_81 is placed at feedback node 615 (MC 15)
+XXL_81 is placed at feedback node 614 (MC 14)
+Q1 is placed at feedback node 615 (MC 15)
 BEEPER is placed at pin 92 (MC 16)
 A9 is placed at pin 14 (MC 17)
 A10 is placed at pin 13 (MC 19)
@@ -97,7 +97,7 @@ A14 is placed at pin 8 (MC 25)
 A15 is placed at pin 7 (MC 27)
 DISP_BL is placed at pin 6 (MC 29)
 TDI is placed at pin 4 (MC 32)
-Q1 is placed at feedback node 632 (MC 32)
+Q2 is placed at feedback node 632 (MC 32)
 A0 is placed at pin 25 (MC 33)
 A4 is placed at pin 21 (MC 40)
 A5 is placed at pin 20 (MC 41)
@@ -199,58 +199,58 @@ NC = Unused I/O pins which must be unconnected on the board
 
 Universal-Interconnect-Multiplexer assignments
 ------------------------------------------------
-FanIn assignment for block A [25]
+FanIn assignment for block A [24]
 {
-A13,A6,A10,A12,A5,A11,A8,A4,A15,A14,ACIA_nCS,A9,A7,
+A15,A13,A10,A12,A5,A11,A6,A4,A8,A14,ACIA_nCS,A9,A7,
 BEEPER,
 CF_nCS,
 D2,DISP_nCS,
 PHI2,
-Q0,Q2,Q1,
-RESET,
-SLOW1,
-XXL_79,XXL_80,
-}
-Multiplexer assignment for block A
-XXL_79			(MC3	FB)  : MUX 1		Ref (A12fb)
-D2			(MC24	P)   : MUX 2		Ref (F89p)
-A13			(MC15	P)   : MUX 3		Ref (B24p)
-Q0			(MC10	P)   : MUX 4		Ref (H125p)
-PHI2			(MC7	P)   : MUX 5		Ref (H113p)
-DISP_nCS		(MC1	P)   : MUX 7		Ref (A8p)
-RESET			(MC23	P)   : MUX 8		Ref (A14p)
-A6			(MC22	P)   : MUX 10		Ref (C43p)
-A10			(MC18	P)   : MUX 11		Ref (B19p)
-A12			(MC16	P)   : MUX 13		Ref (B22p)
-CF_nCS			(MC9	P)   : MUX 14		Ref (H123p)
-A5			(MC11	P)   : MUX 16		Ref (C41p)
-A11			(MC17	P)   : MUX 17		Ref (B21p)
-SLOW1			(MC25	P)   : MUX 18		Ref (A9p)
-A8			(MC20	P)   : MUX 20		Ref (C46p)
-A4			(MC12	P)   : MUX 21		Ref (C40p)
-A15			(MC13	P)   : MUX 24		Ref (B27p)
-Q2			(MC2	FB)  : MUX 27		Ref (A11fb)
-A14			(MC14	P)   : MUX 30		Ref (B25p)
-ACIA_nCS		(MC8	P)   : MUX 31		Ref (H117p)
-BEEPER			(MC5	P)   : MUX 32		Ref (A16p)
-A9			(MC19	P)   : MUX 33		Ref (B17p)
-A7			(MC21	P)   : MUX 34		Ref (C45p)
-Q1			(MC6	FB)  : MUX 37		Ref (B32fb)
-XXL_80			(MC4	FB)  : MUX 39		Ref (A14fb)
-
-FanIn assignment for block B [5]
-{
-PHI2,
 Q0,Q1,
 RESET,
 SLOW0,
+XXL_80,XXL_79,
+}
+Multiplexer assignment for block A
+A15			(MC12	P)   : MUX 0		Ref (B27p)
+XXL_80			(MC3	FB)  : MUX 1		Ref (A12fb)
+D2			(MC23	P)   : MUX 2		Ref (F89p)
+A13			(MC14	P)   : MUX 3		Ref (B24p)
+Q0			(MC9	P)   : MUX 4		Ref (H125p)
+Q1			(MC4	FB)  : MUX 5		Ref (A15fb)
+DISP_nCS		(MC1	P)   : MUX 7		Ref (A8p)
+RESET			(MC22	P)   : MUX 8		Ref (A14p)
+SLOW0			(MC24	P)   : MUX 10		Ref (A11p)
+A10			(MC17	P)   : MUX 11		Ref (B19p)
+A12			(MC15	P)   : MUX 13		Ref (B22p)
+CF_nCS			(MC8	P)   : MUX 14		Ref (H123p)
+A5			(MC10	P)   : MUX 16		Ref (C41p)
+A11			(MC16	P)   : MUX 17		Ref (B21p)
+A6			(MC21	P)   : MUX 18		Ref (C43p)
+PHI2			(MC6	P)   : MUX 19		Ref (H113p)
+A4			(MC11	P)   : MUX 21		Ref (C40p)
+A8			(MC19	P)   : MUX 26		Ref (C46p)
+XXL_79			(MC2	FB)  : MUX 27		Ref (A11fb)
+A14			(MC13	P)   : MUX 30		Ref (B25p)
+ACIA_nCS		(MC7	P)   : MUX 31		Ref (H117p)
+BEEPER			(MC5	P)   : MUX 32		Ref (A16p)
+A9			(MC18	P)   : MUX 33		Ref (B17p)
+A7			(MC20	P)   : MUX 34		Ref (C45p)
+
+FanIn assignment for block B [6]
+{
+PHI2,
+Q0,Q2,Q1,
+RESET,
+SLOW1,
 }
 Multiplexer assignment for block B
-Q0			(MC3	P)   : MUX 4		Ref (H125p)
-SLOW0			(MC5	P)   : MUX 6		Ref (A11p)
-Q1			(MC1	FB)  : MUX 7		Ref (B32fb)
-RESET			(MC4	P)   : MUX 8		Ref (A14p)
-PHI2			(MC2	P)   : MUX 11		Ref (H113p)
+Q0			(MC4	P)   : MUX 4		Ref (H125p)
+PHI2			(MC3	P)   : MUX 5		Ref (H113p)
+Q2			(MC2	FB)  : MUX 7		Ref (B32fb)
+RESET			(MC5	P)   : MUX 8		Ref (A14p)
+SLOW1			(MC6	P)   : MUX 18		Ref (A9p)
+Q1			(MC1	FB)  : MUX 23		Ref (A15fb)
 
 FanIn assignment for block D [3]
 {
@@ -285,14 +285,14 @@ RnW			(MC18	FB)  : MUX 16		Ref (OE2)
 A11			(MC12	P)   : MUX 17		Ref (B21p)
 A8			(MC15	P)   : MUX 20		Ref (C46p)
 A4			(MC7	P)   : MUX 21		Ref (C40p)
-VIA_nCS			(MC4	P)   : MUX 23		Ref (H115p)
 A15			(MC8	P)   : MUX 24		Ref (B27p)
 EXP_nCS			(MC5	P)   : MUX 25		Ref (H118p)
+VIA_nCS			(MC4	P)   : MUX 27		Ref (H115p)
 A14			(MC9	P)   : MUX 30		Ref (B25p)
 A9			(MC14	P)   : MUX 31		Ref (B17p)
 PHI2			(MC3	P)   : MUX 33		Ref (H113p)
 A7			(MC16	P)   : MUX 34		Ref (C45p)
-XXL_81			(MC2	FB)  : MUX 37		Ref (A15fb)
+XXL_81			(MC2	FB)  : MUX 39		Ref (A14fb)
 
 FanIn assignment for block F [16]
 {
@@ -323,7 +323,7 @@ FanIn assignment for block H [18]
 A5,A13,A12,A11,A14,A6,A8,A4,A15,A10,A9,A7,
 CLK,
 PHI2,
-Q0,Q2,Q1,
+Q0,Q1,Q2,
 RESET,
 }
 Multiplexer assignment for block H
@@ -340,11 +340,11 @@ PHI2			(MC3	P)   : MUX 19		Ref (H113p)
 A8			(MC14	P)   : MUX 20		Ref (C46p)
 A4			(MC6	P)   : MUX 21		Ref (C40p)
 A15			(MC7	P)   : MUX 24		Ref (B27p)
-Q2			(MC1	FB)  : MUX 27		Ref (A11fb)
+Q1			(MC1	FB)  : MUX 25		Ref (A15fb)
 A10			(MC12	P)   : MUX 29		Ref (B19p)
 A9			(MC13	P)   : MUX 33		Ref (B17p)
 A7			(MC15	P)   : MUX 34		Ref (C45p)
-Q1			(MC2	FB)  : MUX 37		Ref (B32fb)
+Q2			(MC2	FB)  : MUX 37		Ref (B32fb)
 
 Creating JEDEC file D:\REPOSITORIES\LT6502\SOFTWARE\CPLD\LT6502_GLUE.jed ...
 
@@ -380,9 +380,10 @@ DISP_nRES = RESET;
 
 !Q0.D = (PHI2.Q & Q0.Q);
 
-Q1.D = ((PHI2.Q & Q0.Q & !Q1.Q)
+Q1.D = ((!PHI2.Q & SLOW0)
+	# (PHI2.Q & Q0.Q & !Q1.Q)
 	# (PHI2.Q & !Q0.Q & Q1.Q)
-	# (!PHI2.Q & SLOW0));
+	# (A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15 & !PHI2.Q));
 
 Q2.D = ((PHI2.Q & !Q1.Q & Q2.Q)
 	# (PHI2.Q & Q2.Q & !Q0.Q)
@@ -508,11 +509,11 @@ Pin 97 = SLOW1; /* MC  9 */
 Pin 98 = DISP_nCS; /* MC  8 */
 Pin 99 = DISP_nRES; /* MC  6 */
 Pin 100 = DISP_E; /* MC  5 */
-PINNODE 611 = Q2; /* MC 11 Feedback */
-PINNODE 612 = XXL_79; /* MC 12 Feedback */
-PINNODE 614 = XXL_80; /* MC 14 Feedback */
-PINNODE 615 = XXL_81; /* MC 15 Feedback */
-PINNODE 632 = Q1; /* MC 32 Feedback */
+PINNODE 611 = XXL_79; /* MC 11 Feedback */
+PINNODE 612 = XXL_80; /* MC 12 Feedback */
+PINNODE 614 = XXL_81; /* MC 14 Feedback */
+PINNODE 615 = Q1; /* MC 15 Feedback */
+PINNODE 632 = Q2; /* MC 32 Feedback */
 
 ** Resource Usage **
 
@@ -542,11 +543,11 @@ MC7   0         --                  --              --        --             0  
 MC8   98   on   DISP_nCS     C----  --              --        --             1     slow
 MC9   97   --   SLOW1        INPUT  --              --        --             0     slow
 MC10  0         --                  --              --        --             0     slow
-MC11  96   --   SLOW0        INPUT  Q2       Dg-r-  NA        --             5     slow
-MC12  0         --                  XXL_79   C----  NA        --             5     slow
+MC11  96   --   SLOW0        INPUT  XXL_79   C----  NA        --             5     slow
+MC12  0         --                  XXL_80   C----  NA        --             5     slow
 MC13  94   on   LED          C----  --              --        --             1     slow
-MC14  93   --   RESET        INPUT  XXL_80   C----  NA        --             5     slow
-MC15  0         --                  XXL_81   C----  NA        --             5     slow
+MC14  93   --   RESET        INPUT  XXL_81   C----  NA        --             5     slow
+MC15  0         --                  Q1       Dg-r-  NA        --             5     slow
 MC16  92   on   BEEPER       C----  --              NA        --             5     slow
 MC17  14   --   A9           INPUT  --              --        --             0     slow
 MC18  0         --                  --              --        --             0     slow
@@ -563,7 +564,7 @@ MC28  0         --                  --              --        --             0  
 MC29  6    on   DISP_BL      C----  --              --        --             0     slow
 MC30  5         --                  --              --        --             0     slow
 MC31  0         --                  --              --        --             0     slow
-MC32  4    --   TDI          INPUT  Q1       Dg-r-  --        --             4     slow
+MC32  4    --   TDI          INPUT  Q2       Dg-r-  NA        --             5     slow
 MC33  25   --   A0           INPUT  --              --        --             0     slow
 MC34  0         --                  --              --        --             0     slow
 MC35  24        --                  --              --        --             0     slow
@@ -666,8 +667,8 @@ MC0   88        --                  --              --        --             0  
 MC0   87        CLK          INPUT  --              --        --             0     slow
 
 Logic Array Block	Logic Cells	I/O Pins	Foldbacks	TotalPT		FanIN	Cascades
-A: LC1	- LC16		9/16(56%)	8/16(50%)	0/16(0%)	29/80(36%)	(25)	0
-B: LC17	- LC32		2/16(12%)	9/16(56%)	0/16(0%)	4/80(5%)	(5)	0
+A: LC1	- LC16		9/16(56%)	8/16(50%)	0/16(0%)	29/80(36%)	(24)	0
+B: LC17	- LC32		2/16(12%)	9/16(56%)	0/16(0%)	5/80(6%)	(6)	0
 C: LC33	- LC48		0/16(0%)	7/16(43%)	0/16(0%)	0/80(0%)	(3)	0
 D: LC49	- LC64		3/16(18%)	3/16(18%)	0/16(0%)	3/80(3%)	(19)	0
 E: LC65	- LC80		6/16(37%)	8/16(50%)	0/16(0%)	9/80(11%)	(16)	0
@@ -684,7 +685,7 @@ Total Nodes+FB/MCells 		30/128 	(23%)
 Total cascade used 		0
 Total input pins 		25
 Total output pins 		25
-Total Pts 			59
+Total Pts 			60
 Creating pla file D:\REPOSITORIES\LT6502\SOFTWARE\CPLD\LT6502_GLUE.tt3 with 0 inputs 0 outputs, 0 pins 0 nodes and 0 pterms...
 
 ----------------  End fitter, Design FITS

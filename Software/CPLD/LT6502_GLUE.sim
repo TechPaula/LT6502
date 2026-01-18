@@ -157,7 +157,8 @@ Q0.ck  =>
     CLK
 
 Q1.d  =>
-    !PHI2 & !SLOW0
+    A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15 & !PHI2
+  # !PHI2 & !SLOW0
   # PHI2 & Q0 & !Q1
   # PHI2 & !Q0 & Q1
 

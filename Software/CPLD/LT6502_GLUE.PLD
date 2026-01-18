@@ -141,7 +141,7 @@ PHI2.ar = RESET;
 Q0.D = !PHI2
        # PHI2 & !Q0;
 
-Q1.D = !PHI2 & !SLOW0
+Q1.D = !PHI2 & (!SLOW0 # FT_CS)
        # PHI2 & !Q1 & Q0
        # PHI2 & Q1 & !Q0;
 
