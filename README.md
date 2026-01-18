@@ -53,8 +53,8 @@ The memory map is fairly stable at the moment, everything seems to be working fi
 | Start | End | Size (Dec) | Size (Hex) | What is it | Notes |
 |-------|-----|----|----|----|---------------|
 | 0xC000|0xFAFF| 15104 | 0x3B0 | EhBASIC | EhBASIC 2.22p5 |
-| 0xFB00|0xFDFF| 768 | 0x300 | eWozMon | [Enhanced Wozmon](https://gist.github.com/BigEd/2760560) |
-| 0xFE00|0xFFF9| 506 | 0x1FA | Bootstrap | startup messages and also input/output/load/save vectors|
+| 0xF000|0xF2FF| 768 | 0x300 | eWozMon | [Enhanced Wozmon](https://gist.github.com/BigEd/2760560) |
+| 0xF300|0xFFF9| 3322| 0xCFA | Bootstrap | startup messages and also input/output/load/save functions |
 | 0xFFFA|0xFFFF| 6 | 0x0A | 6502 Vectors | |
 
 ##### RAM breakdown
