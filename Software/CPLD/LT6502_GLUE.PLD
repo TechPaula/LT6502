@@ -141,11 +141,11 @@ PHI2.ar = RESET;
 Q0.D = !PHI2
        # PHI2 & !Q0;
 
-Q1.D = !PHI2 & !SLOW0
+Q1.D = !PHI2 & !(SLOW0 # DISP_nCS)
        # PHI2 & !Q1 & Q0
        # PHI2 & Q1 & !Q0;
 
-Q2.D = !PHI2 & (!SLOW1 # !FT_CS # !CF_nCS)
+Q2.D = !PHI2 & !SLOW1
        # PHI2 & Q2 & !Q1
        # PHI2 & Q2 & !Q0	
        # PHI2 & !Q2 & Q1 & Q0;
@@ -181,7 +181,7 @@ ACIA_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & A5 &
 /* Display 0xBFD0 - 0xBFDF */
 DISP_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & !A5 & A4;
 DISP_DATA_EN = DISP_nCS;
-DISP_E = DISP_nCS & Q0;
+DISP_E = DISP_nCS & PHI2 & !Q0; /*DISP_nCS & Q0;*/
 DISP_BL = 'b'1;
 DISP_nRES = RESET;
 

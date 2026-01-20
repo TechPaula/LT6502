@@ -5,7 +5,7 @@
 
 CUPL(WM)        5.0a Serial# 60008009
 Device          f1508isptqfp100  Library DLIB-h-40-2
-Created         Sun Jan 18 14:39:47 2026
+Created         Tue Jan 20 20:03:13 2026
 Name            LT6502_GLUE
 Partno          
 Revision        
@@ -77,7 +77,7 @@ DISP_DATA_EN =>
     DISP_nCS
 
 DISP_E =>
-    DISP_nCS & Q0
+    DISP_nCS & PHI2 & !Q0
 
 DISP_nCS =>
     A4 & !A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15
@@ -117,7 +117,7 @@ Q0.ck  =>
     CLK
 
 Q1.d  =>
-    !PHI2 & !SLOW0
+    !DISP_nCS & !PHI2 & !SLOW0
   # PHI2 & Q0 & !Q1
   # PHI2 & !Q0 & Q1
 
@@ -129,19 +129,6 @@ Q1.ck  =>
 
 Q2.d  =>
     !PHI2 & !SLOW1
-  # !CF_nCS & !PHI2
-  # !A15 & !PHI2
-  # A14 & !PHI2
-  # !A13 & !PHI2
-  # !A12 & !PHI2
-  # !A11 & !PHI2
-  # !A10 & !PHI2
-  # !A9 & !PHI2
-  # !A8 & !PHI2
-  # !A7 & !PHI2
-  # !A6 & !PHI2
-  # !A5 & !PHI2
-  # !A4 & !PHI2
   # PHI2 & !Q1 & Q2
   # PHI2 & !Q0 & Q2
   # PHI2 & Q0 & Q1 & !Q2
@@ -279,7 +266,7 @@ Pol   Name              Ext     Pin     Type     Used   Pterms  Level
     Q1                  ar      0        M        1       0       1     
     Q1                  ck      0        M        1       0       1     
     Q2                          0        N        -       -       -     
-    Q2                  d       0        M        17      0       1     
+    Q2                  d       0        M        4       0       1     
     Q2                  ar      0        M        1       0       1     
     Q2                  ck      0        M        1       0       1     
  !  RAM_nCS0                    42       V        1       0       1     

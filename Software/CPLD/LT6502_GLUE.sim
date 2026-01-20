@@ -117,7 +117,7 @@ DISP_DATA_EN =>
     DISP_nCS
 
 DISP_E =>
-    DISP_nCS & Q0
+    DISP_nCS & PHI2 & !Q0
 
 DISP_nCS =>
     A4 & !A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15
@@ -157,7 +157,7 @@ Q0.ck  =>
     CLK
 
 Q1.d  =>
-    !PHI2 & !SLOW0
+    !DISP_nCS & !PHI2 & !SLOW0
   # PHI2 & Q0 & !Q1
   # PHI2 & !Q0 & Q1
 
@@ -169,19 +169,6 @@ Q1.ck  =>
 
 Q2.d  =>
     !PHI2 & !SLOW1
-  # !CF_nCS & !PHI2
-  # !A15 & !PHI2
-  # A14 & !PHI2
-  # !A13 & !PHI2
-  # !A12 & !PHI2
-  # !A11 & !PHI2
-  # !A10 & !PHI2
-  # !A9 & !PHI2
-  # !A8 & !PHI2
-  # !A7 & !PHI2
-  # !A6 & !PHI2
-  # !A5 & !PHI2
-  # !A4 & !PHI2
   # PHI2 & !Q1 & Q2
   # PHI2 & !Q0 & Q2
   # PHI2 & Q0 & Q1 & !Q2
