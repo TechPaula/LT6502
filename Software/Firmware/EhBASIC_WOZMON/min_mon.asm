@@ -225,9 +225,12 @@ IO_SAVE				; save vector for EhBASIC
 	LDA Itemph		; this is the high byte
 	JSR ACIAout
 
-
 	RTS
 
+IO_DIR				; dir vector for EhBASIC
+	JSR PWR_BEEP_HIGH
+	JSR PWR_BEEP_LOW
+	RTS
 
 
 
@@ -312,8 +315,9 @@ BEEP_LP4
 LAB_vec
 	.word	ACIAin		; byte in from simulated ACIA  	EhBASIC = V_INPT
 	.word	ACIAout		; byte out to simulated ACIA   	EhBASIC = V_OUTP
-	.word	IO_LOAD		; null load vector for EhBASIC	EhBASIC = V_LOAD
-	.word	IO_SAVE		; null save vector for EhBASIC	EhBASIC = V_SAVE
+	.word	IO_LOAD		; load vector for EhBASIC		EhBASIC = V_LOAD
+	.word	IO_SAVE		; save vector for EhBASIC		EhBASIC = V_SAVE
+	.word   IO_DIR		; dir vector for EhBASIC		EhBASIC = V_DIR
 
 ; EhBASIC IRQ support
 IRQ_CODE
