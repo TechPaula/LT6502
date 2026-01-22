@@ -36,18 +36,23 @@ A_ctl           = $BFE3 ; ACIA control port
 
 A_Beeper		= $BFA0 ; Beeper address
 
+; compact flash bits n bobs
 CF_ADDRESS		= $BFB0	; Compact flash address
+CF_BUFF1 		= $0400	; First 256 bytes of 512 Byte buffer for compact flash read/write
+CF_BUFF2 		= $0500	; Second 256 bytes of 512 Byte buffer for compact flash read/write
+CF_LB			= $0600 ; Place for low byte of sector address
+CF_MB			= $0601 ; Place for middle byte of sector address
+CF_HB			= $0602 ; Place for high byte of sector address
 
 
-CF_BUFF1 	= $0400		; First 256 bytes of 512 Byte buffer for compact flash read/write
-CF_BUFF2 	= $0500		; Second 256 bytes of 512 Byte buffer for compact flash read/write
+; 256 byte page used for my loops and bits (away from basic)
+MyDL 			= $610
+MyDL2		 	= $611
+MyDL3			= $612
+MyLP1			= $620
+MyLP2			= $621
+MyTEMP			= $650
 
-; 256 byte page used for my loops (away from basic)
-MyDL 			= $600
-MyDL2		 	= $601
-MyDL3			= $602
-MyLP1			= $610
-MyLP2			= $611
 
 
 BEEP_PW			= $FF
@@ -225,34 +230,57 @@ KEYB_NoData
 
 
 IO_LOAD				; load vector for EhBASIC
-IO_SAVE				; save vector for EhBASIC
-	JSR LAB_GFPN	; Get fixed point number as intenger
+	JSR CF_LDSV_INIT	; set sector based on command line value
 
-	LDA Itempl		; This is the low byte 
-	JSR ACIAout
-	 
-	LDA Itemph		; this is the high byte
-	JSR ACIAout
+
+	RTS
+
+
+IO_SAVE				; save vector for EhBASIC
+	JSR CF_LDSV_INIT	; Set sector based on command line value
+
 
 	RTS
 
 
 IO_DIR				; dir vector for EhBASIC
 	PHY
-	PHX
-	PHA
-
 	JSR CF_INIT	
-	JSR CF_SET_LBA
 
-	LDA #$20
-	STA CF_ADDRESS+7
-	JSR CF_WAIT
+	LDA #$00		; Set address for "DIR" file
+	STA CF_LB
+	STA CF_HB
+	LDA #$01		; "DIR" file stored atin sectors $000100 - $0001FF 
+	STA CF_MB
+	JSR CF_SET_LBA
 
 	JSR CF_READ_SECTOR
 
-	PLA
-	PLX
+IO_DIR_SHOW
+	LDA #$00
+	STA MyLP1
+
+IO_DIR_SHOW_LP1
+	LDY MyLP1
+	LDA CF_BUFF1,Y
+
+	; '0' IS START OF NEW LINE
+	; HERE WE NEED TO SKIP 2 BYTES 
+	; NEXT TWO BYTES ARE LINE NUMBER, LSByte THEN MSByte 
+	; THEN WE HAVE LINE DATA WHICH WE DISPLAY UNTIL WE HIT '0'
+
+IO_DIR_NEXTCHAR	
+	LDA MyLP1
+	CLC
+	ADC #$01
+	STA MyLP1
+	BCC IO_DIR_SHOW_LP1
+
+	
+	
+
+
+
 	PLY
     RTS
 
@@ -264,7 +292,6 @@ CF_INIT
 	LDA #$01
 	STA CF_ADDRESS+1
 	LDA #$EF
-	JSR CF_WAIT
 	STA CF_ADDRESS+7
 	JSR CF_WAIT
 		; SET ONE SECTOR (512 BYTES) AT A TIME
@@ -282,20 +309,23 @@ CF_WAIT
 
 	; set the block address to read from
 CF_SET_LBA
-	LDA #0				; LOWER BYTE
+	LDA CF_LB			; LOWER BYTE FETCH
 	STA CF_ADDRESS+3
 	JSR CF_WAIT
-	LDA #0				; MIDDLE BYTE
+	LDA CF_MB			; MIDDLE BYTE FETCH
 	STA CF_ADDRESS+4
 	JSR CF_WAIT
-	LDA #0				; HIGH BYTE
+	LDA CF_HB			; HIGH BYTE FETCH
 	STA CF_ADDRESS+5
+	JSR CF_WAIT
+	LDA #$E0			; DRIVE/HEAD REGISTER
+	STA CF_ADDRESS+6
 	JSR CF_WAIT
 	RTS
 
 	; Read sector from CF and dump in buffer
 CF_READ_SECTOR
-	LDY #$20
+	LDA #$20
 	STA CF_ADDRESS+7
 	JSR CF_WAIT
 
@@ -321,6 +351,42 @@ CF_RD_LP2
 
 CF_RD_EXIT
 	RTS
+
+CF_LDSV_INIT
+	JSR LAB_GFPN	; Get fixed point number as intenger
+
+	LDA #$00
+	STA CF_LB		; We start at the beginning of the save location
+
+	LDA Itempl		; This is the low byte from command line
+
+		; Increment by 1 and remember if we did for next byte
+	LDY #$00	
+	STY MyTEMP		; Set to 0 for later
+	CLC				; clear carry (just to be safe)
+	ADC #$01		; add 1 to A (using INA does NOT change carry flag)
+	BCC CF_LDSV_BCC ; if carry clear (i.e. we didn't go over 255) skip these next two bits
+
+	LDY #$01
+	STY MyTEMP
+CF_LDSV_BCC	 
+	STA CF_MB  
+	LDA Itemph		; this is the high byte from command line
+	CLC					; clear carry to be safe
+	ADC MyTEMP			; add in 0 or 1 depending if MB rolled over.
+	STA CF_HB
+
+	JSR PRBYTE		; DEBUGGING OUTPUT SHOWING CHOSEN LOAD/SAVE LOCATION IN HEX
+	LDA CF_MB
+	JSR PRBYTE
+	
+	
+	JSR CF_SET_LBA
+	RTS	
+
+
+
+
 
 ; display init
 DISP_INIT

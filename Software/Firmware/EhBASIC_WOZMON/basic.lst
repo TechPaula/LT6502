@@ -9415,18 +9415,23 @@ Current file: min_mon.asm
 00F29E  1               
 00F29E  1               A_Beeper		= $BFA0 ; Beeper address
 00F29E  1               
+00F29E  1               ; compact flash bits n bobs
 00F29E  1               CF_ADDRESS		= $BFB0	; Compact flash address
+00F29E  1               CF_BUFF1 		= $0400	; First 256 bytes of 512 Byte buffer for compact flash read/write
+00F29E  1               CF_BUFF2 		= $0500	; Second 256 bytes of 512 Byte buffer for compact flash read/write
+00F29E  1               CF_LB			= $0600 ; Place for low byte of sector address
+00F29E  1               CF_MB			= $0601 ; Place for middle byte of sector address
+00F29E  1               CF_HB			= $0602 ; Place for high byte of sector address
 00F29E  1               
 00F29E  1               
-00F29E  1               CF_BUFF1 	= $0400		; First 256 bytes of 512 Byte buffer for compact flash read/write
-00F29E  1               CF_BUFF2 	= $0500		; Second 256 bytes of 512 Byte buffer for compact flash read/write
+00F29E  1               ; 256 byte page used for my loops and bits (away from basic)
+00F29E  1               MyDL 			= $610
+00F29E  1               MyDL2		 	= $611
+00F29E  1               MyDL3			= $612
+00F29E  1               MyLP1			= $620
+00F29E  1               MyLP2			= $621
+00F29E  1               MyTEMP			= $650
 00F29E  1               
-00F29E  1               ; 256 byte page used for my loops (away from basic)
-00F29E  1               MyDL 			= $600
-00F29E  1               MyDL2		 	= $601
-00F29E  1               MyDL3			= $602
-00F29E  1               MyLP1			= $610
-00F29E  1               MyLP2			= $611
 00F29E  1               
 00F29E  1               
 00F29E  1               BEEP_PW			= $FF
@@ -9454,7 +9459,7 @@ Current file: min_mon.asm
 00F304  1               
 00F304  1  A0 1E        	LDY	#END_CODE-LAB_vec	; set index/count
 00F306  1               LAB_stlp
-00F306  1  B9 B1 F4     	LDA	LAB_vec-1,Y		; get byte from interrupt code
+00F306  1  B9 15 F5     	LDA	LAB_vec-1,Y		; get byte from interrupt code
 00F309  1  99 04 02     	STA	VEC_IN-1,Y		; save to RAM
 00F30C  1  88           	DEY					; decrement index/count
 00F30D  1  D0 F7        	BNE	LAB_stlp		; loop if more to do
@@ -9468,11 +9473,11 @@ Current file: min_mon.asm
 00F317  1  A9 10            LDA #$10        ; 8-N-1, 115200 baud
 00F319  1  8D E3 BF         STA A_ctl       ; set control register
 00F31C  1               
-00F31C  1  20 48 F4     	JSR PWR_BEEP_LOW	; power beep
+00F31C  1  20 AC F4     	JSR PWR_BEEP_LOW	; power beep
 00F31F  1               
 00F31F  1               ; now do the signon message, Y = $00 here
 00F31F  1               LAB_signon
-00F31F  1  B9 D0 F4     	LDA	LAB_mess,Y		; get byte from sign on message
+00F31F  1  B9 34 F5     	LDA	LAB_mess,Y		; get byte from sign on message
 00F322  1  F0 06        	BEQ KYB_msg			; display next message
 00F324  1               
 00F324  1  20 FC E0     	JSR	V_OUTP			; output character
@@ -9485,7 +9490,7 @@ Current file: min_mon.asm
 00F32A  1  A0 00        	LDY #$00
 00F32C  1               
 00F32C  1               KYB_signon
-00F32C  1  B9 F9 F4     	LDA KYB_mess,Y
+00F32C  1  B9 5D F5     	LDA KYB_mess,Y
 00F32F  1  F0 06        	BEQ	LAB_nokey		; exit loop if done
 00F331  1               
 00F331  1  20 7D F3     	JSR KEYBout			;
@@ -9511,18 +9516,18 @@ Current file: min_mon.asm
 00F34D  1  A9 0D        	LDA #$0D
 00F34F  1  8D E0 BF     	STA A_txd			; clear keyboard screen
 00F352  1               
-00F352  1  20 89 F4     	JSR PWR_BEEP_HIGH
+00F352  1  20 ED F4     	JSR PWR_BEEP_HIGH
 00F355  1  4C 00 C0     	JMP	LAB_COLD		; do EhBASIC cold start
 00F358  1               
 00F358  1               LAB_dowarm
 00F358  1  A9 0D        	LDA #$0D
 00F35A  1  8D E0 BF     	STA A_txd			; clear keyboard screen
-00F35D  1  20 89 F4     	JSR PWR_BEEP_HIGH
+00F35D  1  20 ED F4     	JSR PWR_BEEP_HIGH
 00F360  1  4C 00 00     	JMP	LAB_WARM		; do EhBASIC warm start
 00F363  1               LAB_dowoz
 00F363  1  A9 0D        	LDA #$0D
 00F365  1  8D E0 BF     	STA A_txd			; clear keyboard screen
-00F368  1  20 89 F4     	JSR PWR_BEEP_HIGH
+00F368  1  20 ED F4     	JSR PWR_BEEP_HIGH
 00F36B  1  4C 00 F0         JMP EWOZ
 00F36E  1               
 00F36E  1               ; byte out to simulated ACIA
@@ -9553,15 +9558,15 @@ Current file: min_mon.asm
 00F380  1  48           	PHA					; save A
 00F381  1               
 00F381  1  A9 FF        	LDA #$FF
-00F383  1  8D 00 06     	STA MyDL
+00F383  1  8D 10 06     	STA MyDL
 00F386  1               KEYDL				; Outer loop
 00F386  1  A9 40        	LDA #$40
-00F388  1  8D 01 06     	STA MyDL2
+00F388  1  8D 11 06     	STA MyDL2
 00F38B  1               KEYDL2				; Inner loop
-00F38B  1  CE 01 06     	DEC MyDL2
+00F38B  1  CE 11 06     	DEC MyDL2
 00F38E  1  D0 FB        	BNE	KEYDL2
 00F390  1               
-00F390  1  CE 00 06     	DEC MyDL
+00F390  1  CE 10 06     	DEC MyDL
 00F393  1  D0 F1        	BNE KEYDL		; if not 0 increment more
 00F395  1               
 00F395  1  68           	PLA
@@ -9604,233 +9609,305 @@ Current file: min_mon.asm
 00F3BE  1               
 00F3BE  1               
 00F3BE  1               IO_LOAD				; load vector for EhBASIC
-00F3BE  1               IO_SAVE				; save vector for EhBASIC
-00F3BE  1  20 56 C7     	JSR LAB_GFPN	; Get fixed point number as intenger
+00F3BE  1  20 79 F4     	JSR CF_LDSV_INIT
 00F3C1  1               
-00F3C1  1  A5 11        	LDA Itempl		; This is the low byte
-00F3C3  1  20 6E F3     	JSR ACIAout
+00F3C1  1               
+00F3C1  1  60           	RTS
+00F3C2  1               
+00F3C2  1               
+00F3C2  1               IO_SAVE				; save vector for EhBASIC
+00F3C2  1  20 79 F4     	JSR CF_LDSV_INIT
+00F3C5  1               
+00F3C5  1               
+00F3C5  1  60           	RTS
 00F3C6  1               
-00F3C6  1  A5 12        	LDA Itemph		; this is the high byte
-00F3C8  1  20 6E F3     	JSR ACIAout
-00F3CB  1               
-00F3CB  1  60           	RTS
-00F3CC  1               
-00F3CC  1               
-00F3CC  1               IO_DIR				; dir vector for EhBASIC
-00F3CC  1  20 89 F4     	JSR PWR_BEEP_HIGH
-00F3CF  1               
-00F3CF  1  5A           	PHY
-00F3D0  1  DA           	PHX
-00F3D1  1  48           	PHA
-00F3D2  1               
-00F3D2  1  20 EA F3     	JSR CF_INIT
-00F3D5  1  20 09 F4     	JSR CF_SET_LBA
-00F3D8  1               
-00F3D8  1  A9 20        	LDA #$20
-00F3DA  1  8D B7 BF     	STA CF_ADDRESS+7
-00F3DD  1  20 03 F4     	JSR CF_WAIT
-00F3E0  1               
-00F3E0  1  20 22 F4     	JSR CF_READ_SECTOR
-00F3E3  1               
-00F3E3  1  20 48 F4     	JSR PWR_BEEP_LOW
-00F3E6  1               
-00F3E6  1  68           	PLA
-00F3E7  1  FA           	PLX
-00F3E8  1  7A           	PLY
-00F3E9  1  60               RTS
-00F3EA  1               
-00F3EA  1               
-00F3EA  1               
-00F3EA  1               	; init CF card
-00F3EA  1               CF_INIT
-00F3EA  1               		; SET 8 BIT MODE
-00F3EA  1  A9 01        	LDA #$01
-00F3EC  1  8D B1 BF     	STA CF_ADDRESS+1
-00F3EF  1  A9 EF        	LDA #$EF
-00F3F1  1  20 03 F4     	JSR CF_WAIT
-00F3F4  1  8D B7 BF     	STA CF_ADDRESS+7
-00F3F7  1  20 03 F4     	JSR CF_WAIT
-00F3FA  1               		; SET ONE SECTOR (512 BYTES) AT A TIME
-00F3FA  1  A9 01        	LDA #$01
-00F3FC  1  8D B2 BF     	STA CF_ADDRESS+2
-00F3FF  1  20 03 F4     	JSR CF_WAIT
-00F402  1               
-00F402  1  60           	RTS
-00F403  1               
-00F403  1               	; Wait for flag MSB of status register to be clear
-00F403  1               CF_WAIT
-00F403  1  AD B7 BF         LDA CF_ADDRESS + 7
-00F406  1  30 FB            BMI CF_WAIT
-00F408  1  60               RTS
-00F409  1               
-00F409  1               	; set the block address to read from
-00F409  1               CF_SET_LBA
-00F409  1  A9 00        	LDA #0				; LOWER BYTE
-00F40B  1  8D B3 BF     	STA CF_ADDRESS+3
-00F40E  1  20 03 F4     	JSR CF_WAIT
-00F411  1  A9 00        	LDA #0				; MIDDLE BYTE
-00F413  1  8D B4 BF     	STA CF_ADDRESS+4
-00F416  1  20 03 F4     	JSR CF_WAIT
-00F419  1  A9 00        	LDA #0				; HIGH BYTE
-00F41B  1  8D B5 BF     	STA CF_ADDRESS+5
-00F41E  1  20 03 F4     	JSR CF_WAIT
-00F421  1  60           	RTS
-00F422  1               
-00F422  1               	; Read sector from CF and dump in buffer
-00F422  1               CF_READ_SECTOR
-00F422  1  A0 20        	LDY #$20
-00F424  1  8D B7 BF     	STA CF_ADDRESS+7
-00F427  1  20 03 F4     	JSR CF_WAIT
+00F3C6  1               
+00F3C6  1               IO_DIR				; dir vector for EhBASIC
+00F3C6  1  5A           	PHY
+00F3C7  1  20 14 F4     	JSR CF_INIT
+00F3CA  1               
+00F3CA  1  A9 00        	LDA #$00		; Set address for "DIR" file
+00F3CC  1  8D 00 06     	STA CF_LB
+00F3CF  1  8D 02 06     	STA CF_HB
+00F3D2  1  A9 01        	LDA #$01		; "DIR" file stored atin sectors $000100 - $0001FF
+00F3D4  1  8D 01 06     	STA CF_MB
+00F3D7  1  20 30 F4     	JSR CF_SET_LBA
+00F3DA  1               
+00F3DA  1  20 54 F4     	JSR CF_READ_SECTOR
+00F3DD  1               
+00F3DD  1               IO_DIR_SHOW
+00F3DD  1  A9 00        	LDA #$00
+00F3DF  1  8D 20 06     	STA MyLP1
+00F3E2  1               
+00F3E2  1               IO_DIR_SHOW_LP1
+00F3E2  1  AC 20 06     	LDY MyLP1
+00F3E5  1  B9 00 04     	LDA CF_BUFF1,Y
+00F3E8  1               
+00F3E8  1  C9 00        	CMP #$00
+00F3EA  1  D0 0D        	BNE IO_DIR_UNDER_20
+00F3EC  1  A9 0A        	LDA #$0A
+00F3EE  1  20 6E F3     	JSR ACIAout
+00F3F1  1  A9 0D        	LDA #$0D
+00F3F3  1  20 6E F3     	JSR ACIAout
+00F3F6  1  4C 07 F4     	JMP IO_DIR_NOCHAR
+00F3F9  1               
+00F3F9  1               
+00F3F9  1               IO_DIR_UNDER_20
+00F3F9  1  C9 20        	CMP #$20
+00F3FB  1  30 0A        	BMI IO_DIR_NOCHAR
+00F3FD  1               
+00F3FD  1  C9 7F        	CMP #$7F
+00F3FF  1  30 03        	BMI IO_VALID_CHAR
+00F401  1  4C 07 F4     	JMP IO_DIR_NOCHAR
+00F404  1               
+00F404  1               IO_VALID_CHAR
+00F404  1  20 6E F3     	JSR ACIAout
+00F407  1               
+00F407  1               IO_DIR_NOCHAR
+00F407  1  AD 20 06     	LDA MyLP1
+00F40A  1  18           	CLC
+00F40B  1  69 01        	ADC #$01
+00F40D  1  8D 20 06     	STA MyLP1
+00F410  1  90 D0        	BCC IO_DIR_SHOW_LP1
+00F412  1               
+00F412  1               
+00F412  1               
+00F412  1               
+00F412  1               
+00F412  1               
+00F412  1  7A           	PLY
+00F413  1  60               RTS
+00F414  1               
+00F414  1               
+00F414  1               
+00F414  1               	; init CF card
+00F414  1               CF_INIT
+00F414  1               		; SET 8 BIT MODE
+00F414  1  A9 01        	LDA #$01
+00F416  1  8D B1 BF     	STA CF_ADDRESS+1
+00F419  1  A9 EF        	LDA #$EF
+00F41B  1  8D B7 BF     	STA CF_ADDRESS+7
+00F41E  1  20 2A F4     	JSR CF_WAIT
+00F421  1               		; SET ONE SECTOR (512 BYTES) AT A TIME
+00F421  1  A9 01        	LDA #$01
+00F423  1  8D B2 BF     	STA CF_ADDRESS+2
+00F426  1  20 2A F4     	JSR CF_WAIT
+00F429  1               
+00F429  1  60           	RTS
 00F42A  1               
-00F42A  1  A0 00        	LDY #0
-00F42C  1               
-00F42C  1               
-00F42C  1               CF_RD_LP1
-00F42C  1  AD B0 BF     	LDA CF_ADDRESS
-00F42F  1  99 00 04     	STA CF_BUFF1,Y
-00F432  1               
-00F432  1  20 03 F4     	JSR CF_WAIT
-00F435  1  C8           	INY
-00F436  1  D0 F4        	BNE CF_RD_LP1
-00F438  1               
-00F438  1  A0 00        	LDY #0
-00F43A  1               
-00F43A  1               CF_RD_LP2
-00F43A  1  AD B0 BF     	LDA CF_ADDRESS
-00F43D  1  99 00 05     	STA CF_BUFF2,Y
-00F440  1  20 03 F4     	JSR CF_WAIT
-00F443  1  C8           	INY
-00F444  1  D0 F4        	BNE CF_RD_LP2
-00F446  1               
-00F446  1               CF_RD_EXIT
-00F446  1  60           	RTS
-00F447  1               
-00F447  1               ; display init
-00F447  1               DISP_INIT
-00F447  1               
-00F447  1  60           	rts
-00F448  1               
-00F448  1               ; power on beep
-00F448  1               PWR_BEEP_LOW
-00F448  1  A9 FF        	LDA #BEEP_PW		; PULSE WIDTH
-00F44A  1  8D 00 06     	STA MyDL
-00F44D  1               
-00F44D  1  A9 80        	LDA #BEEP_LN		; LENGTH
-00F44F  1  8D 01 06     	STA MyDL2
-00F452  1               
-00F452  1               BEEP_LP1
-00F452  1  A9 FF        	LDA #$FF
-00F454  1  8D A0 BF     	STA A_Beeper
-00F457  1  EA           	NOP
-00F458  1  CE 00 06     	DEC MyDL
-00F45B  1  D0 F5        	BNE BEEP_LP1
-00F45D  1               
-00F45D  1  A9 FF        	LDA #$FF			; SLOW DOWN
-00F45F  1  8D 00 06     	STA MyDL
-00F462  1               BEEP_LP1A
-00F462  1  EA           	NOP
-00F463  1  CE 00 06     	DEC MyDL
-00F466  1  D0 FA        	BNE BEEP_LP1A
-00F468  1               
-00F468  1  A9 FF        	LDA #BEEP_PW
-00F46A  1  8D 00 06     	STA MyDL
-00F46D  1               
-00F46D  1               BEEP_LP2
-00F46D  1  A9 00        	LDA #$00
-00F46F  1  8D A0 BF     	STA A_Beeper
-00F472  1  EA           	NOP
-00F473  1  CE 00 06     	DEC MyDL
-00F476  1  D0 F5        	BNE BEEP_LP2
+00F42A  1               	; Wait for flag MSB of status register to be clear
+00F42A  1               CF_WAIT
+00F42A  1  AD B7 BF         LDA CF_ADDRESS + 7
+00F42D  1  30 FB            BMI CF_WAIT
+00F42F  1  60               RTS
+00F430  1               
+00F430  1               	; set the block address to read from
+00F430  1               CF_SET_LBA
+00F430  1  AD 00 06     	LDA CF_LB			; LOWER BYTE FETCH
+00F433  1  8D B3 BF     	STA CF_ADDRESS+3
+00F436  1  20 2A F4     	JSR CF_WAIT
+00F439  1  AD 01 06     	LDA CF_MB			; MIDDLE BYTE FETCH
+00F43C  1  8D B4 BF     	STA CF_ADDRESS+4
+00F43F  1  20 2A F4     	JSR CF_WAIT
+00F442  1  AD 02 06     	LDA CF_HB			; HIGH BYTE FETCH
+00F445  1  8D B5 BF     	STA CF_ADDRESS+5
+00F448  1  20 2A F4     	JSR CF_WAIT
+00F44B  1  A9 E0        	LDA #$E0			; DRIVE/HEAD REGISTER
+00F44D  1  8D B6 BF     	STA CF_ADDRESS+6
+00F450  1  20 2A F4     	JSR CF_WAIT
+00F453  1  60           	RTS
+00F454  1               
+00F454  1               	; Read sector from CF and dump in buffer
+00F454  1               CF_READ_SECTOR
+00F454  1  A9 20        	LDA #$20
+00F456  1  8D B7 BF     	STA CF_ADDRESS+7
+00F459  1  20 2A F4     	JSR CF_WAIT
+00F45C  1               
+00F45C  1  A0 00        	LDY #0
+00F45E  1               
+00F45E  1               
+00F45E  1               CF_RD_LP1
+00F45E  1  AD B0 BF     	LDA CF_ADDRESS
+00F461  1  99 00 04     	STA CF_BUFF1,Y
+00F464  1               
+00F464  1  20 2A F4     	JSR CF_WAIT
+00F467  1  C8           	INY
+00F468  1  D0 F4        	BNE CF_RD_LP1
+00F46A  1               
+00F46A  1  A0 00        	LDY #0
+00F46C  1               
+00F46C  1               CF_RD_LP2
+00F46C  1  AD B0 BF     	LDA CF_ADDRESS
+00F46F  1  99 00 05     	STA CF_BUFF2,Y
+00F472  1  20 2A F4     	JSR CF_WAIT
+00F475  1  C8           	INY
+00F476  1  D0 F4        	BNE CF_RD_LP2
 00F478  1               
-00F478  1  CE 01 06     	DEC MyDL2
-00F47B  1  D0 D5        	BNE BEEP_LP1
-00F47D  1               
-00F47D  1  A9 FF        	LDA #$FF			; SLOW DOWN
-00F47F  1  8D 00 06     	STA MyDL
-00F482  1               BEEP_LP2A
-00F482  1  EA           	NOP
-00F483  1  CE 00 06     	DEC MyDL
-00F486  1  D0 FA        	BNE BEEP_LP2A
-00F488  1               
-00F488  1  60           	RTS
-00F489  1               
-00F489  1               PWR_BEEP_HIGH
-00F489  1               	; Second beep, higher pitch
-00F489  1  A9 7F        	LDA #BEEP_PW2		; PULSE WIDTH
-00F48B  1  8D 00 06     	STA MyDL
-00F48E  1               
-00F48E  1  A9 80        	LDA #BEEP_LN		; LENGTH
-00F490  1  8D 01 06     	STA MyDL2
-00F493  1               
-00F493  1               BEEP_LP3
-00F493  1  A9 FF        	LDA #$FF
-00F495  1  8D A0 BF     	STA A_Beeper
-00F498  1  CE 00 06     	DEC MyDL
-00F49B  1  D0 F6        	BNE BEEP_LP3
-00F49D  1               
-00F49D  1  A9 7F        	LDA #BEEP_PW2
-00F49F  1  8D 00 06     	STA MyDL
-00F4A2  1               
-00F4A2  1               BEEP_LP4
-00F4A2  1  A9 00        	LDA #$00
-00F4A4  1  8D A0 BF     	STA A_Beeper
-00F4A7  1  CE 00 06     	DEC MyDL
-00F4AA  1  D0 F6        	BNE BEEP_LP4
+00F478  1               CF_RD_EXIT
+00F478  1  60           	RTS
+00F479  1               
+00F479  1               CF_LDSV_INIT
+00F479  1  20 56 C7     	JSR LAB_GFPN	; Get fixed point number as intenger
+00F47C  1               
+00F47C  1  A9 00        	LDA #$00
+00F47E  1  8D 00 06     	STA CF_LB		; We start at the beginning of the save location
+00F481  1               
+00F481  1  A5 11        	LDA Itempl		; This is the low byte from command line
+00F483  1               
+00F483  1               		; Increment by 1 and remember if we did for next byte
+00F483  1  A0 00        	LDY #$00
+00F485  1  8C 50 06     	STY MyTEMP		; Set to 0 for later
+00F488  1  18           	CLC				; clear carry (just to be safe)
+00F489  1  69 01        	ADC #$01		; add 1 to A (using INA does NOT change carry flag)
+00F48B  1  90 05        	BCC CF_LDSV_BCC ; if carry clear (i.e. we didn't go over 255) skip these next two bits
+00F48D  1               
+00F48D  1  A0 01        	LDY #$01
+00F48F  1  8C 50 06     	STY MyTEMP
+00F492  1               CF_LDSV_BCC
+00F492  1  8D 01 06     	STA CF_MB
+00F495  1  A5 12        	LDA Itemph		; this is the high byte from command line
+00F497  1  18           	CLC					; clear carry to be safe
+00F498  1  6D 50 06     	ADC MyTEMP			; add in 0 or 1 depending if MB rolled over.
+00F49B  1  8D 02 06     	STA CF_HB
+00F49E  1               
+00F49E  1  20 0F F1     	JSR PRBYTE		; DEBUGGING OUTPUT SHOWING CHOSEN LOAD/SAVE LOCATION IN HEX
+00F4A1  1  AD 01 06     	LDA CF_MB
+00F4A4  1  20 0F F1     	JSR PRBYTE
+00F4A7  1               
+00F4A7  1               
+00F4A7  1  20 30 F4     	JSR CF_SET_LBA
+00F4AA  1  60           	RTS
+00F4AB  1               
+00F4AB  1               
+00F4AB  1               
+00F4AB  1               
+00F4AB  1               
+00F4AB  1               ; display init
+00F4AB  1               DISP_INIT
+00F4AB  1               
+00F4AB  1  60           	rts
 00F4AC  1               
-00F4AC  1  CE 01 06     	DEC MyDL2
-00F4AF  1  D0 E2        	BNE BEEP_LP3
+00F4AC  1               ; power on beep
+00F4AC  1               PWR_BEEP_LOW
+00F4AC  1  A9 FF        	LDA #BEEP_PW		; PULSE WIDTH
+00F4AE  1  8D 10 06     	STA MyDL
 00F4B1  1               
-00F4B1  1  60           	RTS
-00F4B2  1               
-00F4B2  1               ; vector tables
-00F4B2  1               LAB_vec
-00F4B2  1  A1 F3        	.word	ACIAin		; byte in from simulated ACIA  	EhBASIC = V_INPT
-00F4B4  1  6E F3        	.word	ACIAout		; byte out to simulated ACIA   	EhBASIC = V_OUTP
-00F4B6  1  BE F3        	.word	IO_LOAD		; load vector for EhBASIC		EhBASIC = V_LOAD
-00F4B8  1  BE F3        	.word	IO_SAVE		; save vector for EhBASIC		EhBASIC = V_SAVE
-00F4BA  1  CC F3        	.word   IO_DIR		; dir vector for EhBASIC		EhBASIC = V_DIR
-00F4BC  1               
-00F4BC  1               ; EhBASIC IRQ support
-00F4BC  1               IRQ_CODE
-00F4BC  1  48           	PHA				; save A
-00F4BD  1  A5 DF        	LDA	IrqBase		; get the IRQ flag byte
-00F4BF  1  4A           	LSR				; shift the set b7 to b6, and on down ...
-00F4C0  1  05 DF        	ORA	IrqBase		; OR the original back in
-00F4C2  1  85 DF        	STA	IrqBase		; save the new IRQ flag byte
-00F4C4  1  68           	PLA				; restore A
-00F4C5  1  40           	RTI
-00F4C6  1               
-00F4C6  1               ; EhBASIC NMI support
-00F4C6  1               NMI_CODE
-00F4C6  1  48           	PHA				; save A
-00F4C7  1  A5 DC        	LDA	NmiBase		; get the NMI flag byte
-00F4C9  1  4A           	LSR				; shift the set b7 to b6, and on down ...
-00F4CA  1  05 DC        	ORA	NmiBase		; OR the original back in
-00F4CC  1  85 DC        	STA	NmiBase		; save the new NMI flag byte
-00F4CE  1  68           	PLA				; restore A
-00F4CF  1  40           	RTI
-00F4D0  1               
-00F4D0  1               
-00F4D0  1               
-00F4D0  1               
-00F4D0  1               END_CODE
-00F4D0  1               
-00F4D0  1               LAB_mess 					; sign on string (Console)
-00F4D0  1  0D 0A 4C 54  	.byte	$0D,$0A,"LT6502 - [C]Cold/[W]arm or [M]onitor ?",$00
-00F4D4  1  36 35 30 32  
-00F4D8  1  20 2D 20 5B  
-00F4F9  1               
-00F4F9  1               KYB_mess					; sign on string (Keyboard)
-00F4F9  1  0D 43 2F 57  	.byte	$0D,"C/W/M ?",$00
-00F4FD  1  2F 4D 20 3F  
-00F501  1  00           
-00F502  1               
-00F502  1               
-00F502  1               
-00F502  1               ; system vectors
-00F502  1               
-00F502  1               	.segment "VECTS"
-00F502  1               	.org	$FFFA
+00F4B1  1  A9 80        	LDA #BEEP_LN		; LENGTH
+00F4B3  1  8D 11 06     	STA MyDL2
+00F4B6  1               
+00F4B6  1               BEEP_LP1
+00F4B6  1  A9 FF        	LDA #$FF
+00F4B8  1  8D A0 BF     	STA A_Beeper
+00F4BB  1  EA           	NOP
+00F4BC  1  CE 10 06     	DEC MyDL
+00F4BF  1  D0 F5        	BNE BEEP_LP1
+00F4C1  1               
+00F4C1  1  A9 FF        	LDA #$FF			; SLOW DOWN
+00F4C3  1  8D 10 06     	STA MyDL
+00F4C6  1               BEEP_LP1A
+00F4C6  1  EA           	NOP
+00F4C7  1  CE 10 06     	DEC MyDL
+00F4CA  1  D0 FA        	BNE BEEP_LP1A
+00F4CC  1               
+00F4CC  1  A9 FF        	LDA #BEEP_PW
+00F4CE  1  8D 10 06     	STA MyDL
+00F4D1  1               
+00F4D1  1               BEEP_LP2
+00F4D1  1  A9 00        	LDA #$00
+00F4D3  1  8D A0 BF     	STA A_Beeper
+00F4D6  1  EA           	NOP
+00F4D7  1  CE 10 06     	DEC MyDL
+00F4DA  1  D0 F5        	BNE BEEP_LP2
+00F4DC  1               
+00F4DC  1  CE 11 06     	DEC MyDL2
+00F4DF  1  D0 D5        	BNE BEEP_LP1
+00F4E1  1               
+00F4E1  1  A9 FF        	LDA #$FF			; SLOW DOWN
+00F4E3  1  8D 10 06     	STA MyDL
+00F4E6  1               BEEP_LP2A
+00F4E6  1  EA           	NOP
+00F4E7  1  CE 10 06     	DEC MyDL
+00F4EA  1  D0 FA        	BNE BEEP_LP2A
+00F4EC  1               
+00F4EC  1  60           	RTS
+00F4ED  1               
+00F4ED  1               PWR_BEEP_HIGH
+00F4ED  1               	; Second beep, higher pitch
+00F4ED  1  A9 7F        	LDA #BEEP_PW2		; PULSE WIDTH
+00F4EF  1  8D 10 06     	STA MyDL
+00F4F2  1               
+00F4F2  1  A9 80        	LDA #BEEP_LN		; LENGTH
+00F4F4  1  8D 11 06     	STA MyDL2
+00F4F7  1               
+00F4F7  1               BEEP_LP3
+00F4F7  1  A9 FF        	LDA #$FF
+00F4F9  1  8D A0 BF     	STA A_Beeper
+00F4FC  1  CE 10 06     	DEC MyDL
+00F4FF  1  D0 F6        	BNE BEEP_LP3
+00F501  1               
+00F501  1  A9 7F        	LDA #BEEP_PW2
+00F503  1  8D 10 06     	STA MyDL
+00F506  1               
+00F506  1               BEEP_LP4
+00F506  1  A9 00        	LDA #$00
+00F508  1  8D A0 BF     	STA A_Beeper
+00F50B  1  CE 10 06     	DEC MyDL
+00F50E  1  D0 F6        	BNE BEEP_LP4
+00F510  1               
+00F510  1  CE 11 06     	DEC MyDL2
+00F513  1  D0 E2        	BNE BEEP_LP3
+00F515  1               
+00F515  1  60           	RTS
+00F516  1               
+00F516  1               ; vector tables
+00F516  1               LAB_vec
+00F516  1  A1 F3        	.word	ACIAin		; byte in from simulated ACIA  	EhBASIC = V_INPT
+00F518  1  6E F3        	.word	ACIAout		; byte out to simulated ACIA   	EhBASIC = V_OUTP
+00F51A  1  BE F3        	.word	IO_LOAD		; load vector for EhBASIC		EhBASIC = V_LOAD
+00F51C  1  C2 F3        	.word	IO_SAVE		; save vector for EhBASIC		EhBASIC = V_SAVE
+00F51E  1  C6 F3        	.word   IO_DIR		; dir vector for EhBASIC		EhBASIC = V_DIR
+00F520  1               
+00F520  1               ; EhBASIC IRQ support
+00F520  1               IRQ_CODE
+00F520  1  48           	PHA				; save A
+00F521  1  A5 DF        	LDA	IrqBase		; get the IRQ flag byte
+00F523  1  4A           	LSR				; shift the set b7 to b6, and on down ...
+00F524  1  05 DF        	ORA	IrqBase		; OR the original back in
+00F526  1  85 DF        	STA	IrqBase		; save the new IRQ flag byte
+00F528  1  68           	PLA				; restore A
+00F529  1  40           	RTI
+00F52A  1               
+00F52A  1               ; EhBASIC NMI support
+00F52A  1               NMI_CODE
+00F52A  1  48           	PHA				; save A
+00F52B  1  A5 DC        	LDA	NmiBase		; get the NMI flag byte
+00F52D  1  4A           	LSR				; shift the set b7 to b6, and on down ...
+00F52E  1  05 DC        	ORA	NmiBase		; OR the original back in
+00F530  1  85 DC        	STA	NmiBase		; save the new NMI flag byte
+00F532  1  68           	PLA				; restore A
+00F533  1  40           	RTI
+00F534  1               
+00F534  1               
+00F534  1               
+00F534  1               
+00F534  1               END_CODE
+00F534  1               
+00F534  1               LAB_mess 					; sign on string (Console)
+00F534  1  0D 0A 4C 54  	.byte	$0D,$0A,"LT6502 - [C]Cold/[W]arm or [M]onitor ?",$00
+00F538  1  36 35 30 32  
+00F53C  1  20 2D 20 5B  
+00F55D  1               
+00F55D  1               KYB_mess					; sign on string (Keyboard)
+00F55D  1  0D 43 2F 57  	.byte	$0D,"C/W/M ?",$00
+00F561  1  2F 4D 20 3F  
+00F565  1  00           
+00F566  1               
+00F566  1               
+00F566  1               
+00F566  1               ; system vectors
+00F566  1               
+00F566  1               	.segment "VECTS"
+00F566  1               	.org	$FFFA
 00FFFA  1               
 00FFFA  1  17 02        	.word	NMI_vec		; NMI vector
 00FFFC  1  00 F3        	.word	RES_vec		; RESET vector
