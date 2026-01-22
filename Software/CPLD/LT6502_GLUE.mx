@@ -72,7 +72,8 @@ Pin 98 = !DISP_nCS;
 Pin 27 = DISP_DATA_EN;    /* OUT, databus level shifter enable */
 Pin  6 = DISP_BL;
 Pin 99 = !DISP_nRES;
-Pin 100 = DISP_E;         /* OUT, 6800 "E" signal
+Pin 100 = DISP_E;         /* OUT, 6800 "E" signal */
+Pin 5 = DISP_nWT;    /* IN */
 
 
 /* Beeper */
@@ -121,7 +122,6 @@ Pinnode  0  = Q2;
 
 
 
-
 /*********************************************************
  *                     Clock Bits and bobs               *
  *********************************************************/
@@ -166,9 +166,7 @@ FT_CS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & A5 & A4
 
 RD_FT = PHI2 & FT_CS & A0 &  RnW;		/* 0xBFF1 */
 WR_FT = PHI2 & FT_CS & A0 & !RnW;		/* 0xBFF1 */ 
-
 D0.oe = FT_CS & !A0 & RnW; 			/* 0xBFF0 */
-
 D1.oe = FT_CS & !A0 & RnW; 			/* 0xBFF0 */
 
 D0 = !RXF;				
@@ -179,12 +177,13 @@ D1 = !TXE;
 ACIA_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & A5 & !A4;
  
 /* Display 0xBFD0 - 0xBFDF */
-DISP_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & !A5 & A4;
-DISP_DATA_EN = DISP_nCS;
-DISP_E = DISP_nCS & PHI2 & !Q0; /*DISP_nCS & Q0;*/
+DISP_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & !A5 & A4  & !A3 & !A2;
+DISP_DATA_EN = DISP_nCS & !A1;
+DISP_E = DISP_nCS & PHI2 & !Q0  & !A1;
 DISP_BL = 'b'1;
 DISP_nRES = RESET;
-
+D3.oe = DISP_nCS & A1;
+D3 = !DISP_nWT;
 
 /* Onboard VIA 65c22 0xBFC0 - 0xBFCF */
 VIA_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & !A5 & !A4;
