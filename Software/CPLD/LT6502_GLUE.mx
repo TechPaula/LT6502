@@ -118,6 +118,23 @@ Pin 52 = D7;
 /* Clock Stretch nodes */
 Pinnode  0  = Q1;
 Pinnode  0  = Q2;
+Pinnode  0  = BLBR0;
+Pinnode  0  = BLBR1;
+Pinnode  0  = BLBR2;
+Pinnode  0  = BLBR3;
+Pinnode  0  = BLQ0;
+Pinnode  0  = BLQ1;
+Pinnode  0  = BLQ2;
+
+
+
+BLBR0 = 'b'0;
+BLBR1 = 'b'0;
+BLBR2 = 'b'0;
+BLBR3 = 'b'0;
+
+
+
 
 
 
@@ -156,6 +173,7 @@ PHI2.D = !PHI2
        # PHI2 & !Q0	
        # !PHI2 & Q2 & Q1 & Q0;
 
+
 /*********************************************************
  *                     Decode & glue                     *
  *********************************************************/
@@ -180,7 +198,7 @@ ACIA_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & A5 &
 DISP_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & !A5 & A4  & !A3 & !A2;
 DISP_DATA_EN = DISP_nCS & !A1;
 DISP_E = DISP_nCS & PHI2 & !Q0  & !A1;
-DISP_BL = 'b'1;
+DISP_BL = 'b'1;	/* toggling this causes board resets */
 DISP_nRES = RESET;
 D3.oe = DISP_nCS & A1;
 D3 = !DISP_nWT;

@@ -4,11 +4,11 @@ DISP_nRES					: 99
 DISP_nCS					: 98
 SLOW1					: 97
 SLOW0					: 96
-XXL_87					: 612
+XXL_91					: 612
 LED					: 94
 RESET					: 93
-XXL_89					: 614
-XXL_88					: 615
+XXL_93					: 614
+XXL_92					: 615
 BEEPER					: 92
 A9					: 14
 A10					: 13

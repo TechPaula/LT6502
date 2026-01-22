@@ -17,6 +17,13 @@ PIN   8 =  A14
 PIN   7 =  A15 
 PIN  77 = !ACIA_nCS 
 PIN  92 =  BEEPER 
+PIN   0 =  BLBR0 
+PIN   0 =  BLBR1 
+PIN   0 =  BLBR2 
+PIN   0 =  BLBR3 
+PIN   0 =  BLQ0 
+PIN   0 =  BLQ1 
+PIN   0 =  BLQ2 
 PIN  81 = !CF_nCS 
 PIN  80 = !CF_nRES 
 PIN  87 =  CLK 
@@ -89,6 +96,18 @@ BEEP_R =>
 
 BEEP_S =>
     !A4 & A5 & !A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15 & D2
+
+BLBR0 =>
+    0 
+
+BLBR1 =>
+    0 
+
+BLBR2 =>
+    0 
+
+BLBR3 =>
+    0 
 
 CF_nCS =>
     A4 & A5 & !A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15

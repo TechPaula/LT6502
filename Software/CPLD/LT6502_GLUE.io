@@ -7,11 +7,11 @@ BEGIN
     "DISP_nCS"                                : OUTPUT_PIN = 98 ;
     "SLOW1"                                   : INPUT_PIN = 97 ;
     "SLOW0"                                   : INPUT_PIN = 96 ;
-    "XXL_87"                                  : NODE_NUM = 612 ;
+    "XXL_91"                                  : NODE_NUM = 612 ;
     "LED"                                     : OUTPUT_PIN = 94 ;
     "RESET"                                   : INPUT_PIN = 93 ;
-    "XXL_89"                                  : NODE_NUM = 614 ;
-    "XXL_88"                                  : NODE_NUM = 615 ;
+    "XXL_93"                                  : NODE_NUM = 614 ;
+    "XXL_92"                                  : NODE_NUM = 615 ;
     "BEEPER"                                  : OUTPUT_PIN = 92 ;
     "A9"                                      : INPUT_PIN = 14 ;
     "A10"                                     : INPUT_PIN = 13 ;
