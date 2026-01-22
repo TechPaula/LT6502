@@ -1,5 +1,6 @@
 	.feature labels_without_colons
 	.feature force_range
+	.pc02
 
 ; minimal monitor for EhBASIC and 6502 simulator V1.05
 
@@ -35,10 +36,19 @@ A_ctl           = $BFE3 ; ACIA control port
 
 A_Beeper		= $BFA0 ; Beeper address
 
-; Zeropage bits used for loops
-MyDL 			= $FF
-MyDL2		 	= $FE
-MyDL3			= $FD
+CF_ADDRESS		= $BFB0	; Compact flash address
+
+
+CF_BUFF1 	= $0400		; First 256 bytes of 512 Byte buffer for compact flash read/write
+CF_BUFF2 	= $0500		; Second 256 bytes of 512 Byte buffer for compact flash read/write
+
+; 256 byte page used for my loops (away from basic)
+MyDL 			= $600
+MyDL2		 	= $601
+MyDL3			= $602
+MyLP1			= $610
+MyLP2			= $611
+
 
 BEEP_PW			= $FF
 BEEP_PW2		= $7F
@@ -216,7 +226,6 @@ KEYB_NoData
 
 IO_LOAD				; load vector for EhBASIC
 IO_SAVE				; save vector for EhBASIC
-
 	JSR LAB_GFPN	; Get fixed point number as intenger
 
 	LDA Itempl		; This is the low byte 
@@ -227,12 +236,91 @@ IO_SAVE				; save vector for EhBASIC
 
 	RTS
 
+
 IO_DIR				; dir vector for EhBASIC
-	JSR PWR_BEEP_HIGH
-	JSR PWR_BEEP_LOW
+	PHY
+	PHX
+	PHA
+
+	JSR CF_INIT	
+	JSR CF_SET_LBA
+
+	LDA #$20
+	STA CF_ADDRESS+7
+	JSR CF_WAIT
+
+	JSR CF_READ_SECTOR
+
+	PLA
+	PLX
+	PLY
+    RTS
+
+
+
+	; init CF card
+CF_INIT
+		; SET 8 BIT MODE
+	LDA #$01
+	STA CF_ADDRESS+1
+	LDA #$EF
+	JSR CF_WAIT
+	STA CF_ADDRESS+7
+	JSR CF_WAIT
+		; SET ONE SECTOR (512 BYTES) AT A TIME
+	LDA #$01
+	STA CF_ADDRESS+2
+	JSR CF_WAIT
+
 	RTS
 
+	; Wait for flag MSB of status register to be clear
+CF_WAIT
+    LDA CF_ADDRESS + 7
+    BMI CF_WAIT
+    RTS
 
+	; set the block address to read from
+CF_SET_LBA
+	LDA #0				; LOWER BYTE
+	STA CF_ADDRESS+3
+	JSR CF_WAIT
+	LDA #0				; MIDDLE BYTE
+	STA CF_ADDRESS+4
+	JSR CF_WAIT
+	LDA #0				; HIGH BYTE
+	STA CF_ADDRESS+5
+	JSR CF_WAIT
+	RTS
+
+	; Read sector from CF and dump in buffer
+CF_READ_SECTOR
+	LDY #$20
+	STA CF_ADDRESS+7
+	JSR CF_WAIT
+
+	LDY #0
+
+
+CF_RD_LP1
+	LDA CF_ADDRESS
+	STA CF_BUFF1,Y
+
+	JSR CF_WAIT
+	INY
+	BNE CF_RD_LP1
+
+	LDY #0
+
+CF_RD_LP2
+	LDA CF_ADDRESS
+	STA CF_BUFF2,Y
+	JSR CF_WAIT
+	INY
+	BNE CF_RD_LP2
+
+CF_RD_EXIT
+	RTS
 
 ; display init
 DISP_INIT
