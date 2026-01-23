@@ -5,7 +5,7 @@
   {Program "CUPL(WM) Version 5.0a"}
   {DBtype "Schematic"}
   {DBvrev 1.01}
-  {DBtime "Fri Jan 23 15:24:19 2026 "}
+  {DBtime "Fri Jan 23 16:54:26 2026 "}
   {DBunit "MIL"}
   {DBgrid 10}
   {Lyrstr "WIRES" 1 "BUS" 1 "GATE" 2 "IEEE" 2 "PINFUN" 3 "PINNUM" 1 
@@ -35,64 +35,65 @@
    [Ly "PINCON"]
    {P CLK {Pt "INPUT"}{Lq 0}{Ploc 100 660}}
    {P RNW {Pt "INPUT"}{Lq 0}{Ploc 100 640}}
-   {P A15 {Pt "INPUT"}{Lq 0}{Ploc 100 600}}
-   {P A14 {Pt "INPUT"}{Lq 0}{Ploc 100 580}}
-   {P A13 {Pt "INPUT"}{Lq 0}{Ploc 100 560}}
-   {P A12 {Pt "INPUT"}{Lq 0}{Ploc 100 540}}
-   {P A11 {Pt "INPUT"}{Lq 0}{Ploc 100 520}}
-   {P A10 {Pt "INPUT"}{Lq 0}{Ploc 100 500}}
-   {P A9 {Pt "INPUT"}{Lq 0}{Ploc 100 480}}
-   {P A8 {Pt "INPUT"}{Lq 0}{Ploc 100 460}}
-   {P A7 {Pt "INPUT"}{Lq 0}{Ploc 100 440}}
-   {P A6 {Pt "INPUT"}{Lq 0}{Ploc 100 420}}
-   {P A5 {Pt "INPUT"}{Lq 0}{Ploc 100 400}}
-   {P A4 {Pt "INPUT"}{Lq 0}{Ploc 100 380}}
-   {P A3 {Pt "INPUT"}{Lq 0}{Ploc 100 360}}
-   {P A2 {Pt "INPUT"}{Lq 0}{Ploc 100 340}}
-   {P A1 {Pt "INPUT"}{Lq 0}{Ploc 100 320}}
-   {P A0 {Pt "INPUT"}{Lq 0}{Ploc 100 300}}
-   {P RXF {Pt "INPUT"}{Lq 0}{Ploc 100 280}}
-   {P TXE {Pt "INPUT"}{Lq 0}{Ploc 100 260}}
-   {P D7 {Pt "INPUT"}{Lq 0}{Ploc 100 240}}
-   {P D6 {Pt "INPUT"}{Lq 0}{Ploc 100 220}}
-   {P D5 {Pt "INPUT"}{Lq 0}{Ploc 100 200}}
-   {P D4 {Pt "INPUT"}{Lq 0}{Ploc 100 180}}
-   {P D3 {Pt "INPUT"}{Lq 0}{Ploc 100 160}}
-   {P D2 {Pt "INPUT"}{Lq 0}{Ploc 100 140}}
+   {P DISP_NWT {Pt "INPUT"}{Lq 0}{Ploc 100 600}}
+   {P A15 {Pt "INPUT"}{Lq 0}{Ploc 100 580}}
+   {P A14 {Pt "INPUT"}{Lq 0}{Ploc 100 560}}
+   {P A13 {Pt "INPUT"}{Lq 0}{Ploc 100 540}}
+   {P A12 {Pt "INPUT"}{Lq 0}{Ploc 100 520}}
+   {P A11 {Pt "INPUT"}{Lq 0}{Ploc 100 500}}
+   {P A10 {Pt "INPUT"}{Lq 0}{Ploc 100 480}}
+   {P A9 {Pt "INPUT"}{Lq 0}{Ploc 100 460}}
+   {P A8 {Pt "INPUT"}{Lq 0}{Ploc 100 440}}
+   {P A7 {Pt "INPUT"}{Lq 0}{Ploc 100 420}}
+   {P A6 {Pt "INPUT"}{Lq 0}{Ploc 100 400}}
+   {P A5 {Pt "INPUT"}{Lq 0}{Ploc 100 380}}
+   {P A4 {Pt "INPUT"}{Lq 0}{Ploc 100 360}}
+   {P A3 {Pt "INPUT"}{Lq 0}{Ploc 100 340}}
+   {P A2 {Pt "INPUT"}{Lq 0}{Ploc 100 320}}
+   {P A1 {Pt "INPUT"}{Lq 0}{Ploc 100 300}}
+   {P A0 {Pt "INPUT"}{Lq 0}{Ploc 100 280}}
+   {P RXF {Pt "INPUT"}{Lq 0}{Ploc 100 260}}
+   {P TXE {Pt "INPUT"}{Lq 0}{Ploc 100 240}}
+   {P D7 {Pt "INPUT"}{Lq 0}{Ploc 100 220}}
+   {P D6 {Pt "INPUT"}{Lq 0}{Ploc 100 200}}
+   {P D5 {Pt "INPUT"}{Lq 0}{Ploc 100 180}}
+   {P D4 {Pt "INPUT"}{Lq 0}{Ploc 100 160}}
+   {P D3 {Pt "INPUT"}{Lq 0}{Ploc 100 140}}
    {P PHI2 {Pt "INPUT"}{Lq 0}{Ploc 100 120}}
    {P Q0 {Pt "INPUT"}{Lq 0}{Ploc 100 100}}
    {P BEEPER {Pt "INPUT"}{Lq 0}{Ploc 100 80}}
    {P RESET' {Pt "INPUT"}{Lq 0}{Ploc 100 60}}
    {P SLOW0' {Pt "INPUT"}{Lq 0}{Ploc 100 40}}
    {P SLOW1' {Pt "INPUT"}{Lq 0}{Ploc 100 20}}
-   {P DISP_BL {Pt "I/O"}{Lq 0}{Ploc 340 20}}
-   {P DISP_DAT {Pt "I/O"}{Lq 0}{Ploc 340 40}}
-   {P RW' {Pt "I/O"}{Lq 0}{Ploc 340 60}}
-   {P RD' {Pt "I/O"}{Lq 0}{Ploc 340 80}}
-   {P RAM_NCS1' {Pt "I/O"}{Lq 0}{Ploc 340 100}}
-   {P RAM_NCS0' {Pt "I/O"}{Lq 0}{Ploc 340 120}}
-   {P ROM_NR' {Pt "I/O"}{Lq 0}{Ploc 340 140}}
-   {P ROM_NCS' {Pt "I/O"}{Lq 0}{Ploc 340 160}}
-   {P WR_FT {Pt "I/O"}{Lq 0}{Ploc 340 180}}
-   {P RD_FT' {Pt "I/O"}{Lq 0}{Ploc 340 200}}
-   {P D1 {Pt "I/O"}{Lq 0}{Ploc 340 220}}
-   {P D0 {Pt "I/O"}{Lq 0}{Ploc 340 240}}
-   {P VIA_NCS' {Pt "I/O"}{Lq 0}{Ploc 340 260}}
-   {P ACIA_NCS' {Pt "I/O"}{Lq 0}{Ploc 340 280}}
-   {P EXP_NCS' {Pt "I/O"}{Lq 0}{Ploc 340 300}}
-   {P CF_NRES' {Pt "I/O"}{Lq 0}{Ploc 340 320}}
-   {P CF_NCS' {Pt "I/O"}{Lq 0}{Ploc 340 340}}
-   {P CLK_OUT {Pt "I/O"}{Lq 0}{Ploc 340 360}}
-   {P LED' {Pt "I/O"}{Lq 0}{Ploc 340 380}}
-   {P DISP_NCS' {Pt "I/O"}{Lq 0}{Ploc 340 400}}
-   {P DISP_NRE' {Pt "I/O"}{Lq 0}{Ploc 340 420}}
-   {P DISP_E {Pt "I/O"}{Lq 0}{Ploc 340 440}}
+   {P DISP_BL {Pt "I/O"}{Lq 0}{Ploc 360 20}}
+   {P DISP_DAT {Pt "I/O"}{Lq 0}{Ploc 360 40}}
+   {P RW' {Pt "I/O"}{Lq 0}{Ploc 360 60}}
+   {P RD' {Pt "I/O"}{Lq 0}{Ploc 360 80}}
+   {P RAM_NCS1' {Pt "I/O"}{Lq 0}{Ploc 360 100}}
+   {P RAM_NCS0' {Pt "I/O"}{Lq 0}{Ploc 360 120}}
+   {P ROM_NR' {Pt "I/O"}{Lq 0}{Ploc 360 140}}
+   {P ROM_NCS' {Pt "I/O"}{Lq 0}{Ploc 360 160}}
+   {P WR_FT {Pt "I/O"}{Lq 0}{Ploc 360 180}}
+   {P RD_FT' {Pt "I/O"}{Lq 0}{Ploc 360 200}}
+   {P D2 {Pt "I/O"}{Lq 0}{Ploc 360 220}}
+   {P D1 {Pt "I/O"}{Lq 0}{Ploc 360 240}}
+   {P D0 {Pt "I/O"}{Lq 0}{Ploc 360 260}}
+   {P VIA_NCS' {Pt "I/O"}{Lq 0}{Ploc 360 280}}
+   {P ACIA_NCS' {Pt "I/O"}{Lq 0}{Ploc 360 300}}
+   {P EXP_NCS' {Pt "I/O"}{Lq 0}{Ploc 360 320}}
+   {P CF_NRES' {Pt "I/O"}{Lq 0}{Ploc 360 340}}
+   {P CF_NCS' {Pt "I/O"}{Lq 0}{Ploc 360 360}}
+   {P CLK_OUT {Pt "I/O"}{Lq 0}{Ploc 360 380}}
+   {P LED' {Pt "I/O"}{Lq 0}{Ploc 360 400}}
+   {P DISP_NCS' {Pt "I/O"}{Lq 0}{Ploc 360 420}}
+   {P DISP_NRE' {Pt "I/O"}{Lq 0}{Ploc 360 440}}
+   {P DISP_E {Pt "I/O"}{Lq 0}{Ploc 360 460}}
   }
 
   {PKG
    [Ly "REFDES"]
    [Ts 25][Tj "CB"][Tr 0][Tm "N"]
-   {Rdl 220 690}
+   {Rdl 230 690}
 
    [Ly "PINNUM"]
    [Ts 15][Tj "RC"]
@@ -130,36 +131,37 @@
    {Pnl 120 50}
    {Pnl 120 30}
    [Ts 15][Tj "LC"]
-   {Pnl 320 30}
-   {Pnl 320 50}
-   {Pnl 320 70}
-   {Pnl 320 90}
-   {Pnl 320 110}
-   {Pnl 320 130}
-   {Pnl 320 150}
-   {Pnl 320 170}
-   {Pnl 320 190}
-   {Pnl 320 210}
-   {Pnl 320 230}
-   {Pnl 320 250}
-   {Pnl 320 270}
-   {Pnl 320 290}
-   {Pnl 320 310}
-   {Pnl 320 330}
-   {Pnl 320 350}
-   {Pnl 320 370}
-   {Pnl 320 390}
-   {Pnl 320 410}
-   {Pnl 320 430}
-   {Pnl 320 450}
+   {Pnl 340 30}
+   {Pnl 340 50}
+   {Pnl 340 70}
+   {Pnl 340 90}
+   {Pnl 340 110}
+   {Pnl 340 130}
+   {Pnl 340 150}
+   {Pnl 340 170}
+   {Pnl 340 190}
+   {Pnl 340 210}
+   {Pnl 340 230}
+   {Pnl 340 250}
+   {Pnl 340 270}
+   {Pnl 340 290}
+   {Pnl 340 310}
+   {Pnl 340 330}
+   {Pnl 340 350}
+   {Pnl 340 370}
+   {Pnl 340 390}
+   {Pnl 340 410}
+   {Pnl 340 430}
+   {Pnl 340 450}
+   {Pnl 340 470}
 
-   {Sd A 87 90 7 8 9 10 12 13 14 16 17 19 20 21 22 23 24 25 49 50 52 53 54 55 56 57 75 83 92 93 96 97 6 27 36 37 40 42 45 46 47 48 58 60 76 77 78 80 81 84 94 98 99 100}
+   {Sd A 87 90 5 7 8 9 10 12 13 14 16 17 19 20 21 22 23 24 25 49 50 52 53 54 55 56 75 83 92 93 96 97 6 27 36 37 40 42 45 46 47 48 57 58 60 76 77 78 80 81 84 94 98 99 100}
   }
 
   {PIC
    [Ly "GATE"]
    [Ts 15][Tj "LC"][Tr 0][Tm "N"]
-   {R 130 680 310 0}
+   {R 130 680 330 0}
    {L 130 660 100 660}
    {L 130 670 140 660 130 650}
    {L 130 640 100 640}
@@ -197,71 +199,72 @@
    {C 125 40 5}
    {L 120 20 100 20}
    {C 125 20 5}
-   {L 310 20 340 20}
-   {L 310 40 340 40}
-   {C 315 60 5}
-   {L 320 60 340 60}
-   {C 315 80 5}
-   {L 320 80 340 80}
-   {C 315 100 5}
-   {L 320 100 340 100}
-   {C 315 120 5}
-   {L 320 120 340 120}
-   {C 315 140 5}
-   {L 320 140 340 140}
-   {C 315 160 5}
-   {L 320 160 340 160}
-   {L 310 180 340 180}
-   {C 315 200 5}
-   {L 320 200 340 200}
-   {L 310 220 340 220}
-   {L 310 240 340 240}
-   {C 315 260 5}
-   {L 320 260 340 260}
-   {C 315 280 5}
-   {L 320 280 340 280}
-   {C 315 300 5}
-   {L 320 300 340 300}
-   {C 315 320 5}
-   {L 320 320 340 320}
-   {C 315 340 5}
-   {L 320 340 340 340}
-   {L 310 360 340 360}
-   {C 315 380 5}
-   {L 320 380 340 380}
-   {C 315 400 5}
-   {L 320 400 340 400}
-   {C 315 420 5}
-   {L 320 420 340 420}
-   {L 310 440 340 440}
+   {L 330 20 360 20}
+   {L 330 40 360 40}
+   {C 335 60 5}
+   {L 340 60 360 60}
+   {C 335 80 5}
+   {L 340 80 360 80}
+   {C 335 100 5}
+   {L 340 100 360 100}
+   {C 335 120 5}
+   {L 340 120 360 120}
+   {C 335 140 5}
+   {L 340 140 360 140}
+   {C 335 160 5}
+   {L 340 160 360 160}
+   {L 330 180 360 180}
+   {C 335 200 5}
+   {L 340 200 360 200}
+   {L 330 220 360 220}
+   {L 330 240 360 240}
+   {L 330 260 360 260}
+   {C 335 280 5}
+   {L 340 280 360 280}
+   {C 335 300 5}
+   {L 340 300 360 300}
+   {C 335 320 5}
+   {L 340 320 360 320}
+   {C 335 340 5}
+   {L 340 340 360 340}
+   {C 335 360 5}
+   {L 340 360 360 360}
+   {L 330 380 360 380}
+   {C 335 400 5}
+   {L 340 400 360 400}
+   {C 335 420 5}
+   {L 340 420 360 420}
+   {C 335 440 5}
+   {L 340 440 360 440}
+   {L 330 460 360 460}
    [Ly "PINNAM"]
    [Tj "LC"]
    {T "CLK" 140 660}
    {T "RNW" 140 640}
-   {T "A15" 140 600}
-   {T "A14" 140 580}
-   {T "A13" 140 560}
-   {T "A12" 140 540}
-   {T "A11" 140 520}
-   {T "A10" 140 500}
-   {T "A9" 140 480}
-   {T "A8" 140 460}
-   {T "A7" 140 440}
-   {T "A6" 140 420}
-   {T "A5" 140 400}
-   {T "A4" 140 380}
-   {T "A3" 140 360}
-   {T "A2" 140 340}
-   {T "A1" 140 320}
-   {T "A0" 140 300}
-   {T "RXF" 140 280}
-   {T "TXE" 140 260}
-   {T "D7" 140 240}
-   {T "D6" 140 220}
-   {T "D5" 140 200}
-   {T "D4" 140 180}
-   {T "D3" 140 160}
-   {T "D2" 140 140}
+   {T "DISP_NWT" 140 600}
+   {T "A15" 140 580}
+   {T "A14" 140 560}
+   {T "A13" 140 540}
+   {T "A12" 140 520}
+   {T "A11" 140 500}
+   {T "A10" 140 480}
+   {T "A9" 140 460}
+   {T "A8" 140 440}
+   {T "A7" 140 420}
+   {T "A6" 140 400}
+   {T "A5" 140 380}
+   {T "A4" 140 360}
+   {T "A3" 140 340}
+   {T "A2" 140 320}
+   {T "A1" 140 300}
+   {T "A0" 140 280}
+   {T "RXF" 140 260}
+   {T "TXE" 140 240}
+   {T "D7" 140 220}
+   {T "D6" 140 200}
+   {T "D5" 140 180}
+   {T "D4" 140 160}
+   {T "D3" 140 140}
    {T "PHI2" 140 120}
    {T "Q0" 140 100}
    {T "BEEPER" 140 80}
@@ -269,31 +272,32 @@
    {T "SLOW0'" 140 40}
    {T "SLOW1'" 140 20}
    [Tj "RC"]
-   {T "DISP_BL" 300 20}
-   {T "DISP_DAT" 300 40}
-   {T "RW'" 300 60}
-   {T "RD'" 300 80}
-   {T "RAM_NCS1'" 300 100}
-   {T "RAM_NCS0'" 300 120}
-   {T "ROM_NR'" 300 140}
-   {T "ROM_NCS'" 300 160}
-   {T "WR_FT" 300 180}
-   {T "RD_FT'" 300 200}
-   {T "D1" 300 220}
-   {T "D0" 300 240}
-   {T "VIA_NCS'" 300 260}
-   {T "ACIA_NCS'" 300 280}
-   {T "EXP_NCS'" 300 300}
-   {T "CF_NRES'" 300 320}
-   {T "CF_NCS'" 300 340}
-   {T "CLK_OUT" 300 360}
-   {T "LED'" 300 380}
-   {T "DISP_NCS'" 300 400}
-   {T "DISP_NRE'" 300 420}
-   {T "DISP_E" 300 440}
+   {T "DISP_BL" 320 20}
+   {T "DISP_DAT" 320 40}
+   {T "RW'" 320 60}
+   {T "RD'" 320 80}
+   {T "RAM_NCS1'" 320 100}
+   {T "RAM_NCS0'" 320 120}
+   {T "ROM_NR'" 320 140}
+   {T "ROM_NCS'" 320 160}
+   {T "WR_FT" 320 180}
+   {T "RD_FT'" 320 200}
+   {T "D2" 320 220}
+   {T "D1" 320 240}
+   {T "D0" 320 260}
+   {T "VIA_NCS'" 320 280}
+   {T "ACIA_NCS'" 320 300}
+   {T "EXP_NCS'" 320 320}
+   {T "CF_NRES'" 320 340}
+   {T "CF_NCS'" 320 360}
+   {T "CLK_OUT" 320 380}
+   {T "LED'" 320 400}
+   {T "DISP_NCS'" 320 420}
+   {T "DISP_NRE'" 320 440}
+   {T "DISP_E" 320 460}
    [Ly "DEVICE"]
    [Tj "CT"]
-   {T "F1508ISPTQFP100" 220 -10}
+   {T "F1508ISPTQFP100" 230 -10}
   }
 
   {ATR
@@ -304,7 +308,7 @@
    {EX
     [Ly "ATTR2"]
     [Ts 12][Tj "CT"][Tr 0][Tm "N"]
-    {At PLD D:\REPOSITORIES\LT6502\SOFTWARE\CPLD\LT6502_GLUE 220 680}
+    {At PLD D:\REPOSITORIES\LT6502\SOFTWARE\CPLD\LT6502_GLUE 230 680}
    }
   }
  }
@@ -317,6 +321,8 @@
    {N CLK
    }
    {N RNW
+   }
+   {N DISP_NWT
    }
    {N A15
    }
@@ -364,8 +370,6 @@
    }
    {N D3
    }
-   {N D2
-   }
    {N PHI2
    }
    {N Q0
@@ -397,6 +401,8 @@
    {N WR_FT
    }
    {N RD_FT'
+   }
+   {N D2
    }
    {N D1
    }

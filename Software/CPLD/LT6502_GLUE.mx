@@ -73,6 +73,7 @@ Pin 27 = DISP_DATA_EN;    /* OUT, databus level shifter enable */
 Pin  6 = DISP_BL;
 Pin 99 = !DISP_nRES;
 Pin 100 = DISP_E;         /* OUT, 6800 "E" signal */
+Pin 5 = DISP_nWT;
 
 
 /* Beeper */
@@ -177,11 +178,13 @@ D1 = !TXE;
 ACIA_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & A5 & !A4;
  
 /* Display 0xBFD0 - 0xBFDF */
-DISP_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & !A5 & A4;
-DISP_DATA_EN = DISP_nCS;
-DISP_E = DISP_nCS & PHI2 & !Q0;
+DISP_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & !A5 & A4  &  !A3 & !A2 ;
+DISP_DATA_EN = DISP_nCS & !A1;
+DISP_E = DISP_nCS & PHI2 & !Q0 & !A1;
 DISP_BL = 'b'1;			/* toggling this causes board resets */
-DISP_nRES = RESET;
+DISP_nRES = RESET;			/* Not actually used */
+D2 = DISP_nWT;
+D2.OE = DISP_nCS & A1;
 
 /* Onboard VIA 65c22 0xBFC0 - 0xBFCF */
 VIA_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & !A5 & !A4;
