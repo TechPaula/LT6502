@@ -800,6 +800,7 @@ LAB_OMER
 ; do error #X, then warm start
 
 LAB_XERR
+      JSR   PWR_BEEP_LOW
       JSR   LAB_CRLF          ; print CR/LF
 
       LDA   LAB_BAER,X        ; get error message pointer low byte

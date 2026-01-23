@@ -1,5 +1,6 @@
 	.feature labels_without_colons
 	.feature force_range
+	.pc02
 
 ; minimal monitor for EhBASIC and 6502 simulator V1.05
 
@@ -8,8 +9,8 @@
 ; will do nothing, you'll still have to do a reset to run the code.
 
 	.include "basic.asm"
-
     .include "ewoz.asm"
+	.include ""
 	
 ; put the IRQ and MNI code in RAM so that it can be changed
 
@@ -34,7 +35,12 @@ A_res           = $BFE1 ; ACIA reset port
 A_cmd           = $BFE2 ; ACIA command port
 A_ctl           = $BFE3 ; ACIA control port
 
+; Beeper bits
 A_Beeper		= $BFA0 ; Beeper address
+BEEP_PW			= $FF		; pitch of "low" beep
+BEEP_PW2		= $7F		; pitch of "high" beep
+BEEP_LN			= $20
+DELAY_LEN1		= $05		; Also affects pitch
 
 ; compact flash bits n bobs
 CF_ADDRESS		= $BFB0	; Compact flash address
@@ -44,22 +50,26 @@ CF_LB			= $0600 ; Place for low byte of sector address
 CF_MB			= $0601 ; Place for middle byte of sector address
 CF_HB			= $0602 ; Place for high byte of sector address
 
+; display addresses
+DISP_DT			= $BFD0
+DISP_RG			= $BFD1
+DISP_WAIT		= $BFD2  ; This is the Glue logic, Bit 2 is LOW when display is busy, IGNORE all other bits
+
 
 ; 256 byte page used for my loops and bits (away from basic)
 MyDL 			= $610
 MyDL2		 	= $611
 MyDL3			= $612
+
 MyLP1			= $620
 MyLP2			= $621
+MyERR			= $622
+
+DISP_temp		= $623
+
 MyTEMP			= $650
 
 
-
-BEEP_PW			= $FF		; pitch of "low" beep
-BEEP_PW2		= $7F		; pitch of "high" beep
-BEEP_LN			= $20
-
-DELAY_LEN1		= $05		; Also affects pitch
 
 ; now the code. all this does is set up the vectors and interrupt code
 ; and wait for the user to select [C]old or [W]arm start. nothing else
@@ -93,6 +103,9 @@ LAB_stlp
     STA A_ctl       ; set control register
 
 	JSR PWR_BEEP_LOW	; power beep
+
+	JSR DISP_INIT		; initialise screen
+
 
 ; now do the signon message, Y = $00 here
 LAB_signon
@@ -155,7 +168,9 @@ SWait:
 	STA	ACIAData
 
 ; When screen is working insert screen text output code here
-
+	PHA
+	JSR DISP_TEXT_WR
+	PLA
 
 ; end of screen output code
 	RTS						; end of ACIAout
@@ -195,10 +210,6 @@ LAB_WAIT_Rx
 
 
 ; byte in from simulated ACIA (CONSOLE) or Keyboard
-; TODO with keybed attached UPPER-CASE letters sent via console sometimes get missed
-;	sending an O should give $4F but sometimes gives $0F
-;	sending an Z should give $5A but sometimes gives $1A
-;	sending an o should give $6F and always does
 ACIAin
 	LDA	ACIAStatus
 	AND	#1
@@ -279,11 +290,375 @@ IO_DIR
 	RTS
 
 
-; display init
+; ----- DISPLAY BITS
+; display driver for the LT6502 project using the RA8875 driver
+; the display is set to 800x480 pixels
 DISP_INIT
+		; write to reg 0 and read back driver chip number
+	LDA #$00
+	STA DISP_RG
+	JSR DISP_CHK_BUSY
+	LDA DISP_DT
+	CMP #$75		; $75 means it's an RA8875 driver chip
+	BEQ DISP_OK
+	JMP DISP_ERR
 
-	rts
+DISP_OK	
+		; soft reset
+	LDA #$01
+	STA DISP_RG
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$01
+	STA DISP_RG
+	LDA #$00
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
 
+		; PLL init (800x480)
+	LDA #$88
+	STA DISP_RG
+	LDA #$0A
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$89
+	STA DISP_RG
+	LDA #$02
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+
+		; Set colour depth and interface width
+	LDA #$10
+	STA DISP_RG
+	LDA #$00
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	
+		; Set pixelclk
+	LDA #$04
+	STA DISP_RG
+	LDA #$81
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+
+		; Horizontal set
+	LDA #$14
+	STA DISP_RG
+	LDA #$63
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$15
+	STA DISP_RG
+	LDA #$00
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$16
+	STA DISP_RG
+	LDA #$03
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$17
+	STA DISP_RG
+	LDA #$03
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$18
+	STA DISP_RG
+	LDA #$0B
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	
+		; Vertical set
+	LDA #$19
+	STA DISP_RG
+	LDA #$DF
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$1A
+	STA DISP_RG
+	LDA #$01
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$1B
+	STA DISP_RG
+	LDA #$1F
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$1C
+	STA DISP_RG
+	LDA #$00
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$1D
+	STA DISP_RG
+	LDA #$16
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$1E
+	STA DISP_RG
+	LDA #$00
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$1F
+	STA DISP_RG
+	LDA #$01
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+
+		; Active window
+	LDA #$30
+	STA DISP_RG
+	LDA #$00
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$31
+	STA DISP_RG
+	LDA #$00
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$34
+	STA DISP_RG
+	LDA #$1F
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$35
+	STA DISP_RG
+	LDA #$03
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$32
+	STA DISP_RG
+	LDA #$00
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$33
+	STA DISP_RG
+	LDA #$00
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$36
+	STA DISP_RG
+	LDA #$DF
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$37
+	STA DISP_RG
+	LDA #$01
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+
+		; Display on
+	LDA #$01
+	STA DISP_RG
+	LDA #$80
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$C7
+	STA DISP_RG
+	LDA #$01
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+		
+	JSR DISP_CLR_SCREEN	
+	JSR DISP_TEXT_MODE
+	JSR DISP_CURSOR_HOME
+	JSR DISP_TEXT_COLOUR
+
+
+	RTS
+	; end of DISP_INIT
+
+DISP_ERR				; Show error message
+	STA MyERR
+	JSR DISP_flt
+	RTS
+
+DISP_CLR_SCREEN			; Fills the screen with black
+	LDA #$91
+	STA DISP_RG
+	LDA #$00
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$92
+	STA DISP_RG
+	LDA #$00
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$93
+	STA DISP_RG
+	LDA #$00
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$94
+	STA DISP_RG
+	LDA #$00
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$95
+	STA DISP_RG
+	LDA #$1F
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$96
+	STA DISP_RG
+	LDA #$03
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$97
+	STA DISP_RG
+	LDA #$DF
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$98
+	STA DISP_RG
+	LDA #$01
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+
+	LDA #$63				; RED colour, bits 0,1,2
+	STA DISP_RG
+	LDA #$00
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$64				; GREEN colour, bits 0,1,2
+	STA DISP_RG
+	LDA #$00
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$65				; BLUE colour, bits 0,1
+	STA DISP_RG
+	LDA #$00
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$90				; Start fill
+	STA DISP_RG
+	LDA #$B0
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+
+DISP_fillcomp	
+	LDA #$90				; CHECK IF WE'RE DONE
+	STA DISP_RG
+	LDA DISP_DT				; read status
+	JSR DISP_CHK_BUSY
+	RTS
+
+DISP_TEXT_MODE
+	LDA #$40
+	STA DISP_RG
+	LDA #$E0
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$44
+	STA DISP_RG
+	LDA #$20
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	RTS
+
+DISP_CURSOR_HOME
+	LDA #$2A
+	STA DISP_RG
+	LDA #$00
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$2B
+	STA DISP_RG
+	LDA #$00
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$2C
+	STA DISP_RG
+	LDA #$00
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$2D
+	STA DISP_RG
+	LDA #$00
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	RTS
+
+DISP_TEXT_COLOUR
+	LDA #$63			; RED colour, bits 0,1,2
+	STA DISP_RG
+	LDA #$03
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$64			; GREEN colour, bits 0,1,2
+	STA DISP_RG
+	LDA #$02
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$65			; BLUE colour, bits 0,1,2
+	STA DISP_RG
+	LDA #$00
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	RTS
+
+DISP_TEXT_WR
+	STA DISP_temp		; Save character
+	LDA #$02			
+	STA DISP_RG
+
+	LDA DISP_temp				
+	CMP #20				; check for regular character
+	BMI DISP_text_nonascii
+
+	STA DISP_DT			; send to display
+	JSR DISP_CHK_BUSY
+	JMP DISP_textexit
+
+DISP_text_nonascii
+	LDA DISP_temp
+	CMP #$0D
+	BNE DISP_textexit
+
+	; TODO insert CARRIAGE RETURN code here
+	
+	LDA DISP_temp
+	CMP #$0A
+	BNE DISP_textexit
+
+	; TODO insert LINE FEED code here
+
+	; TODO add in scrolling if needed (USING BLOCK TRANSFER ENGINE)
+
+DISP_textexit
+	RTS
+	
+
+DISP_CHK_BUSY			; Read BIT2 from Glue, if it's LOW the display is busy
+	LDA DISP_WAIT		; Get wait status
+	AND #$04			; it's in BIT2
+	CMP #$04			; Compare bit2
+	BNE DISP_CHK_BUSY	; if it's not the same, i.e. it's ZERO then recheck
+	RTS					; else return, i.e. display is ready
+
+; DISPLAY ERROR
+DISP_flt
+	LDY #$00
+
+DISP_flt_lp				; Display error message
+	LDA ERR_disp,Y
+	BEQ	DISP_flt_exit	; exit loop if done
+	JSR ACIAout			; Send to console
+	JSR KEYBout			; Send to keyboard display
+	INY					; increment index
+	BNE DISP_flt_lp	; loop, always
+
+DISP_flt_exit
+	LDA MyERR			
+	JSR PRBYTE			; Add byte to error message
+	LDA MyERR
+	JSR KEYBout			; show on keyboard (may get weird things)
+	RTS
+
+; ------ END OF DISPLAY BITS
+
+
+; ------ BEEPS
 ; HIGH BEEP
 PWR_BEEP_HIGH
 	LDA #BEEP_PW2		; PULSE WIDTH	
@@ -316,6 +691,9 @@ BEEP_LP4
 
 ; LOW BEEP
 PWR_BEEP_LOW
+	PHY
+	PHX
+	PHA
 	LDA #BEEP_PW		; PULSE WIDTH	
 	STA MyDL	
 
@@ -342,7 +720,16 @@ BEEP_LOW2
 	DEC MyDL2
 	BNE BEEP_LOW1
 
+	PLA
+	PLX
+	PLY
+
 	RTS	
+; ------ END BEEPS
+
+
+
+
 
 ; Delay loop for random things
 DELAY1
@@ -399,6 +786,9 @@ KYB_basmess_str
 	.byte	$0D,$0D,"EhBASIC ",$00
 KYB_wozmess_str
 	.byte	$0D,$0D,"eWOZMON ",$00
+
+ERR_disp
+	.byte	$0D,$0A,"D_ERR:",$00
 
 
 ; system vectors
