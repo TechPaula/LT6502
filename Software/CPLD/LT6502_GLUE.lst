@@ -3,7 +3,7 @@ LISTING FOR LOGIC DESCRIPTION FILE: LT6502_GLUE.pld                  Page 1
 CUPL(WM): Universal Compiler for Programmable Logic
 Version 5.0a Serial# 60008009
 Copyright (c) 1983, 1998 Logical Devices, Inc.
-Created Thu Jan 22 18:53:32 2026
+Created Fri Jan 23 15:24:19 2026
 
   1:Name     LT6502_GLUE;
   2:PartNo   ;
@@ -64,7 +64,7 @@ LISTING FOR LOGIC DESCRIPTION FILE: LT6502_GLUE.pld                  Page 2
 CUPL(WM): Universal Compiler for Programmable Logic
 Version 5.0a Serial# 60008009
 Copyright (c) 1983, 1998 Logical Devices, Inc.
-Created Thu Jan 22 18:53:32 2026
+Created Fri Jan 23 15:24:19 2026
 
  54:Pin 76 = !VIA_nCS;
  55:
@@ -88,211 +88,191 @@ Created Thu Jan 22 18:53:32 2026
  73:Pin  6 = DISP_BL;
  74:Pin 99 = !DISP_nRES;
  75:Pin 100 = DISP_E;         /* OUT, 6800 "E" signal */
- 76:Pin 5 = DISP_nWT;    /* IN */
+ 76:
  77:
- 78:
- 79:/* Beeper */
- 80:Pin 92 = BEEPER;
+ 78:/* Beeper */
+ 79:Pin 92 = BEEPER;
+ 80:
  81:
- 82:
- 83:/* Address bus all are INPUT */
- 84:Pin 25 = A0;
- 85:Pin 24 = A1;
- 86:Pin 23 = A2;
- 87:Pin 22 = A3;
- 88:Pin 21 = A4;
- 89:Pin 20 = A5;
- 90:Pin 19 = A6;
- 91:Pin 17 = A7;
- 92:Pin 16 = A8;
- 93:Pin 14 = A9;
- 94:Pin 13 = A10;
- 95:Pin 12 = A11;
- 96:Pin 10 = A12;
- 97:Pin  9 = A13;
- 98:Pin  8 = A14;
- 99:Pin  7 = A15;
+ 82:/* Address bus all are INPUT */
+ 83:Pin 25 = A0;
+ 84:Pin 24 = A1;
+ 85:Pin 23 = A2;
+ 86:Pin 22 = A3;
+ 87:Pin 21 = A4;
+ 88:Pin 20 = A5;
+ 89:Pin 19 = A6;
+ 90:Pin 17 = A7;
+ 91:Pin 16 = A8;
+ 92:Pin 14 = A9;
+ 93:Pin 13 = A10;
+ 94:Pin 12 = A11;
+ 95:Pin 10 = A12;
+ 96:Pin  9 = A13;
+ 97:Pin  8 = A14;
+ 98:Pin  7 = A15;
+ 99:
 100:
-101:
-102:/* Data bus */
-103:Pin 60 = D0;
-104:Pin 58 = D1;
-105:Pin 57 = D2;
-106:Pin 56 = D3;
-107:Pin 55 = D4;
+101:/* Data bus */
+102:Pin 60 = D0;
+103:Pin 58 = D1;
+104:Pin 57 = D2;
+105:Pin 56 = D3;
+106:Pin 55 = D4;
+107:Pin 54 = D5;
 
 LISTING FOR LOGIC DESCRIPTION FILE: LT6502_GLUE.pld                  Page 3
 
 CUPL(WM): Universal Compiler for Programmable Logic
 Version 5.0a Serial# 60008009
 Copyright (c) 1983, 1998 Logical Devices, Inc.
-Created Thu Jan 22 18:53:32 2026
+Created Fri Jan 23 15:24:19 2026
 
-108:Pin 54 = D5;
-109:Pin 53 = D6;
-110:Pin 52 = D7;
+108:Pin 53 = D6;
+109:Pin 52 = D7;
+110:
 111:
 112:
-113:
-114:/*********************************************************
-115: *                        PINNODES                       *
-116: *********************************************************/
-117:
-118:/* Clock Stretch nodes */
-119:Pinnode  0  = Q1;
-120:Pinnode  0  = Q2;
-121:Pinnode  0  = BLBR0;
-122:Pinnode  0  = BLBR1;
-123:Pinnode  0  = BLBR2;
-124:Pinnode  0  = BLBR3;
-125:Pinnode  0  = BLQ0;
-126:Pinnode  0  = BLQ1;
-127:Pinnode  0  = BLQ2;
+113:/*********************************************************
+114: *                        PINNODES                       *
+115: *********************************************************/
+116:
+117:/* Clock Stretch nodes */
+118:Pinnode  0  = Q1;
+119:Pinnode  0  = Q2;
+120:
+121:
+122:
+123:
+124:/*********************************************************
+125: *                     Clock Bits and bobs               *
+126: *********************************************************/
+127:
 128:
-129:
-130:
-131:BLBR0 = 'b'0;
-132:BLBR1 = 'b'0;
-133:BLBR2 = 'b'0;
-134:BLBR3 = 'b'0;
-135:
-136:
-137:
-138:
+129:/* Clock Stretching */
+130:Q0.ck = CLK;
+131:Q1.ck = CLK;
+132:Q2.ck = CLK;
+133:PHI2.ck = CLK;
+134:
+135:Q0.ar = RESET;
+136:Q1.ar = RESET;
+137:Q2.ar = RESET;
+138:PHI2.ar = RESET;
 139:
-140:
-141:
-142:/*********************************************************
-143: *                     Clock Bits and bobs               *
-144: *********************************************************/
-145:
+140:Q0.D = !PHI2
+141:       # PHI2 & !Q0;
+142:
+143:Q1.D = !PHI2 & !(SLOW0 # DISP_nCS # FT_CS # ACIA_nCS)
+144:       # PHI2 & !Q1 & Q0
+145:       # PHI2 & Q1 & !Q0;
 146:
-147:/* Clock Stretching */
-148:Q0.ck = CLK;
-149:Q1.ck = CLK;
-150:Q2.ck = CLK;
-151:PHI2.ck = CLK;
-152:
-153:Q0.ar = RESET;
-154:Q1.ar = RESET;
-155:Q2.ar = RESET;
-156:PHI2.ar = RESET;
+147:Q2.D = !PHI2 & !SLOW1
+148:       # PHI2 & Q2 & !Q1
+149:       # PHI2 & Q2 & !Q0        
+150:       # PHI2 & !Q2 & Q1 & Q0;
+151:
+152:PHI2.D = !PHI2
+153:       # PHI2 & !Q2     
+154:       # PHI2 & !Q1
+155:       # PHI2 & !Q0     
+156:       # !PHI2 & Q2 & Q1 & Q0;
 157:
-158:Q0.D = !PHI2
-159:       # PHI2 & !Q0;
-160:
-161:Q1.D = !PHI2 & !(SLOW0 # DISP_nCS)
+158:
+159:/*********************************************************
+160: *                     Decode & glue                     *
+161: *********************************************************/
 
 LISTING FOR LOGIC DESCRIPTION FILE: LT6502_GLUE.pld                  Page 4
 
 CUPL(WM): Universal Compiler for Programmable Logic
 Version 5.0a Serial# 60008009
 Copyright (c) 1983, 1998 Logical Devices, Inc.
-Created Thu Jan 22 18:53:32 2026
+Created Fri Jan 23 15:24:19 2026
 
-162:       # PHI2 & !Q1 & Q0
-163:       # PHI2 & Q1 & !Q0;
-164:
-165:Q2.D = !PHI2 & !SLOW1
-166:       # PHI2 & Q2 & !Q1
-167:       # PHI2 & Q2 & !Q0        
-168:       # PHI2 & !Q2 & Q1 & Q0;
-169:
-170:PHI2.D = !PHI2
-171:       # PHI2 & !Q2     
-172:       # PHI2 & !Q1
-173:       # PHI2 & !Q0     
-174:       # !PHI2 & Q2 & Q1 & Q0;
+162:
+163:
+164:/* FT245 Serial port 0xBFF0 - 0xBFFF */                 
+165:FT_CS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & A5 & A4;
+166:
+167:RD_FT = PHI2 & FT_CS & A0 &  RnW;               /* 0xBFF1 */
+168:WR_FT = PHI2 & FT_CS & A0 & !RnW;               /* 0xBFF1 */ 
+169:D0.oe = FT_CS & !A0 & RnW;                      /* 0xBFF0 */
+170:D1.oe = FT_CS & !A0 & RnW;                      /* 0xBFF0 */
+171:
+172:D0 = !RXF;                              
+173:D1 = !TXE;                      
+174:
 175:
-176:
-177:/*********************************************************
-178: *                     Decode & glue                     *
-179: *********************************************************/
-180:
-181:
-182:/* FT245 Serial port 0xBFF0 - 0xBFFF */                 
-183:FT_CS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & A5 & A4;
-184:
-185:RD_FT = PHI2 & FT_CS & A0 &  RnW;               /* 0xBFF1 */
-186:WR_FT = PHI2 & FT_CS & A0 & !RnW;               /* 0xBFF1 */ 
-187:D0.oe = FT_CS & !A0 & RnW;                      /* 0xBFF0 */
-188:D1.oe = FT_CS & !A0 & RnW;                      /* 0xBFF0 */
+176:/* Keyboard ACIA - 0xBFE0 - 0xBFEF */
+177:ACIA_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & A5 & !A4;
+178: 
+179:/* Display 0xBFD0 - 0xBFDF */
+180:DISP_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & !A5 & A4;
+181:DISP_DATA_EN = DISP_nCS;
+182:DISP_E = DISP_nCS & PHI2 & !Q0;
+183:DISP_BL = 'b'1;                 /* toggling this causes board resets */
+184:DISP_nRES = RESET;
+185:
+186:/* Onboard VIA 65c22 0xBFC0 - 0xBFCF */
+187:VIA_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & !A5 & !A4;
+188:
 189:
-190:D0 = !RXF;                              
-191:D1 = !TXE;                      
-192:
+190:/* Compact Flash 0xBFB0 - 0xBFBF */
+191:CF_nCS  = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & !A6 & A5 & A4;
+192:CF_nRES = RESET;
 193:
-194:/* Keyboard ACIA - 0xBFE0 - 0xBFEF */
-195:ACIA_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & A5 & !A4;
-196: 
-197:/* Display 0xBFD0 - 0xBFDF */
-198:DISP_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & !A5 & A4  & !A3 & !A2;
-199:DISP_DATA_EN = DISP_nCS & !A1;
-200:DISP_E = DISP_nCS & PHI2 & !Q0  & !A1;
-201:DISP_BL = 'b'1; /* toggling this causes board resets */
-202:DISP_nRES = RESET;
-203:D3.oe = DISP_nCS & A1;
-204:D3 = !DISP_nWT;
+194:
+195:/* Beeper, a simple SR latch for now - 0xBFA0 - 0xBFAF */
+196:BEEP_CS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & !A6 & A5 & !A4;
+197:BEEP_S = D2 & BEEP_CS;
+198:BEEP_R = !D2 & BEEP_CS;
+199:BEEPER =  (BEEPER & !BEEP_R) # BEEP_S;
+200:
+201:
+202:/* Expansion Slot 0xBE00 - 0xBEFF*/
+203:EXP_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & !A8;
+204:
 205:
-206:/* Onboard VIA 65c22 0xBFC0 - 0xBFCF */
-207:VIA_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & !A5 & !A4;
-208:
+206:/***********************/
+207:/* GAP 0xBFF0 - 0xBFCF */
+208:/***********************/
 209:
-210:/* Compact Flash 0xBFB0 - 0xBFBF */
-211:CF_nCS  = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & !A6 & A5 & A4;
-212:CF_nRES = RESET;
-213:
+210:
+211:/* ROM 0xC000 - 0xFFFF */
+212:ROM_nR  = A15 & A14;   /* ROM Read address */
+213:ROM_nCS = 'b'1;        /* ROM chip select always active */
 214:
-215:/* Beeper, a simple SR latch for now - 0xBFA0 - 0xBFAF */
+215:
 
 LISTING FOR LOGIC DESCRIPTION FILE: LT6502_GLUE.pld                  Page 5
 
 CUPL(WM): Universal Compiler for Programmable Logic
 Version 5.0a Serial# 60008009
 Copyright (c) 1983, 1998 Logical Devices, Inc.
-Created Thu Jan 22 18:53:32 2026
+Created Fri Jan 23 15:24:19 2026
 
-216:BEEP_CS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & !A6 & A5 & !A4;
-217:BEEP_S = D2 & BEEP_CS;
-218:BEEP_R = !D2 & BEEP_CS;
-219:BEEPER =  (BEEPER & !BEEP_R) # BEEP_S;
+216:/* RAM bank 0 0x0000 - 0x7FFF */                        
+217:RAM_nCS0 = !A15;        
+218:RW = PHI2 & !RnW & !FT_CS ;
+219:RD = PHI2 &  RnW & !FT_CS;
 220:
 221:
-222:/* Expansion Slot 0xBE00 - 0xBEFF*/
-223:EXP_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & !A8;
+222:/* RAM bank 1 0x8000 - 0xBDFF */
+223:RAM_nCS1 = A15 & !A14 & !FT_CS & !ACIA_nCS & !DISP_nCS & !VIA_nCS & !CF_nCS & !EXP_nCS & !BEEP_CS;
 224:
 225:
-226:/***********************/
-227:/* GAP 0xBFF0 - 0xBFCF */
-228:/***********************/
-229:
-230:
-231:/* ROM 0xC000 - 0xFFFF */
-232:ROM_nR  = A15 & A14;   /* ROM Read address */
-233:ROM_nCS = 'b'1;        /* ROM chip select always active */
-234:
-235:
-236:/* RAM bank 0 0x0000 - 0x7FFF */                        
-237:RAM_nCS0 = !A15;        
-238:RW = PHI2 & !RnW & !FT_CS ;
-239:RD = PHI2 &  RnW & !FT_CS;
-240:
-241:
-242:/* RAM bank 1 0x8000 - 0xBDFF */
-243:RAM_nCS1 = A15 & !A14 & !FT_CS & !ACIA_nCS & !DISP_nCS & !VIA_nCS & !CF_nCS & !EXP_nCS & !BEEP_CS;
-244:
-245:
-246:
-247:
-248:/* system wide logic */
-249:CLK_OUT = CLK;
-250:LED = CF_nCS;
-251:
-252:
-253:
-254:/* END OF FILE */
-255:/*****************************************************/
-256:
+226:
+227:
+228:/* system wide logic */
+229:CLK_OUT = CLK;
+230:LED = CF_nCS;
+231:
+232:
+233:
+234:/* END OF FILE */
+235:/*****************************************************/
+236:
 
 
 

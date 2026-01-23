@@ -5,7 +5,7 @@
 
 CUPL(WM)        5.0a Serial# 60008009
 Device          f1508isptqfp100  Library DLIB-h-40-2
-Created         Thu Jan 22 18:53:32 2026
+Created         Fri Jan 23 15:24:19 2026
 Name            LT6502_GLUE
 Partno          
 Revision        
@@ -47,18 +47,6 @@ BEEP_R =>
 BEEP_S =>
     !A4 & A5 & !A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15 & D2
 
-BLBR0 =>
-    0 
-
-BLBR1 =>
-    0 
-
-BLBR2 =>
-    0 
-
-BLBR3 =>
-    0 
-
 CF_nCS =>
     A4 & A5 & !A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15
 
@@ -82,24 +70,17 @@ D1.oe  =>
     !A0 & A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15 & 
       RnW
 
-D3 =>
-    !DISP_nWT
-
-D3.oe  =>
-    A1 & DISP_nCS
-
 DISP_BL =>
     1 
 
 DISP_DATA_EN =>
-    !A1 & DISP_nCS
+    DISP_nCS
 
 DISP_E =>
-    !A1 & DISP_nCS & PHI2 & !Q0
+    DISP_nCS & PHI2 & !Q0
 
 DISP_nCS =>
-    !A2 & !A3 & A4 & !A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & 
-      A15
+    A4 & !A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15
 
 DISP_nRES =>
     RESET
@@ -136,7 +117,18 @@ Q0.ck  =>
     CLK
 
 Q1.d  =>
-    !DISP_nCS & !PHI2 & !SLOW0
+    !A15 & !ACIA_nCS & !DISP_nCS & !PHI2 & !SLOW0
+  # A14 & !ACIA_nCS & !DISP_nCS & !PHI2 & !SLOW0
+  # !A13 & !ACIA_nCS & !DISP_nCS & !PHI2 & !SLOW0
+  # !A12 & !ACIA_nCS & !DISP_nCS & !PHI2 & !SLOW0
+  # !A11 & !ACIA_nCS & !DISP_nCS & !PHI2 & !SLOW0
+  # !A10 & !ACIA_nCS & !DISP_nCS & !PHI2 & !SLOW0
+  # !A9 & !ACIA_nCS & !DISP_nCS & !PHI2 & !SLOW0
+  # !A8 & !ACIA_nCS & !DISP_nCS & !PHI2 & !SLOW0
+  # !A7 & !ACIA_nCS & !DISP_nCS & !PHI2 & !SLOW0
+  # !A6 & !ACIA_nCS & !DISP_nCS & !PHI2 & !SLOW0
+  # !A4 & !ACIA_nCS & !DISP_nCS & !PHI2 & !SLOW0
+  # !A5 & !ACIA_nCS & !DISP_nCS & !PHI2 & !SLOW0
   # PHI2 & Q0 & !Q1
   # PHI2 & !Q0 & Q1
 
@@ -250,13 +242,6 @@ Pol   Name              Ext     Pin     Type     Used   Pterms  Level
     BEEP_CS                     0        I        1       -       -     
     BEEP_R                      0        I        1       -       -     
     BEEP_S                      0        I        1       -       -     
-    BLBR0                       0        N        1       0       1     
-    BLBR1                       0        N        1       0       1     
-    BLBR2                       0        N        1       0       1     
-    BLBR3                       0        N        1       0       1     
-    BLQ0                        0        N        -       -       -     
-    BLQ1                        0        N        -       -       -     
-    BLQ2                        0        N        -       -       -     
  !  CF_nCS                      81       V        1       0       1     
  !  CF_nRES                     80       V        1       0       1     
     CLK                         87       V        -       -       -     
@@ -266,8 +251,7 @@ Pol   Name              Ext     Pin     Type     Used   Pterms  Level
     D1                          58       V        1       0       1     
     D1                  oe      58       X        1       0       1     
     D2                          57       V        -       -       -     
-    D3                          56       V        1       0       1     
-    D3                  oe      56       X        1       0       1     
+    D3                          56       V        -       -       -     
     D4                          55       V        -       -       -     
     D5                          54       V        -       -       -     
     D6                          53       V        -       -       -     
@@ -277,7 +261,6 @@ Pol   Name              Ext     Pin     Type     Used   Pterms  Level
     DISP_E                      100      V        1       0       1     
  !  DISP_nCS                    98       V        1       0       1     
  !  DISP_nRES                   99       V        1       0       1     
-    DISP_nWT                    5        V        -       -       -     
  !  EXP_nCS                     78       V        1       0       1     
     FT_CS                       0        I        1       -       -     
  !  LED                         94       V        1       0       1     
@@ -290,7 +273,7 @@ Pol   Name              Ext     Pin     Type     Used   Pterms  Level
     Q0                  ar      83       X        1       0       1     
     Q0                  ck      83       X        1       0       1     
     Q1                          0        N        -       -       -     
-    Q1                  d       0        M        3       0       1     
+    Q1                  d       0        M        14      0       1     
     Q1                  ar      0        M        1       0       1     
     Q1                  ck      0        M        1       0       1     
     Q2                          0        N        -       -       -     

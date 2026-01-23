@@ -73,7 +73,6 @@ Pin 27 = DISP_DATA_EN;    /* OUT, databus level shifter enable */
 Pin  6 = DISP_BL;
 Pin 99 = !DISP_nRES;
 Pin 100 = DISP_E;         /* OUT, 6800 "E" signal */
-Pin 5 = DISP_nWT;    /* IN */
 
 
 /* Beeper */
@@ -118,23 +117,6 @@ Pin 52 = D7;
 /* Clock Stretch nodes */
 Pinnode  0  = Q1;
 Pinnode  0  = Q2;
-Pinnode  0  = BLBR0;
-Pinnode  0  = BLBR1;
-Pinnode  0  = BLBR2;
-Pinnode  0  = BLBR3;
-Pinnode  0  = BLQ0;
-Pinnode  0  = BLQ1;
-Pinnode  0  = BLQ2;
-
-
-
-BLBR0 = 'b'0;
-BLBR1 = 'b'0;
-BLBR2 = 'b'0;
-BLBR3 = 'b'0;
-
-
-
 
 
 
@@ -158,7 +140,7 @@ PHI2.ar = RESET;
 Q0.D = !PHI2
        # PHI2 & !Q0;
 
-Q1.D = !PHI2 & !(SLOW0 # DISP_nCS)
+Q1.D = !PHI2 & !(SLOW0 # DISP_nCS # FT_CS # ACIA_nCS)
        # PHI2 & !Q1 & Q0
        # PHI2 & Q1 & !Q0;
 
@@ -195,13 +177,11 @@ D1 = !TXE;
 ACIA_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & A5 & !A4;
  
 /* Display 0xBFD0 - 0xBFDF */
-DISP_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & !A5 & A4  & !A3 & !A2;
-DISP_DATA_EN = DISP_nCS & !A1;
-DISP_E = DISP_nCS & PHI2 & !Q0  & !A1;
-DISP_BL = 'b'1;	/* toggling this causes board resets */
+DISP_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & !A5 & A4;
+DISP_DATA_EN = DISP_nCS;
+DISP_E = DISP_nCS & PHI2 & !Q0;
+DISP_BL = 'b'1;			/* toggling this causes board resets */
 DISP_nRES = RESET;
-D3.oe = DISP_nCS & A1;
-D3 = !DISP_nWT;
 
 /* Onboard VIA 65c22 0xBFC0 - 0xBFCF */
 VIA_nCS = A15 & !A14 & A13 & A12   &   A11 & A10 & A9 & A8   &   A7 & A6 & !A5 & !A4;

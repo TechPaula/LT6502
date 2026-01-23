@@ -1,4 +1,4 @@
-Atmel ATF1508AS Fitter Version 1.8.7.8 ,running Thu Jan 22 18:53:38 2026
+Atmel ATF1508AS Fitter Version 1.8.7.8 ,running Fri Jan 23 15:24:24 2026
 
 
 fit1508 D:\REPOSITORIES\LT6502\SOFTWARE\CPLD\LT6502_GLUE.tt2 -CUPL -dev P1508T100 -JTAG ON
@@ -80,12 +80,14 @@ DISP_E is placed at pin 100 (MC 5)
 DISP_nRES is placed at pin 99 (MC 6)
 DISP_nCS is placed at pin 98 (MC 8)
 SLOW1 is placed at pin 97 (MC 9)
+Q1 is placed at feedback node 610 (MC 10)
 SLOW0 is placed at pin 96 (MC 11)
-XXL_91 is placed at feedback node 612 (MC 12)
+XXL_80 is placed at feedback node 611 (MC 11)
+XXL_79 is placed at feedback node 612 (MC 12)
 LED is placed at pin 94 (MC 13)
 RESET is placed at pin 93 (MC 14)
-XXL_93 is placed at feedback node 614 (MC 14)
-XXL_92 is placed at feedback node 615 (MC 15)
+XXL_81 is placed at feedback node 614 (MC 14)
+XXL_82 is placed at feedback node 615 (MC 15)
 BEEPER is placed at pin 92 (MC 16)
 A9 is placed at pin 14 (MC 17)
 A10 is placed at pin 13 (MC 19)
@@ -95,14 +97,9 @@ A13 is placed at pin 9 (MC 24)
 A14 is placed at pin 8 (MC 25)
 A15 is placed at pin 7 (MC 27)
 DISP_BL is placed at pin 6 (MC 29)
-DISP_nWT is placed at pin 5 (MC 30)
-Q1 is placed at feedback node 631 (MC 31)
 TDI is placed at pin 4 (MC 32)
 Q2 is placed at feedback node 632 (MC 32)
 A0 is placed at pin 25 (MC 33)
-A1 is placed at pin 24 (MC 35)
-A2 is placed at pin 23 (MC 37)
-A3 is placed at pin 22 (MC 38)
 A4 is placed at pin 21 (MC 40)
 A5 is placed at pin 20 (MC 41)
 A6 is placed at pin 19 (MC 43)
@@ -120,7 +117,6 @@ WR_FT is placed at pin 47 (MC 75)
 RD_FT is placed at pin 48 (MC 77)
 RXF is placed at pin 49 (MC 78)
 TXE is placed at pin 50 (MC 80)
-D3 is placed at pin 56 (MC 88)
 D2 is placed at pin 57 (MC 89)
 D1 is placed at pin 58 (MC 91)
 D0 is placed at pin 60 (MC 93)
@@ -155,7 +151,7 @@ CLK_OUT is placed at pin 84 (MC 126)
                | 2                                                     74 | GND              
            VCC | 3                                                     73 | TDO              
            TDI | 4                                                     72 |                  
-      DISP_nWT | 5                                                     71 |                  
+               | 5                                                     71 |                  
        DISP_BL | 6                                                     70 |                  
            A15 | 7                                                     69 |                  
            A14 | 8                                                     68 |                  
@@ -170,11 +166,11 @@ CLK_OUT is placed at pin 84 (MC 126)
             A7 | 17                                                    59 | GND              
            VCC | 18                                                    58 | D1               
             A6 | 19                                                    57 | D2               
-            A5 | 20                                                    56 | D3               
+            A5 | 20                                                    56 |                  
             A4 | 21                                                    55 |                  
-            A3 | 22                                                    54 |                  
-            A2 | 23                                                    53 |                  
-            A1 | 24                                                    52 |                  
+               | 22                                                    54 |                  
+               | 23                                                    53 |                  
+               | 24                                                    52 |                  
             A0 | 25                                                    51 | VCC              
                 \     27  29  31  33  35  37  39  41  43  45   47  49    /                  
                  \  26  28  30  32  34  36  38  40  42  44  46  48   50 /                   
@@ -206,63 +202,61 @@ Universal-Interconnect-Multiplexer assignments
 ------------------------------------------------
 FanIn assignment for block A [25]
 {
-A3,A13,A6,A4,ACIA_nCS,A1,A5,A11,A8,A2,A15,A10,A12,A14,A9,A7,
+A15,A12,A13,A10,A5,A11,A6,A4,A8,A14,ACIA_nCS,A9,A7,
 BEEPER,
 CF_nCS,
 D2,DISP_nCS,
 PHI2,
-Q0,
+Q0,Q1,
 RESET,
-XXL_92,XXL_91,
+SLOW0,
+XXL_79,XXL_80,XXL_81,
 }
 Multiplexer assignment for block A
-D2			(MC23	P)   : MUX 2		Ref (F89p)
+A15			(MC13	P)   : MUX 0		Ref (B27p)
+XXL_79			(MC4	FB)  : MUX 1		Ref (A12fb)
+D2			(MC24	P)   : MUX 2		Ref (F89p)
 DISP_nCS		(MC1	P)   : MUX 3		Ref (A8p)
-Q0			(MC8	P)   : MUX 4		Ref (H125p)
-PHI2			(MC5	P)   : MUX 5		Ref (H113p)
-A3			(MC25	P)   : MUX 7		Ref (C38p)
-RESET			(MC22	P)   : MUX 8		Ref (A14p)
-A13			(MC13	P)   : MUX 9		Ref (B24p)
-A6			(MC20	P)   : MUX 10		Ref (C43p)
-A4			(MC10	P)   : MUX 11		Ref (C40p)
-ACIA_nCS		(MC6	P)   : MUX 13		Ref (H117p)
-CF_nCS			(MC7	P)   : MUX 14		Ref (H123p)
-A1			(MC21	P)   : MUX 15		Ref (C35p)
-A5			(MC9	P)   : MUX 16		Ref (C41p)
-A11			(MC15	P)   : MUX 17		Ref (B21p)
-A8			(MC18	P)   : MUX 20		Ref (C46p)
-A2			(MC24	P)   : MUX 21		Ref (C37p)
-XXL_92			(MC3	FB)  : MUX 23		Ref (A15fb)
-A15			(MC11	P)   : MUX 24		Ref (B27p)
-A10			(MC16	P)   : MUX 27		Ref (B19p)
-A12			(MC14	P)   : MUX 29		Ref (B22p)
-A14			(MC12	P)   : MUX 30		Ref (B25p)
-BEEPER			(MC4	P)   : MUX 32		Ref (A16p)
-A9			(MC17	P)   : MUX 33		Ref (B17p)
-A7			(MC19	P)   : MUX 34		Ref (C45p)
-XXL_91			(MC2	FB)  : MUX 37		Ref (A12fb)
+Q0			(MC10	P)   : MUX 4		Ref (H125p)
+PHI2			(MC7	P)   : MUX 5		Ref (H113p)
+A12			(MC16	P)   : MUX 7		Ref (B22p)
+RESET			(MC23	P)   : MUX 8		Ref (A14p)
+A13			(MC15	P)   : MUX 9		Ref (B24p)
+SLOW0			(MC25	P)   : MUX 10		Ref (A11p)
+A10			(MC18	P)   : MUX 11		Ref (B19p)
+CF_nCS			(MC9	P)   : MUX 14		Ref (H123p)
+A5			(MC11	P)   : MUX 16		Ref (C41p)
+A11			(MC17	P)   : MUX 17		Ref (B21p)
+A6			(MC22	P)   : MUX 18		Ref (C43p)
+A4			(MC12	P)   : MUX 21		Ref (C40p)
+XXL_80			(MC3	FB)  : MUX 25		Ref (A11fb)
+A8			(MC20	P)   : MUX 26		Ref (C46p)
+XXL_81			(MC5	FB)  : MUX 27		Ref (A14fb)
+A14			(MC14	P)   : MUX 30		Ref (B25p)
+ACIA_nCS		(MC8	P)   : MUX 31		Ref (H117p)
+BEEPER			(MC6	P)   : MUX 32		Ref (A16p)
+A9			(MC19	P)   : MUX 33		Ref (B17p)
+A7			(MC21	P)   : MUX 34		Ref (C45p)
+Q1			(MC2	FB)  : MUX 39		Ref (A10fb)
 
-FanIn assignment for block B [8]
+FanIn assignment for block B [6]
 {
-DISP_nCS,
 PHI2,
-Q1,Q0,Q2,
+Q0,Q2,Q1,
 RESET,
-SLOW0,SLOW1,
+SLOW1,
 }
 Multiplexer assignment for block B
-Q1			(MC2	FB)  : MUX 3		Ref (B31fb)
-Q0			(MC5	P)   : MUX 4		Ref (H125p)
-SLOW0			(MC8	P)   : MUX 6		Ref (A11p)
-Q2			(MC3	FB)  : MUX 7		Ref (B32fb)
-RESET			(MC6	P)   : MUX 8		Ref (A14p)
-PHI2			(MC4	P)   : MUX 11		Ref (H113p)
-SLOW1			(MC7	P)   : MUX 18		Ref (A9p)
-DISP_nCS		(MC1	P)   : MUX 21		Ref (A8p)
+Q0			(MC4	P)   : MUX 4		Ref (H125p)
+Q2			(MC2	FB)  : MUX 7		Ref (B32fb)
+RESET			(MC5	P)   : MUX 8		Ref (A14p)
+PHI2			(MC3	P)   : MUX 11		Ref (H113p)
+Q1			(MC1	FB)  : MUX 13		Ref (A10fb)
+SLOW1			(MC6	P)   : MUX 18		Ref (A9p)
 
-FanIn assignment for block D [16]
+FanIn assignment for block D [15]
 {
-A6,A5,A13,A1,A10,A12,A11,A8,A4,A15,A14,A9,A7,
+A6,A5,A4,A12,A11,A8,A13,A15,A10,A14,A9,A7,
 DISP_nCS,
 PHI2,
 RnW,
@@ -270,17 +264,16 @@ RnW,
 Multiplexer assignment for block D
 A6			(MC14	P)   : MUX 0		Ref (C43p)
 A5			(MC3	P)   : MUX 2		Ref (C41p)
-A13			(MC7	P)   : MUX 3		Ref (B24p)
+A4			(MC4	P)   : MUX 3		Ref (C40p)
 PHI2			(MC2	P)   : MUX 5		Ref (H113p)
-DISP_nCS		(MC1	P)   : MUX 7		Ref (A8p)
-A1			(MC15	P)   : MUX 9		Ref (C35p)
-A10			(MC10	P)   : MUX 11		Ref (B19p)
-A12			(MC8	P)   : MUX 13		Ref (B22p)
-RnW			(MC16	FB)  : MUX 16		Ref (OE2)
-A11			(MC9	P)   : MUX 17		Ref (B21p)
+A12			(MC8	P)   : MUX 7		Ref (B22p)
+A11			(MC9	P)   : MUX 11		Ref (B21p)
+RnW			(MC15	FB)  : MUX 16		Ref (OE2)
 A8			(MC12	P)   : MUX 20		Ref (C46p)
-A4			(MC4	P)   : MUX 21		Ref (C40p)
+A13			(MC7	P)   : MUX 23		Ref (B24p)
 A15			(MC5	P)   : MUX 24		Ref (B27p)
+DISP_nCS		(MC1	P)   : MUX 25		Ref (A8p)
+A10			(MC10	P)   : MUX 29		Ref (B19p)
 A14			(MC6	P)   : MUX 30		Ref (B25p)
 A9			(MC11	P)   : MUX 33		Ref (B17p)
 A7			(MC13	P)   : MUX 34		Ref (C45p)
@@ -293,7 +286,7 @@ EXP_nCS,
 PHI2,
 RnW,
 VIA_nCS,
-XXL_93,
+XXL_82,
 }
 Multiplexer assignment for block E
 A6			(MC17	P)   : MUX 0		Ref (C43p)
@@ -307,46 +300,42 @@ RnW			(MC18	FB)  : MUX 16		Ref (OE2)
 A11			(MC12	P)   : MUX 17		Ref (B21p)
 A8			(MC15	P)   : MUX 20		Ref (C46p)
 A4			(MC7	P)   : MUX 21		Ref (C40p)
+VIA_nCS			(MC4	P)   : MUX 23		Ref (H115p)
 A15			(MC8	P)   : MUX 24		Ref (B27p)
 EXP_nCS			(MC5	P)   : MUX 25		Ref (H118p)
-VIA_nCS			(MC4	P)   : MUX 27		Ref (H115p)
 A14			(MC9	P)   : MUX 30		Ref (B25p)
 A9			(MC14	P)   : MUX 31		Ref (B17p)
 PHI2			(MC3	P)   : MUX 33		Ref (H113p)
 A7			(MC16	P)   : MUX 34		Ref (C45p)
-XXL_93			(MC2	FB)  : MUX 39		Ref (A14fb)
+XXL_82			(MC2	FB)  : MUX 37		Ref (A15fb)
 
-FanIn assignment for block F [19]
+FanIn assignment for block F [16]
 {
-A6,A5,A4,A1,A10,A12,A11,A8,A0,A15,A13,A14,A9,A7,
-DISP_nWT,DISP_nCS,
+A6,A5,A4,A10,A11,A9,A8,A0,A13,A15,A12,A14,A7,
 RXF,RnW,
 TXE,
 }
 Multiplexer assignment for block F
-A6			(MC13	P)   : MUX 0		Ref (C43p)
-A5			(MC2	P)   : MUX 2		Ref (C41p)
-A4			(MC3	P)   : MUX 3		Ref (C40p)
-DISP_nWT		(MC19	P)   : MUX 4		Ref (B30p)
-DISP_nCS		(MC1	P)   : MUX 7		Ref (A8p)
-A1			(MC14	P)   : MUX 9		Ref (C35p)
-A10			(MC9	P)   : MUX 11		Ref (B19p)
-RXF			(MC17	P)   : MUX 12		Ref (E78p)
-A12			(MC7	P)   : MUX 13		Ref (B22p)
-TXE			(MC18	P)   : MUX 14		Ref (E80p)
-RnW			(MC15	FB)  : MUX 16		Ref (OE2)
-A11			(MC8	P)   : MUX 17		Ref (B21p)
-A8			(MC11	P)   : MUX 20		Ref (C46p)
-A0			(MC16	P)   : MUX 21		Ref (C33p)
-A15			(MC4	P)   : MUX 24		Ref (B27p)
-A13			(MC6	P)   : MUX 25		Ref (B24p)
-A14			(MC5	P)   : MUX 30		Ref (B25p)
-A9			(MC10	P)   : MUX 31		Ref (B17p)
-A7			(MC12	P)   : MUX 34		Ref (C45p)
+A6			(MC12	P)   : MUX 0		Ref (C43p)
+A5			(MC1	P)   : MUX 2		Ref (C41p)
+A4			(MC2	P)   : MUX 3		Ref (C40p)
+A10			(MC8	P)   : MUX 9		Ref (B19p)
+A11			(MC7	P)   : MUX 11		Ref (B21p)
+RXF			(MC15	P)   : MUX 12		Ref (E78p)
+A9			(MC9	P)   : MUX 13		Ref (B17p)
+TXE			(MC16	P)   : MUX 14		Ref (E80p)
+RnW			(MC13	FB)  : MUX 16		Ref (OE2)
+A8			(MC10	P)   : MUX 20		Ref (C46p)
+A0			(MC14	P)   : MUX 21		Ref (C33p)
+A13			(MC5	P)   : MUX 23		Ref (B24p)
+A15			(MC3	P)   : MUX 24		Ref (B27p)
+A12			(MC6	P)   : MUX 29		Ref (B22p)
+A14			(MC4	P)   : MUX 30		Ref (B25p)
+A7			(MC11	P)   : MUX 34		Ref (C45p)
 
 FanIn assignment for block H [18]
 {
-A5,A4,A12,A10,A14,A11,A6,A8,A15,A13,A9,A7,
+A5,A13,A12,A11,A9,A14,A6,A8,A15,A10,A4,A7,
 CLK,
 PHI2,
 Q0,Q2,Q1,
@@ -354,37 +343,37 @@ RESET,
 }
 Multiplexer assignment for block H
 A5			(MC5	P)   : MUX 2		Ref (C41p)
-A4			(MC6	P)   : MUX 3		Ref (C40p)
+A13			(MC9	P)   : MUX 3		Ref (B24p)
 Q0			(MC4	P)   : MUX 4		Ref (H125p)
 CLK			(MC18	FB)  : MUX 5		Ref (GCLK)
 A12			(MC10	P)   : MUX 7		Ref (B22p)
 RESET			(MC17	P)   : MUX 8		Ref (A14p)
-A10			(MC12	P)   : MUX 11		Ref (B19p)
+A11			(MC11	P)   : MUX 11		Ref (B21p)
+A9			(MC13	P)   : MUX 13		Ref (B17p)
 A14			(MC8	P)   : MUX 16		Ref (B25p)
-A11			(MC11	P)   : MUX 17		Ref (B21p)
 A6			(MC16	P)   : MUX 18		Ref (C43p)
 PHI2			(MC3	P)   : MUX 19		Ref (H113p)
 A8			(MC14	P)   : MUX 20		Ref (C46p)
 A15			(MC7	P)   : MUX 24		Ref (B27p)
-A13			(MC9	P)   : MUX 25		Ref (B24p)
-A9			(MC13	P)   : MUX 31		Ref (B17p)
+A10			(MC12	P)   : MUX 27		Ref (B19p)
+A4			(MC6	P)   : MUX 29		Ref (C40p)
 A7			(MC15	P)   : MUX 34		Ref (C45p)
 Q2			(MC2	FB)  : MUX 37		Ref (B32fb)
-Q1			(MC1	FB)  : MUX 39		Ref (B31fb)
+Q1			(MC1	FB)  : MUX 39		Ref (A10fb)
 
 Creating JEDEC file D:\REPOSITORIES\LT6502\SOFTWARE\CPLD\LT6502_GLUE.jed ...
 
 TQFP100 programmed logic:
 -----------------------------------
-!CF_nCS = (A4 & A5 & !A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15);
-
-!ACIA_nCS = (!A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15);
-
 BEEPER = ((BEEPER & !A5)
 	# (BEEPER & A4)
 	# (D2 & A15 & !A14 & A13 & A12 & A11 & A10 & A9 & A8 & A7 & !A6 & A5 & !A4)
-	# XXL_91
-	# XXL_92);
+	# XXL_79
+	# XXL_80);
+
+!CF_nCS = (A4 & A5 & !A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15);
+
+!ACIA_nCS = (!A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15);
 
 CLK_OUT = CLK;
 
@@ -394,34 +383,32 @@ CF_nRES = RESET;
 
 D1 = !TXE;
 
-DISP_nRES = RESET;
-
-D3 = !DISP_nWT;
-
 DISP_BL = 1;
+
+DISP_nRES = RESET;
 
 !EXP_nCS = (!A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15);
 
-!DISP_nCS = (!A2 & !A3 & A4 & !A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15);
+!DISP_nCS = (A4 & !A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15);
 
 !PHI2.D = (PHI2.Q & Q0.Q & Q1.Q & Q2.Q);
 
 !Q0.D = (PHI2.Q & Q0.Q);
 
-RAM_nCS0 = A15;
+RD = (!PHI2.Q
+	# (A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15)
+	# !RnW);
 
 Q2.D = ((PHI2.Q & !Q1.Q & Q2.Q)
 	# (PHI2.Q & Q2.Q & !Q0.Q)
 	# (PHI2.Q & Q1.Q & !Q2.Q & Q0.Q)
 	# (!PHI2.Q & SLOW1));
 
-!RD_FT = (A0 & A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15 & PHI2.Q & RnW);
-
 ROM_nCS = 0;
 
-RD = (!PHI2.Q
-	# (A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15)
-	# !RnW);
+RAM_nCS0 = A15;
+
+!RD_FT = (A0 & A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15 & PHI2.Q & RnW);
 
 RW = ((A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15)
 	# RnW
@@ -433,13 +420,12 @@ RW = ((A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15)
 
 WR_FT = (A0 & A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15 & PHI2.Q & !RnW);
 
-DISP_DATA_EN = (!A1 & !DISP_nCS);
+DISP_DATA_EN = !DISP_nCS;
 
-Q1.D = ((PHI2.Q & Q0.Q & !Q1.Q)
-	# (PHI2.Q & !Q0.Q & Q1.Q)
-	# (DISP_nCS & !PHI2.Q & SLOW0));
+!Q1.D = ((PHI2.Q & Q0.Q & Q1.Q)
+	# XXL_81);
 
-DISP_E = (!A1 & !DISP_nCS & PHI2.Q & !Q0.Q);
+DISP_E = (!DISP_nCS & PHI2.Q & !Q0.Q);
 
 LED = CF_nCS;
 
@@ -447,21 +433,27 @@ RAM_nCS1 = (!DISP_nCS
 	# !EXP_nCS
 	# !VIA_nCS
 	# A14
-	# XXL_93);
+	# XXL_82);
 
-XXL_91 = ((BEEPER & !A15)
+XXL_79 = ((BEEPER & !A15)
 	# (BEEPER & A14)
 	# (BEEPER & !A13)
 	# (BEEPER & !A12)
 	# (BEEPER & !A11));
 
-XXL_92 = ((BEEPER & !A10)
+XXL_80 = ((BEEPER & !A10)
 	# (BEEPER & !A9)
 	# (BEEPER & !A8)
 	# (BEEPER & !A7)
 	# (BEEPER & A6));
 
-XXL_93 = (!A15
+XXL_81 = ((!PHI2.Q & A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15)
+	# (!PHI2.Q & !ACIA_nCS)
+	# (!PHI2.Q & !DISP_nCS)
+	# (!PHI2.Q & !SLOW0)
+	# (PHI2.Q & !Q0.Q & !Q1.Q));
+
+XXL_82 = (!A15
 	# !CF_nCS
 	# (!A4 & A5 & !A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13)
 	# (A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13)
@@ -470,8 +462,6 @@ XXL_93 = (!A15
 D0.OE = (!A0 & A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15 & RnW);
 
 D1.OE = (!A0 & A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11 & A12 & A13 & !A14 & A15 & RnW);
-
-D3.OE = (A1 & !DISP_nCS);
 
 PHI2.C = CLK;
 
@@ -493,7 +483,6 @@ Q1.AR = !RESET;
 TQFP100 Pin/Node Placement:
 ------------------------------------
 Pin 4  = TDI; /* MC 32 */
-Pin 5  = DISP_nWT; /* MC 30 */
 Pin 6  = DISP_BL; /* MC 29 */
 Pin 7  = A15; /* MC 27 */
 Pin 8  = A14; /* MC 25 */
@@ -508,9 +497,6 @@ Pin 17 = A7; /* MC 45 */
 Pin 19 = A6; /* MC 43 */ 
 Pin 20 = A5; /* MC 41 */ 
 Pin 21 = A4; /* MC 40 */ 
-Pin 22 = A3; /* MC 38 */ 
-Pin 23 = A2; /* MC 37 */ 
-Pin 24 = A1; /* MC 35 */ 
 Pin 25 = A0; /* MC 33 */ 
 Pin 27 = DISP_DATA_EN; /* MC 64 */ 
 Pin 36 = RW; /* MC 51 */ 
@@ -523,7 +509,6 @@ Pin 47 = WR_FT; /* MC 75 */
 Pin 48 = RD_FT; /* MC 77 */ 
 Pin 49 = RXF; /* MC 78 */ 
 Pin 50 = TXE; /* MC 80 */ 
-Pin 56 = D3; /* MC 88 */ 
 Pin 57 = D2; /* MC 89 */ 
 Pin 58 = D1; /* MC 91 */ 
 Pin 60 = D0; /* MC 93 */ 
@@ -547,10 +532,11 @@ Pin 97 = SLOW1; /* MC  9 */
 Pin 98 = DISP_nCS; /* MC  8 */
 Pin 99 = DISP_nRES; /* MC  6 */
 Pin 100 = DISP_E; /* MC  5 */
-PINNODE 612 = XXL_91; /* MC 12 Feedback */
-PINNODE 614 = XXL_93; /* MC 14 Feedback */
-PINNODE 615 = XXL_92; /* MC 15 Feedback */
-PINNODE 631 = Q1; /* MC 31 Feedback */
+PINNODE 610 = Q1; /* MC 10 Feedback */
+PINNODE 611 = XXL_80; /* MC 11 Feedback */
+PINNODE 612 = XXL_79; /* MC 12 Feedback */
+PINNODE 614 = XXL_81; /* MC 14 Feedback */
+PINNODE 615 = XXL_82; /* MC 15 Feedback */
 PINNODE 632 = Q2; /* MC 32 Feedback */
 
 ** Resource Usage **
@@ -580,12 +566,12 @@ MC6   99   on   DISP_nRES    C----  --              --        --             1  
 MC7   0         --                  --              --        --             0     slow
 MC8   98   on   DISP_nCS     C----  --              --        --             1     slow
 MC9   97   --   SLOW1        INPUT  --              --        --             0     slow
-MC10  0         --                  --              --        --             0     slow
-MC11  96   --   SLOW0        INPUT  --              --        --             0     slow
-MC12  0         --                  XXL_91   C----  NA        --             5     slow
+MC10  0         --                  Q1       Dg-r-  --        --             3     slow
+MC11  96   --   SLOW0        INPUT  XXL_80   C----  NA        --             5     slow
+MC12  0         --                  XXL_79   C----  NA        --             5     slow
 MC13  94   on   LED          C----  --              --        --             1     slow
-MC14  93   --   RESET        INPUT  XXL_93   C----  NA        --             5     slow
-MC15  0         --                  XXL_92   C----  NA        --             5     slow
+MC14  93   --   RESET        INPUT  XXL_81   C----  NA        --             5     slow
+MC15  0         --                  XXL_82   C----  NA        --             5     slow
 MC16  92   on   BEEPER       C----  --              NA        --             5     slow
 MC17  14   --   A9           INPUT  --              --        --             0     slow
 MC18  0         --                  --              --        --             0     slow
@@ -600,15 +586,15 @@ MC26  0         --                  --              --        --             0  
 MC27  7    --   A15          INPUT  --              --        --             0     slow
 MC28  0         --                  --              --        --             0     slow
 MC29  6    on   DISP_BL      C----  --              --        --             0     slow
-MC30  5    --   DISP_nWT     INPUT  --              --        --             0     slow
-MC31  0         --                  Q1       Dg-r-  --        --             4     slow
+MC30  5         --                  --              --        --             0     slow
+MC31  0         --                  --              --        --             0     slow
 MC32  4    --   TDI          INPUT  Q2       Dg-r-  NA        --             5     slow
 MC33  25   --   A0           INPUT  --              --        --             0     slow
 MC34  0         --                  --              --        --             0     slow
-MC35  24   --   A1           INPUT  --              --        --             0     slow
+MC35  24        --                  --              --        --             0     slow
 MC36  0         --                  --              --        --             0     slow
-MC37  23   --   A2           INPUT  --              --        --             0     slow
-MC38  22   --   A3           INPUT  --              --        --             0     slow
+MC37  23        --                  --              --        --             0     slow
+MC38  22        --                  --              --        --             0     slow
 MC39  0         --                  --              --        --             0     slow
 MC40  21   --   A4           INPUT  --              --        --             0     slow
 MC41  20   --   A5           INPUT  --              --        --             0     slow
@@ -658,7 +644,7 @@ MC84  0         --                  --              --        --             0  
 MC85  54        --                  --              --        --             0     slow
 MC86  55        --                  --              --        --             0     slow
 MC87  0         --                  --              --        --             0     slow
-MC88  56   PT   D3           C----  --              --        --             2     slow
+MC88  56        --                  --              --        --             0     slow
 MC89  57   --   D2           INPUT  --              --        --             0     slow
 MC90  0         --                  --              --        --             0     slow
 MC91  58   PT   D1           C----  --              --        --             2     slow
@@ -705,25 +691,25 @@ MC0   88        --                  --              --        --             0  
 MC0   87        CLK          INPUT  --              --        --             0     slow
 
 Logic Array Block	Logic Cells	I/O Pins	Foldbacks	TotalPT		FanIN	Cascades
-A: LC1	- LC16		8/16(50%)	8/16(50%)	0/16(0%)	24/80(30%)	(25)	0
-B: LC17	- LC32		3/16(18%)	10/16(62%)	0/16(0%)	9/80(11%)	(8)	0
-C: LC33	- LC48		0/16(0%)	10/16(62%)	0/16(0%)	0/80(0%)	(16)	0
+A: LC1	- LC16		10/16(62%)	8/16(50%)	0/16(0%)	32/80(40%)	(25)	0
+B: LC17	- LC32		2/16(12%)	9/16(56%)	0/16(0%)	5/80(6%)	(6)	0
+C: LC33	- LC48		0/16(0%)	7/16(43%)	0/16(0%)	0/80(0%)	(15)	0
 D: LC49	- LC64		3/16(18%)	3/16(18%)	0/16(0%)	7/80(8%)	(19)	0
-E: LC65	- LC80		6/16(37%)	8/16(50%)	0/16(0%)	9/80(11%)	(19)	0
-F: LC81	- LC96		3/16(18%)	5/16(31%)	0/16(0%)	6/80(7%)	(18)	0
+E: LC65	- LC80		6/16(37%)	8/16(50%)	0/16(0%)	9/80(11%)	(16)	0
+F: LC81	- LC96		2/16(12%)	4/16(25%)	0/16(0%)	4/80(5%)	(18)	0
 G: LC97	- LC112		0/16(0%)	1/16(6%)	0/16(0%)	0/80(0%)	(18)	0
 H: LC113- LC128		8/16(50%)	8/16(50%)	0/16(0%)	10/80(12%)	(18)	0
 
 Total dedicated input used:	2/4 	(50%)
-Total I/O pins used		53/80 	(66%)
+Total I/O pins used		48/80 	(60%)
 Total Logic cells used 		31/128 	(24%)
 Total Flip-Flop used 		4/128 	(3%)
 Total Foldback logic used 	0/128 	(0%)
 Total Nodes+FB/MCells 		31/128 	(24%)
 Total cascade used 		0
-Total input pins 		29
-Total output pins 		26
-Total Pts 			65
+Total input pins 		25
+Total output pins 		25
+Total Pts 			67
 Creating pla file D:\REPOSITORIES\LT6502\SOFTWARE\CPLD\LT6502_GLUE.tt3 with 0 inputs 0 outputs, 0 pins 0 nodes and 0 pterms...
 
 ----------------  End fitter, Design FITS
