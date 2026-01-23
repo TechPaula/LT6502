@@ -1132,6 +1132,167 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Device:C_Polarized"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0.254)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "C"
+				(at 0.635 2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "C_Polarized"
+				(at 0.635 -2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" ""
+				(at 0.9652 -3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Polarized capacitor"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "cap capacitor"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "CP_*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "C_Polarized_0_1"
+				(rectangle
+					(start -2.286 0.508)
+					(end 2.286 1.016)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.778 2.286) (xy -0.762 2.286)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.27 2.794) (xy -1.27 1.778)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start 2.286 -0.508)
+					(end -2.286 -1.016)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+			)
+			(symbol "C_Polarized_1_1"
+				(pin passive line
+					(at 0 3.81 270)
+					(length 2.794)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -3.81 90)
+					(length 2.794)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Device:R"
 			(pin_numbers
 				(hide yes)
@@ -3719,7 +3880,7 @@
 		)
 		(uuid "35da4e89-84b7-4f22-9786-9fc2260ed7be")
 	)
-	(text_box "V1.0-V1.1 Changes\nAdded cutout for reset switch\nAdded cutout for LS1 and moved it\nExpanded pads on L2 for ease of soldering\nChange R46 to 51K\nChange R47 to 120K\nAdded Pull ups to SLOW0 and SLOW1\nAdd Display Data Enable line\nNote CF_nCS and CF_nRES are swapped (oops), fixed in CPLD\nCLK and CLK/2 are swapped in CPLD\nFixed battery connector polarity to save swapping wires.\nChange top of R57 from 5V to VSYS to stop odd charging behaviour\nChange R64 and R84 to reduce LED brightness\nChange R88 to reduce distortion on speaker\nAdded D1 & D14 to ensure console chip is powered when not connected"
+	(text_box "V1.0-V1.1 Changes\nAdded cutout for reset switch\nAdded cutout for LS1 and moved it\nExpanded pads on L2 for ease of soldering\nChange R46 to 51K\nChange R47 to 120K\nAdded Pull ups to SLOW0 and SLOW1\nAdd Display Data Enable line\nNote CF_nCS and CF_nRES are swapped (oops), fixed in CPLD\nCLK and CLK/2 are swapped in CPLD\nFixed battery connector polarity to save swapping wires.\nChange top of R57 from 5V to VSYS to stop odd charging behaviour\nChange R64 and R84 to reduce LED brightness\nChange R88 to reduce distortion on speaker\nAdded D1 & D14 to ensure console chip is powered when not connected\nAdded 10K pull up for nRXF on FTDI\nAdded electrolytic caps to 3.3V Display supply"
 		(exclude_from_sim no)
 		(at 179.07 238.76 0)
 		(size 100.33 38.1)
@@ -3834,6 +3995,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "c5f0d603-bda4-463c-b9ec-ffc37c74df8c")
+	)
+	(junction
+		(at 74.93 142.24)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "c7e3c7ac-a9db-4d9d-bc01-4e043ed89978")
 	)
 	(junction
 		(at 167.64 170.18)
@@ -5077,6 +5244,16 @@
 	)
 	(wire
 		(pts
+			(xy 74.93 138.43) (xy 74.93 142.24)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0c911818-0995-4083-93c0-93779749b024")
+	)
+	(wire
+		(pts
 			(xy 66.04 167.64) (xy 41.91 167.64)
 		)
 		(stroke
@@ -6240,6 +6417,16 @@
 	)
 	(wire
 		(pts
+			(xy 90.17 142.24) (xy 90.17 148.59)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "50594db4-756c-40da-a85f-7d5d35781514")
+	)
+	(wire
+		(pts
 			(xy 132.08 110.49) (xy 147.32 110.49)
 		)
 		(stroke
@@ -7036,6 +7223,16 @@
 		)
 		(uuid "838ee627-6d13-4b90-b976-f32fd1c069b5")
 	)
+	(wire
+		(pts
+			(xy 74.93 142.24) (xy 80.01 142.24)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "84afaaea-2e17-48c1-8055-5c55970547f8")
+	)
 	(bus
 		(pts
 			(xy 162.56 25.4) (xy 361.95 25.4)
@@ -7389,6 +7586,16 @@
 		)
 		(uuid "96e974db-eeab-412e-80fd-a268aa3f3ffe")
 	)
+	(wire
+		(pts
+			(xy 74.93 142.24) (xy 74.93 157.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "97336521-ab81-4298-ac0b-4a1423cfc518")
+	)
 	(bus
 		(pts
 			(xy 361.95 55.88) (xy 361.95 99.06)
@@ -7570,6 +7777,16 @@
 			(type default)
 		)
 		(uuid "a5af63d0-0a9d-4293-aa29-3d5d4640cd4c")
+	)
+	(wire
+		(pts
+			(xy 90.17 142.24) (xy 87.63 142.24)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a61fb6ef-6514-4d1d-9826-aed78e8401fc")
 	)
 	(wire
 		(pts
@@ -13751,6 +13968,91 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:C_Polarized")
+		(at 83.82 142.24 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "3cb19a6f-15ed-4538-ac86-0e1608deacc0")
+		(property "Reference" "C59"
+			(at 83.82 136.906 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "250uF 16V"
+			(at 83.82 138.684 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:CP_Elec_10x12.5"
+			(at 87.63 141.2748 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 83.82 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Polarized capacitor"
+			(at 83.82 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" "667-EEV-FK1V681Q"
+			(at 83.82 142.24 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "DNF"
+			(at 83.82 142.24 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "663dfa6a-00f4-4174-a082-ac5fbf76f73b")
+		)
+		(pin "2"
+			(uuid "7941d185-a8fb-4113-910b-debd53b12297")
+		)
+		(instances
+			(project "LT6502"
+				(path "/a2243a34-697c-4939-97f7-df548e421864"
+					(reference "C59")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R")
 		(at 77.47 194.31 90)
 		(unit 1)
@@ -15884,6 +16186,70 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 90.17 148.59 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "aec28607-c01d-4b4c-a5c1-cb0137ae74b9")
+		(property "Reference" "#PWR0241"
+			(at 90.17 154.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 90.17 153.1525 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 90.17 148.59 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 90.17 148.59 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 90.17 148.59 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "72204020-925c-4a06-9393-4524c47baf47")
+		)
+		(instances
+			(project "LT6502"
+				(path "/a2243a34-697c-4939-97f7-df548e421864"
+					(reference "#PWR0241")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:+5V")
 		(at 39.37 31.75 0)
 		(unit 1)
@@ -16304,7 +16670,7 @@
 	)
 	(symbol
 		(lib_id "power:+5V")
-		(at 74.93 157.48 0)
+		(at 74.93 138.43 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -16312,7 +16678,7 @@
 		(dnp no)
 		(uuid "bafa8d2a-065e-4277-8a61-7bed7736fafb")
 		(property "Reference" "#PWR020"
-			(at 74.93 161.29 0)
+			(at 74.93 142.24 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16321,7 +16687,7 @@
 			)
 		)
 		(property "Value" "+5V"
-			(at 74.93 153.924 0)
+			(at 74.93 134.874 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16329,7 +16695,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 74.93 157.48 0)
+			(at 74.93 138.43 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16338,7 +16704,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 74.93 157.48 0)
+			(at 74.93 138.43 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16347,7 +16713,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 74.93 157.48 0)
+			(at 74.93 138.43 0)
 			(effects
 				(font
 					(size 1.27 1.27)
