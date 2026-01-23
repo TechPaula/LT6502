@@ -186,7 +186,6 @@ KEYDL2				; Inner loop
 	PLA
 	RTS
 
-
 LAB_WAIT_Rx
     LDA A_sts       ; get ACIA status
     AND #$08        ; mask rx buffer status flag
@@ -195,7 +194,11 @@ LAB_WAIT_Rx
     LDA A_rxd       ; get byte from ACIA data port
 
 
-; byte in from simulated ACIA or Keyboard
+; byte in from simulated ACIA (CONSOLE) or Keyboard
+; TODO with keybed attached UPPER-CASE letters sent via console sometimes get missed
+;	sending an O should give $4F but sometimes gives $0F
+;	sending an Z should give $5A but sometimes gives $1A
+;	sending an o should give $6F and always does
 ACIAin
 	LDA	ACIAStatus
 	AND	#1
@@ -204,13 +207,13 @@ ACIAin
 	LDA	ACIAData
 	SEC		; Carry set if key available
 	RTS
-NoDataIn:
+NoDataIn:	; nothing from console port
 	CLC		; Carry clear if no key pressed
-
-KEY_WAIT_Rx
+	
+KEY_RX		; we get here if there is no data from console
     LDA A_sts       ; get ACIA status
     AND #$08        ; mask rx buffer status flag
-    BEQ KEYB_NoData ; loop if rx buffer empty
+    BEQ KEYB_NoData ; skip if rx buffer empty
 
     LDA A_rxd       ; get byte from ACIA data port
 	SEC				; Carry set if key available

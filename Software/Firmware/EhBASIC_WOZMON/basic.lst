@@ -9565,7 +9565,6 @@ Current file: min_mon.asm
 00F394  1  68           	PLA
 00F395  1  60           	RTS
 00F396  1               
-00F396  1               
 00F396  1               LAB_WAIT_Rx
 00F396  1  AD E1 BF         LDA A_sts       ; get ACIA status
 00F399  1  29 08            AND #$08        ; mask rx buffer status flag
@@ -9574,7 +9573,11 @@ Current file: min_mon.asm
 00F39D  1  AD E0 BF         LDA A_rxd       ; get byte from ACIA data port
 00F3A0  1               
 00F3A0  1               
-00F3A0  1               ; byte in from simulated ACIA or Keyboard
+00F3A0  1               ; byte in from simulated ACIA (CONSOLE) or Keyboard
+00F3A0  1               ; TODO with keybed attached UPPER-CASE letters sent via console sometimes get missed
+00F3A0  1               ;	sending an O should give $4F but sometimes gives $0F
+00F3A0  1               ;	sending an Z should give $5A but sometimes gives $1A
+00F3A0  1               ;	sending an o should give $6F and always does
 00F3A0  1               ACIAin
 00F3A0  1  AD F0 BF     	LDA	ACIAStatus
 00F3A3  1  29 01        	AND	#1
@@ -9583,13 +9586,13 @@ Current file: min_mon.asm
 00F3A9  1  AD F1 BF     	LDA	ACIAData
 00F3AC  1  38           	SEC		; Carry set if key available
 00F3AD  1  60           	RTS
-00F3AE  1               NoDataIn:
+00F3AE  1               NoDataIn:	; nothing from console port
 00F3AE  1  18           	CLC		; Carry clear if no key pressed
 00F3AF  1               
-00F3AF  1               KEY_WAIT_Rx
+00F3AF  1               KEY_RX		; we get here if there is no data from console
 00F3AF  1  AD E1 BF         LDA A_sts       ; get ACIA status
 00F3B2  1  29 08            AND #$08        ; mask rx buffer status flag
-00F3B4  1  F0 05            BEQ KEYB_NoData ; loop if rx buffer empty
+00F3B4  1  F0 05            BEQ KEYB_NoData ; skip if rx buffer empty
 00F3B6  1               
 00F3B6  1  AD E0 BF         LDA A_rxd       ; get byte from ACIA data port
 00F3B9  1  38           	SEC				; Carry set if key available
