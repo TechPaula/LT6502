@@ -1,6 +1,5 @@
 	.feature labels_without_colons
 	.feature force_range
-	.pc02
 
 ; minimal monitor for EhBASIC and 6502 simulator V1.05
 
@@ -20,6 +19,7 @@ NMI_vec	= IRQ_vec+$0A	; NMI code vector
 ; setup for the 6502 simulator environment
 
 IO_AREA	= $BFF0		; set I/O area for this monitor (Console port)
+
 
 ;ACIAsimwr	= IO_AREA+$01	; simulated ACIA write port
 ;ACIAsimrd	= IO_AREA+$04	; simulated ACIA read port
@@ -55,13 +55,11 @@ MyTEMP			= $650
 
 
 
-BEEP_PW			= $FF
-BEEP_PW2		= $7F
-BEEP_LN			= $80
+BEEP_PW			= $FF		; pitch of "low" beep
+BEEP_PW2		= $7F		; pitch of "high" beep
+BEEP_LN			= $20
 
-; bits for load/save
-;Itempl            = $11       ; temporary integer low byte, defined in EhBASIC
-;Itemph            = Itempl+1  ; temporary integer high byte, defined in EhBASIC
+DELAY_LEN1		= $05		; Also affects pitch
 
 ; now the code. all this does is set up the vectors and interrupt code
 ; and wait for the user to select [C]old or [W]arm start. nothing else
@@ -105,18 +103,8 @@ LAB_signon
 	INY					; increment index
 	BNE	LAB_signon		; loop, branch always
 
-
-; send signon message to keyboard
 KYB_msg
-	LDY #$00
-
-KYB_signon
-	LDA KYB_mess,Y
-	BEQ	LAB_nokey		; exit loop if done
-
-	JSR KEYBout			;
-	INY					; increment index
-	BNE KYB_signon		; loop, always
+	JSR KYB_cwmmsg
 
 LAB_nokey
 	JSR	V_INPT			; call scan input device
@@ -137,17 +125,21 @@ LAB_nokey
 	LDA #$0D
 	STA A_txd			; clear keyboard screen
 	
+	JSR KYB_basmsg
 	JSR PWR_BEEP_HIGH
+
 	JMP	LAB_COLD		; do EhBASIC cold start
 
 LAB_dowarm
 	LDA #$0D
 	STA A_txd			; clear keyboard screen
 	JSR PWR_BEEP_HIGH
+	JSR KYB_basmsg
 	JMP	LAB_WARM		; do EhBASIC warm start
 LAB_dowoz
 	LDA #$0D
 	STA A_txd			; clear keyboard screen
+	JSR KYB_wozmsg
 	JSR PWR_BEEP_HIGH
     JMP EWOZ
 
@@ -165,13 +157,14 @@ SWait:
 ; When screen is working insert screen text output code here
 
 
-
-
-
-
 ; end of screen output code
 	RTS						; end of ACIAout
 
+
+
+
+
+; byte in from simulated ACIA
 
 ; byte out to keyboard 65c51
 KEYBout
@@ -228,164 +221,59 @@ KEYB_NoData
 	RTS
 
 
+; Show "EhBASIC " on keyboard display
+KYB_basmsg
+	LDY #$00
 
-IO_LOAD				; load vector for EhBASIC
-	JSR CF_LDSV_INIT	; set sector based on command line value
+KYB_basmsg_lp
+	LDA KYB_basmess_str,Y
+	BEQ	KYB_basmsg_exit	; exit loop if done
 
+	JSR KEYBout			;
+	INY					; increment index
+	BNE KYB_basmsg_lp	; loop, always
 
+KYB_basmsg_exit
 	RTS
 
+; Show "eWOZMON " on keyboard display
+KYB_wozmsg
+	LDY #$00
 
-IO_SAVE				; save vector for EhBASIC
-	JSR CF_LDSV_INIT	; Set sector based on command line value
+KYB_wozmsg_lp
+	LDA KYB_wozmess_str,Y
+	BEQ	KYB_wozmsg_exit	; exit loop if done
 
+	JSR KEYBout			;
+	INY					; increment index
+	BNE KYB_wozmsg_lp	; loop, always
 
+KYB_wozmsg_exit
 	RTS
 
+; send signon message to keyboard
+KYB_cwmmsg
+	LDY #$00
 
-IO_DIR				; dir vector for EhBASIC
-	PHY
-	JSR CF_INIT	
+KYB_signon
+	LDA KYB_mess,Y
+	BEQ	KEYB_exit		; exit loop if done
 
-	LDA #$00		; Set address for "DIR" file
-	STA CF_LB
-	STA CF_HB
-	LDA #$01		; "DIR" file stored atin sectors $000100 - $0001FF 
-	STA CF_MB
-	JSR CF_SET_LBA
-
-	JSR CF_READ_SECTOR
-
-IO_DIR_SHOW
-	LDA #$00
-	STA MyLP1
-
-IO_DIR_SHOW_LP1
-	LDY MyLP1
-	LDA CF_BUFF1,Y
-
-	; '0' IS START OF NEW LINE
-	; HERE WE NEED TO SKIP 2 BYTES 
-	; NEXT TWO BYTES ARE LINE NUMBER, LSByte THEN MSByte 
-	; THEN WE HAVE LINE DATA WHICH WE DISPLAY UNTIL WE HIT '0'
-
-IO_DIR_NEXTCHAR	
-	LDA MyLP1
-	CLC
-	ADC #$01
-	STA MyLP1
-	BCC IO_DIR_SHOW_LP1
-
-	
-	
-
-
-
-	PLY
-    RTS
-
-
-
-	; init CF card
-CF_INIT
-		; SET 8 BIT MODE
-	LDA #$01
-	STA CF_ADDRESS+1
-	LDA #$EF
-	STA CF_ADDRESS+7
-	JSR CF_WAIT
-		; SET ONE SECTOR (512 BYTES) AT A TIME
-	LDA #$01
-	STA CF_ADDRESS+2
-	JSR CF_WAIT
-
+	JSR KEYBout			;
+	INY					; increment index
+	BNE KYB_signon		; loop, always
+KEYB_exit
 	RTS
 
-	; Wait for flag MSB of status register to be clear
-CF_WAIT
-    LDA CF_ADDRESS + 7
-    BMI CF_WAIT
-    RTS
-
-	; set the block address to read from
-CF_SET_LBA
-	LDA CF_LB			; LOWER BYTE FETCH
-	STA CF_ADDRESS+3
-	JSR CF_WAIT
-	LDA CF_MB			; MIDDLE BYTE FETCH
-	STA CF_ADDRESS+4
-	JSR CF_WAIT
-	LDA CF_HB			; HIGH BYTE FETCH
-	STA CF_ADDRESS+5
-	JSR CF_WAIT
-	LDA #$E0			; DRIVE/HEAD REGISTER
-	STA CF_ADDRESS+6
-	JSR CF_WAIT
+; empty load vector for EhBASIC
+IO_LOAD
 	RTS
-
-	; Read sector from CF and dump in buffer
-CF_READ_SECTOR
-	LDA #$20
-	STA CF_ADDRESS+7
-	JSR CF_WAIT
-
-	LDY #0
-
-
-CF_RD_LP1
-	LDA CF_ADDRESS
-	STA CF_BUFF1,Y
-
-	JSR CF_WAIT
-	INY
-	BNE CF_RD_LP1
-
-	LDY #0
-
-CF_RD_LP2
-	LDA CF_ADDRESS
-	STA CF_BUFF2,Y
-	JSR CF_WAIT
-	INY
-	BNE CF_RD_LP2
-
-CF_RD_EXIT
+; empty save vector for EhBASIC
+IO_SAVE
 	RTS
-
-CF_LDSV_INIT
-	JSR LAB_GFPN	; Get fixed point number as intenger
-
-	LDA #$00
-	STA CF_LB		; We start at the beginning of the save location
-
-	LDA Itempl		; This is the low byte from command line
-
-		; Increment by 1 and remember if we did for next byte
-	LDY #$00	
-	STY MyTEMP		; Set to 0 for later
-	CLC				; clear carry (just to be safe)
-	ADC #$01		; add 1 to A (using INA does NOT change carry flag)
-	BCC CF_LDSV_BCC ; if carry clear (i.e. we didn't go over 255) skip these next two bits
-
-	LDY #$01
-	STY MyTEMP
-CF_LDSV_BCC	 
-	STA CF_MB  
-	LDA Itemph		; this is the high byte from command line
-	CLC					; clear carry to be safe
-	ADC MyTEMP			; add in 0 or 1 depending if MB rolled over.
-	STA CF_HB
-
-	JSR PRBYTE		; DEBUGGING OUTPUT SHOWING CHOSEN LOAD/SAVE LOCATION IN HEX
-	LDA CF_MB
-	JSR PRBYTE
-	
-	
-	JSR CF_SET_LBA
-	RTS	
-
-
-
+; empty DIR vector for EhBASIC
+IO_DIR
+	RTS
 
 
 ; display init
@@ -393,52 +281,8 @@ DISP_INIT
 
 	rts
 
-; power on beep
-PWR_BEEP_LOW
-	LDA #BEEP_PW		; PULSE WIDTH	
-	STA MyDL	
-
-	LDA #BEEP_LN		; LENGTH	
-	STA MyDL2
-
-BEEP_LP1
-	LDA #$FF
-	STA A_Beeper
-	NOP
-	DEC MyDL
-	BNE BEEP_LP1
-
-	LDA #$FF			; SLOW DOWN
-	STA MyDL	
-BEEP_LP1A
-	NOP
-	DEC MyDL
-	BNE BEEP_LP1A
-
-	LDA #BEEP_PW
-	STA MyDL
-
-BEEP_LP2
-	LDA #$00
-	STA A_Beeper
-	NOP
-	DEC MyDL
-	BNE BEEP_LP2
-
-	DEC MyDL2
-	BNE BEEP_LP1
-
-	LDA #$FF			; SLOW DOWN
-	STA MyDL	
-BEEP_LP2A
-	NOP
-	DEC MyDL
-	BNE BEEP_LP2A
-
-	RTS
-
+; HIGH BEEP
 PWR_BEEP_HIGH
-	; Second beep, higher pitch
 	LDA #BEEP_PW2		; PULSE WIDTH	
 	STA MyDL	
 
@@ -448,6 +292,7 @@ PWR_BEEP_HIGH
 BEEP_LP3
 	LDA #$FF
 	STA A_Beeper
+	JSR DELAY1
 	DEC MyDL
 	BNE BEEP_LP3
 	
@@ -457,6 +302,7 @@ BEEP_LP3
 BEEP_LP4
 	LDA #$00
 	STA A_Beeper
+	JSR DELAY1
 	DEC MyDL
 	BNE BEEP_LP4
 
@@ -464,6 +310,49 @@ BEEP_LP4
 	BNE BEEP_LP3
 
 	RTS	
+
+; LOW BEEP
+PWR_BEEP_LOW
+	LDA #BEEP_PW		; PULSE WIDTH	
+	STA MyDL	
+
+	LDA #BEEP_LN		; LENGTH	
+	STA MyDL2
+
+BEEP_LOW1
+	LDA #$FF
+	STA A_Beeper
+	JSR DELAY1
+	DEC MyDL
+	BNE BEEP_LOW1
+	
+	LDA #BEEP_PW
+	STA MyDL
+
+BEEP_LOW2
+	LDA #$00
+	STA A_Beeper
+	JSR DELAY1
+	DEC MyDL
+	BNE BEEP_LOW2
+
+	DEC MyDL2
+	BNE BEEP_LOW1
+
+	RTS	
+
+; Delay loop for random things
+DELAY1
+	LDA #DELAY_LEN1
+	STA MyDL3
+
+DELAY1_LP
+	DEC MyDL3
+	BNE DELAY1_LP
+
+	RTS
+
+
 
 ; vector tables
 LAB_vec
@@ -502,9 +391,12 @@ LAB_mess 					; sign on string (Console)
 	.byte	$0D,$0A,"LT6502 - [C]Cold/[W]arm or [M]onitor ?",$00
 
 KYB_mess					; sign on string (Keyboard)
-	.byte	$0D,"C/W/M ?",$00
+	.byte	$0D,"C/W/M ? ",$00
+KYB_basmess_str
+	.byte	$0D,$0D,"EhBASIC ",$00
+KYB_wozmess_str
+	.byte	$0D,$0D,"eWOZMON ",$00
 
-	
 
 ; system vectors
 

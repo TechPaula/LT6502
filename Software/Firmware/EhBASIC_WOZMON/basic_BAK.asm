@@ -361,10 +361,11 @@ TK_BITSET         = TK_SWAP+1       ; BITSET token
 TK_BITCLR         = TK_BITSET+1     ; BITCLR token
 TK_IRQ            = TK_BITCLR+1     ; IRQ token
 TK_NMI            = TK_IRQ+1        ; NMI token
-TK_WOZMON         = TK_NMI+1        ;? WOZMON token
+TK_DIR            = TK_NMI+1        ; DIR token
+
 ; secondary command tokens, can't start a statement
 
-TK_TAB            = TK_WOZMON+1     ; TAB token ;? UPDATED FOR WOZMON 
+TK_TAB            = TK_DIR+1        ; TAB token
 TK_ELSE           = TK_TAB+1        ; ELSE token
 TK_TO             = TK_ELSE+1       ; TO token
 TK_FN             = TK_TO+1         ; FN token
@@ -457,7 +458,7 @@ VEC_IN            = VEC_CC+2  ; input vector
 VEC_OUT           = VEC_IN+2  ; output vector
 VEC_LD            = VEC_OUT+2 ; load vector
 VEC_SV            = VEC_LD+2  ; save vector
-VEC_WOZ           = VEC_SV+2  ;? wozmon vector
+VEC_DIR           = VEC_SV+2  ; DIR vector
 ; end bulk initialize by min_mon.asm from LAB_vec at LAB_stlp
 
 ; Ibuffs can now be anywhere in RAM, ensure that the max length is < $80,
@@ -470,7 +471,10 @@ Ibuffs            = VEC_SV+$16
 Ibuffe            = Ibuffs+$47; end of input buffer
 
 Ram_base          = $0800     ; start of user RAM (set as needed, should be page aligned)
-Ram_top           = $C000     ; end of user RAM+1 (set as needed, should be page aligned)
+Ram_top           = $BE00     ; end of user RAM+1 (set as needed, should be page aligned)
+
+;Ram_base          = $0300     ; start of user RAM (set as needed, should be page aligned)
+;Ram_top           = $C000     ; end of user RAM+1 (set as needed, should be page aligned)
 
 Stack_floor       = 16        ; bytes left free on stack for background interrupts
 
@@ -7914,8 +7918,9 @@ V_LOAD
       JMP   (VEC_LD)          ; load BASIC program
 V_SAVE
       JMP   (VEC_SV)          ; save BASIC program
-V_WOZMON
-      JMP   (VEC_WOZ)         ;? Start Wozmon
+V_DIR
+      JMP   (VEC_DIR)         ; directory list of CF
+
 ; The rest are tables messages and code for RAM
 
 ; the rest of the code is tables and BASIC start-up code
@@ -8161,7 +8166,7 @@ LAB_CTBL
       .word LAB_BITCLR-1      ; BITCLR          new command
       .word LAB_IRQ-1         ; IRQ             new command
       .word LAB_NMI-1         ; NMI             new command
-      .word V_WOZMON-1        ;? WOZMON         VERY NEW COMMAND
+      .word V_DIR -1          ; DIR             new command
 
 ; function pre process routine table
 
@@ -8415,6 +8420,8 @@ LBB_DEF
       .byte "EF",TK_DEF       ; DEF
 LBB_DIM
       .byte "IM",TK_DIM       ; DIM
+LBB_DIR
+      .byte "IR",TK_DIR       ; DIR
 LBB_DOKE
       .byte "OKE",TK_DOKE     ; DOKE note - "DOKE" must come before "DO"
 LBB_DO
@@ -8593,8 +8600,6 @@ LBB_VPTR
       .byte "ARPTR(",TK_VPTR  ; VARPTR(
       .byte $00
 TAB_ASCW
-LBB_WOZMON
-      .byte "OZMON",TK_WOZMON ;? WOZMON
 LBB_WAIT
       .byte "AIT",TK_WAIT     ; WAIT
 LBB_WHILE
@@ -8602,7 +8607,6 @@ LBB_WHILE
 LBB_WIDTH
       .byte "IDTH",TK_WIDTH   ; WIDTH
       .byte $00
-
 TAB_POWR
       .byte TK_POWER,$00      ; ^
 
@@ -8700,8 +8704,9 @@ LAB_KEYT
       .word LBB_IRQ           ; IRQ
       .byte 3,'N'
       .word LBB_NMI           ; NMI
-      .byte 6,'W'             
-      .word LBB_WOZMON        ;?WOZMON
+      .byte 3,'D'
+      .byte LBB_DIR           ; DIR
+
 ; secondary commands (can't start a statement)
 
       .byte 4,'T'

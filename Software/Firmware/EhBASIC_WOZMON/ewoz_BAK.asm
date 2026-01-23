@@ -17,7 +17,7 @@
    .segment "WOZMON"
     .org    $F000
 
-IN          = $0300          ;*Input buffer
+IN          = $0200          ;*Input buffer
 XAML        = $24            ;*Index pointers
 XAMH        = $25
 STL         = $26
@@ -106,9 +106,7 @@ NEXTITEM:
             CMP #$BA        ;":"?
             BEQ SETSTOR     ;Yes, set STOR mode.
          CMP #$D2        ;"R"?
-            BEQ RUN         ;Yes, run user program
-            CMP #$D1          ;? QUIT TO BASIC.
-            BEQ EXIT          ;
+            BEQ RUN         ;Yes, run user program.
             CMP #$CC        ;* "L"?
             BEQ LOADINT     ;* Yes, Load Intel Code.
             STX L           ;$00->L.
@@ -140,9 +138,7 @@ NOTHEX:
       CPY YSAV        ;Check if L, H empty (no hex digits).
          BNE NOESCAPE   ;* Branch out of range, had to improvise...
             JMP ESCAPE      ;Yes, generate ESC sequence.
-EXIT:                         ; ? RTS TO BASIC
-         RTS
-         
+
 RUN:
          JSR ACTRUN      ;* JSR to the Address we want to run.
          JMP   SOFTRESET   ;* When returned for the program, reset EWOZ.

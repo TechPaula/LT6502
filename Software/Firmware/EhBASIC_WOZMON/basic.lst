@@ -4,7 +4,6 @@ Current file: min_mon.asm
 
 000000r 1               	.feature labels_without_colons
 000000r 1               	.feature force_range
-000000r 1               	.pc02
 000000r 1               
 000000r 1               ; minimal monitor for EhBASIC and 6502 simulator V1.05
 000000r 1               
@@ -376,11 +375,10 @@ Current file: min_mon.asm
 000000r 2               TK_BITCLR         = TK_BITSET+1     ; BITCLR token
 000000r 2               TK_IRQ            = TK_BITCLR+1     ; IRQ token
 000000r 2               TK_NMI            = TK_IRQ+1        ; NMI token
-000000r 2               TK_DIR            = TK_NMI+1        ; DIR token
-000000r 2               
+000000r 2               TK_WOZMON         = TK_NMI+1        ;? WOZMON token
 000000r 2               ; secondary command tokens, can't start a statement
 000000r 2               
-000000r 2               TK_TAB            = TK_DIR+1        ; TAB token
+000000r 2               TK_TAB            = TK_WOZMON+1     ; TAB token ;? UPDATED FOR WOZMON
 000000r 2               TK_ELSE           = TK_TAB+1        ; ELSE token
 000000r 2               TK_TO             = TK_ELSE+1       ; TO token
 000000r 2               TK_FN             = TK_TO+1         ; FN token
@@ -473,7 +471,7 @@ Current file: min_mon.asm
 000000r 2               VEC_OUT           = VEC_IN+2  ; output vector
 000000r 2               VEC_LD            = VEC_OUT+2 ; load vector
 000000r 2               VEC_SV            = VEC_LD+2  ; save vector
-000000r 2               VEC_DIR           = VEC_SV+2  ; DIR vector
+000000r 2               VEC_WOZ           = VEC_SV+2  ;? wozmon vector
 000000r 2               ; end bulk initialize by min_mon.asm from LAB_vec at LAB_stlp
 000000r 2               
 000000r 2               ; Ibuffs can now be anywhere in RAM, ensure that the max length is < $80,
@@ -486,10 +484,7 @@ Current file: min_mon.asm
 000000r 2               Ibuffe            = Ibuffs+$47; end of input buffer
 000000r 2               
 000000r 2               Ram_base          = $0800     ; start of user RAM (set as needed, should be page aligned)
-000000r 2               Ram_top           = $BE00     ; end of user RAM+1 (set as needed, should be page aligned)
-000000r 2               
-000000r 2               ;Ram_base          = $0300     ; start of user RAM (set as needed, should be page aligned)
-000000r 2               ;Ram_top           = $C000     ; end of user RAM+1 (set as needed, should be page aligned)
+000000r 2               Ram_top           = $C000     ; end of user RAM+1 (set as needed, should be page aligned)
 000000r 2               
 000000r 2               Stack_floor       = 16        ; bytes left free on stack for background interrupts
 000000r 2               
@@ -570,7 +565,7 @@ Current file: min_mon.asm
 00C05A  2               
 00C05A  2  E6 12              INC   Itemph            ; increment temporary integer high byte
 00C05C  2  A5 12              LDA   Itemph            ; get high byte
-00C05E  2  C9 BE              CMP   #>Ram_top         ; compare with top of RAM+1
+00C05E  2  C9 C0              CMP   #>Ram_top         ; compare with top of RAM+1
 00C060  2  F0 1D              BEQ   LAB_2DB6          ; branch if match (end of user RAM)
 00C062  2               
 00C062  2               LAB_2D99
@@ -821,12 +816,12 @@ Current file: min_mon.asm
 00C13F  2               LAB_XERR
 00C13F  2  20 93 C8           JSR   LAB_CRLF          ; print CR/LF
 00C142  2               
-00C142  2  BD C5 E6           LDA   LAB_BAER,X        ; get error message pointer low byte
-00C145  2  BC C6 E6           LDY   LAB_BAER+1,X      ; get error message pointer high byte
+00C142  2  BD C9 E6           LDA   LAB_BAER,X        ; get error message pointer low byte
+00C145  2  BC CA E6           LDY   LAB_BAER+1,X      ; get error message pointer high byte
 00C148  2  20 D4 C8           JSR   LAB_18C3          ; print null terminated string from memory
 00C14B  2               
 00C14B  2  20 8C C3           JSR   LAB_1491          ; flush stack and clear continue flag
-00C14E  2  A9 02              LDA   #<LAB_EMSG        ; point to " Error" low addr
+00C14E  2  A9 06              LDA   #<LAB_EMSG        ; point to " Error" low addr
 00C150  2  A0 E8              LDY   #>LAB_EMSG        ; point to " Error" high addr
 00C152  2               LAB_1269
 00C152  2  20 D4 C8           JSR   LAB_18C3          ; print null terminated string from memory
@@ -845,7 +840,7 @@ Current file: min_mon.asm
 00C15D  2  A9 00              LDA   #$00              ; clear A
 00C15F  2  85 DF              STA   IrqBase           ; clear enabled byte
 00C161  2  85 DC              STA   NmiBase           ; clear enabled byte
-00C163  2  A9 13              LDA   #<LAB_RMSG        ; point to "Ready" message low byte
+00C163  2  A9 17              LDA   #<LAB_RMSG        ; point to "Ready" message low byte
 00C165  2  A0 E8              LDY   #>LAB_RMSG        ; point to "Ready" message high byte
 00C167  2               
 00C167  2  20 D4 C8           JSR   LAB_18C3          ; go do print string
@@ -1468,7 +1463,7 @@ Current file: min_mon.asm
 00C425  2  E8                 INX                     ; else increment high byte
 00C426  2  18                 CLC                     ; clear carry for add
 00C427  2               LAB_152F
-00C427  2  69 2A              ADC   #<LAB_KEYT        ; add low byte
+00C427  2  69 2D              ADC   #<LAB_KEYT        ; add low byte
 00C429  2  90 01              BCC   LAB_1530          ; branch if no carry
 00C42B  2               
 00C42B  2  E8                 INX                     ; else increment high byte
@@ -1703,7 +1698,7 @@ Current file: min_mon.asm
 00C532  2  90 07              BCC   LAB_165E          ; if was program end just do warm start
 00C534  2               
 00C534  2                                             ; else ..
-00C534  2  A9 FA              LDA   #<LAB_BMSG        ; point to "Break" low byte
+00C534  2  A9 FE              LDA   #<LAB_BMSG        ; point to "Break" low byte
 00C536  2  A0 E7              LDY   #>LAB_BMSG        ; point to "Break" high byte
 00C538  2  4C 52 C1           JMP   LAB_1269          ; print "Break" and do warm start
 00C53B  2               
@@ -2668,7 +2663,7 @@ Current file: min_mon.asm
 00C938  2               
 00C938  2                                             ; mode was INPUT
 00C938  2               LAB_1913
-00C938  2  A9 2E              LDA   #<LAB_REDO        ; point to redo message (low addr)
+00C938  2  A9 32              LDA   #<LAB_REDO        ; point to redo message (low addr)
 00C93A  2  A0 E8              LDY   #>LAB_REDO        ; point to redo message (high addr)
 00C93C  2  20 D4 C8           JSR   LAB_18C3          ; print null terminated string from memory
 00C93F  2  A5 8B              LDA   Cpntrl            ; get continue pointer low byte
@@ -2847,7 +2842,7 @@ Current file: min_mon.asm
 00CA30  2               
 00CA30  2                                             ; user typed too much
 00CA30  2               LAB_1A1B
-00CA30  2  A9 1D              LDA   #<LAB_IMSG        ; point to extra ignored message (low addr)
+00CA30  2  A9 21              LDA   #<LAB_IMSG        ; point to extra ignored message (low addr)
 00CA32  2  A0 E8              LDY   #>LAB_IMSG        ; point to extra ignored message (high addr)
 00CA34  2  4C D4 C8           JMP   LAB_18C3          ; print null terminated string from memory and return
 00CA37  2               
@@ -6592,7 +6587,7 @@ Current file: min_mon.asm
 00DA84  2               ; print " in line [LINE #]"
 00DA84  2               
 00DA84  2               LAB_2953
-00DA84  2  A9 09              LDA   #<LAB_LMSG        ; point to " in line " message low byte
+00DA84  2  A9 0D              LDA   #<LAB_LMSG        ; point to " in line " message low byte
 00DA86  2  A0 E8              LDY   #>LAB_LMSG        ; point to " in line " message high byte
 00DA88  2  20 D4 C8           JSR   LAB_18C3          ; print null terminated string from memory
 00DA8B  2               
@@ -7933,9 +7928,8 @@ Current file: min_mon.asm
 00E0FF  2  6C 09 02           JMP   (VEC_LD)          ; load BASIC program
 00E102  2               V_SAVE
 00E102  2  6C 0B 02           JMP   (VEC_SV)          ; save BASIC program
-00E105  2               V_DIR
-00E105  2  6C 0D 02           JMP   (VEC_DIR)         ; directory list of CF
-00E108  2               
+00E105  2               V_WOZMON
+00E105  2  6C 0D 02           JMP   (VEC_WOZ)         ;? Start Wozmon
 00E108  2               ; The rest are tables messages and code for RAM
 00E108  2               
 00E108  2               ; the rest of the code is tables and BASIC start-up code
@@ -8187,7 +8181,7 @@ Current file: min_mon.asm
 00E26B  2  A2 DD              .word LAB_BITCLR-1      ; BITCLR          new command
 00E26D  2  22 DF              .word LAB_IRQ-1         ; IRQ             new command
 00E26F  2  25 DF              .word LAB_NMI-1         ; NMI             new command
-00E271  2  04 E1              .word V_DIR -1          ; DIR             new command
+00E271  2  04 E1              .word V_WOZMON-1        ;? WOZMON         VERY NEW COMMAND
 00E273  2               
 00E273  2               ; function pre process routine table
 00E273  2               
@@ -8349,23 +8343,23 @@ Current file: min_mon.asm
 00E356  2  A2 E3              .word TAB_ASCB          ; table for "B"
 00E358  2  BB E3              .word TAB_ASCC          ; table for "C"
 00E35A  2  D2 E3              .word TAB_ASCD          ; table for "D"
-00E35C  2  EE E3              .word TAB_ASCE          ; table for "E"
-00E35E  2  FD E3              .word TAB_ASCF          ; table for "F"
-00E360  2  07 E4              .word TAB_ASCG          ; table for "G"
-00E362  2  14 E4              .word TAB_ASCH          ; table for "H"
-00E364  2  1A E4              .word TAB_ASCI          ; table for "I"
-00E366  2  2C E4              .word TAB_ASCL          ; table for "L"
-00E368  2  51 E4              .word TAB_ASCM          ; table for "M"
-00E36A  2  5F E4              .word TAB_ASCN          ; table for "N"
-00E36C  2  71 E4              .word TAB_ASCO          ; table for "O"
-00E36E  2  79 E4              .word TAB_ASCP          ; table for "P"
-00E370  2  8E E4              .word TAB_ASCR          ; table for "R"
-00E372  2  BD E4              .word TAB_ASCS          ; table for "S"
-00E374  2  E8 E4              .word TAB_ASCT          ; table for "T"
-00E376  2  FC E4              .word TAB_ASCU          ; table for "U"
-00E378  2  0D E5              .word TAB_ASCV          ; table for "V"
-00E37A  2  19 E5              .word TAB_ASCW          ; table for "W"
-00E37C  2  28 E5              .word TAB_POWR          ; table for "^"
+00E35C  2  EB E3              .word TAB_ASCE          ; table for "E"
+00E35E  2  FA E3              .word TAB_ASCF          ; table for "F"
+00E360  2  04 E4              .word TAB_ASCG          ; table for "G"
+00E362  2  11 E4              .word TAB_ASCH          ; table for "H"
+00E364  2  17 E4              .word TAB_ASCI          ; table for "I"
+00E366  2  29 E4              .word TAB_ASCL          ; table for "L"
+00E368  2  4E E4              .word TAB_ASCM          ; table for "M"
+00E36A  2  5C E4              .word TAB_ASCN          ; table for "N"
+00E36C  2  6E E4              .word TAB_ASCO          ; table for "O"
+00E36E  2  76 E4              .word TAB_ASCP          ; table for "P"
+00E370  2  8B E4              .word TAB_ASCR          ; table for "R"
+00E372  2  BA E4              .word TAB_ASCS          ; table for "S"
+00E374  2  E5 E4              .word TAB_ASCT          ; table for "T"
+00E376  2  F9 E4              .word TAB_ASCU          ; table for "U"
+00E378  2  0A E5              .word TAB_ASCV          ; table for "V"
+00E37A  2  16 E5              .word TAB_ASCW          ; table for "W"
+00E37C  2  2B E5              .word TAB_POWR          ; table for "^"
 00E37E  2               
 00E37E  2               ; tables for each start character, note if a longer keyword with the same start
 00E37E  2               ; letters as a shorter one exists then it must come first, else the list is in
@@ -8448,574 +8442,575 @@ Current file: min_mon.asm
 00E3DE  2  45 46 99           .byte "EF",TK_DEF       ; DEF
 00E3E1  2               LBB_DIM
 00E3E1  2  49 4D 85           .byte "IM",TK_DIM       ; DIM
-00E3E4  2               LBB_DIR
-00E3E4  2  49 52 AB           .byte "IR",TK_DIR       ; DIR
-00E3E7  2               LBB_DOKE
-00E3E7  2  4F 4B 45 9B        .byte "OKE",TK_DOKE     ; DOKE note - "DOKE" must come before "DO"
-00E3EB  2               LBB_DO
-00E3EB  2  4F 9D              .byte "O",TK_DO         ; DO
-00E3ED  2  00                 .byte $00
-00E3EE  2               TAB_ASCE
-00E3EE  2               LBB_ELSE
-00E3EE  2  4C 53 45 AD        .byte "LSE",TK_ELSE     ; ELSE
-00E3F2  2               LBB_END
-00E3F2  2  4E 44 80           .byte "ND",TK_END       ; END
-00E3F5  2               LBB_EOR
-00E3F5  2  4F 52 BD           .byte "OR",TK_EOR       ; EOR
-00E3F8  2               LBB_EXP
-00E3F8  2  58 50 28 CD        .byte "XP(",TK_EXP      ; EXP(
-00E3FC  2  00                 .byte $00
-00E3FD  2               TAB_ASCF
-00E3FD  2               LBB_FN
-00E3FD  2  4E AF              .byte "N",TK_FN         ; FN
-00E3FF  2               LBB_FOR
-00E3FF  2  4F 52 81           .byte "OR",TK_FOR       ; FOR
-00E402  2               LBB_FRE
-00E402  2  52 45 28 C8        .byte "RE(",TK_FRE      ; FRE(
-00E406  2  00                 .byte $00
-00E407  2               TAB_ASCG
-00E407  2               LBB_GET
-00E407  2  45 54 A5           .byte "ET",TK_GET       ; GET
-00E40A  2               LBB_GOSUB
-00E40A  2  4F 53 55 42        .byte "OSUB",TK_GOSUB   ; GOSUB
-00E40E  2  8D           
-00E40F  2               LBB_GOTO
-00E40F  2  4F 54 4F 89        .byte "OTO",TK_GOTO     ; GOTO
-00E413  2  00                 .byte $00
-00E414  2               TAB_ASCH
-00E414  2               LBB_HEXS
-00E414  2  45 58 24 28        .byte "EX$(",TK_HEXS    ; HEX$(
-00E418  2  DC           
-00E419  2  00                 .byte $00
-00E41A  2               TAB_ASCI
-00E41A  2               LBB_IF
-00E41A  2  46 8B              .byte "F",TK_IF         ; IF
-00E41C  2               LBB_INC
-00E41C  2  4E 43 95           .byte "NC",TK_INC       ; INC
-00E41F  2               LBB_INPUT
-00E41F  2  4E 50 55 54        .byte "NPUT",TK_INPUT   ; INPUT
-00E423  2  84           
-00E424  2               LBB_INT
-00E424  2  4E 54 28 C5        .byte "NT(",TK_INT      ; INT(
-00E428  2               LBB_IRQ
-00E428  2  52 51 A9           .byte "RQ",TK_IRQ       ; IRQ
-00E42B  2  00                 .byte $00
-00E42C  2               TAB_ASCL
-00E42C  2               LBB_LCASES
-00E42C  2  43 41 53 45        .byte "CASE$(",TK_LCASES
-00E430  2  24 28 DA     
-00E433  2                                             ; LCASE$(
-00E433  2               LBB_LEFTS
-00E433  2  45 46 54 24        .byte "EFT$(",TK_LEFTS  ; LEFT$(
-00E437  2  28 E4        
-00E439  2               LBB_LEN
-00E439  2  45 4E 28 D5        .byte "EN(",TK_LEN      ; LEN(
-00E43D  2               LBB_LET
-00E43D  2  45 54 87           .byte "ET",TK_LET       ; LET
-00E440  2               LBB_LIST
-00E440  2  49 53 54 A1        .byte "IST",TK_LIST     ; LIST
-00E444  2               LBB_LOAD
-00E444  2  4F 41 44 97        .byte "OAD",TK_LOAD     ; LOAD
-00E448  2               LBB_LOG
-00E448  2  4F 47 28 CC        .byte "OG(",TK_LOG      ; LOG(
-00E44C  2               LBB_LOOP
-00E44C  2  4F 4F 50 9E        .byte "OOP",TK_LOOP     ; LOOP
-00E450  2  00                 .byte $00
-00E451  2               TAB_ASCM
-00E451  2               LBB_MAX
-00E451  2  41 58 28 DF        .byte "AX(",TK_MAX      ; MAX(
-00E455  2               LBB_MIDS
-00E455  2  49 44 24 28        .byte "ID$(",TK_MIDS    ; MID$(
-00E459  2  E6           
-00E45A  2               LBB_MIN
-00E45A  2  49 4E 28 E0        .byte "IN(",TK_MIN      ; MIN(
-00E45E  2  00                 .byte $00
-00E45F  2               TAB_ASCN
-00E45F  2               LBB_NEW
-00E45F  2  45 57 A3           .byte "EW",TK_NEW       ; NEW
-00E462  2               LBB_NEXT
-00E462  2  45 58 54 82        .byte "EXT",TK_NEXT     ; NEXT
-00E466  2               LBB_NMI
-00E466  2  4D 49 AA           .byte "MI",TK_NMI       ; NMI
-00E469  2               LBB_NOT
-00E469  2  4F 54 B2           .byte "OT",TK_NOT       ; NOT
-00E46C  2               LBB_NULL
-00E46C  2  55 4C 4C 94        .byte "ULL",TK_NULL     ; NULL
-00E470  2  00                 .byte $00
-00E471  2               TAB_ASCO
-00E471  2               LBB_OFF
-00E471  2  46 46 B6           .byte "FF",TK_OFF       ; OFF
-00E474  2               LBB_ON
-00E474  2  4E 93              .byte "N",TK_ON         ; ON
-00E476  2               LBB_OR
-00E476  2  52 BE              .byte "R",TK_OR         ; OR
-00E478  2  00                 .byte $00
-00E479  2               TAB_ASCP
-00E479  2               LBB_PEEK
-00E479  2  45 45 4B 28        .byte "EEK(",TK_PEEK    ; PEEK(
-00E47D  2  D2           
-00E47E  2               LBB_PI
-00E47E  2  49 E1              .byte "I",TK_PI         ; PI
-00E480  2               LBB_POKE
-00E480  2  4F 4B 45 9A        .byte "OKE",TK_POKE     ; POKE
-00E484  2               LBB_POS
-00E484  2  4F 53 28 C9        .byte "OS(",TK_POS      ; POS(
-00E488  2               LBB_PRINT
-00E488  2  52 49 4E 54        .byte "RINT",TK_PRINT   ; PRINT
-00E48C  2  9F           
-00E48D  2  00                 .byte $00
-00E48E  2               TAB_ASCR
-00E48E  2               LBB_READ
-00E48E  2  45 41 44 86        .byte "EAD",TK_READ     ; READ
-00E492  2               LBB_REM
-00E492  2  45 4D 91           .byte "EM",TK_REM       ; REM
-00E495  2               LBB_RESTORE
-00E495  2  45 53 54 4F        .byte "ESTORE",TK_RESTORE
-00E499  2  52 45 8C     
-00E49C  2                                             ; RESTORE
-00E49C  2               LBB_RETIRQ
-00E49C  2  45 54 49 52        .byte "ETIRQ",TK_RETIRQ ; RETIRQ
-00E4A0  2  51 8E        
-00E4A2  2               LBB_RETNMI
-00E4A2  2  45 54 4E 4D        .byte "ETNMI",TK_RETNMI ; RETNMI
-00E4A6  2  49 8F        
-00E4A8  2               LBB_RETURN
-00E4A8  2  45 54 55 52        .byte "ETURN",TK_RETURN ; RETURN
-00E4AC  2  4E 90        
-00E4AE  2               LBB_RIGHTS
-00E4AE  2  49 47 48 54        .byte "IGHT$(",TK_RIGHTS
-00E4B2  2  24 28 E5     
-00E4B5  2                                             ; RIGHT$(
-00E4B5  2               LBB_RND
-00E4B5  2  4E 44 28 CB        .byte "ND(",TK_RND      ; RND(
-00E4B9  2               LBB_RUN
-00E4B9  2  55 4E 8A           .byte "UN",TK_RUN       ; RUN
-00E4BC  2  00                 .byte $00
-00E4BD  2               TAB_ASCS
-00E4BD  2               LBB_SADD
-00E4BD  2  41 44 44 28        .byte "ADD(",TK_SADD    ; SADD(
-00E4C1  2  D4           
-00E4C2  2               LBB_SAVE
-00E4C2  2  41 56 45 98        .byte "AVE",TK_SAVE     ; SAVE
-00E4C6  2               LBB_SGN
-00E4C6  2  47 4E 28 C4        .byte "GN(",TK_SGN      ; SGN(
-00E4CA  2               LBB_SIN
-00E4CA  2  49 4E 28 CF        .byte "IN(",TK_SIN      ; SIN(
-00E4CE  2               LBB_SPC
-00E4CE  2  50 43 28 B0        .byte "PC(",TK_SPC      ; SPC(
-00E4D2  2               LBB_SQR
-00E4D2  2  51 52 28 CA        .byte "QR(",TK_SQR      ; SQR(
-00E4D6  2               LBB_STEP
-00E4D6  2  54 45 50 B3        .byte "TEP",TK_STEP     ; STEP
-00E4DA  2               LBB_STOP
-00E4DA  2  54 4F 50 92        .byte "TOP",TK_STOP     ; STOP
-00E4DE  2               LBB_STRS
-00E4DE  2  54 52 24 28        .byte "TR$(",TK_STRS    ; STR$(
-00E4E2  2  D6           
-00E4E3  2               LBB_SWAP
-00E4E3  2  57 41 50 A6        .byte "WAP",TK_SWAP     ; SWAP
-00E4E7  2  00                 .byte $00
-00E4E8  2               TAB_ASCT
-00E4E8  2               LBB_TAB
-00E4E8  2  41 42 28 AC        .byte "AB(",TK_TAB      ; TAB(
-00E4EC  2               LBB_TAN
-00E4EC  2  41 4E 28 D0        .byte "AN(",TK_TAN      ; TAN(
-00E4F0  2               LBB_THEN
-00E4F0  2  48 45 4E B1        .byte "HEN",TK_THEN     ; THEN
-00E4F4  2               LBB_TO
-00E4F4  2  4F AE              .byte "O",TK_TO         ; TO
-00E4F6  2               LBB_TWOPI
-00E4F6  2  57 4F 50 49        .byte "WOPI",TK_TWOPI   ; TWOPI
-00E4FA  2  E2           
-00E4FB  2  00                 .byte $00
-00E4FC  2               TAB_ASCU
-00E4FC  2               LBB_UCASES
-00E4FC  2  43 41 53 45        .byte "CASE$(",TK_UCASES
-00E500  2  24 28 D9     
-00E503  2                                             ; UCASE$(
-00E503  2               LBB_UNTIL
-00E503  2  4E 54 49 4C        .byte "NTIL",TK_UNTIL   ; UNTIL
-00E507  2  B4           
-00E508  2               LBB_USR
-00E508  2  53 52 28 C7        .byte "SR(",TK_USR      ; USR(
-00E50C  2  00                 .byte $00
-00E50D  2               TAB_ASCV
-00E50D  2               LBB_VAL
-00E50D  2  41 4C 28 D7        .byte "AL(",TK_VAL      ; VAL(
-00E511  2               LBB_VPTR
-00E511  2  41 52 50 54        .byte "ARPTR(",TK_VPTR  ; VARPTR(
-00E515  2  52 28 E3     
-00E518  2  00                 .byte $00
-00E519  2               TAB_ASCW
-00E519  2               LBB_WAIT
-00E519  2  41 49 54 96        .byte "AIT",TK_WAIT     ; WAIT
-00E51D  2               LBB_WHILE
-00E51D  2  48 49 4C 45        .byte "HILE",TK_WHILE   ; WHILE
-00E521  2  B5           
-00E522  2               LBB_WIDTH
-00E522  2  49 44 54 48        .byte "IDTH",TK_WIDTH   ; WIDTH
-00E526  2  A4           
-00E527  2  00                 .byte $00
-00E528  2               TAB_POWR
-00E528  2  BB 00              .byte TK_POWER,$00      ; ^
-00E52A  2               
-00E52A  2               ; new decode table for LIST
-00E52A  2               ; Table is ..
-00E52A  2               ; byte - keyword length, keyword first character
-00E52A  2               ; word - pointer to rest of keyword from dictionary
-00E52A  2               
-00E52A  2               ; note if length is 1 then the pointer is ignored
-00E52A  2               
-00E52A  2               LAB_KEYT
-00E52A  2  03 45              .byte 3,'E'
-00E52C  2  F2 E3              .word LBB_END           ; END
-00E52E  2  03 46              .byte 3,'F'
-00E530  2  FF E3              .word LBB_FOR           ; FOR
-00E532  2  04 4E              .byte 4,'N'
-00E534  2  62 E4              .word LBB_NEXT          ; NEXT
-00E536  2  04 44              .byte 4,'D'
-00E538  2  D2 E3              .word LBB_DATA          ; DATA
-00E53A  2  05 49              .byte 5,'I'
-00E53C  2  1F E4              .word LBB_INPUT         ; INPUT
-00E53E  2  03 44              .byte 3,'D'
-00E540  2  E1 E3              .word LBB_DIM           ; DIM
-00E542  2  04 52              .byte 4,'R'
-00E544  2  8E E4              .word LBB_READ          ; READ
-00E546  2  03 4C              .byte 3,'L'
-00E548  2  3D E4              .word LBB_LET           ; LET
-00E54A  2  03 44              .byte 3,'D'
-00E54C  2  D6 E3              .word LBB_DEC           ; DEC
-00E54E  2  04 47              .byte 4,'G'
-00E550  2  0F E4              .word LBB_GOTO          ; GOTO
-00E552  2  03 52              .byte 3,'R'
-00E554  2  B9 E4              .word LBB_RUN           ; RUN
-00E556  2  02 49              .byte 2,'I'
-00E558  2  1A E4              .word LBB_IF            ; IF
-00E55A  2  07 52              .byte 7,'R'
-00E55C  2  95 E4              .word LBB_RESTORE       ; RESTORE
-00E55E  2  05 47              .byte 5,'G'
-00E560  2  0A E4              .word LBB_GOSUB         ; GOSUB
-00E562  2  06 52              .byte 6,'R'
-00E564  2  9C E4              .word LBB_RETIRQ        ; RETIRQ
-00E566  2  06 52              .byte 6,'R'
-00E568  2  A2 E4              .word LBB_RETNMI        ; RETNMI
-00E56A  2  06 52              .byte 6,'R'
-00E56C  2  A8 E4              .word LBB_RETURN        ; RETURN
-00E56E  2  03 52              .byte 3,'R'
-00E570  2  92 E4              .word LBB_REM           ; REM
-00E572  2  04 53              .byte 4,'S'
-00E574  2  DA E4              .word LBB_STOP          ; STOP
-00E576  2  02 4F              .byte 2,'O'
-00E578  2  74 E4              .word LBB_ON            ; ON
-00E57A  2  04 4E              .byte 4,'N'
-00E57C  2  6C E4              .word LBB_NULL          ; NULL
-00E57E  2  03 49              .byte 3,'I'
-00E580  2  1C E4              .word LBB_INC           ; INC
-00E582  2  04 57              .byte 4,'W'
-00E584  2  19 E5              .word LBB_WAIT          ; WAIT
-00E586  2  04 4C              .byte 4,'L'
-00E588  2  44 E4              .word LBB_LOAD          ; LOAD
-00E58A  2  04 53              .byte 4,'S'
-00E58C  2  C2 E4              .word LBB_SAVE          ; SAVE
-00E58E  2  03 44              .byte 3,'D'
-00E590  2  DE E3              .word LBB_DEF           ; DEF
-00E592  2  04 50              .byte 4,'P'
-00E594  2  80 E4              .word LBB_POKE          ; POKE
-00E596  2  04 44              .byte 4,'D'
-00E598  2  E7 E3              .word LBB_DOKE          ; DOKE
-00E59A  2  04 43              .byte 4,'C'
-00E59C  2  BB E3              .word LBB_CALL          ; CALL
-00E59E  2  02 44              .byte 2,'D'
-00E5A0  2  EB E3              .word LBB_DO            ; DO
-00E5A2  2  04 4C              .byte 4,'L'
-00E5A4  2  4C E4              .word LBB_LOOP          ; LOOP
-00E5A6  2  05 50              .byte 5,'P'
-00E5A8  2  88 E4              .word LBB_PRINT         ; PRINT
-00E5AA  2  04 43              .byte 4,'C'
-00E5AC  2  C9 E3              .word LBB_CONT          ; CONT
-00E5AE  2  04 4C              .byte 4,'L'
-00E5B0  2  40 E4              .word LBB_LIST          ; LIST
-00E5B2  2  05 43              .byte 5,'C'
-00E5B4  2  C4 E3              .word LBB_CLEAR         ; CLEAR
-00E5B6  2  03 4E              .byte 3,'N'
-00E5B8  2  5F E4              .word LBB_NEW           ; NEW
-00E5BA  2  05 57              .byte 5,'W'
-00E5BC  2  22 E5              .word LBB_WIDTH         ; WIDTH
-00E5BE  2  03 47              .byte 3,'G'
-00E5C0  2  07 E4              .word LBB_GET           ; GET
-00E5C2  2  04 53              .byte 4,'S'
-00E5C4  2  E3 E4              .word LBB_SWAP          ; SWAP
-00E5C6  2  06 42              .byte 6,'B'
-00E5C8  2  AD E3              .word LBB_BITSET        ; BITSET
-00E5CA  2  06 42              .byte 6,'B'
-00E5CC  2  A7 E3              .word LBB_BITCLR        ; BITCLR
-00E5CE  2  03 49              .byte 3,'I'
-00E5D0  2  28 E4              .word LBB_IRQ           ; IRQ
-00E5D2  2  03 4E              .byte 3,'N'
-00E5D4  2  66 E4              .word LBB_NMI           ; NMI
-00E5D6  2  03 44              .byte 3,'D'
-00E5D8  2  E4                 .byte LBB_DIR           ; DIR
-00E5D9  2               
-00E5D9  2               ; secondary commands (can't start a statement)
-00E5D9  2               
-00E5D9  2  04 54              .byte 4,'T'
-00E5DB  2  E8 E4              .word LBB_TAB           ; TAB
-00E5DD  2  04 45              .byte 4,'E'
-00E5DF  2  EE E3              .word LBB_ELSE          ; ELSE
-00E5E1  2  02 54              .byte 2,'T'
-00E5E3  2  F4 E4              .word LBB_TO            ; TO
-00E5E5  2  02 46              .byte 2,'F'
-00E5E7  2  FD E3              .word LBB_FN            ; FN
-00E5E9  2  04 53              .byte 4,'S'
-00E5EB  2  CE E4              .word LBB_SPC           ; SPC
-00E5ED  2  04 54              .byte 4,'T'
-00E5EF  2  F0 E4              .word LBB_THEN          ; THEN
-00E5F1  2  03 4E              .byte 3,'N'
-00E5F3  2  69 E4              .word LBB_NOT           ; NOT
-00E5F5  2  04 53              .byte 4,'S'
-00E5F7  2  D6 E4              .word LBB_STEP          ; STEP
-00E5F9  2  05 55              .byte 5,'U'
-00E5FB  2  03 E5              .word LBB_UNTIL         ; UNTIL
-00E5FD  2  05 57              .byte 5,'W'
-00E5FF  2  1D E5              .word LBB_WHILE         ; WHILE
-00E601  2  03 4F              .byte 3,'O'
-00E603  2  71 E4              .word LBB_OFF           ; OFF
-00E605  2               
-00E605  2               ; opperators
-00E605  2               
-00E605  2  01 2B              .byte 1,'+'
-00E607  2  00 00              .word $0000             ; +
-00E609  2  01 2D              .byte 1,'-'
-00E60B  2  00 00              .word $0000             ; -
-00E60D  2  01 2A              .byte 1,'*'
-00E60F  2  00 00              .word $0000             ; *
-00E611  2  01 2F              .byte 1,'/'
-00E613  2  00 00              .word $0000             ; /
-00E615  2  01 5E              .byte 1,'^'
-00E617  2  00 00              .word $0000             ; ^
-00E619  2  03 41              .byte 3,'A'
-00E61B  2  96 E3              .word LBB_AND           ; AND
-00E61D  2  03 45              .byte 3,'E'
-00E61F  2  F5 E3              .word LBB_EOR           ; EOR
-00E621  2  02 4F              .byte 2,'O'
-00E623  2  76 E4              .word LBB_OR            ; OR
-00E625  2  02 3E              .byte 2,'>'
-00E627  2  8C E3              .word LBB_RSHIFT        ; >>
-00E629  2  02 3C              .byte 2,'<'
-00E62B  2  86 E3              .word LBB_LSHIFT        ; <<
-00E62D  2  01 3E              .byte 1,'>'
-00E62F  2  00 00              .word $0000             ; >
-00E631  2  01 3D              .byte 1,'='
-00E633  2  00 00              .word $0000             ; =
-00E635  2  01 3C              .byte 1,'<'
-00E637  2  00 00              .word $0000             ; <
-00E639  2               
-00E639  2               ; functions
-00E639  2               
-00E639  2  04 53              .byte 4,'S'             ;
-00E63B  2  C6 E4              .word LBB_SGN           ; SGN
-00E63D  2  04 49              .byte 4,'I'             ;
-00E63F  2  24 E4              .word LBB_INT           ; INT
-00E641  2  04 41              .byte 4,'A'             ;
-00E643  2  92 E3              .word LBB_ABS           ; ABS
-00E645  2  04 55              .byte 4,'U'             ;
-00E647  2  08 E5              .word LBB_USR           ; USR
-00E649  2  04 46              .byte 4,'F'             ;
-00E64B  2  02 E4              .word LBB_FRE           ; FRE
-00E64D  2  04 50              .byte 4,'P'             ;
-00E64F  2  84 E4              .word LBB_POS           ; POS
-00E651  2  04 53              .byte 4,'S'             ;
-00E653  2  D2 E4              .word LBB_SQR           ; SQR
-00E655  2  04 52              .byte 4,'R'             ;
-00E657  2  B5 E4              .word LBB_RND           ; RND
-00E659  2  04 4C              .byte 4,'L'             ;
-00E65B  2  48 E4              .word LBB_LOG           ; LOG
-00E65D  2  04 45              .byte 4,'E'             ;
-00E65F  2  F8 E3              .word LBB_EXP           ; EXP
-00E661  2  04 43              .byte 4,'C'             ;
-00E663  2  CD E3              .word LBB_COS           ; COS
-00E665  2  04 53              .byte 4,'S'             ;
-00E667  2  CA E4              .word LBB_SIN           ; SIN
-00E669  2  04 54              .byte 4,'T'             ;
-00E66B  2  EC E4              .word LBB_TAN           ; TAN
-00E66D  2  04 41              .byte 4,'A'             ;
-00E66F  2  9D E3              .word LBB_ATN           ; ATN
-00E671  2  05 50              .byte 5,'P'             ;
-00E673  2  79 E4              .word LBB_PEEK          ; PEEK
-00E675  2  05 44              .byte 5,'D'             ;
-00E677  2  D9 E3              .word LBB_DEEK          ; DEEK
-00E679  2  05 53              .byte 5,'S'             ;
-00E67B  2  BD E4              .word LBB_SADD          ; SADD
-00E67D  2  04 4C              .byte 4,'L'             ;
-00E67F  2  39 E4              .word LBB_LEN           ; LEN
-00E681  2  05 53              .byte 5,'S'             ;
-00E683  2  DE E4              .word LBB_STRS          ; STR$
-00E685  2  04 56              .byte 4,'V'             ;
-00E687  2  0D E5              .word LBB_VAL           ; VAL
-00E689  2  04 41              .byte 4,'A'             ;
-00E68B  2  99 E3              .word LBB_ASC           ; ASC
-00E68D  2  07 55              .byte 7,'U'             ;
-00E68F  2  FC E4              .word LBB_UCASES        ; UCASE$
-00E691  2  07 4C              .byte 7,'L'             ;
-00E693  2  2C E4              .word LBB_LCASES        ; LCASE$
-00E695  2  05 43              .byte 5,'C'             ;
-00E697  2  BF E3              .word LBB_CHRS          ; CHR$
-00E699  2  05 48              .byte 5,'H'             ;
-00E69B  2  14 E4              .word LBB_HEXS          ; HEX$
-00E69D  2  05 42              .byte 5,'B'             ;
-00E69F  2  A2 E3              .word LBB_BINS          ; BIN$
-00E6A1  2  07 42              .byte 7,'B'             ;
-00E6A3  2  B3 E3              .word LBB_BITTST        ; BITTST
-00E6A5  2  04 4D              .byte 4,'M'             ;
-00E6A7  2  51 E4              .word LBB_MAX           ; MAX
+00E3E4  2               LBB_DOKE
+00E3E4  2  4F 4B 45 9B        .byte "OKE",TK_DOKE     ; DOKE note - "DOKE" must come before "DO"
+00E3E8  2               LBB_DO
+00E3E8  2  4F 9D              .byte "O",TK_DO         ; DO
+00E3EA  2  00                 .byte $00
+00E3EB  2               TAB_ASCE
+00E3EB  2               LBB_ELSE
+00E3EB  2  4C 53 45 AD        .byte "LSE",TK_ELSE     ; ELSE
+00E3EF  2               LBB_END
+00E3EF  2  4E 44 80           .byte "ND",TK_END       ; END
+00E3F2  2               LBB_EOR
+00E3F2  2  4F 52 BD           .byte "OR",TK_EOR       ; EOR
+00E3F5  2               LBB_EXP
+00E3F5  2  58 50 28 CD        .byte "XP(",TK_EXP      ; EXP(
+00E3F9  2  00                 .byte $00
+00E3FA  2               TAB_ASCF
+00E3FA  2               LBB_FN
+00E3FA  2  4E AF              .byte "N",TK_FN         ; FN
+00E3FC  2               LBB_FOR
+00E3FC  2  4F 52 81           .byte "OR",TK_FOR       ; FOR
+00E3FF  2               LBB_FRE
+00E3FF  2  52 45 28 C8        .byte "RE(",TK_FRE      ; FRE(
+00E403  2  00                 .byte $00
+00E404  2               TAB_ASCG
+00E404  2               LBB_GET
+00E404  2  45 54 A5           .byte "ET",TK_GET       ; GET
+00E407  2               LBB_GOSUB
+00E407  2  4F 53 55 42        .byte "OSUB",TK_GOSUB   ; GOSUB
+00E40B  2  8D           
+00E40C  2               LBB_GOTO
+00E40C  2  4F 54 4F 89        .byte "OTO",TK_GOTO     ; GOTO
+00E410  2  00                 .byte $00
+00E411  2               TAB_ASCH
+00E411  2               LBB_HEXS
+00E411  2  45 58 24 28        .byte "EX$(",TK_HEXS    ; HEX$(
+00E415  2  DC           
+00E416  2  00                 .byte $00
+00E417  2               TAB_ASCI
+00E417  2               LBB_IF
+00E417  2  46 8B              .byte "F",TK_IF         ; IF
+00E419  2               LBB_INC
+00E419  2  4E 43 95           .byte "NC",TK_INC       ; INC
+00E41C  2               LBB_INPUT
+00E41C  2  4E 50 55 54        .byte "NPUT",TK_INPUT   ; INPUT
+00E420  2  84           
+00E421  2               LBB_INT
+00E421  2  4E 54 28 C5        .byte "NT(",TK_INT      ; INT(
+00E425  2               LBB_IRQ
+00E425  2  52 51 A9           .byte "RQ",TK_IRQ       ; IRQ
+00E428  2  00                 .byte $00
+00E429  2               TAB_ASCL
+00E429  2               LBB_LCASES
+00E429  2  43 41 53 45        .byte "CASE$(",TK_LCASES
+00E42D  2  24 28 DA     
+00E430  2                                             ; LCASE$(
+00E430  2               LBB_LEFTS
+00E430  2  45 46 54 24        .byte "EFT$(",TK_LEFTS  ; LEFT$(
+00E434  2  28 E4        
+00E436  2               LBB_LEN
+00E436  2  45 4E 28 D5        .byte "EN(",TK_LEN      ; LEN(
+00E43A  2               LBB_LET
+00E43A  2  45 54 87           .byte "ET",TK_LET       ; LET
+00E43D  2               LBB_LIST
+00E43D  2  49 53 54 A1        .byte "IST",TK_LIST     ; LIST
+00E441  2               LBB_LOAD
+00E441  2  4F 41 44 97        .byte "OAD",TK_LOAD     ; LOAD
+00E445  2               LBB_LOG
+00E445  2  4F 47 28 CC        .byte "OG(",TK_LOG      ; LOG(
+00E449  2               LBB_LOOP
+00E449  2  4F 4F 50 9E        .byte "OOP",TK_LOOP     ; LOOP
+00E44D  2  00                 .byte $00
+00E44E  2               TAB_ASCM
+00E44E  2               LBB_MAX
+00E44E  2  41 58 28 DF        .byte "AX(",TK_MAX      ; MAX(
+00E452  2               LBB_MIDS
+00E452  2  49 44 24 28        .byte "ID$(",TK_MIDS    ; MID$(
+00E456  2  E6           
+00E457  2               LBB_MIN
+00E457  2  49 4E 28 E0        .byte "IN(",TK_MIN      ; MIN(
+00E45B  2  00                 .byte $00
+00E45C  2               TAB_ASCN
+00E45C  2               LBB_NEW
+00E45C  2  45 57 A3           .byte "EW",TK_NEW       ; NEW
+00E45F  2               LBB_NEXT
+00E45F  2  45 58 54 82        .byte "EXT",TK_NEXT     ; NEXT
+00E463  2               LBB_NMI
+00E463  2  4D 49 AA           .byte "MI",TK_NMI       ; NMI
+00E466  2               LBB_NOT
+00E466  2  4F 54 B2           .byte "OT",TK_NOT       ; NOT
+00E469  2               LBB_NULL
+00E469  2  55 4C 4C 94        .byte "ULL",TK_NULL     ; NULL
+00E46D  2  00                 .byte $00
+00E46E  2               TAB_ASCO
+00E46E  2               LBB_OFF
+00E46E  2  46 46 B6           .byte "FF",TK_OFF       ; OFF
+00E471  2               LBB_ON
+00E471  2  4E 93              .byte "N",TK_ON         ; ON
+00E473  2               LBB_OR
+00E473  2  52 BE              .byte "R",TK_OR         ; OR
+00E475  2  00                 .byte $00
+00E476  2               TAB_ASCP
+00E476  2               LBB_PEEK
+00E476  2  45 45 4B 28        .byte "EEK(",TK_PEEK    ; PEEK(
+00E47A  2  D2           
+00E47B  2               LBB_PI
+00E47B  2  49 E1              .byte "I",TK_PI         ; PI
+00E47D  2               LBB_POKE
+00E47D  2  4F 4B 45 9A        .byte "OKE",TK_POKE     ; POKE
+00E481  2               LBB_POS
+00E481  2  4F 53 28 C9        .byte "OS(",TK_POS      ; POS(
+00E485  2               LBB_PRINT
+00E485  2  52 49 4E 54        .byte "RINT",TK_PRINT   ; PRINT
+00E489  2  9F           
+00E48A  2  00                 .byte $00
+00E48B  2               TAB_ASCR
+00E48B  2               LBB_READ
+00E48B  2  45 41 44 86        .byte "EAD",TK_READ     ; READ
+00E48F  2               LBB_REM
+00E48F  2  45 4D 91           .byte "EM",TK_REM       ; REM
+00E492  2               LBB_RESTORE
+00E492  2  45 53 54 4F        .byte "ESTORE",TK_RESTORE
+00E496  2  52 45 8C     
+00E499  2                                             ; RESTORE
+00E499  2               LBB_RETIRQ
+00E499  2  45 54 49 52        .byte "ETIRQ",TK_RETIRQ ; RETIRQ
+00E49D  2  51 8E        
+00E49F  2               LBB_RETNMI
+00E49F  2  45 54 4E 4D        .byte "ETNMI",TK_RETNMI ; RETNMI
+00E4A3  2  49 8F        
+00E4A5  2               LBB_RETURN
+00E4A5  2  45 54 55 52        .byte "ETURN",TK_RETURN ; RETURN
+00E4A9  2  4E 90        
+00E4AB  2               LBB_RIGHTS
+00E4AB  2  49 47 48 54        .byte "IGHT$(",TK_RIGHTS
+00E4AF  2  24 28 E5     
+00E4B2  2                                             ; RIGHT$(
+00E4B2  2               LBB_RND
+00E4B2  2  4E 44 28 CB        .byte "ND(",TK_RND      ; RND(
+00E4B6  2               LBB_RUN
+00E4B6  2  55 4E 8A           .byte "UN",TK_RUN       ; RUN
+00E4B9  2  00                 .byte $00
+00E4BA  2               TAB_ASCS
+00E4BA  2               LBB_SADD
+00E4BA  2  41 44 44 28        .byte "ADD(",TK_SADD    ; SADD(
+00E4BE  2  D4           
+00E4BF  2               LBB_SAVE
+00E4BF  2  41 56 45 98        .byte "AVE",TK_SAVE     ; SAVE
+00E4C3  2               LBB_SGN
+00E4C3  2  47 4E 28 C4        .byte "GN(",TK_SGN      ; SGN(
+00E4C7  2               LBB_SIN
+00E4C7  2  49 4E 28 CF        .byte "IN(",TK_SIN      ; SIN(
+00E4CB  2               LBB_SPC
+00E4CB  2  50 43 28 B0        .byte "PC(",TK_SPC      ; SPC(
+00E4CF  2               LBB_SQR
+00E4CF  2  51 52 28 CA        .byte "QR(",TK_SQR      ; SQR(
+00E4D3  2               LBB_STEP
+00E4D3  2  54 45 50 B3        .byte "TEP",TK_STEP     ; STEP
+00E4D7  2               LBB_STOP
+00E4D7  2  54 4F 50 92        .byte "TOP",TK_STOP     ; STOP
+00E4DB  2               LBB_STRS
+00E4DB  2  54 52 24 28        .byte "TR$(",TK_STRS    ; STR$(
+00E4DF  2  D6           
+00E4E0  2               LBB_SWAP
+00E4E0  2  57 41 50 A6        .byte "WAP",TK_SWAP     ; SWAP
+00E4E4  2  00                 .byte $00
+00E4E5  2               TAB_ASCT
+00E4E5  2               LBB_TAB
+00E4E5  2  41 42 28 AC        .byte "AB(",TK_TAB      ; TAB(
+00E4E9  2               LBB_TAN
+00E4E9  2  41 4E 28 D0        .byte "AN(",TK_TAN      ; TAN(
+00E4ED  2               LBB_THEN
+00E4ED  2  48 45 4E B1        .byte "HEN",TK_THEN     ; THEN
+00E4F1  2               LBB_TO
+00E4F1  2  4F AE              .byte "O",TK_TO         ; TO
+00E4F3  2               LBB_TWOPI
+00E4F3  2  57 4F 50 49        .byte "WOPI",TK_TWOPI   ; TWOPI
+00E4F7  2  E2           
+00E4F8  2  00                 .byte $00
+00E4F9  2               TAB_ASCU
+00E4F9  2               LBB_UCASES
+00E4F9  2  43 41 53 45        .byte "CASE$(",TK_UCASES
+00E4FD  2  24 28 D9     
+00E500  2                                             ; UCASE$(
+00E500  2               LBB_UNTIL
+00E500  2  4E 54 49 4C        .byte "NTIL",TK_UNTIL   ; UNTIL
+00E504  2  B4           
+00E505  2               LBB_USR
+00E505  2  53 52 28 C7        .byte "SR(",TK_USR      ; USR(
+00E509  2  00                 .byte $00
+00E50A  2               TAB_ASCV
+00E50A  2               LBB_VAL
+00E50A  2  41 4C 28 D7        .byte "AL(",TK_VAL      ; VAL(
+00E50E  2               LBB_VPTR
+00E50E  2  41 52 50 54        .byte "ARPTR(",TK_VPTR  ; VARPTR(
+00E512  2  52 28 E3     
+00E515  2  00                 .byte $00
+00E516  2               TAB_ASCW
+00E516  2               LBB_WOZMON
+00E516  2  4F 5A 4D 4F        .byte "OZMON",TK_WOZMON ;? WOZMON
+00E51A  2  4E AB        
+00E51C  2               LBB_WAIT
+00E51C  2  41 49 54 96        .byte "AIT",TK_WAIT     ; WAIT
+00E520  2               LBB_WHILE
+00E520  2  48 49 4C 45        .byte "HILE",TK_WHILE   ; WHILE
+00E524  2  B5           
+00E525  2               LBB_WIDTH
+00E525  2  49 44 54 48        .byte "IDTH",TK_WIDTH   ; WIDTH
+00E529  2  A4           
+00E52A  2  00                 .byte $00
+00E52B  2               
+00E52B  2               TAB_POWR
+00E52B  2  BB 00              .byte TK_POWER,$00      ; ^
+00E52D  2               
+00E52D  2               ; new decode table for LIST
+00E52D  2               ; Table is ..
+00E52D  2               ; byte - keyword length, keyword first character
+00E52D  2               ; word - pointer to rest of keyword from dictionary
+00E52D  2               
+00E52D  2               ; note if length is 1 then the pointer is ignored
+00E52D  2               
+00E52D  2               LAB_KEYT
+00E52D  2  03 45              .byte 3,'E'
+00E52F  2  EF E3              .word LBB_END           ; END
+00E531  2  03 46              .byte 3,'F'
+00E533  2  FC E3              .word LBB_FOR           ; FOR
+00E535  2  04 4E              .byte 4,'N'
+00E537  2  5F E4              .word LBB_NEXT          ; NEXT
+00E539  2  04 44              .byte 4,'D'
+00E53B  2  D2 E3              .word LBB_DATA          ; DATA
+00E53D  2  05 49              .byte 5,'I'
+00E53F  2  1C E4              .word LBB_INPUT         ; INPUT
+00E541  2  03 44              .byte 3,'D'
+00E543  2  E1 E3              .word LBB_DIM           ; DIM
+00E545  2  04 52              .byte 4,'R'
+00E547  2  8B E4              .word LBB_READ          ; READ
+00E549  2  03 4C              .byte 3,'L'
+00E54B  2  3A E4              .word LBB_LET           ; LET
+00E54D  2  03 44              .byte 3,'D'
+00E54F  2  D6 E3              .word LBB_DEC           ; DEC
+00E551  2  04 47              .byte 4,'G'
+00E553  2  0C E4              .word LBB_GOTO          ; GOTO
+00E555  2  03 52              .byte 3,'R'
+00E557  2  B6 E4              .word LBB_RUN           ; RUN
+00E559  2  02 49              .byte 2,'I'
+00E55B  2  17 E4              .word LBB_IF            ; IF
+00E55D  2  07 52              .byte 7,'R'
+00E55F  2  92 E4              .word LBB_RESTORE       ; RESTORE
+00E561  2  05 47              .byte 5,'G'
+00E563  2  07 E4              .word LBB_GOSUB         ; GOSUB
+00E565  2  06 52              .byte 6,'R'
+00E567  2  99 E4              .word LBB_RETIRQ        ; RETIRQ
+00E569  2  06 52              .byte 6,'R'
+00E56B  2  9F E4              .word LBB_RETNMI        ; RETNMI
+00E56D  2  06 52              .byte 6,'R'
+00E56F  2  A5 E4              .word LBB_RETURN        ; RETURN
+00E571  2  03 52              .byte 3,'R'
+00E573  2  8F E4              .word LBB_REM           ; REM
+00E575  2  04 53              .byte 4,'S'
+00E577  2  D7 E4              .word LBB_STOP          ; STOP
+00E579  2  02 4F              .byte 2,'O'
+00E57B  2  71 E4              .word LBB_ON            ; ON
+00E57D  2  04 4E              .byte 4,'N'
+00E57F  2  69 E4              .word LBB_NULL          ; NULL
+00E581  2  03 49              .byte 3,'I'
+00E583  2  19 E4              .word LBB_INC           ; INC
+00E585  2  04 57              .byte 4,'W'
+00E587  2  1C E5              .word LBB_WAIT          ; WAIT
+00E589  2  04 4C              .byte 4,'L'
+00E58B  2  41 E4              .word LBB_LOAD          ; LOAD
+00E58D  2  04 53              .byte 4,'S'
+00E58F  2  BF E4              .word LBB_SAVE          ; SAVE
+00E591  2  03 44              .byte 3,'D'
+00E593  2  DE E3              .word LBB_DEF           ; DEF
+00E595  2  04 50              .byte 4,'P'
+00E597  2  7D E4              .word LBB_POKE          ; POKE
+00E599  2  04 44              .byte 4,'D'
+00E59B  2  E4 E3              .word LBB_DOKE          ; DOKE
+00E59D  2  04 43              .byte 4,'C'
+00E59F  2  BB E3              .word LBB_CALL          ; CALL
+00E5A1  2  02 44              .byte 2,'D'
+00E5A3  2  E8 E3              .word LBB_DO            ; DO
+00E5A5  2  04 4C              .byte 4,'L'
+00E5A7  2  49 E4              .word LBB_LOOP          ; LOOP
+00E5A9  2  05 50              .byte 5,'P'
+00E5AB  2  85 E4              .word LBB_PRINT         ; PRINT
+00E5AD  2  04 43              .byte 4,'C'
+00E5AF  2  C9 E3              .word LBB_CONT          ; CONT
+00E5B1  2  04 4C              .byte 4,'L'
+00E5B3  2  3D E4              .word LBB_LIST          ; LIST
+00E5B5  2  05 43              .byte 5,'C'
+00E5B7  2  C4 E3              .word LBB_CLEAR         ; CLEAR
+00E5B9  2  03 4E              .byte 3,'N'
+00E5BB  2  5C E4              .word LBB_NEW           ; NEW
+00E5BD  2  05 57              .byte 5,'W'
+00E5BF  2  25 E5              .word LBB_WIDTH         ; WIDTH
+00E5C1  2  03 47              .byte 3,'G'
+00E5C3  2  04 E4              .word LBB_GET           ; GET
+00E5C5  2  04 53              .byte 4,'S'
+00E5C7  2  E0 E4              .word LBB_SWAP          ; SWAP
+00E5C9  2  06 42              .byte 6,'B'
+00E5CB  2  AD E3              .word LBB_BITSET        ; BITSET
+00E5CD  2  06 42              .byte 6,'B'
+00E5CF  2  A7 E3              .word LBB_BITCLR        ; BITCLR
+00E5D1  2  03 49              .byte 3,'I'
+00E5D3  2  25 E4              .word LBB_IRQ           ; IRQ
+00E5D5  2  03 4E              .byte 3,'N'
+00E5D7  2  63 E4              .word LBB_NMI           ; NMI
+00E5D9  2  06 57              .byte 6,'W'
+00E5DB  2  16 E5              .word LBB_WOZMON        ;?WOZMON
+00E5DD  2               ; secondary commands (can't start a statement)
+00E5DD  2               
+00E5DD  2  04 54              .byte 4,'T'
+00E5DF  2  E5 E4              .word LBB_TAB           ; TAB
+00E5E1  2  04 45              .byte 4,'E'
+00E5E3  2  EB E3              .word LBB_ELSE          ; ELSE
+00E5E5  2  02 54              .byte 2,'T'
+00E5E7  2  F1 E4              .word LBB_TO            ; TO
+00E5E9  2  02 46              .byte 2,'F'
+00E5EB  2  FA E3              .word LBB_FN            ; FN
+00E5ED  2  04 53              .byte 4,'S'
+00E5EF  2  CB E4              .word LBB_SPC           ; SPC
+00E5F1  2  04 54              .byte 4,'T'
+00E5F3  2  ED E4              .word LBB_THEN          ; THEN
+00E5F5  2  03 4E              .byte 3,'N'
+00E5F7  2  66 E4              .word LBB_NOT           ; NOT
+00E5F9  2  04 53              .byte 4,'S'
+00E5FB  2  D3 E4              .word LBB_STEP          ; STEP
+00E5FD  2  05 55              .byte 5,'U'
+00E5FF  2  00 E5              .word LBB_UNTIL         ; UNTIL
+00E601  2  05 57              .byte 5,'W'
+00E603  2  20 E5              .word LBB_WHILE         ; WHILE
+00E605  2  03 4F              .byte 3,'O'
+00E607  2  6E E4              .word LBB_OFF           ; OFF
+00E609  2               
+00E609  2               ; opperators
+00E609  2               
+00E609  2  01 2B              .byte 1,'+'
+00E60B  2  00 00              .word $0000             ; +
+00E60D  2  01 2D              .byte 1,'-'
+00E60F  2  00 00              .word $0000             ; -
+00E611  2  01 2A              .byte 1,'*'
+00E613  2  00 00              .word $0000             ; *
+00E615  2  01 2F              .byte 1,'/'
+00E617  2  00 00              .word $0000             ; /
+00E619  2  01 5E              .byte 1,'^'
+00E61B  2  00 00              .word $0000             ; ^
+00E61D  2  03 41              .byte 3,'A'
+00E61F  2  96 E3              .word LBB_AND           ; AND
+00E621  2  03 45              .byte 3,'E'
+00E623  2  F2 E3              .word LBB_EOR           ; EOR
+00E625  2  02 4F              .byte 2,'O'
+00E627  2  73 E4              .word LBB_OR            ; OR
+00E629  2  02 3E              .byte 2,'>'
+00E62B  2  8C E3              .word LBB_RSHIFT        ; >>
+00E62D  2  02 3C              .byte 2,'<'
+00E62F  2  86 E3              .word LBB_LSHIFT        ; <<
+00E631  2  01 3E              .byte 1,'>'
+00E633  2  00 00              .word $0000             ; >
+00E635  2  01 3D              .byte 1,'='
+00E637  2  00 00              .word $0000             ; =
+00E639  2  01 3C              .byte 1,'<'
+00E63B  2  00 00              .word $0000             ; <
+00E63D  2               
+00E63D  2               ; functions
+00E63D  2               
+00E63D  2  04 53              .byte 4,'S'             ;
+00E63F  2  C3 E4              .word LBB_SGN           ; SGN
+00E641  2  04 49              .byte 4,'I'             ;
+00E643  2  21 E4              .word LBB_INT           ; INT
+00E645  2  04 41              .byte 4,'A'             ;
+00E647  2  92 E3              .word LBB_ABS           ; ABS
+00E649  2  04 55              .byte 4,'U'             ;
+00E64B  2  05 E5              .word LBB_USR           ; USR
+00E64D  2  04 46              .byte 4,'F'             ;
+00E64F  2  FF E3              .word LBB_FRE           ; FRE
+00E651  2  04 50              .byte 4,'P'             ;
+00E653  2  81 E4              .word LBB_POS           ; POS
+00E655  2  04 53              .byte 4,'S'             ;
+00E657  2  CF E4              .word LBB_SQR           ; SQR
+00E659  2  04 52              .byte 4,'R'             ;
+00E65B  2  B2 E4              .word LBB_RND           ; RND
+00E65D  2  04 4C              .byte 4,'L'             ;
+00E65F  2  45 E4              .word LBB_LOG           ; LOG
+00E661  2  04 45              .byte 4,'E'             ;
+00E663  2  F5 E3              .word LBB_EXP           ; EXP
+00E665  2  04 43              .byte 4,'C'             ;
+00E667  2  CD E3              .word LBB_COS           ; COS
+00E669  2  04 53              .byte 4,'S'             ;
+00E66B  2  C7 E4              .word LBB_SIN           ; SIN
+00E66D  2  04 54              .byte 4,'T'             ;
+00E66F  2  E9 E4              .word LBB_TAN           ; TAN
+00E671  2  04 41              .byte 4,'A'             ;
+00E673  2  9D E3              .word LBB_ATN           ; ATN
+00E675  2  05 50              .byte 5,'P'             ;
+00E677  2  76 E4              .word LBB_PEEK          ; PEEK
+00E679  2  05 44              .byte 5,'D'             ;
+00E67B  2  D9 E3              .word LBB_DEEK          ; DEEK
+00E67D  2  05 53              .byte 5,'S'             ;
+00E67F  2  BA E4              .word LBB_SADD          ; SADD
+00E681  2  04 4C              .byte 4,'L'             ;
+00E683  2  36 E4              .word LBB_LEN           ; LEN
+00E685  2  05 53              .byte 5,'S'             ;
+00E687  2  DB E4              .word LBB_STRS          ; STR$
+00E689  2  04 56              .byte 4,'V'             ;
+00E68B  2  0A E5              .word LBB_VAL           ; VAL
+00E68D  2  04 41              .byte 4,'A'             ;
+00E68F  2  99 E3              .word LBB_ASC           ; ASC
+00E691  2  07 55              .byte 7,'U'             ;
+00E693  2  F9 E4              .word LBB_UCASES        ; UCASE$
+00E695  2  07 4C              .byte 7,'L'             ;
+00E697  2  29 E4              .word LBB_LCASES        ; LCASE$
+00E699  2  05 43              .byte 5,'C'             ;
+00E69B  2  BF E3              .word LBB_CHRS          ; CHR$
+00E69D  2  05 48              .byte 5,'H'             ;
+00E69F  2  11 E4              .word LBB_HEXS          ; HEX$
+00E6A1  2  05 42              .byte 5,'B'             ;
+00E6A3  2  A2 E3              .word LBB_BINS          ; BIN$
+00E6A5  2  07 42              .byte 7,'B'             ;
+00E6A7  2  B3 E3              .word LBB_BITTST        ; BITTST
 00E6A9  2  04 4D              .byte 4,'M'             ;
-00E6AB  2  5A E4              .word LBB_MIN           ; MIN
-00E6AD  2  02 50              .byte 2,'P'             ;
-00E6AF  2  7E E4              .word LBB_PI            ; PI
-00E6B1  2  05 54              .byte 5,'T'             ;
-00E6B3  2  F6 E4              .word LBB_TWOPI         ; TWOPI
-00E6B5  2  07 56              .byte 7,'V'             ;
-00E6B7  2  11 E5              .word LBB_VPTR          ; VARPTR
-00E6B9  2  06 4C              .byte 6,'L'             ;
-00E6BB  2  33 E4              .word LBB_LEFTS         ; LEFT$
-00E6BD  2  07 52              .byte 7,'R'             ;
-00E6BF  2  AE E4              .word LBB_RIGHTS        ; RIGHT$
-00E6C1  2  05 4D              .byte 5,'M'             ;
-00E6C3  2  55 E4              .word LBB_MIDS          ; MID$
-00E6C5  2               
-00E6C5  2               ; BASIC messages, mostly error messages
-00E6C5  2               
-00E6C5  2               LAB_BAER
-00E6C5  2  E9 E6              .word ERR_NF            ;$00 NEXT without FOR
-00E6C7  2  FA E6              .word ERR_SN            ;$02 syntax
-00E6C9  2  01 E7              .word ERR_RG            ;$04 RETURN without GOSUB
-00E6CB  2  16 E7              .word ERR_OD            ;$06 out of data
-00E6CD  2  22 E7              .word ERR_FC            ;$08 function call
-00E6CF  2  30 E7              .word ERR_OV            ;$0A overflow
-00E6D1  2  39 E7              .word ERR_OM            ;$0C out of memory
-00E6D3  2  47 E7              .word ERR_US            ;$0E undefined statement
-00E6D5  2  5B E7              .word ERR_BS            ;$10 array bounds
-00E6D7  2  68 E7              .word ERR_DD            ;$12 double dimension array
-00E6D9  2  79 E7              .word ERR_D0            ;$14 divide by 0
-00E6DB  2  88 E7              .word ERR_ID            ;$16 illegal direct
-00E6DD  2  97 E7              .word ERR_TM            ;$18 type mismatch
-00E6DF  2  A5 E7              .word ERR_LS            ;$1A long string
-00E6E1  2  B5 E7              .word ERR_ST            ;$1C string too complex
-00E6E3  2  C8 E7              .word ERR_CN            ;$1E continue error
-00E6E5  2  D7 E7              .word ERR_UF            ;$20 undefined function
-00E6E7  2  EA E7              .word ERR_LD            ;$22 LOOP without DO
-00E6E9  2               
-00E6E9  2               ; I may implement these two errors to force definition of variables and
-00E6E9  2               ; dimensioning of arrays before use.
-00E6E9  2               
-00E6E9  2               ;     .word ERR_UV            ;$24 undefined variable
-00E6E9  2               
-00E6E9  2               ; the above error has been tested and works (see code and comments below LAB_1D8B)
-00E6E9  2               
-00E6E9  2               ;     .word ERR_UA            ;$26 undimensioned array
-00E6E9  2               
-00E6E9  2  4E 45 58 54  ERR_NF      .byte "NEXT without FOR",$00
-00E6ED  2  20 77 69 74  
-00E6F1  2  68 6F 75 74  
-00E6FA  2  53 79 6E 74  ERR_SN      .byte "Syntax",$00
-00E6FE  2  61 78 00     
-00E701  2  52 45 54 55  ERR_RG      .byte "RETURN without GOSUB",$00
-00E705  2  52 4E 20 77  
-00E709  2  69 74 68 6F  
-00E716  2  4F 75 74 20  ERR_OD      .byte "Out of DATA",$00
-00E71A  2  6F 66 20 44  
-00E71E  2  41 54 41 00  
-00E722  2  46 75 6E 63  ERR_FC      .byte "Function call",$00
-00E726  2  74 69 6F 6E  
-00E72A  2  20 63 61 6C  
-00E730  2  4F 76 65 72  ERR_OV      .byte "Overflow",$00
-00E734  2  66 6C 6F 77  
-00E738  2  00           
-00E739  2  4F 75 74 20  ERR_OM      .byte "Out of memory",$00
-00E73D  2  6F 66 20 6D  
-00E741  2  65 6D 6F 72  
-00E747  2  55 6E 64 65  ERR_US      .byte "Undefined statement",$00
-00E74B  2  66 69 6E 65  
-00E74F  2  64 20 73 74  
-00E75B  2  41 72 72 61  ERR_BS      .byte "Array bounds",$00
-00E75F  2  79 20 62 6F  
-00E763  2  75 6E 64 73  
-00E768  2  44 6F 75 62  ERR_DD      .byte "Double dimension",$00
-00E76C  2  6C 65 20 64  
-00E770  2  69 6D 65 6E  
-00E779  2  44 69 76 69  ERR_D0      .byte "Divide by zero",$00
-00E77D  2  64 65 20 62  
-00E781  2  79 20 7A 65  
-00E788  2  49 6C 6C 65  ERR_ID      .byte "Illegal direct",$00
-00E78C  2  67 61 6C 20  
-00E790  2  64 69 72 65  
-00E797  2  54 79 70 65  ERR_TM      .byte "Type mismatch",$00
-00E79B  2  20 6D 69 73  
-00E79F  2  6D 61 74 63  
-00E7A5  2  53 74 72 69  ERR_LS      .byte "String too long",$00
-00E7A9  2  6E 67 20 74  
-00E7AD  2  6F 6F 20 6C  
-00E7B5  2  53 74 72 69  ERR_ST      .byte "String too complex",$00
-00E7B9  2  6E 67 20 74  
-00E7BD  2  6F 6F 20 63  
-00E7C8  2  43 61 6E 27  ERR_CN      .byte "Can't continue",$00
-00E7CC  2  74 20 63 6F  
-00E7D0  2  6E 74 69 6E  
-00E7D7  2  55 6E 64 65  ERR_UF      .byte "Undefined function",$00
-00E7DB  2  66 69 6E 65  
-00E7DF  2  64 20 66 75  
-00E7EA  2  4C 4F 4F 50  ERR_LD      .byte "LOOP without DO",$00
-00E7EE  2  20 77 69 74  
-00E7F2  2  68 6F 75 74  
-00E7FA  2               
-00E7FA  2               ;ERR_UV     .byte "Undefined variable",$00
-00E7FA  2               
-00E7FA  2               ; the above error has been tested and works (see code and comments below LAB_1D8B)
-00E7FA  2               
-00E7FA  2               ;ERR_UA     .byte "Undimensioned array",$00
-00E7FA  2               
-00E7FA  2  0D 0A 42 72  LAB_BMSG    .byte $0D,$0A,"Break",$00
-00E7FE  2  65 61 6B 00  
-00E802  2  20 45 72 72  LAB_EMSG    .byte " Error",$00
-00E806  2  6F 72 00     
-00E809  2  20 69 6E 20  LAB_LMSG    .byte " in line ",$00
-00E80D  2  6C 69 6E 65  
-00E811  2  20 00        
-00E813  2  0D 0A 52 65  LAB_RMSG    .byte $0D,$0A,"Ready",$0D,$0A,$00
-00E817  2  61 64 79 0D  
-00E81B  2  0A 00        
-00E81D  2               
-00E81D  2  20 45 78 74  LAB_IMSG    .byte " Extra ignored",$0D,$0A,$00
-00E821  2  72 61 20 69  
-00E825  2  67 6E 6F 72  
-00E82E  2  20 52 65 64  LAB_REDO    .byte " Redo from start",$0D,$0A,$00
-00E832  2  6F 20 66 72  
-00E836  2  6F 6D 20 73  
-00E841  2               
-00E841  2               AA_end_basic
-00E841  2               
-00E841  1               
-00E841  1                   .include "ewoz.asm"
-00E841  2               ; EWOZ Extended Woz Monitor.
-00E841  2               ; Just a few mods to the original monitor.
-00E841  2               
-00E841  2               ; START @ $7000
-00E841  2               
-00E841  2               
-00E841  2               
-00E841  2               ;IO_AREA        = $A000
-00E841  2               ;ACIA        = IO_AREA
-00E841  2               ;ACIA_CTRL   = ACIA+3
-00E841  2               ;ACIA_CMD    = ACIA+2
-00E841  2               ;ACIA_SR     = ACIA+1
-00E841  2               ;ACIA_DAT    = ACIA
-00E841  2               
-00E841  2               ;ACIAStatus  = IO_AREA		; FT245 Status
-00E841  2               ;ACIAData    = IO_AREA+$01	; FT245 Data in/out
-00E841  2                  .segment "WOZMON"
-00E841  2                   .org    $F000
+00E6AB  2  4E E4              .word LBB_MAX           ; MAX
+00E6AD  2  04 4D              .byte 4,'M'             ;
+00E6AF  2  57 E4              .word LBB_MIN           ; MIN
+00E6B1  2  02 50              .byte 2,'P'             ;
+00E6B3  2  7B E4              .word LBB_PI            ; PI
+00E6B5  2  05 54              .byte 5,'T'             ;
+00E6B7  2  F3 E4              .word LBB_TWOPI         ; TWOPI
+00E6B9  2  07 56              .byte 7,'V'             ;
+00E6BB  2  0E E5              .word LBB_VPTR          ; VARPTR
+00E6BD  2  06 4C              .byte 6,'L'             ;
+00E6BF  2  30 E4              .word LBB_LEFTS         ; LEFT$
+00E6C1  2  07 52              .byte 7,'R'             ;
+00E6C3  2  AB E4              .word LBB_RIGHTS        ; RIGHT$
+00E6C5  2  05 4D              .byte 5,'M'             ;
+00E6C7  2  52 E4              .word LBB_MIDS          ; MID$
+00E6C9  2               
+00E6C9  2               ; BASIC messages, mostly error messages
+00E6C9  2               
+00E6C9  2               LAB_BAER
+00E6C9  2  ED E6              .word ERR_NF            ;$00 NEXT without FOR
+00E6CB  2  FE E6              .word ERR_SN            ;$02 syntax
+00E6CD  2  05 E7              .word ERR_RG            ;$04 RETURN without GOSUB
+00E6CF  2  1A E7              .word ERR_OD            ;$06 out of data
+00E6D1  2  26 E7              .word ERR_FC            ;$08 function call
+00E6D3  2  34 E7              .word ERR_OV            ;$0A overflow
+00E6D5  2  3D E7              .word ERR_OM            ;$0C out of memory
+00E6D7  2  4B E7              .word ERR_US            ;$0E undefined statement
+00E6D9  2  5F E7              .word ERR_BS            ;$10 array bounds
+00E6DB  2  6C E7              .word ERR_DD            ;$12 double dimension array
+00E6DD  2  7D E7              .word ERR_D0            ;$14 divide by 0
+00E6DF  2  8C E7              .word ERR_ID            ;$16 illegal direct
+00E6E1  2  9B E7              .word ERR_TM            ;$18 type mismatch
+00E6E3  2  A9 E7              .word ERR_LS            ;$1A long string
+00E6E5  2  B9 E7              .word ERR_ST            ;$1C string too complex
+00E6E7  2  CC E7              .word ERR_CN            ;$1E continue error
+00E6E9  2  DB E7              .word ERR_UF            ;$20 undefined function
+00E6EB  2  EE E7              .word ERR_LD            ;$22 LOOP without DO
+00E6ED  2               
+00E6ED  2               ; I may implement these two errors to force definition of variables and
+00E6ED  2               ; dimensioning of arrays before use.
+00E6ED  2               
+00E6ED  2               ;     .word ERR_UV            ;$24 undefined variable
+00E6ED  2               
+00E6ED  2               ; the above error has been tested and works (see code and comments below LAB_1D8B)
+00E6ED  2               
+00E6ED  2               ;     .word ERR_UA            ;$26 undimensioned array
+00E6ED  2               
+00E6ED  2  4E 45 58 54  ERR_NF      .byte "NEXT without FOR",$00
+00E6F1  2  20 77 69 74  
+00E6F5  2  68 6F 75 74  
+00E6FE  2  53 79 6E 74  ERR_SN      .byte "Syntax",$00
+00E702  2  61 78 00     
+00E705  2  52 45 54 55  ERR_RG      .byte "RETURN without GOSUB",$00
+00E709  2  52 4E 20 77  
+00E70D  2  69 74 68 6F  
+00E71A  2  4F 75 74 20  ERR_OD      .byte "Out of DATA",$00
+00E71E  2  6F 66 20 44  
+00E722  2  41 54 41 00  
+00E726  2  46 75 6E 63  ERR_FC      .byte "Function call",$00
+00E72A  2  74 69 6F 6E  
+00E72E  2  20 63 61 6C  
+00E734  2  4F 76 65 72  ERR_OV      .byte "Overflow",$00
+00E738  2  66 6C 6F 77  
+00E73C  2  00           
+00E73D  2  4F 75 74 20  ERR_OM      .byte "Out of memory",$00
+00E741  2  6F 66 20 6D  
+00E745  2  65 6D 6F 72  
+00E74B  2  55 6E 64 65  ERR_US      .byte "Undefined statement",$00
+00E74F  2  66 69 6E 65  
+00E753  2  64 20 73 74  
+00E75F  2  41 72 72 61  ERR_BS      .byte "Array bounds",$00
+00E763  2  79 20 62 6F  
+00E767  2  75 6E 64 73  
+00E76C  2  44 6F 75 62  ERR_DD      .byte "Double dimension",$00
+00E770  2  6C 65 20 64  
+00E774  2  69 6D 65 6E  
+00E77D  2  44 69 76 69  ERR_D0      .byte "Divide by zero",$00
+00E781  2  64 65 20 62  
+00E785  2  79 20 7A 65  
+00E78C  2  49 6C 6C 65  ERR_ID      .byte "Illegal direct",$00
+00E790  2  67 61 6C 20  
+00E794  2  64 69 72 65  
+00E79B  2  54 79 70 65  ERR_TM      .byte "Type mismatch",$00
+00E79F  2  20 6D 69 73  
+00E7A3  2  6D 61 74 63  
+00E7A9  2  53 74 72 69  ERR_LS      .byte "String too long",$00
+00E7AD  2  6E 67 20 74  
+00E7B1  2  6F 6F 20 6C  
+00E7B9  2  53 74 72 69  ERR_ST      .byte "String too complex",$00
+00E7BD  2  6E 67 20 74  
+00E7C1  2  6F 6F 20 63  
+00E7CC  2  43 61 6E 27  ERR_CN      .byte "Can't continue",$00
+00E7D0  2  74 20 63 6F  
+00E7D4  2  6E 74 69 6E  
+00E7DB  2  55 6E 64 65  ERR_UF      .byte "Undefined function",$00
+00E7DF  2  66 69 6E 65  
+00E7E3  2  64 20 66 75  
+00E7EE  2  4C 4F 4F 50  ERR_LD      .byte "LOOP without DO",$00
+00E7F2  2  20 77 69 74  
+00E7F6  2  68 6F 75 74  
+00E7FE  2               
+00E7FE  2               ;ERR_UV     .byte "Undefined variable",$00
+00E7FE  2               
+00E7FE  2               ; the above error has been tested and works (see code and comments below LAB_1D8B)
+00E7FE  2               
+00E7FE  2               ;ERR_UA     .byte "Undimensioned array",$00
+00E7FE  2               
+00E7FE  2  0D 0A 42 72  LAB_BMSG    .byte $0D,$0A,"Break",$00
+00E802  2  65 61 6B 00  
+00E806  2  20 45 72 72  LAB_EMSG    .byte " Error",$00
+00E80A  2  6F 72 00     
+00E80D  2  20 69 6E 20  LAB_LMSG    .byte " in line ",$00
+00E811  2  6C 69 6E 65  
+00E815  2  20 00        
+00E817  2  0D 0A 52 65  LAB_RMSG    .byte $0D,$0A,"Ready",$0D,$0A,$00
+00E81B  2  61 64 79 0D  
+00E81F  2  0A 00        
+00E821  2               
+00E821  2  20 45 78 74  LAB_IMSG    .byte " Extra ignored",$0D,$0A,$00
+00E825  2  72 61 20 69  
+00E829  2  67 6E 6F 72  
+00E832  2  20 52 65 64  LAB_REDO    .byte " Redo from start",$0D,$0A,$00
+00E836  2  6F 20 66 72  
+00E83A  2  6F 6D 20 73  
+00E845  2               
+00E845  2               AA_end_basic
+00E845  2               
+00E845  1               
+00E845  1                   .include "ewoz.asm"
+00E845  2               ; EWOZ Extended Woz Monitor.
+00E845  2               ; Just a few mods to the original monitor.
+00E845  2               
+00E845  2               ; START @ $7000
+00E845  2               
+00E845  2               
+00E845  2               
+00E845  2               ;IO_AREA        = $A000
+00E845  2               ;ACIA        = IO_AREA
+00E845  2               ;ACIA_CTRL   = ACIA+3
+00E845  2               ;ACIA_CMD    = ACIA+2
+00E845  2               ;ACIA_SR     = ACIA+1
+00E845  2               ;ACIA_DAT    = ACIA
+00E845  2               
+00E845  2               ;ACIAStatus  = IO_AREA		; FT245 Status
+00E845  2               ;ACIAData    = IO_AREA+$01	; FT245 Data in/out
+00E845  2                  .segment "WOZMON"
+00E845  2                   .org    $F000
 00F000  2               
-00F000  2               IN          = $0200          ;*Input buffer
+00F000  2               IN          = $0300          ;*Input buffer
 00F000  2               XAML        = $24            ;*Index pointers
 00F000  2               XAMH        = $25
 00F000  2               STL         = $26
@@ -9039,14 +9034,14 @@ Current file: min_mon.asm
 00F002  2               ;        LDA #$0B        ;* No Parity.
 00F002  2               ;        STA ACIA_CMD
 00F002  2  A9 0D                 LDA #$0D
-00F004  2  20 22 F1              JSR ECHO      ;* New line.
-00F007  2  A9 2B                 LDA #<MSG1
+00F004  2  20 27 F1              JSR ECHO      ;* New line.
+00F007  2  A9 30                 LDA #<MSG1
 00F009  2  85 2C                 STA MSGL
 00F00B  2  A9 F2                 LDA #>MSG1
 00F00D  2  85 2D                 STA MSGH
-00F00F  2  20 33 F1              JSR SHWMSG      ;* Show Welcome.
+00F00F  2  20 38 F1              JSR SHWMSG      ;* Show Welcome.
 00F012  2  A9 0D                 LDA #$0D
-00F014  2  20 22 F1              JSR ECHO      ;* New line.
+00F014  2  20 27 F1              JSR ECHO      ;* New line.
 00F017  2               SOFTRESET:
 00F017  2  A9 9B                 LDA #$9B      ;* Auto escape.
 00F019  2               NOTCR:
@@ -9058,18 +9053,18 @@ Current file: min_mon.asm
 00F022  2  10 19                 BPL NEXTCHAR    ;Auto ESC if >127.
 00F024  2               ESCAPE:
 00F024  2  A9 DC                 LDA #$DC        ;"\"
-00F026  2  20 22 F1              JSR ECHO        ;Output it.
+00F026  2  20 27 F1              JSR ECHO        ;Output it.
 00F029  2               GETLINE:
 00F029  2  A9 8D                 LDA #$8D        ;CR.
-00F02B  2  20 22 F1              JSR ECHO        ;Output it.
+00F02B  2  20 27 F1              JSR ECHO        ;Output it.
 00F02E  2  A0 01                 LDY #$01        ;Initiallize text index.
 00F030  2               BACKSPACE:
 00F030  2  88                    DEY             ;Backup text index.
 00F031  2  30 F6                 BMI GETLINE     ;Beyond start of line, reinitialize.
 00F033  2  A9 A0                 LDA #$A0      ;*Space, overwrite the backspaced char.
-00F035  2  20 22 F1              JSR ECHO
+00F035  2  20 27 F1              JSR ECHO
 00F038  2  A9 88                 LDA #$88      ;*Backspace again to get to correct pos.
-00F03A  2  20 22 F1              JSR ECHO
+00F03A  2  20 27 F1              JSR ECHO
 00F03D  2               NEXTCHAR:
 00F03D  2  AD F0 BF              LDA ACIAStatus    ;*See if we got an incoming char
 00F040  2  29 01                 AND #$01        ;*Test bit 3
@@ -9081,8 +9076,8 @@ Current file: min_mon.asm
 00F04D  2  29 5F                 AND #$5F      ;*If lower case, convert to Upper case
 00F04F  2               CONVERT:
 00F04F  2  09 80           ORA #$80        ;*Convert it to "ASCII Keyboard" Input
-00F051  2  99 00 02                 STA IN,Y        ;Add to text buffer.
-00F054  2  20 22 F1                 JSR ECHO        ;Display character.
+00F051  2  99 00 03                 STA IN,Y        ;Add to text buffer.
+00F054  2  20 27 F1                 JSR ECHO        ;Display character.
 00F057  2  C9 8D                    CMP #$8D        ;CR?
 00F059  2  D0 BE                    BNE NOTCR       ;No.
 00F05B  2  A0 FF                    LDY #$FF        ;Reset text index.
@@ -9095,7 +9090,7 @@ Current file: min_mon.asm
 00F063  2               BLSKIP:
 00F063  2  C8                 INY             ;Advance text index.
 00F064  2               NEXTITEM:
-00F064  2  B9 00 02         LDA IN,Y        ;Get character.
+00F064  2  B9 00 03         LDA IN,Y        ;Get character.
 00F067  2  C9 8D                    CMP #$8D        ;CR?
 00F069  2  F0 BE                    BEQ GETLINE     ;Yes, done this line.
 00F06B  2  C9 AE                    CMP #$AE        ;"."?
@@ -9104,349 +9099,352 @@ Current file: min_mon.asm
 00F071  2  C9 BA                    CMP #$BA        ;":"?
 00F073  2  F0 EB                    BEQ SETSTOR     ;Yes, set STOR mode.
 00F075  2  C9 D2                 CMP #$D2        ;"R"?
-00F077  2  F0 31                    BEQ RUN         ;Yes, run user program.
-00F079  2  C9 CC                    CMP #$CC        ;* "L"?
-00F07B  2  F0 36                    BEQ LOADINT     ;* Yes, Load Intel Code.
-00F07D  2  86 28                    STX L           ;$00->L.
-00F07F  2  86 29                    STX H           ; and H.
-00F081  2  84 2A                    STY YSAV        ;Save Y for comparison.
-00F083  2               NEXTHEX:
-00F083  2  B9 00 02          LDA IN,Y        ;Get character for hex test.
-00F086  2  49 B0                    EOR #$B0        ;Map digits to $0-9.
-00F088  2  C9 0A                    CMP #$0A        ;Digit?
-00F08A  2  90 06                    BCC DIG         ;Yes.
-00F08C  2  69 88                    ADC #$88        ;Map letter "A"-"F" to $FA-FF.
-00F08E  2  C9 FA                    CMP #$FA        ;Hex letter?
-00F090  2  90 11                    BCC NOTHEX      ;No, character not hex.
-00F092  2               DIG:
-00F092  2  0A                    ASL
-00F093  2  0A                       ASL             ;Hex digit to MSD of A.
-00F094  2  0A                       ASL
-00F095  2  0A                       ASL
-00F096  2  A2 04                    LDX #$04        ;Shift count.
-00F098  2               HEXSHIFT:
-00F098  2  0A              ASL             ;Hex digit left MSB to carry.
-00F099  2  26 28                    ROL L           ;Rotate into LSD.
-00F09B  2  26 29                    ROL H           ;Rotate into MSD's.
-00F09D  2  CA                       DEX             ;Done 4 shifts?
-00F09E  2  D0 F8                    BNE HEXSHIFT    ;No, loop.
-00F0A0  2  C8                       INY             ;Advance text index.
-00F0A1  2  D0 E0                    BNE NEXTHEX     ;Always taken. Check next character for hex.
-00F0A3  2               NOTHEX:
-00F0A3  2  C4 2A              CPY YSAV        ;Check if L, H empty (no hex digits).
-00F0A5  2  D0 12                 BNE NOESCAPE   ;* Branch out of range, had to improvise...
-00F0A7  2  4C 24 F0                 JMP ESCAPE      ;Yes, generate ESC sequence.
-00F0AA  2               
-00F0AA  2               RUN:
-00F0AA  2  20 B0 F0              JSR ACTRUN      ;* JSR to the Address we want to run.
-00F0AD  2  4C 17 F0              JMP   SOFTRESET   ;* When returned for the program, reset EWOZ.
-00F0B0  2               ACTRUN:
-00F0B0  2  6C 24 00           JMP (XAML)      ;Run at current XAM index.
-00F0B3  2               
-00F0B3  2               LOADINT:
-00F0B3  2  20 40 F1           JSR LOADINTEL   ;* Load the Intel code.
-00F0B6  2  4C 17 F0              JMP   SOFTRESET   ;* When returned from the program, reset EWOZ.
-00F0B9  2               
-00F0B9  2               NOESCAPE:
-00F0B9  2  24 2B            BIT MODE        ;Test MODE byte.
-00F0BB  2  50 0D                    BVC NOTSTOR     ;B6=0 for STOR, 1 for XAM and BLOCK XAM
-00F0BD  2  A5 28                    LDA L           ;LSD's of hex data.
-00F0BF  2  81 26                    STA (STL, X)    ;Store at current "store index".
-00F0C1  2  E6 26                    INC STL         ;Increment store index.
-00F0C3  2  D0 9F                    BNE NEXTITEM    ;Get next item. (no carry).
-00F0C5  2  E6 27                    INC STH         ;Add carry to 'store index' high order.
-00F0C7  2               TONEXTITEM:
-00F0C7  2  4C 64 F0       JMP NEXTITEM    ;Get next command item.
-00F0CA  2               NOTSTOR:
-00F0CA  2  30 2B             BMI XAMNEXT     ;B7=0 for XAM, 1 for BLOCK XAM.
-00F0CC  2  A2 02                    LDX #$02        ;Byte count.
-00F0CE  2               SETADR:
-00F0CE  2  B5 27              LDA L-1,X       ;Copy hex data to
-00F0D0  2  95 25                    STA STL-1,X     ;"store index".
-00F0D2  2  95 23                    STA XAML-1,X    ;And to "XAM index'.
-00F0D4  2  CA                       DEX             ;Next of 2 bytes.
-00F0D5  2  D0 F7                    BNE SETADR      ;Loop unless X = 0.
-00F0D7  2               NXTPRNT:
-00F0D7  2               
-00F0D7  2  D0 14             BNE PRDATA      ;NE means no address to print.
-00F0D9  2  A9 8D                    LDA #$8D        ;CR.
-00F0DB  2  20 22 F1                 JSR ECHO        ;Output it.
-00F0DE  2  A5 25                    LDA XAMH        ;'Examine index' high-order byte.
-00F0E0  2  20 0F F1                 JSR PRBYTE      ;Output it in hex format.
-00F0E3  2  A5 24                    LDA XAML        ;Low-order "examine index" byte.
-00F0E5  2  20 0F F1                 JSR PRBYTE      ;Output it in hex format.
-00F0E8  2  A9 BA                    LDA #$BA        ;":".
-00F0EA  2  20 22 F1                 JSR ECHO        ;Output it.
-00F0ED  2               PRDATA:
-00F0ED  2               
-00F0ED  2  A9 A0              LDA #$A0        ;Blank.
-00F0EF  2  20 22 F1                 JSR ECHO        ;Output it.
-00F0F2  2  A1 24                    LDA (XAML,X)    ;Get data byte at 'examine index".
-00F0F4  2  20 0F F1                 JSR PRBYTE      ;Output it in hex format.
-00F0F7  2               XAMNEXT:
-00F0F7  2  86 2B             STX MODE        ;0-> MODE (XAM mode).
-00F0F9  2  A5 24                    LDA XAML
-00F0FB  2  C5 28                    CMP L           ;Compare 'examine index" to hex data.
-00F0FD  2  A5 25                    LDA XAMH
-00F0FF  2  E5 29                    SBC H
-00F101  2  B0 C4                    BCS TONEXTITEM  ;Not less, so no more data to output.
-00F103  2  E6 24                    INC XAML
-00F105  2  D0 02                    BNE MOD8CHK     ;Increment 'examine index".
-00F107  2  E6 25                    INC XAMH
-00F109  2               MOD8CHK:
-00F109  2  A5 24             LDA XAML        ;Check low-order 'exainine index' byte
-00F10B  2  29 0F                    AND #$0F        ;For MOD 8=0 ** changed to $0F to get 16 values per row **
-00F10D  2  10 C8                    BPL NXTPRNT     ;Always taken.
-00F10F  2               PRBYTE:
-00F10F  2  48                 PHA             ;Save A for LSD.
-00F110  2  4A                       LSR
-00F111  2  4A                       LSR
-00F112  2  4A                       LSR             ;MSD to LSD position.
-00F113  2  4A                       LSR
-00F114  2  20 18 F1                 JSR PRHEX       ;Output hex digit.
-00F117  2  68                       PLA             ;Restore A.
-00F118  2               PRHEX:
-00F118  2  29 0F              AND   #$0F        ;Mask LSD for hex print.
-00F11A  2  09 B0              ORA   #$B0        ;Add "0".
-00F11C  2  C9 BA              CMP   #$BA        ;Digit?
-00F11E  2  90 02              BCC   ECHO        ;Yes, output it.
-00F120  2  69 06              ADC   #$06        ;Add offset for letter.
-00F122  2               ECHO:
-00F122  2  48                 PHA               ;*Save A
-00F123  2  29 7F              AND   #$7F        ;*Change to "standard ASCII"
-00F125  2  8D F1 BF           STA   ACIAData    ;*Send it.
-00F128  2               @WAIT:
-00F128  2  AD F0 BF           LDA   ACIAStatus  ;*Load status register for ACIA
-00F12B  2  29 02              AND   #$02        ;*Mask bit 2.
-00F12D  2  C9 02              CMP   #$02
-00F12F  2  D0 F7              BNE    @WAIT      ;*ACIA not done yet, wait.
-00F131  2  68                 PLA               ;*Restore A
-00F132  2  60                 RTS               ;*Done, over and out...
-00F133  2               
-00F133  2               SHWMSG:
-00F133  2  A0 00              LDY #$0
-00F135  2               @PRINT:
-00F135  2  B1 2C              LDA (MSGL),Y
-00F137  2  F0 06                 BEQ @DONE
-00F139  2  20 22 F1              JSR ECHO
-00F13C  2  C8                    INY
-00F13D  2  D0 F6                 BNE @PRINT
-00F13F  2               @DONE:
-00F13F  2  60                 RTS
-00F140  2               
-00F140  2               
-00F140  2               ; Load an program in Intel Hex Format.
-00F140  2               LOADINTEL:
-00F140  2  A9 0D           LDA #$0D
-00F142  2  20 22 F1              JSR ECHO      ;New line.
-00F145  2  A9 40                 LDA #<MSG2
-00F147  2  85 2C                 STA MSGL
-00F149  2  A9 F2                 LDA #>MSG2
-00F14B  2  85 2D                 STA MSGH
-00F14D  2  20 33 F1              JSR SHWMSG      ;Show Start Transfer.
-00F150  2  A9 0D                 LDA #$0D
-00F152  2  20 22 F1              JSR ECHO      ;New line.
-00F155  2  A0 00                 LDY #$00
-00F157  2  84 30                 STY CRCCHECK   ;If CRCCHECK=0, all is good.
-00F159  2               INTELLINE:
-00F159  2  20 1E F2        JSR GETCHAR      ;Get char
-00F15C  2  99 00 02              STA IN,Y      ;Store it
-00F15F  2  C8                    INY            ;Next
-00F160  2  C9 1B                 CMP   #$1B      ;Escape ?
-00F162  2  F0 67                 BEQ   INTELDONE   ;Yes, abort.
-00F164  2  C9 0D                 CMP #$0D      ;Did we find a new line ?
-00F166  2  D0 F1                 BNE INTELLINE   ;Nope, continue to scan line.
-00F168  2  A0 FF                 LDY #$FF      ;Find (:)
-00F16A  2               FINDCOL:
-00F16A  2  C8                 INY
-00F16B  2  B9 00 02              LDA IN,Y
-00F16E  2  C9 3A                 CMP #$3A      ; Is it Colon ?
-00F170  2  D0 F8                 BNE FINDCOL      ; Nope, try next.
-00F172  2  C8                    INY            ; Skip colon
-00F173  2  A2 00                 LDX   #$00      ; Zero in X
-00F175  2  86 2F                 STX   CRC         ; Zero Check sum
-00F177  2  20 FB F1              JSR GETHEX      ; Get Number of bytes.
-00F17A  2  85 2E                 STA COUNTER      ; Number of bytes in Counter.
-00F17C  2  18                    CLC            ; Clear carry
-00F17D  2  65 2F                 ADC CRC         ; Add CRC
-00F17F  2  85 2F                 STA CRC         ; Store it
-00F181  2  20 FB F1              JSR GETHEX      ; Get Hi byte
-00F184  2  85 27                 STA STH         ; Store it
-00F186  2  18                    CLC            ; Clear carry
-00F187  2  65 2F                 ADC CRC         ; Add CRC
-00F189  2  85 2F                 STA CRC         ; Store it
-00F18B  2  20 FB F1              JSR GETHEX      ; Get Lo byte
-00F18E  2  85 26                 STA STL         ; Store it
-00F190  2  18                    CLC            ; Clear carry
-00F191  2  65 2F                 ADC CRC         ; Add CRC
-00F193  2  85 2F                 STA CRC         ; Store it
-00F195  2  A9 2E                 LDA #$2E      ; Load "."
-00F197  2  20 22 F1              JSR ECHO      ; Print it to indicate activity.
-00F19A  2               NODOT:
-00F19A  2  20 FB F1           JSR GETHEX      ; Get Control byte.
-00F19D  2  C9 01                 CMP   #$01      ; Is it a Termination record ?
-00F19F  2  F0 2A                 BEQ   INTELDONE   ; Yes, we are done.
-00F1A1  2  18                    CLC            ; Clear carry
-00F1A2  2  65 2F                 ADC CRC         ; Add CRC
-00F1A4  2  85 2F                 STA CRC         ; Store it
-00F1A6  2               INTELSTORE:
-00F1A6  2  20 FB F1           JSR GETHEX      ; Get Data Byte
-00F1A9  2  81 26              STA (STL,X)      ; Store it
-00F1AB  2  18                 CLC            ; Clear carry
-00F1AC  2  65 2F              ADC CRC         ; Add CRC
-00F1AE  2  85 2F              STA CRC         ; Store it
-00F1B0  2  E6 26              INC STL         ; Next Address
-00F1B2  2  D0 02              BNE TESTCOUNT   ; Test to see if Hi byte needs INC
-00F1B4  2  E6 27              INC STH         ; If so, INC it.
-00F1B6  2               TESTCOUNT:
-00F1B6  2  C6 2E              DEC   COUNTER      ; Count down.
-00F1B8  2  D0 EC              BNE INTELSTORE   ; Next byte
-00F1BA  2  20 FB F1           JSR GETHEX      ; Get Checksum
-00F1BD  2  A0 00              LDY #$00      ; Zero Y
-00F1BF  2  18                 CLC            ; Clear carry
-00F1C0  2  65 2F              ADC CRC         ; Add CRC
-00F1C2  2  F0 95              BEQ INTELLINE   ; Checksum OK.
-00F1C4  2  A9 01              LDA #$01      ; Flag CRC error.
-00F1C6  2  85 30              STA   CRCCHECK   ; Store it
-00F1C8  2  4C 59 F1           JMP INTELLINE   ; Process next line.
-00F1CB  2               
-00F1CB  2               INTELDONE:
-00F1CB  2  A5 30              LDA CRCCHECK   ; Test if everything is OK.
-00F1CD  2  F0 16              BEQ OKMESS      ; Show OK message.
-00F1CF  2  A9 0D              LDA #$0D
-00F1D1  2  20 22 F1           JSR ECHO      ;New line.
-00F1D4  2  A9 76              LDA #<MSG4      ; Load Error Message
-00F1D6  2  85 2C              STA MSGL
-00F1D8  2  A9 F2              LDA #>MSG4
-00F1DA  2  85 2D              STA MSGH
-00F1DC  2  20 33 F1           JSR SHWMSG      ;Show Error.
-00F1DF  2  A9 0D              LDA #$0D
-00F1E1  2  20 22 F1           JSR ECHO      ;New line.
-00F1E4  2  60                 RTS
-00F1E5  2               
-00F1E5  2               OKMESS:
-00F1E5  2  A9 0D              LDA #$0D
-00F1E7  2  20 22 F1           JSR ECHO      ;New line.
-00F1EA  2  A9 5F              LDA #<MSG3      ;Load OK Message.
-00F1EC  2  85 2C              STA MSGL
-00F1EE  2  A9 F2              LDA #>MSG3
-00F1F0  2  85 2D              STA MSGH
-00F1F2  2  20 33 F1           JSR SHWMSG      ;Show Done.
-00F1F5  2  A9 0D              LDA #$0D
-00F1F7  2  20 22 F1           JSR ECHO      ;New line.
-00F1FA  2  60                 RTS
-00F1FB  2               
-00F1FB  2               GETHEX:
-00F1FB  2  B9 00 02           LDA IN,Y      ;Get first char.
-00F1FE  2  49 30              EOR #$30
-00F200  2  C9 0A              CMP #$0A
-00F202  2  90 02              BCC DONEFIRST
-00F204  2  69 08              ADC #$08
-00F206  2               DONEFIRST:
-00F206  2  0A                 ASL
-00F207  2  0A                 ASL
-00F208  2  0A                 ASL
-00F209  2  0A                 ASL
-00F20A  2  85 28              STA L
-00F20C  2  C8                 INY
-00F20D  2  B9 00 02           LDA IN,Y      ;Get next char.
-00F210  2  49 30              EOR #$30
-00F212  2  C9 0A              CMP #$0A
-00F214  2  90 02              BCC DONESECOND
-00F216  2  69 08              ADC #$08
-00F218  2               DONESECOND:
-00F218  2  29 0F              AND #$0F
-00F21A  2  05 28              ORA L
-00F21C  2  C8                 INY
-00F21D  2  60                 RTS
-00F21E  2               
-00F21E  2               GETCHAR:
-00F21E  2  AD F0 BF           LDA ACIAStatus     ;See if we got an incoming char
-00F221  2  29 01              AND #$01        ;Test bit 3
-00F223  2  C9 01              CMP #$01
-00F225  2  D0 F7              BNE GETCHAR     ;Wait for character
-00F227  2  AD F1 BF           LDA ACIAData    ;Load char
-00F22A  2  60                 RTS
-00F22B  2               
-00F22B  2               MSG1:
-00F22B  2  57 65 6C 63        .byte "Welcome to EWOZ 1.0.",0
-00F22F  2  6F 6D 65 20  
-00F233  2  74 6F 20 45  
-00F240  2               MSG2:
-00F240  2  53 74 61 72        .byte "Start Intel Hex code Transfer.",0
-00F244  2  74 20 49 6E  
-00F248  2  74 65 6C 20  
-00F25F  2               MSG3:
-00F25F  2  49 6E 74 65        .byte "Intel Hex Imported OK.",0
-00F263  2  6C 20 48 65  
-00F267  2  78 20 49 6D  
-00F276  2               MSG4:
-00F276  2  49 6E 74 65        .byte "Intel Hex Imported with checksum error.",0
-00F27A  2  6C 20 48 65  
-00F27E  2  78 20 49 6D  
-00F29E  2               
-00F29E  2               
-00F29E  2               
-00F29E  2               
-00F29E  2               
-00F29E  2               
-00F29E  1               
-00F29E  1               ; put the IRQ and MNI code in RAM so that it can be changed
-00F29E  1               
-00F29E  1               IRQ_vec	= VEC_SV+2		; IRQ code vector
-00F29E  1               NMI_vec	= IRQ_vec+$0A	; NMI code vector
-00F29E  1               
-00F29E  1               ; setup for the 6502 simulator environment
-00F29E  1               
-00F29E  1               IO_AREA	= $BFF0		; set I/O area for this monitor (Console port)
-00F29E  1               
-00F29E  1               ;ACIAsimwr	= IO_AREA+$01	; simulated ACIA write port
-00F29E  1               ;ACIAsimrd	= IO_AREA+$04	; simulated ACIA read port
-00F29E  1               ACIAStatus	= IO_AREA		; FT245 Status
-00F29E  1               ACIAData	= IO_AREA+$01	; FT245 Data in/out
-00F29E  1               
-00F29E  1               ; Keyboard ACIA (65c51) memory locations
-00F29E  1               A_rxd           = $BFE0 ; ACIA receive data port
-00F29E  1               A_txd           = $BFE0 ; ACIA transmit data port
-00F29E  1               A_sts           = $BFE1 ; ACIA status port
-00F29E  1               A_res           = $BFE1 ; ACIA reset port
-00F29E  1               A_cmd           = $BFE2 ; ACIA command port
-00F29E  1               A_ctl           = $BFE3 ; ACIA control port
-00F29E  1               
-00F29E  1               A_Beeper		= $BFA0 ; Beeper address
-00F29E  1               
-00F29E  1               ; compact flash bits n bobs
-00F29E  1               CF_ADDRESS		= $BFB0	; Compact flash address
-00F29E  1               CF_BUFF1 		= $0400	; First 256 bytes of 512 Byte buffer for compact flash read/write
-00F29E  1               CF_BUFF2 		= $0500	; Second 256 bytes of 512 Byte buffer for compact flash read/write
-00F29E  1               CF_LB			= $0600 ; Place for low byte of sector address
-00F29E  1               CF_MB			= $0601 ; Place for middle byte of sector address
-00F29E  1               CF_HB			= $0602 ; Place for high byte of sector address
-00F29E  1               
-00F29E  1               
-00F29E  1               ; 256 byte page used for my loops and bits (away from basic)
-00F29E  1               MyDL 			= $610
-00F29E  1               MyDL2		 	= $611
-00F29E  1               MyDL3			= $612
-00F29E  1               MyLP1			= $620
-00F29E  1               MyLP2			= $621
-00F29E  1               MyTEMP			= $650
-00F29E  1               
-00F29E  1               
-00F29E  1               
-00F29E  1               BEEP_PW			= $FF
-00F29E  1               BEEP_PW2		= $7F
-00F29E  1               BEEP_LN			= $80
-00F29E  1               
-00F29E  1               ; bits for load/save
-00F29E  1               ;Itempl            = $11       ; temporary integer low byte, defined in EhBASIC
-00F29E  1               ;Itemph            = Itempl+1  ; temporary integer high byte, defined in EhBASIC
-00F29E  1               
-00F29E  1               ; now the code. all this does is set up the vectors and interrupt code
-00F29E  1               ; and wait for the user to select [C]old or [W]arm start. nothing else
-00F29E  1               ; fits in less than 128 bytes
-00F29E  1               	.segment "IOHANDLER"
-00F29E  1               	.org	$F300			; pretend this is in a 1/8K ROM
+00F077  2  F0 36                    BEQ RUN         ;Yes, run user program
+00F079  2  C9 D1                    CMP #$D1          ;? QUIT TO BASIC.
+00F07B  2  F0 31                    BEQ EXIT          ;
+00F07D  2  C9 CC                    CMP #$CC        ;* "L"?
+00F07F  2  F0 37                    BEQ LOADINT     ;* Yes, Load Intel Code.
+00F081  2  86 28                    STX L           ;$00->L.
+00F083  2  86 29                    STX H           ; and H.
+00F085  2  84 2A                    STY YSAV        ;Save Y for comparison.
+00F087  2               NEXTHEX:
+00F087  2  B9 00 03          LDA IN,Y        ;Get character for hex test.
+00F08A  2  49 B0                    EOR #$B0        ;Map digits to $0-9.
+00F08C  2  C9 0A                    CMP #$0A        ;Digit?
+00F08E  2  90 06                    BCC DIG         ;Yes.
+00F090  2  69 88                    ADC #$88        ;Map letter "A"-"F" to $FA-FF.
+00F092  2  C9 FA                    CMP #$FA        ;Hex letter?
+00F094  2  90 11                    BCC NOTHEX      ;No, character not hex.
+00F096  2               DIG:
+00F096  2  0A                    ASL
+00F097  2  0A                       ASL             ;Hex digit to MSD of A.
+00F098  2  0A                       ASL
+00F099  2  0A                       ASL
+00F09A  2  A2 04                    LDX #$04        ;Shift count.
+00F09C  2               HEXSHIFT:
+00F09C  2  0A              ASL             ;Hex digit left MSB to carry.
+00F09D  2  26 28                    ROL L           ;Rotate into LSD.
+00F09F  2  26 29                    ROL H           ;Rotate into MSD's.
+00F0A1  2  CA                       DEX             ;Done 4 shifts?
+00F0A2  2  D0 F8                    BNE HEXSHIFT    ;No, loop.
+00F0A4  2  C8                       INY             ;Advance text index.
+00F0A5  2  D0 E0                    BNE NEXTHEX     ;Always taken. Check next character for hex.
+00F0A7  2               NOTHEX:
+00F0A7  2  C4 2A              CPY YSAV        ;Check if L, H empty (no hex digits).
+00F0A9  2  D0 13                 BNE NOESCAPE   ;* Branch out of range, had to improvise...
+00F0AB  2  4C 24 F0                 JMP ESCAPE      ;Yes, generate ESC sequence.
+00F0AE  2               EXIT:                         ; ? RTS TO BASIC
+00F0AE  2  60                    RTS
+00F0AF  2               
+00F0AF  2               RUN:
+00F0AF  2  20 B5 F0              JSR ACTRUN      ;* JSR to the Address we want to run.
+00F0B2  2  4C 17 F0              JMP   SOFTRESET   ;* When returned for the program, reset EWOZ.
+00F0B5  2               ACTRUN:
+00F0B5  2  6C 24 00           JMP (XAML)      ;Run at current XAM index.
+00F0B8  2               
+00F0B8  2               LOADINT:
+00F0B8  2  20 45 F1           JSR LOADINTEL   ;* Load the Intel code.
+00F0BB  2  4C 17 F0              JMP   SOFTRESET   ;* When returned from the program, reset EWOZ.
+00F0BE  2               
+00F0BE  2               NOESCAPE:
+00F0BE  2  24 2B            BIT MODE        ;Test MODE byte.
+00F0C0  2  50 0D                    BVC NOTSTOR     ;B6=0 for STOR, 1 for XAM and BLOCK XAM
+00F0C2  2  A5 28                    LDA L           ;LSD's of hex data.
+00F0C4  2  81 26                    STA (STL, X)    ;Store at current "store index".
+00F0C6  2  E6 26                    INC STL         ;Increment store index.
+00F0C8  2  D0 9A                    BNE NEXTITEM    ;Get next item. (no carry).
+00F0CA  2  E6 27                    INC STH         ;Add carry to 'store index' high order.
+00F0CC  2               TONEXTITEM:
+00F0CC  2  4C 64 F0       JMP NEXTITEM    ;Get next command item.
+00F0CF  2               NOTSTOR:
+00F0CF  2  30 2B             BMI XAMNEXT     ;B7=0 for XAM, 1 for BLOCK XAM.
+00F0D1  2  A2 02                    LDX #$02        ;Byte count.
+00F0D3  2               SETADR:
+00F0D3  2  B5 27              LDA L-1,X       ;Copy hex data to
+00F0D5  2  95 25                    STA STL-1,X     ;"store index".
+00F0D7  2  95 23                    STA XAML-1,X    ;And to "XAM index'.
+00F0D9  2  CA                       DEX             ;Next of 2 bytes.
+00F0DA  2  D0 F7                    BNE SETADR      ;Loop unless X = 0.
+00F0DC  2               NXTPRNT:
+00F0DC  2               
+00F0DC  2  D0 14             BNE PRDATA      ;NE means no address to print.
+00F0DE  2  A9 8D                    LDA #$8D        ;CR.
+00F0E0  2  20 27 F1                 JSR ECHO        ;Output it.
+00F0E3  2  A5 25                    LDA XAMH        ;'Examine index' high-order byte.
+00F0E5  2  20 14 F1                 JSR PRBYTE      ;Output it in hex format.
+00F0E8  2  A5 24                    LDA XAML        ;Low-order "examine index" byte.
+00F0EA  2  20 14 F1                 JSR PRBYTE      ;Output it in hex format.
+00F0ED  2  A9 BA                    LDA #$BA        ;":".
+00F0EF  2  20 27 F1                 JSR ECHO        ;Output it.
+00F0F2  2               PRDATA:
+00F0F2  2               
+00F0F2  2  A9 A0              LDA #$A0        ;Blank.
+00F0F4  2  20 27 F1                 JSR ECHO        ;Output it.
+00F0F7  2  A1 24                    LDA (XAML,X)    ;Get data byte at 'examine index".
+00F0F9  2  20 14 F1                 JSR PRBYTE      ;Output it in hex format.
+00F0FC  2               XAMNEXT:
+00F0FC  2  86 2B             STX MODE        ;0-> MODE (XAM mode).
+00F0FE  2  A5 24                    LDA XAML
+00F100  2  C5 28                    CMP L           ;Compare 'examine index" to hex data.
+00F102  2  A5 25                    LDA XAMH
+00F104  2  E5 29                    SBC H
+00F106  2  B0 C4                    BCS TONEXTITEM  ;Not less, so no more data to output.
+00F108  2  E6 24                    INC XAML
+00F10A  2  D0 02                    BNE MOD8CHK     ;Increment 'examine index".
+00F10C  2  E6 25                    INC XAMH
+00F10E  2               MOD8CHK:
+00F10E  2  A5 24             LDA XAML        ;Check low-order 'exainine index' byte
+00F110  2  29 0F                    AND #$0F        ;For MOD 8=0 ** changed to $0F to get 16 values per row **
+00F112  2  10 C8                    BPL NXTPRNT     ;Always taken.
+00F114  2               PRBYTE:
+00F114  2  48                 PHA             ;Save A for LSD.
+00F115  2  4A                       LSR
+00F116  2  4A                       LSR
+00F117  2  4A                       LSR             ;MSD to LSD position.
+00F118  2  4A                       LSR
+00F119  2  20 1D F1                 JSR PRHEX       ;Output hex digit.
+00F11C  2  68                       PLA             ;Restore A.
+00F11D  2               PRHEX:
+00F11D  2  29 0F              AND   #$0F        ;Mask LSD for hex print.
+00F11F  2  09 B0              ORA   #$B0        ;Add "0".
+00F121  2  C9 BA              CMP   #$BA        ;Digit?
+00F123  2  90 02              BCC   ECHO        ;Yes, output it.
+00F125  2  69 06              ADC   #$06        ;Add offset for letter.
+00F127  2               ECHO:
+00F127  2  48                 PHA               ;*Save A
+00F128  2  29 7F              AND   #$7F        ;*Change to "standard ASCII"
+00F12A  2  8D F1 BF           STA   ACIAData    ;*Send it.
+00F12D  2               @WAIT:
+00F12D  2  AD F0 BF           LDA   ACIAStatus  ;*Load status register for ACIA
+00F130  2  29 02              AND   #$02        ;*Mask bit 2.
+00F132  2  C9 02              CMP   #$02
+00F134  2  D0 F7              BNE    @WAIT      ;*ACIA not done yet, wait.
+00F136  2  68                 PLA               ;*Restore A
+00F137  2  60                 RTS               ;*Done, over and out...
+00F138  2               
+00F138  2               SHWMSG:
+00F138  2  A0 00              LDY #$0
+00F13A  2               @PRINT:
+00F13A  2  B1 2C              LDA (MSGL),Y
+00F13C  2  F0 06                 BEQ @DONE
+00F13E  2  20 27 F1              JSR ECHO
+00F141  2  C8                    INY
+00F142  2  D0 F6                 BNE @PRINT
+00F144  2               @DONE:
+00F144  2  60                 RTS
+00F145  2               
+00F145  2               
+00F145  2               ; Load an program in Intel Hex Format.
+00F145  2               LOADINTEL:
+00F145  2  A9 0D           LDA #$0D
+00F147  2  20 27 F1              JSR ECHO      ;New line.
+00F14A  2  A9 45                 LDA #<MSG2
+00F14C  2  85 2C                 STA MSGL
+00F14E  2  A9 F2                 LDA #>MSG2
+00F150  2  85 2D                 STA MSGH
+00F152  2  20 38 F1              JSR SHWMSG      ;Show Start Transfer.
+00F155  2  A9 0D                 LDA #$0D
+00F157  2  20 27 F1              JSR ECHO      ;New line.
+00F15A  2  A0 00                 LDY #$00
+00F15C  2  84 30                 STY CRCCHECK   ;If CRCCHECK=0, all is good.
+00F15E  2               INTELLINE:
+00F15E  2  20 23 F2        JSR GETCHAR      ;Get char
+00F161  2  99 00 03              STA IN,Y      ;Store it
+00F164  2  C8                    INY            ;Next
+00F165  2  C9 1B                 CMP   #$1B      ;Escape ?
+00F167  2  F0 67                 BEQ   INTELDONE   ;Yes, abort.
+00F169  2  C9 0D                 CMP #$0D      ;Did we find a new line ?
+00F16B  2  D0 F1                 BNE INTELLINE   ;Nope, continue to scan line.
+00F16D  2  A0 FF                 LDY #$FF      ;Find (:)
+00F16F  2               FINDCOL:
+00F16F  2  C8                 INY
+00F170  2  B9 00 03              LDA IN,Y
+00F173  2  C9 3A                 CMP #$3A      ; Is it Colon ?
+00F175  2  D0 F8                 BNE FINDCOL      ; Nope, try next.
+00F177  2  C8                    INY            ; Skip colon
+00F178  2  A2 00                 LDX   #$00      ; Zero in X
+00F17A  2  86 2F                 STX   CRC         ; Zero Check sum
+00F17C  2  20 00 F2              JSR GETHEX      ; Get Number of bytes.
+00F17F  2  85 2E                 STA COUNTER      ; Number of bytes in Counter.
+00F181  2  18                    CLC            ; Clear carry
+00F182  2  65 2F                 ADC CRC         ; Add CRC
+00F184  2  85 2F                 STA CRC         ; Store it
+00F186  2  20 00 F2              JSR GETHEX      ; Get Hi byte
+00F189  2  85 27                 STA STH         ; Store it
+00F18B  2  18                    CLC            ; Clear carry
+00F18C  2  65 2F                 ADC CRC         ; Add CRC
+00F18E  2  85 2F                 STA CRC         ; Store it
+00F190  2  20 00 F2              JSR GETHEX      ; Get Lo byte
+00F193  2  85 26                 STA STL         ; Store it
+00F195  2  18                    CLC            ; Clear carry
+00F196  2  65 2F                 ADC CRC         ; Add CRC
+00F198  2  85 2F                 STA CRC         ; Store it
+00F19A  2  A9 2E                 LDA #$2E      ; Load "."
+00F19C  2  20 27 F1              JSR ECHO      ; Print it to indicate activity.
+00F19F  2               NODOT:
+00F19F  2  20 00 F2           JSR GETHEX      ; Get Control byte.
+00F1A2  2  C9 01                 CMP   #$01      ; Is it a Termination record ?
+00F1A4  2  F0 2A                 BEQ   INTELDONE   ; Yes, we are done.
+00F1A6  2  18                    CLC            ; Clear carry
+00F1A7  2  65 2F                 ADC CRC         ; Add CRC
+00F1A9  2  85 2F                 STA CRC         ; Store it
+00F1AB  2               INTELSTORE:
+00F1AB  2  20 00 F2           JSR GETHEX      ; Get Data Byte
+00F1AE  2  81 26              STA (STL,X)      ; Store it
+00F1B0  2  18                 CLC            ; Clear carry
+00F1B1  2  65 2F              ADC CRC         ; Add CRC
+00F1B3  2  85 2F              STA CRC         ; Store it
+00F1B5  2  E6 26              INC STL         ; Next Address
+00F1B7  2  D0 02              BNE TESTCOUNT   ; Test to see if Hi byte needs INC
+00F1B9  2  E6 27              INC STH         ; If so, INC it.
+00F1BB  2               TESTCOUNT:
+00F1BB  2  C6 2E              DEC   COUNTER      ; Count down.
+00F1BD  2  D0 EC              BNE INTELSTORE   ; Next byte
+00F1BF  2  20 00 F2           JSR GETHEX      ; Get Checksum
+00F1C2  2  A0 00              LDY #$00      ; Zero Y
+00F1C4  2  18                 CLC            ; Clear carry
+00F1C5  2  65 2F              ADC CRC         ; Add CRC
+00F1C7  2  F0 95              BEQ INTELLINE   ; Checksum OK.
+00F1C9  2  A9 01              LDA #$01      ; Flag CRC error.
+00F1CB  2  85 30              STA   CRCCHECK   ; Store it
+00F1CD  2  4C 5E F1           JMP INTELLINE   ; Process next line.
+00F1D0  2               
+00F1D0  2               INTELDONE:
+00F1D0  2  A5 30              LDA CRCCHECK   ; Test if everything is OK.
+00F1D2  2  F0 16              BEQ OKMESS      ; Show OK message.
+00F1D4  2  A9 0D              LDA #$0D
+00F1D6  2  20 27 F1           JSR ECHO      ;New line.
+00F1D9  2  A9 7B              LDA #<MSG4      ; Load Error Message
+00F1DB  2  85 2C              STA MSGL
+00F1DD  2  A9 F2              LDA #>MSG4
+00F1DF  2  85 2D              STA MSGH
+00F1E1  2  20 38 F1           JSR SHWMSG      ;Show Error.
+00F1E4  2  A9 0D              LDA #$0D
+00F1E6  2  20 27 F1           JSR ECHO      ;New line.
+00F1E9  2  60                 RTS
+00F1EA  2               
+00F1EA  2               OKMESS:
+00F1EA  2  A9 0D              LDA #$0D
+00F1EC  2  20 27 F1           JSR ECHO      ;New line.
+00F1EF  2  A9 64              LDA #<MSG3      ;Load OK Message.
+00F1F1  2  85 2C              STA MSGL
+00F1F3  2  A9 F2              LDA #>MSG3
+00F1F5  2  85 2D              STA MSGH
+00F1F7  2  20 38 F1           JSR SHWMSG      ;Show Done.
+00F1FA  2  A9 0D              LDA #$0D
+00F1FC  2  20 27 F1           JSR ECHO      ;New line.
+00F1FF  2  60                 RTS
+00F200  2               
+00F200  2               GETHEX:
+00F200  2  B9 00 03           LDA IN,Y      ;Get first char.
+00F203  2  49 30              EOR #$30
+00F205  2  C9 0A              CMP #$0A
+00F207  2  90 02              BCC DONEFIRST
+00F209  2  69 08              ADC #$08
+00F20B  2               DONEFIRST:
+00F20B  2  0A                 ASL
+00F20C  2  0A                 ASL
+00F20D  2  0A                 ASL
+00F20E  2  0A                 ASL
+00F20F  2  85 28              STA L
+00F211  2  C8                 INY
+00F212  2  B9 00 03           LDA IN,Y      ;Get next char.
+00F215  2  49 30              EOR #$30
+00F217  2  C9 0A              CMP #$0A
+00F219  2  90 02              BCC DONESECOND
+00F21B  2  69 08              ADC #$08
+00F21D  2               DONESECOND:
+00F21D  2  29 0F              AND #$0F
+00F21F  2  05 28              ORA L
+00F221  2  C8                 INY
+00F222  2  60                 RTS
+00F223  2               
+00F223  2               GETCHAR:
+00F223  2  AD F0 BF           LDA ACIAStatus     ;See if we got an incoming char
+00F226  2  29 01              AND #$01        ;Test bit 3
+00F228  2  C9 01              CMP #$01
+00F22A  2  D0 F7              BNE GETCHAR     ;Wait for character
+00F22C  2  AD F1 BF           LDA ACIAData    ;Load char
+00F22F  2  60                 RTS
+00F230  2               
+00F230  2               MSG1:
+00F230  2  57 65 6C 63        .byte "Welcome to EWOZ 1.0.",0
+00F234  2  6F 6D 65 20  
+00F238  2  74 6F 20 45  
+00F245  2               MSG2:
+00F245  2  53 74 61 72        .byte "Start Intel Hex code Transfer.",0
+00F249  2  74 20 49 6E  
+00F24D  2  74 65 6C 20  
+00F264  2               MSG3:
+00F264  2  49 6E 74 65        .byte "Intel Hex Imported OK.",0
+00F268  2  6C 20 48 65  
+00F26C  2  78 20 49 6D  
+00F27B  2               MSG4:
+00F27B  2  49 6E 74 65        .byte "Intel Hex Imported with checksum error.",0
+00F27F  2  6C 20 48 65  
+00F283  2  78 20 49 6D  
+00F2A3  2               
+00F2A3  2               
+00F2A3  2               
+00F2A3  2               
+00F2A3  2               
+00F2A3  2               
+00F2A3  1               
+00F2A3  1               ; put the IRQ and MNI code in RAM so that it can be changed
+00F2A3  1               
+00F2A3  1               IRQ_vec	= VEC_SV+2		; IRQ code vector
+00F2A3  1               NMI_vec	= IRQ_vec+$0A	; NMI code vector
+00F2A3  1               
+00F2A3  1               ; setup for the 6502 simulator environment
+00F2A3  1               
+00F2A3  1               IO_AREA	= $BFF0		; set I/O area for this monitor (Console port)
+00F2A3  1               
+00F2A3  1               
+00F2A3  1               ;ACIAsimwr	= IO_AREA+$01	; simulated ACIA write port
+00F2A3  1               ;ACIAsimrd	= IO_AREA+$04	; simulated ACIA read port
+00F2A3  1               ACIAStatus	= IO_AREA		; FT245 Status
+00F2A3  1               ACIAData	= IO_AREA+$01	; FT245 Data in/out
+00F2A3  1               
+00F2A3  1               ; Keyboard ACIA (65c51) memory locations
+00F2A3  1               A_rxd           = $BFE0 ; ACIA receive data port
+00F2A3  1               A_txd           = $BFE0 ; ACIA transmit data port
+00F2A3  1               A_sts           = $BFE1 ; ACIA status port
+00F2A3  1               A_res           = $BFE1 ; ACIA reset port
+00F2A3  1               A_cmd           = $BFE2 ; ACIA command port
+00F2A3  1               A_ctl           = $BFE3 ; ACIA control port
+00F2A3  1               
+00F2A3  1               A_Beeper		= $BFA0 ; Beeper address
+00F2A3  1               
+00F2A3  1               ; compact flash bits n bobs
+00F2A3  1               CF_ADDRESS		= $BFB0	; Compact flash address
+00F2A3  1               CF_BUFF1 		= $0400	; First 256 bytes of 512 Byte buffer for compact flash read/write
+00F2A3  1               CF_BUFF2 		= $0500	; Second 256 bytes of 512 Byte buffer for compact flash read/write
+00F2A3  1               CF_LB			= $0600 ; Place for low byte of sector address
+00F2A3  1               CF_MB			= $0601 ; Place for middle byte of sector address
+00F2A3  1               CF_HB			= $0602 ; Place for high byte of sector address
+00F2A3  1               
+00F2A3  1               
+00F2A3  1               ; 256 byte page used for my loops and bits (away from basic)
+00F2A3  1               MyDL 			= $610
+00F2A3  1               MyDL2		 	= $611
+00F2A3  1               MyDL3			= $612
+00F2A3  1               MyLP1			= $620
+00F2A3  1               MyLP2			= $621
+00F2A3  1               MyTEMP			= $650
+00F2A3  1               
+00F2A3  1               
+00F2A3  1               
+00F2A3  1               BEEP_PW			= $FF		; pitch of "low" beep
+00F2A3  1               BEEP_PW2		= $7F		; pitch of "high" beep
+00F2A3  1               BEEP_LN			= $20
+00F2A3  1               
+00F2A3  1               DELAY_LEN1		= $05		; Also affects pitch
+00F2A3  1               
+00F2A3  1               ; now the code. all this does is set up the vectors and interrupt code
+00F2A3  1               ; and wait for the user to select [C]old or [W]arm start. nothing else
+00F2A3  1               ; fits in less than 128 bytes
+00F2A3  1               	.segment "IOHANDLER"
+00F2A3  1               	.org	$F300			; pretend this is in a 1/8K ROM
 00F300  1               
 00F300  1               ; reset vector points here
 00F300  1               
@@ -9459,7 +9457,7 @@ Current file: min_mon.asm
 00F304  1               
 00F304  1  A0 1E        	LDY	#END_CODE-LAB_vec	; set index/count
 00F306  1               LAB_stlp
-00F306  1  B9 15 F5     	LDA	LAB_vec-1,Y		; get byte from interrupt code
+00F306  1  B9 53 F4     	LDA	LAB_vec-1,Y		; get byte from interrupt code
 00F309  1  99 04 02     	STA	VEC_IN-1,Y		; save to RAM
 00F30C  1  88           	DEY					; decrement index/count
 00F30D  1  D0 F7        	BNE	LAB_stlp		; loop if more to do
@@ -9473,441 +9471,324 @@ Current file: min_mon.asm
 00F317  1  A9 10            LDA #$10        ; 8-N-1, 115200 baud
 00F319  1  8D E3 BF         STA A_ctl       ; set control register
 00F31C  1               
-00F31C  1  20 AC F4     	JSR PWR_BEEP_LOW	; power beep
+00F31C  1  20 1A F4     	JSR PWR_BEEP_LOW	; power beep
 00F31F  1               
 00F31F  1               ; now do the signon message, Y = $00 here
 00F31F  1               LAB_signon
-00F31F  1  B9 34 F5     	LDA	LAB_mess,Y		; get byte from sign on message
+00F31F  1  B9 72 F4     	LDA	LAB_mess,Y		; get byte from sign on message
 00F322  1  F0 06        	BEQ KYB_msg			; display next message
 00F324  1               
 00F324  1  20 FC E0     	JSR	V_OUTP			; output character
 00F327  1  C8           	INY					; increment index
 00F328  1  D0 F5        	BNE	LAB_signon		; loop, branch always
 00F32A  1               
-00F32A  1               
-00F32A  1               ; send signon message to keyboard
 00F32A  1               KYB_msg
-00F32A  1  A0 00        	LDY #$00
-00F32C  1               
-00F32C  1               KYB_signon
-00F32C  1  B9 5D F5     	LDA KYB_mess,Y
-00F32F  1  F0 06        	BEQ	LAB_nokey		; exit loop if done
-00F331  1               
-00F331  1  20 7D F3     	JSR KEYBout			;
-00F334  1  C8           	INY					; increment index
-00F335  1  D0 F5        	BNE KYB_signon		; loop, always
-00F337  1               
-00F337  1               LAB_nokey
-00F337  1  20 F9 E0     	JSR	V_INPT			; call scan input device
-00F33A  1  90 FB        	BCC	LAB_nokey		; loop if no key
-00F33C  1               
-00F33C  1  20 6E F3     	JSR	ACIAout			; output character
+00F32A  1  20 D9 F3     	JSR KYB_cwmmsg
+00F32D  1               
+00F32D  1               LAB_nokey
+00F32D  1  20 F9 E0     	JSR	V_INPT			; call scan input device
+00F330  1  90 FB        	BCC	LAB_nokey		; loop if no key
+00F332  1               
+00F332  1  20 6D F3     	JSR	ACIAout			; output character
+00F335  1               
+00F335  1  29 DF        	AND	#$DF			; mask xx0x xxxx, ensure upper case
+00F337  1  C9 57        	CMP	#'W'			; compare with [W]arm start
+00F339  1  F0 16        	BEQ	LAB_dowarm		; branch if [W]arm start
+00F33B  1               
+00F33B  1  C9 4D            CMP #'M'
+00F33D  1  F0 20            BEQ LAB_dowoz
 00F33F  1               
-00F33F  1  29 DF        	AND	#$DF			; mask xx0x xxxx, ensure upper case
-00F341  1  C9 57        	CMP	#'W'			; compare with [W]arm start
-00F343  1  F0 13        	BEQ	LAB_dowarm		; branch if [W]arm start
-00F345  1               
-00F345  1  C9 4D            CMP #'M'
-00F347  1  F0 1A            BEQ LAB_dowoz
-00F349  1               
-00F349  1  C9 43        	CMP	#'C'			; compare with [C]old start
-00F34B  1  D0 B3        	BNE	RES_vec			; loop if not [C]old start
-00F34D  1               
-00F34D  1  A9 0D        	LDA #$0D
-00F34F  1  8D E0 BF     	STA A_txd			; clear keyboard screen
-00F352  1               
-00F352  1  20 ED F4     	JSR PWR_BEEP_HIGH
-00F355  1  4C 00 C0     	JMP	LAB_COLD		; do EhBASIC cold start
-00F358  1               
-00F358  1               LAB_dowarm
-00F358  1  A9 0D        	LDA #$0D
-00F35A  1  8D E0 BF     	STA A_txd			; clear keyboard screen
-00F35D  1  20 ED F4     	JSR PWR_BEEP_HIGH
-00F360  1  4C 00 00     	JMP	LAB_WARM		; do EhBASIC warm start
-00F363  1               LAB_dowoz
-00F363  1  A9 0D        	LDA #$0D
-00F365  1  8D E0 BF     	STA A_txd			; clear keyboard screen
-00F368  1  20 ED F4     	JSR PWR_BEEP_HIGH
-00F36B  1  4C 00 F0         JMP EWOZ
-00F36E  1               
-00F36E  1               ; byte out to simulated ACIA
-00F36E  1               ACIAout
-00F36E  1  48           	PHA
-00F36F  1               SWait:
-00F36F  1  AD F0 BF     	LDA	ACIAStatus
-00F372  1  29 02        	AND	#2
-00F374  1  C9 02        	CMP	#2
-00F376  1  D0 F7        	BNE	SWait
-00F378  1  68           	PLA
-00F379  1  8D F1 BF     	STA	ACIAData
-00F37C  1               
-00F37C  1               ; When screen is working insert screen text output code here
-00F37C  1               
-00F37C  1               
-00F37C  1               
+00F33F  1  C9 43        	CMP	#'C'			; compare with [C]old start
+00F341  1  D0 BD        	BNE	RES_vec			; loop if not [C]old start
+00F343  1               
+00F343  1  A9 0D        	LDA #$0D
+00F345  1  8D E0 BF     	STA A_txd			; clear keyboard screen
+00F348  1               
+00F348  1  20 BD F3     	JSR KYB_basmsg
+00F34B  1  20 EB F3     	JSR PWR_BEEP_HIGH
+00F34E  1               
+00F34E  1  4C 00 C0     	JMP	LAB_COLD		; do EhBASIC cold start
+00F351  1               
+00F351  1               LAB_dowarm
+00F351  1  A9 0D        	LDA #$0D
+00F353  1  8D E0 BF     	STA A_txd			; clear keyboard screen
+00F356  1  20 EB F3     	JSR PWR_BEEP_HIGH
+00F359  1  20 BD F3     	JSR KYB_basmsg
+00F35C  1  4C 00 00     	JMP	LAB_WARM		; do EhBASIC warm start
+00F35F  1               LAB_dowoz
+00F35F  1  A9 0D        	LDA #$0D
+00F361  1  8D E0 BF     	STA A_txd			; clear keyboard screen
+00F364  1  20 CB F3     	JSR KYB_wozmsg
+00F367  1  20 EB F3     	JSR PWR_BEEP_HIGH
+00F36A  1  4C 00 F0         JMP EWOZ
+00F36D  1               
+00F36D  1               ; byte out to simulated ACIA
+00F36D  1               ACIAout
+00F36D  1  48           	PHA
+00F36E  1               SWait:
+00F36E  1  AD F0 BF     	LDA	ACIAStatus
+00F371  1  29 02        	AND	#2
+00F373  1  C9 02        	CMP	#2
+00F375  1  D0 F7        	BNE	SWait
+00F377  1  68           	PLA
+00F378  1  8D F1 BF     	STA	ACIAData
+00F37B  1               
+00F37B  1               ; When screen is working insert screen text output code here
+00F37B  1               
+00F37B  1               
+00F37B  1               ; end of screen output code
+00F37B  1  60           	RTS						; end of ACIAout
 00F37C  1               
 00F37C  1               
 00F37C  1               
-00F37C  1               ; end of screen output code
-00F37C  1  60           	RTS						; end of ACIAout
-00F37D  1               
-00F37D  1               
-00F37D  1               ; byte out to keyboard 65c51
-00F37D  1               KEYBout
-00F37D  1  8D E0 BF     	STA A_txd			; send character to keyboard display
-00F380  1  48           	PHA					; save A
-00F381  1               
-00F381  1  A9 FF        	LDA #$FF
-00F383  1  8D 10 06     	STA MyDL
-00F386  1               KEYDL				; Outer loop
-00F386  1  A9 40        	LDA #$40
-00F388  1  8D 11 06     	STA MyDL2
-00F38B  1               KEYDL2				; Inner loop
-00F38B  1  CE 11 06     	DEC MyDL2
-00F38E  1  D0 FB        	BNE	KEYDL2
-00F390  1               
-00F390  1  CE 10 06     	DEC MyDL
-00F393  1  D0 F1        	BNE KEYDL		; if not 0 increment more
-00F395  1               
-00F395  1  68           	PLA
-00F396  1  60           	RTS
-00F397  1               
-00F397  1               
-00F397  1               LAB_WAIT_Rx
-00F397  1  AD E1 BF         LDA A_sts       ; get ACIA status
-00F39A  1  29 08            AND #$08        ; mask rx buffer status flag
-00F39C  1  F0 F9            BEQ LAB_WAIT_Rx ; loop if rx buffer empty
-00F39E  1               
-00F39E  1  AD E0 BF         LDA A_rxd       ; get byte from ACIA data port
-00F3A1  1               
-00F3A1  1               
-00F3A1  1               ; byte in from simulated ACIA or Keyboard
-00F3A1  1               ACIAin
-00F3A1  1  AD F0 BF     	LDA	ACIAStatus
-00F3A4  1  29 01        	AND	#1
-00F3A6  1  C9 01        	CMP	#1
-00F3A8  1  D0 05        	BNE	NoDataIn
-00F3AA  1  AD F1 BF     	LDA	ACIAData
-00F3AD  1  38           	SEC		; Carry set if key available
-00F3AE  1  60           	RTS
-00F3AF  1               NoDataIn:
-00F3AF  1  18           	CLC		; Carry clear if no key pressed
-00F3B0  1               
-00F3B0  1               KEY_WAIT_Rx
-00F3B0  1  AD E1 BF         LDA A_sts       ; get ACIA status
-00F3B3  1  29 08            AND #$08        ; mask rx buffer status flag
-00F3B5  1  F0 05            BEQ KEYB_NoData ; loop if rx buffer empty
-00F3B7  1               
-00F3B7  1  AD E0 BF         LDA A_rxd       ; get byte from ACIA data port
-00F3BA  1  38           	SEC				; Carry set if key available
-00F3BB  1  60           	RTS
-00F3BC  1               
-00F3BC  1               KEYB_NoData
-00F3BC  1  18           	CLC				; Carry clear if no key pressed
-00F3BD  1  60           	RTS
-00F3BE  1               
-00F3BE  1               
-00F3BE  1               
-00F3BE  1               IO_LOAD				; load vector for EhBASIC
-00F3BE  1  20 79 F4     	JSR CF_LDSV_INIT
-00F3C1  1               
-00F3C1  1               
-00F3C1  1  60           	RTS
-00F3C2  1               
-00F3C2  1               
-00F3C2  1               IO_SAVE				; save vector for EhBASIC
-00F3C2  1  20 79 F4     	JSR CF_LDSV_INIT
-00F3C5  1               
-00F3C5  1               
-00F3C5  1  60           	RTS
-00F3C6  1               
-00F3C6  1               
-00F3C6  1               IO_DIR				; dir vector for EhBASIC
-00F3C6  1  5A           	PHY
-00F3C7  1  20 14 F4     	JSR CF_INIT
+00F37C  1               
+00F37C  1               
+00F37C  1               ; byte in from simulated ACIA
+00F37C  1               
+00F37C  1               ; byte out to keyboard 65c51
+00F37C  1               KEYBout
+00F37C  1  8D E0 BF     	STA A_txd			; send character to keyboard display
+00F37F  1  48           	PHA					; save A
+00F380  1               
+00F380  1  A9 FF        	LDA #$FF
+00F382  1  8D 10 06     	STA MyDL
+00F385  1               KEYDL				; Outer loop
+00F385  1  A9 40        	LDA #$40
+00F387  1  8D 11 06     	STA MyDL2
+00F38A  1               KEYDL2				; Inner loop
+00F38A  1  CE 11 06     	DEC MyDL2
+00F38D  1  D0 FB        	BNE	KEYDL2
+00F38F  1               
+00F38F  1  CE 10 06     	DEC MyDL
+00F392  1  D0 F1        	BNE KEYDL		; if not 0 increment more
+00F394  1               
+00F394  1  68           	PLA
+00F395  1  60           	RTS
+00F396  1               
+00F396  1               
+00F396  1               LAB_WAIT_Rx
+00F396  1  AD E1 BF         LDA A_sts       ; get ACIA status
+00F399  1  29 08            AND #$08        ; mask rx buffer status flag
+00F39B  1  F0 F9            BEQ LAB_WAIT_Rx ; loop if rx buffer empty
+00F39D  1               
+00F39D  1  AD E0 BF         LDA A_rxd       ; get byte from ACIA data port
+00F3A0  1               
+00F3A0  1               
+00F3A0  1               ; byte in from simulated ACIA or Keyboard
+00F3A0  1               ACIAin
+00F3A0  1  AD F0 BF     	LDA	ACIAStatus
+00F3A3  1  29 01        	AND	#1
+00F3A5  1  C9 01        	CMP	#1
+00F3A7  1  D0 05        	BNE	NoDataIn
+00F3A9  1  AD F1 BF     	LDA	ACIAData
+00F3AC  1  38           	SEC		; Carry set if key available
+00F3AD  1  60           	RTS
+00F3AE  1               NoDataIn:
+00F3AE  1  18           	CLC		; Carry clear if no key pressed
+00F3AF  1               
+00F3AF  1               KEY_WAIT_Rx
+00F3AF  1  AD E1 BF         LDA A_sts       ; get ACIA status
+00F3B2  1  29 08            AND #$08        ; mask rx buffer status flag
+00F3B4  1  F0 05            BEQ KEYB_NoData ; loop if rx buffer empty
+00F3B6  1               
+00F3B6  1  AD E0 BF         LDA A_rxd       ; get byte from ACIA data port
+00F3B9  1  38           	SEC				; Carry set if key available
+00F3BA  1  60           	RTS
+00F3BB  1               
+00F3BB  1               KEYB_NoData
+00F3BB  1  18           	CLC				; Carry clear if no key pressed
+00F3BC  1  60           	RTS
+00F3BD  1               
+00F3BD  1               
+00F3BD  1               ; Show "EhBASIC " on keyboard display
+00F3BD  1               KYB_basmsg
+00F3BD  1  A0 00        	LDY #$00
+00F3BF  1               
+00F3BF  1               KYB_basmsg_lp
+00F3BF  1  B9 A5 F4     	LDA KYB_basmess_str,Y
+00F3C2  1  F0 06        	BEQ	KYB_basmsg_exit	; exit loop if done
+00F3C4  1               
+00F3C4  1  20 7C F3     	JSR KEYBout			;
+00F3C7  1  C8           	INY					; increment index
+00F3C8  1  D0 F5        	BNE KYB_basmsg_lp	; loop, always
 00F3CA  1               
-00F3CA  1  A9 00        	LDA #$00		; Set address for "DIR" file
-00F3CC  1  8D 00 06     	STA CF_LB
-00F3CF  1  8D 02 06     	STA CF_HB
-00F3D2  1  A9 01        	LDA #$01		; "DIR" file stored atin sectors $000100 - $0001FF
-00F3D4  1  8D 01 06     	STA CF_MB
-00F3D7  1  20 30 F4     	JSR CF_SET_LBA
-00F3DA  1               
-00F3DA  1  20 54 F4     	JSR CF_READ_SECTOR
-00F3DD  1               
-00F3DD  1               IO_DIR_SHOW
-00F3DD  1  A9 00        	LDA #$00
-00F3DF  1  8D 20 06     	STA MyLP1
-00F3E2  1               
-00F3E2  1               IO_DIR_SHOW_LP1
-00F3E2  1  AC 20 06     	LDY MyLP1
-00F3E5  1  B9 00 04     	LDA CF_BUFF1,Y
-00F3E8  1               
-00F3E8  1  C9 00        	CMP #$00
-00F3EA  1  D0 0D        	BNE IO_DIR_UNDER_20
-00F3EC  1  A9 0A        	LDA #$0A
-00F3EE  1  20 6E F3     	JSR ACIAout
-00F3F1  1  A9 0D        	LDA #$0D
-00F3F3  1  20 6E F3     	JSR ACIAout
-00F3F6  1  4C 07 F4     	JMP IO_DIR_NOCHAR
-00F3F9  1               
-00F3F9  1               
-00F3F9  1               IO_DIR_UNDER_20
-00F3F9  1  C9 20        	CMP #$20
-00F3FB  1  30 0A        	BMI IO_DIR_NOCHAR
-00F3FD  1               
-00F3FD  1  C9 7F        	CMP #$7F
-00F3FF  1  30 03        	BMI IO_VALID_CHAR
-00F401  1  4C 07 F4     	JMP IO_DIR_NOCHAR
-00F404  1               
-00F404  1               IO_VALID_CHAR
-00F404  1  20 6E F3     	JSR ACIAout
+00F3CA  1               KYB_basmsg_exit
+00F3CA  1  60           	RTS
+00F3CB  1               
+00F3CB  1               ; Show "eWOZMON " on keyboard display
+00F3CB  1               KYB_wozmsg
+00F3CB  1  A0 00        	LDY #$00
+00F3CD  1               
+00F3CD  1               KYB_wozmsg_lp
+00F3CD  1  B9 B0 F4     	LDA KYB_wozmess_str,Y
+00F3D0  1  F0 06        	BEQ	KYB_wozmsg_exit	; exit loop if done
+00F3D2  1               
+00F3D2  1  20 7C F3     	JSR KEYBout			;
+00F3D5  1  C8           	INY					; increment index
+00F3D6  1  D0 F5        	BNE KYB_wozmsg_lp	; loop, always
+00F3D8  1               
+00F3D8  1               KYB_wozmsg_exit
+00F3D8  1  60           	RTS
+00F3D9  1               
+00F3D9  1               ; send signon message to keyboard
+00F3D9  1               KYB_cwmmsg
+00F3D9  1  A0 00        	LDY #$00
+00F3DB  1               
+00F3DB  1               KYB_signon
+00F3DB  1  B9 9B F4     	LDA KYB_mess,Y
+00F3DE  1  F0 06        	BEQ	KEYB_exit		; exit loop if done
+00F3E0  1               
+00F3E0  1  20 7C F3     	JSR KEYBout			;
+00F3E3  1  C8           	INY					; increment index
+00F3E4  1  D0 F5        	BNE KYB_signon		; loop, always
+00F3E6  1               KEYB_exit
+00F3E6  1  60           	RTS
+00F3E7  1               
+00F3E7  1               ; empty load vector for EhBASIC
+00F3E7  1               IO_LOAD
+00F3E7  1  60           	RTS
+00F3E8  1               ; empty save vector for EhBASIC
+00F3E8  1               IO_SAVE
+00F3E8  1  60           	RTS
+00F3E9  1               ; empty DIR vector for EhBASIC
+00F3E9  1               IO_DIR
+00F3E9  1  60           	RTS
+00F3EA  1               
+00F3EA  1               
+00F3EA  1               ; display init
+00F3EA  1               DISP_INIT
+00F3EA  1               
+00F3EA  1  60           	rts
+00F3EB  1               
+00F3EB  1               ; HIGH BEEP
+00F3EB  1               PWR_BEEP_HIGH
+00F3EB  1  A9 7F        	LDA #BEEP_PW2		; PULSE WIDTH
+00F3ED  1  8D 10 06     	STA MyDL
+00F3F0  1               
+00F3F0  1  A9 20        	LDA #BEEP_LN		; LENGTH
+00F3F2  1  8D 11 06     	STA MyDL2
+00F3F5  1               
+00F3F5  1               BEEP_LP3
+00F3F5  1  A9 FF        	LDA #$FF
+00F3F7  1  8D A0 BF     	STA A_Beeper
+00F3FA  1  20 49 F4     	JSR DELAY1
+00F3FD  1  CE 10 06     	DEC MyDL
+00F400  1  D0 F3        	BNE BEEP_LP3
+00F402  1               
+00F402  1  A9 7F        	LDA #BEEP_PW2
+00F404  1  8D 10 06     	STA MyDL
 00F407  1               
-00F407  1               IO_DIR_NOCHAR
-00F407  1  AD 20 06     	LDA MyLP1
-00F40A  1  18           	CLC
-00F40B  1  69 01        	ADC #$01
-00F40D  1  8D 20 06     	STA MyLP1
-00F410  1  90 D0        	BCC IO_DIR_SHOW_LP1
-00F412  1               
-00F412  1               
-00F412  1               
-00F412  1               
-00F412  1               
-00F412  1               
-00F412  1  7A           	PLY
-00F413  1  60               RTS
+00F407  1               BEEP_LP4
+00F407  1  A9 00        	LDA #$00
+00F409  1  8D A0 BF     	STA A_Beeper
+00F40C  1  20 49 F4     	JSR DELAY1
+00F40F  1  CE 10 06     	DEC MyDL
+00F412  1  D0 F3        	BNE BEEP_LP4
 00F414  1               
-00F414  1               
-00F414  1               
-00F414  1               	; init CF card
-00F414  1               CF_INIT
-00F414  1               		; SET 8 BIT MODE
-00F414  1  A9 01        	LDA #$01
-00F416  1  8D B1 BF     	STA CF_ADDRESS+1
-00F419  1  A9 EF        	LDA #$EF
-00F41B  1  8D B7 BF     	STA CF_ADDRESS+7
-00F41E  1  20 2A F4     	JSR CF_WAIT
-00F421  1               		; SET ONE SECTOR (512 BYTES) AT A TIME
-00F421  1  A9 01        	LDA #$01
-00F423  1  8D B2 BF     	STA CF_ADDRESS+2
-00F426  1  20 2A F4     	JSR CF_WAIT
-00F429  1               
-00F429  1  60           	RTS
-00F42A  1               
-00F42A  1               	; Wait for flag MSB of status register to be clear
-00F42A  1               CF_WAIT
-00F42A  1  AD B7 BF         LDA CF_ADDRESS + 7
-00F42D  1  30 FB            BMI CF_WAIT
-00F42F  1  60               RTS
-00F430  1               
-00F430  1               	; set the block address to read from
-00F430  1               CF_SET_LBA
-00F430  1  AD 00 06     	LDA CF_LB			; LOWER BYTE FETCH
-00F433  1  8D B3 BF     	STA CF_ADDRESS+3
-00F436  1  20 2A F4     	JSR CF_WAIT
-00F439  1  AD 01 06     	LDA CF_MB			; MIDDLE BYTE FETCH
-00F43C  1  8D B4 BF     	STA CF_ADDRESS+4
-00F43F  1  20 2A F4     	JSR CF_WAIT
-00F442  1  AD 02 06     	LDA CF_HB			; HIGH BYTE FETCH
-00F445  1  8D B5 BF     	STA CF_ADDRESS+5
-00F448  1  20 2A F4     	JSR CF_WAIT
-00F44B  1  A9 E0        	LDA #$E0			; DRIVE/HEAD REGISTER
-00F44D  1  8D B6 BF     	STA CF_ADDRESS+6
-00F450  1  20 2A F4     	JSR CF_WAIT
+00F414  1  CE 11 06     	DEC MyDL2
+00F417  1  D0 DC        	BNE BEEP_LP3
+00F419  1               
+00F419  1  60           	RTS
+00F41A  1               
+00F41A  1               ; LOW BEEP
+00F41A  1               PWR_BEEP_LOW
+00F41A  1  A9 FF        	LDA #BEEP_PW		; PULSE WIDTH
+00F41C  1  8D 10 06     	STA MyDL
+00F41F  1               
+00F41F  1  A9 20        	LDA #BEEP_LN		; LENGTH
+00F421  1  8D 11 06     	STA MyDL2
+00F424  1               
+00F424  1               BEEP_LOW1
+00F424  1  A9 FF        	LDA #$FF
+00F426  1  8D A0 BF     	STA A_Beeper
+00F429  1  20 49 F4     	JSR DELAY1
+00F42C  1  CE 10 06     	DEC MyDL
+00F42F  1  D0 F3        	BNE BEEP_LOW1
+00F431  1               
+00F431  1  A9 FF        	LDA #BEEP_PW
+00F433  1  8D 10 06     	STA MyDL
+00F436  1               
+00F436  1               BEEP_LOW2
+00F436  1  A9 00        	LDA #$00
+00F438  1  8D A0 BF     	STA A_Beeper
+00F43B  1  20 49 F4     	JSR DELAY1
+00F43E  1  CE 10 06     	DEC MyDL
+00F441  1  D0 F3        	BNE BEEP_LOW2
+00F443  1               
+00F443  1  CE 11 06     	DEC MyDL2
+00F446  1  D0 DC        	BNE BEEP_LOW1
+00F448  1               
+00F448  1  60           	RTS
+00F449  1               
+00F449  1               ; Delay loop for random things
+00F449  1               DELAY1
+00F449  1  A9 05        	LDA #DELAY_LEN1
+00F44B  1  8D 12 06     	STA MyDL3
+00F44E  1               
+00F44E  1               DELAY1_LP
+00F44E  1  CE 12 06     	DEC MyDL3
+00F451  1  D0 FB        	BNE DELAY1_LP
+00F453  1               
 00F453  1  60           	RTS
 00F454  1               
-00F454  1               	; Read sector from CF and dump in buffer
-00F454  1               CF_READ_SECTOR
-00F454  1  A9 20        	LDA #$20
-00F456  1  8D B7 BF     	STA CF_ADDRESS+7
-00F459  1  20 2A F4     	JSR CF_WAIT
-00F45C  1               
-00F45C  1  A0 00        	LDY #0
+00F454  1               
+00F454  1               
+00F454  1               ; vector tables
+00F454  1               LAB_vec
+00F454  1  A0 F3        	.word	ACIAin		; byte in from simulated ACIA  	EhBASIC = V_INPT
+00F456  1  6D F3        	.word	ACIAout		; byte out to simulated ACIA   	EhBASIC = V_OUTP
+00F458  1  E7 F3        	.word	IO_LOAD		; load vector for EhBASIC		EhBASIC = V_LOAD
+00F45A  1  E8 F3        	.word	IO_SAVE		; save vector for EhBASIC		EhBASIC = V_SAVE
+00F45C  1  E9 F3        	.word   IO_DIR		; dir vector for EhBASIC		EhBASIC = V_DIR
 00F45E  1               
-00F45E  1               
-00F45E  1               CF_RD_LP1
-00F45E  1  AD B0 BF     	LDA CF_ADDRESS
-00F461  1  99 00 04     	STA CF_BUFF1,Y
-00F464  1               
-00F464  1  20 2A F4     	JSR CF_WAIT
-00F467  1  C8           	INY
-00F468  1  D0 F4        	BNE CF_RD_LP1
-00F46A  1               
-00F46A  1  A0 00        	LDY #0
-00F46C  1               
-00F46C  1               CF_RD_LP2
-00F46C  1  AD B0 BF     	LDA CF_ADDRESS
-00F46F  1  99 00 05     	STA CF_BUFF2,Y
-00F472  1  20 2A F4     	JSR CF_WAIT
-00F475  1  C8           	INY
-00F476  1  D0 F4        	BNE CF_RD_LP2
-00F478  1               
-00F478  1               CF_RD_EXIT
-00F478  1  60           	RTS
-00F479  1               
-00F479  1               CF_LDSV_INIT
-00F479  1  20 56 C7     	JSR LAB_GFPN	; Get fixed point number as intenger
-00F47C  1               
-00F47C  1  A9 00        	LDA #$00
-00F47E  1  8D 00 06     	STA CF_LB		; We start at the beginning of the save location
-00F481  1               
-00F481  1  A5 11        	LDA Itempl		; This is the low byte from command line
-00F483  1               
-00F483  1               		; Increment by 1 and remember if we did for next byte
-00F483  1  A0 00        	LDY #$00
-00F485  1  8C 50 06     	STY MyTEMP		; Set to 0 for later
-00F488  1  18           	CLC				; clear carry (just to be safe)
-00F489  1  69 01        	ADC #$01		; add 1 to A (using INA does NOT change carry flag)
-00F48B  1  90 05        	BCC CF_LDSV_BCC ; if carry clear (i.e. we didn't go over 255) skip these next two bits
-00F48D  1               
-00F48D  1  A0 01        	LDY #$01
-00F48F  1  8C 50 06     	STY MyTEMP
-00F492  1               CF_LDSV_BCC
-00F492  1  8D 01 06     	STA CF_MB
-00F495  1  A5 12        	LDA Itemph		; this is the high byte from command line
-00F497  1  18           	CLC					; clear carry to be safe
-00F498  1  6D 50 06     	ADC MyTEMP			; add in 0 or 1 depending if MB rolled over.
-00F49B  1  8D 02 06     	STA CF_HB
-00F49E  1               
-00F49E  1  20 0F F1     	JSR PRBYTE		; DEBUGGING OUTPUT SHOWING CHOSEN LOAD/SAVE LOCATION IN HEX
-00F4A1  1  AD 01 06     	LDA CF_MB
-00F4A4  1  20 0F F1     	JSR PRBYTE
-00F4A7  1               
-00F4A7  1               
-00F4A7  1  20 30 F4     	JSR CF_SET_LBA
-00F4AA  1  60           	RTS
-00F4AB  1               
-00F4AB  1               
-00F4AB  1               
-00F4AB  1               
-00F4AB  1               
-00F4AB  1               ; display init
-00F4AB  1               DISP_INIT
-00F4AB  1               
-00F4AB  1  60           	rts
-00F4AC  1               
-00F4AC  1               ; power on beep
-00F4AC  1               PWR_BEEP_LOW
-00F4AC  1  A9 FF        	LDA #BEEP_PW		; PULSE WIDTH
-00F4AE  1  8D 10 06     	STA MyDL
-00F4B1  1               
-00F4B1  1  A9 80        	LDA #BEEP_LN		; LENGTH
-00F4B3  1  8D 11 06     	STA MyDL2
-00F4B6  1               
-00F4B6  1               BEEP_LP1
-00F4B6  1  A9 FF        	LDA #$FF
-00F4B8  1  8D A0 BF     	STA A_Beeper
-00F4BB  1  EA           	NOP
-00F4BC  1  CE 10 06     	DEC MyDL
-00F4BF  1  D0 F5        	BNE BEEP_LP1
-00F4C1  1               
-00F4C1  1  A9 FF        	LDA #$FF			; SLOW DOWN
-00F4C3  1  8D 10 06     	STA MyDL
-00F4C6  1               BEEP_LP1A
-00F4C6  1  EA           	NOP
-00F4C7  1  CE 10 06     	DEC MyDL
-00F4CA  1  D0 FA        	BNE BEEP_LP1A
-00F4CC  1               
-00F4CC  1  A9 FF        	LDA #BEEP_PW
-00F4CE  1  8D 10 06     	STA MyDL
-00F4D1  1               
-00F4D1  1               BEEP_LP2
-00F4D1  1  A9 00        	LDA #$00
-00F4D3  1  8D A0 BF     	STA A_Beeper
-00F4D6  1  EA           	NOP
-00F4D7  1  CE 10 06     	DEC MyDL
-00F4DA  1  D0 F5        	BNE BEEP_LP2
-00F4DC  1               
-00F4DC  1  CE 11 06     	DEC MyDL2
-00F4DF  1  D0 D5        	BNE BEEP_LP1
-00F4E1  1               
-00F4E1  1  A9 FF        	LDA #$FF			; SLOW DOWN
-00F4E3  1  8D 10 06     	STA MyDL
-00F4E6  1               BEEP_LP2A
-00F4E6  1  EA           	NOP
-00F4E7  1  CE 10 06     	DEC MyDL
-00F4EA  1  D0 FA        	BNE BEEP_LP2A
-00F4EC  1               
-00F4EC  1  60           	RTS
-00F4ED  1               
-00F4ED  1               PWR_BEEP_HIGH
-00F4ED  1               	; Second beep, higher pitch
-00F4ED  1  A9 7F        	LDA #BEEP_PW2		; PULSE WIDTH
-00F4EF  1  8D 10 06     	STA MyDL
-00F4F2  1               
-00F4F2  1  A9 80        	LDA #BEEP_LN		; LENGTH
-00F4F4  1  8D 11 06     	STA MyDL2
-00F4F7  1               
-00F4F7  1               BEEP_LP3
-00F4F7  1  A9 FF        	LDA #$FF
-00F4F9  1  8D A0 BF     	STA A_Beeper
-00F4FC  1  CE 10 06     	DEC MyDL
-00F4FF  1  D0 F6        	BNE BEEP_LP3
-00F501  1               
-00F501  1  A9 7F        	LDA #BEEP_PW2
-00F503  1  8D 10 06     	STA MyDL
-00F506  1               
-00F506  1               BEEP_LP4
-00F506  1  A9 00        	LDA #$00
-00F508  1  8D A0 BF     	STA A_Beeper
-00F50B  1  CE 10 06     	DEC MyDL
-00F50E  1  D0 F6        	BNE BEEP_LP4
-00F510  1               
-00F510  1  CE 11 06     	DEC MyDL2
-00F513  1  D0 E2        	BNE BEEP_LP3
-00F515  1               
-00F515  1  60           	RTS
-00F516  1               
-00F516  1               ; vector tables
-00F516  1               LAB_vec
-00F516  1  A1 F3        	.word	ACIAin		; byte in from simulated ACIA  	EhBASIC = V_INPT
-00F518  1  6E F3        	.word	ACIAout		; byte out to simulated ACIA   	EhBASIC = V_OUTP
-00F51A  1  BE F3        	.word	IO_LOAD		; load vector for EhBASIC		EhBASIC = V_LOAD
-00F51C  1  C2 F3        	.word	IO_SAVE		; save vector for EhBASIC		EhBASIC = V_SAVE
-00F51E  1  C6 F3        	.word   IO_DIR		; dir vector for EhBASIC		EhBASIC = V_DIR
-00F520  1               
-00F520  1               ; EhBASIC IRQ support
-00F520  1               IRQ_CODE
-00F520  1  48           	PHA				; save A
-00F521  1  A5 DF        	LDA	IrqBase		; get the IRQ flag byte
-00F523  1  4A           	LSR				; shift the set b7 to b6, and on down ...
-00F524  1  05 DF        	ORA	IrqBase		; OR the original back in
-00F526  1  85 DF        	STA	IrqBase		; save the new IRQ flag byte
-00F528  1  68           	PLA				; restore A
-00F529  1  40           	RTI
-00F52A  1               
-00F52A  1               ; EhBASIC NMI support
-00F52A  1               NMI_CODE
-00F52A  1  48           	PHA				; save A
-00F52B  1  A5 DC        	LDA	NmiBase		; get the NMI flag byte
-00F52D  1  4A           	LSR				; shift the set b7 to b6, and on down ...
-00F52E  1  05 DC        	ORA	NmiBase		; OR the original back in
-00F530  1  85 DC        	STA	NmiBase		; save the new NMI flag byte
-00F532  1  68           	PLA				; restore A
-00F533  1  40           	RTI
-00F534  1               
-00F534  1               
-00F534  1               
-00F534  1               
-00F534  1               END_CODE
-00F534  1               
-00F534  1               LAB_mess 					; sign on string (Console)
-00F534  1  0D 0A 4C 54  	.byte	$0D,$0A,"LT6502 - [C]Cold/[W]arm or [M]onitor ?",$00
-00F538  1  36 35 30 32  
-00F53C  1  20 2D 20 5B  
-00F55D  1               
-00F55D  1               KYB_mess					; sign on string (Keyboard)
-00F55D  1  0D 43 2F 57  	.byte	$0D,"C/W/M ?",$00
-00F561  1  2F 4D 20 3F  
-00F565  1  00           
-00F566  1               
-00F566  1               
-00F566  1               
-00F566  1               ; system vectors
-00F566  1               
-00F566  1               	.segment "VECTS"
-00F566  1               	.org	$FFFA
+00F45E  1               ; EhBASIC IRQ support
+00F45E  1               IRQ_CODE
+00F45E  1  48           	PHA				; save A
+00F45F  1  A5 DF        	LDA	IrqBase		; get the IRQ flag byte
+00F461  1  4A           	LSR				; shift the set b7 to b6, and on down ...
+00F462  1  05 DF        	ORA	IrqBase		; OR the original back in
+00F464  1  85 DF        	STA	IrqBase		; save the new IRQ flag byte
+00F466  1  68           	PLA				; restore A
+00F467  1  40           	RTI
+00F468  1               
+00F468  1               ; EhBASIC NMI support
+00F468  1               NMI_CODE
+00F468  1  48           	PHA				; save A
+00F469  1  A5 DC        	LDA	NmiBase		; get the NMI flag byte
+00F46B  1  4A           	LSR				; shift the set b7 to b6, and on down ...
+00F46C  1  05 DC        	ORA	NmiBase		; OR the original back in
+00F46E  1  85 DC        	STA	NmiBase		; save the new NMI flag byte
+00F470  1  68           	PLA				; restore A
+00F471  1  40           	RTI
+00F472  1               
+00F472  1               
+00F472  1               
+00F472  1               
+00F472  1               END_CODE
+00F472  1               
+00F472  1               LAB_mess 					; sign on string (Console)
+00F472  1  0D 0A 4C 54  	.byte	$0D,$0A,"LT6502 - [C]Cold/[W]arm or [M]onitor ?",$00
+00F476  1  36 35 30 32  
+00F47A  1  20 2D 20 5B  
+00F49B  1               
+00F49B  1               KYB_mess					; sign on string (Keyboard)
+00F49B  1  0D 43 2F 57  	.byte	$0D,"C/W/M ? ",$00
+00F49F  1  2F 4D 20 3F  
+00F4A3  1  20 00        
+00F4A5  1               KYB_basmess_str
+00F4A5  1  0D 0D 45 68  	.byte	$0D,$0D,"EhBASIC ",$00
+00F4A9  1  42 41 53 49  
+00F4AD  1  43 20 00     
+00F4B0  1               KYB_wozmess_str
+00F4B0  1  0D 0D 65 57  	.byte	$0D,$0D,"eWOZMON ",$00
+00F4B4  1  4F 5A 4D 4F  
+00F4B8  1  4E 20 00     
+00F4BB  1               
+00F4BB  1               
+00F4BB  1               ; system vectors
+00F4BB  1               
+00F4BB  1               	.segment "VECTS"
+00F4BB  1               	.org	$FFFA
 00FFFA  1               
 00FFFA  1  17 02        	.word	NMI_vec		; NMI vector
 00FFFC  1  00 F3        	.word	RES_vec		; RESET vector
