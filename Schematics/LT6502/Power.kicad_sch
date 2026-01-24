@@ -5449,10 +5449,10 @@
 		)
 		(uuid "d7e76284-1d47-4faa-a651-dd9ae3d21cbf")
 	)
-	(text_box "Rilim = 15K\ngives max charge current 3A!\n\nRilim = 51K\ngives max charge of 900mA\n\n"
+	(text_box "Input TOTAL Max current is;\nRilim = 15K -> Gives max 3A\nRilim = 24K -> gives max 1.75A\nRilim = 51K -> gives max 900mA\n\n"
 		(exclude_from_sim no)
-		(at 114.3 226.06 0)
-		(size 31.75 16.51)
+		(at 109.22 226.06 0)
+		(size 36.83 16.51)
 		(margins 0.9525 0.9525 0.9525 0.9525)
 		(stroke
 			(width 0)
@@ -5471,8 +5471,8 @@
 	)
 	(text_box "Riset = 62K \nRsense = 40mR\ngives 960mA charging\n\nRiset = 120K\nRSense = 40mR\nGives 500mA charging"
 		(exclude_from_sim no)
-		(at 114.3 245.11 0)
-		(size 31.75 16.51)
+		(at 109.22 245.11 0)
+		(size 36.83 16.51)
 		(margins 0.9525 0.9525 0.9525 0.9525)
 		(stroke
 			(width 0)
@@ -5489,10 +5489,10 @@
 		)
 		(uuid "3f06e0da-8046-4e8e-9717-272a7546c8cc")
 	)
-	(text_box "Rolim = 42.2K\ngives sax output current 1.3A\n\nRolim = 22K\nGives max output current 2.5A"
+	(text_box "Max current from battery is;\nRolim = 42.2K -> Gives 1.3A\nRolim = 33K   -> Gives 1.67A\nRolim = 22K   -> Gives 2.5A\n"
 		(exclude_from_sim no)
-		(at 114.3 264.16 0)
-		(size 31.75 16.51)
+		(at 109.22 265.43 0)
+		(size 36.83 11.43)
 		(margins 0.9525 0.9525 0.9525 0.9525)
 		(stroke
 			(width 0)
@@ -12375,7 +12375,7 @@
 				)
 			)
 		)
-		(property "Value" "51K"
+		(property "Value" "24K"
 			(at 159.9988 233.5961 90)
 			(effects
 				(font
@@ -14098,7 +14098,7 @@
 				)
 			)
 		)
-		(property "Value" "42K2"
+		(property "Value" "33K"
 			(at 176.5088 243.7561 90)
 			(effects
 				(font
@@ -14132,7 +14132,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C11565"
+		(property "LCSC" ""
 			(at 176.53 241.3 90)
 			(effects
 				(font
