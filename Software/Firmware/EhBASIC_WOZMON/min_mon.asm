@@ -68,6 +68,7 @@ MyERR			= $622
 DISP_temp		= $623
 DISP_ccol		= $624	; current coloumn (useful for delete)
 DISP_crow		= $625	; current row (used for scrolling)
+DISP_initcom	= $626
 
 
 MyTEMP			= $650
@@ -292,7 +293,12 @@ IO_SAVE
 	RTS
 ; empty DIR vector for EhBASIC
 IO_DIR
+	JSR PWR_BEEP_HIGH
 	RTS
+IO_CLS
+	JSR DISP_CLS
+	RTS
+
 
 
 ; ----- DISPLAY BITS
@@ -469,7 +475,6 @@ DISP_OK
 
 	JSR DISP_CURSOR_SETXY
 	JSR DISP_TEXT_COLOUR
-
 
 	RTS
 	; end of DISP_INIT

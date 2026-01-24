@@ -361,9 +361,11 @@ TK_BITSET         = TK_SWAP+1       ; BITSET token
 TK_BITCLR         = TK_BITSET+1     ; BITCLR token
 TK_IRQ            = TK_BITCLR+1     ; IRQ token
 TK_NMI            = TK_IRQ+1        ; NMI token
+TK_DIR            = TK_NMI+1        ; ?  DIR          VERY NEW COMMAND
+TK_CLS            = TK_DIR+1        ; ?  CLS          VERY NEW COMMAND
 ; secondary command tokens, can't start a statement
 
-TK_TAB            = TK_NMI+1        ; TAB token 
+TK_TAB            = TK_CLS+1        ; TAB token 
 TK_ELSE           = TK_TAB+1        ; ELSE token
 TK_TO             = TK_ELSE+1       ; TO token
 TK_FN             = TK_TO+1         ; FN token
@@ -456,6 +458,8 @@ VEC_IN            = VEC_CC+2  ; input vector
 VEC_OUT           = VEC_IN+2  ; output vector
 VEC_LD            = VEC_OUT+2 ; load vector
 VEC_SV            = VEC_LD+2  ; save vector
+VEC_DIR           = VEC_SV+2  ; dir vector
+VEC_CLS           = VEC_DIR+2 ; CLS vector
 ; end bulk initialize by min_mon.asm from LAB_vec at LAB_stlp
 
 ; Ibuffs can now be anywhere in RAM, ensure that the max length is < $80,
@@ -627,7 +631,7 @@ LAB_2DB6
 LAB_2E05
       .ENDIF
 
-      JSR   LAB_CRLF          ; print CR/LF
+;      JSR   LAB_CRLF          ; print CR/LF
       JSR   LAB_1463          ; do "NEW" and "CLEAR"
       LDA   Ememl             ; get end of mem low byte
       SEC                     ; set carry for subtract
@@ -799,7 +803,7 @@ LAB_OMER
 
 LAB_XERR
       JSR   PWR_BEEP_LOW
-      JSR   LAB_CRLF          ; print CR/LF
+;      JSR   LAB_CRLF          ; print CR/LF
 
       LDA   LAB_BAER,X        ; get error message pointer low byte
       LDY   LAB_BAER+1,X      ; get error message pointer high byte
@@ -7913,6 +7917,10 @@ V_LOAD
       JMP   (VEC_LD)          ; load BASIC program
 V_SAVE
       JMP   (VEC_SV)          ; save BASIC program
+V_DIR
+      JMP   (VEC_DIR)          ; save BASIC program
+V_CLS
+      JMP   (VEC_CLS)          ; save BASIC program
 ; The rest are tables messages and code for RAM
 
 ; the rest of the code is tables and BASIC start-up code
@@ -7992,11 +8000,11 @@ StrTab
 EndTab
 
 LAB_MSZM
-      .byte $0D,$0A,"Memory size ",$00
+      .byte "Memory size ",$00
 
 LAB_SMSG
-      .byte " Bytes free",$0D,$0A,$0A
-      .byte "Enhanced BASIC 2.22p5",$0A,$00
+      .byte " Bytes free",$0D,$0A
+      .byte "Enhanced BASIC 2.22p5",$0D,$0A,$00
 
 ; numeric constants and series
 
@@ -8158,6 +8166,8 @@ LAB_CTBL
       .word LAB_BITCLR-1      ; BITCLR          new command
       .word LAB_IRQ-1         ; IRQ             new command
       .word LAB_NMI-1         ; NMI             new command
+      .word V_DIR-1           ; ? DIR           very new added by PAM
+      .word V_CLS-1           ; ? CLS           very new added by PAM
 
 ; function pre process routine table
 
@@ -8395,6 +8405,8 @@ LBB_CHRS
       .byte "HR$(",TK_CHRS    ; CHR$(
 LBB_CLEAR
       .byte "LEAR",TK_CLEAR   ; CLEAR
+LBB_CLS
+      .byte "LS",TK_CLS       ; ? CLS    very new command
 LBB_CONT
       .byte "ONT",TK_CONT     ; CONT
 LBB_COS
@@ -8411,6 +8423,8 @@ LBB_DEF
       .byte "EF",TK_DEF       ; DEF
 LBB_DIM
       .byte "IM",TK_DIM       ; DIM
+LBB_DIR
+      .byte "IR",TK_DIR       ; ? DIR    very new command
 LBB_DOKE
       .byte "OKE",TK_DOKE     ; DOKE note - "DOKE" must come before "DO"
 LBB_DO
@@ -8620,6 +8634,10 @@ LAB_KEYT
       .word LBB_INPUT         ; INPUT
       .byte 3,'D'
       .word LBB_DIM           ; DIM
+      .byte 3,'D'
+      .word LBB_DIR           ; ? DIR     VERY NEW COMMAND
+      .byte 3,'C'
+      .word LBB_DIR           ; ? CLS     VERY NEW COMMAND
       .byte 4,'R'
       .word LBB_READ          ; READ
       .byte 3,'L'
@@ -8880,7 +8898,7 @@ ERR_LD      .byte "LOOP without DO",$00
 LAB_BMSG    .byte $0D,$0A,"Break",$00
 LAB_EMSG    .byte " Error",$00
 LAB_LMSG    .byte " in line ",$00
-LAB_RMSG    .byte $0D,$0A,"Ready",$0D,$0A,$00
+LAB_RMSG    .byte $0D,$0A,"Ready",$0D,$0A,$00         ; TODO REMOVE EXCESS CRLF AS IT TAKES UP SPACE
 
 LAB_IMSG    .byte " Extra ignored",$0D,$0A,$00
 LAB_REDO    .byte " Redo from start",$0D,$0A,$00
