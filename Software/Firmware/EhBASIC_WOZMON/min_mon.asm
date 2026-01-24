@@ -66,8 +66,13 @@ MyLP2			= $621
 MyERR			= $622
 
 DISP_temp		= $623
+DISP_ccol		= $624	; current coloumn (useful for delete)
+DISP_crow		= $625	; current row (used for scrolling)
+
 
 MyTEMP			= $650
+MyTEMP2			= $651
+MyTEMP3			= $652
 
 
 
@@ -461,7 +466,8 @@ DISP_OK
 		
 	JSR DISP_CLR_SCREEN	
 	JSR DISP_TEXT_MODE
-	JSR DISP_CURSOR_HOME
+
+	JSR DISP_CURSOR_SETXY
 	JSR DISP_TEXT_COLOUR
 
 
@@ -474,6 +480,10 @@ DISP_ERR				; Show error message
 	RTS
 
 DISP_CLR_SCREEN			; Fills the screen with black
+	PHA
+	PHX
+	PHY
+
 	LDA #$91
 	STA DISP_RG
 	LDA #$00
@@ -541,6 +551,25 @@ DISP_fillcomp
 	STA DISP_RG
 	LDA DISP_DT				; read status
 	JSR DISP_CHK_BUSY
+
+DISP_resetxy
+	LDA #$00			; reset current coloumn and row
+	STA DISP_ccol
+	STA DISP_crow
+	JSR DISP_CURSOR_SETXY
+
+	PLY
+	PLX
+	PLA
+
+	RTS
+
+DISP_CLS
+	JSR DISP_CLR_SCREEN	
+	JSR DISP_TEXT_MODE
+
+	JSR DISP_CURSOR_SETXY
+	JSR DISP_TEXT_COLOUR	
 	RTS
 
 DISP_TEXT_MODE
@@ -554,29 +583,88 @@ DISP_TEXT_MODE
 	LDA #$20
 	STA DISP_DT
 	JSR DISP_CHK_BUSY
+
+	LDA #$21			; FONT control register 0
+	STA DISP_RG
+	LDA #$00
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+
+	LDA #$22			; FONT control register 1
+	STA DISP_RG
+	LDA #$00
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+
+	LDA #$29			; FONT distance setting register
+	STA DISP_RG
+	LDA #$00
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+
+	LDA #$2E			; FONT write type setting register
+	STA DISP_RG
+	LDA #$00
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+
 	RTS
 
-DISP_CURSOR_HOME
+DISP_CURSOR_SETXY
+	LDA #$00
+	STA MyTEMP2
+	LDA DISP_ccol
+	STA MyTEMP  		; this holds the low byte for X
+	CLC
+	ROL MyTEMP			; multiply by 8 as each character is 8 bits wide
+	ROL MyTEMP2
+	CLC
+	ROL MyTEMP
+	ROL MyTEMP2
+	CLC
+	ROL MyTEMP
+	ROL MyTEMP2
+
 	LDA #$2A
-	STA DISP_RG
-	LDA #$00
+	STA DISP_RG	
+	LDA MyTEMP			; x position low byts
 	STA DISP_DT
 	JSR DISP_CHK_BUSY
-	LDA #$2B
+	LDA #$2B			
 	STA DISP_RG
-	LDA #$00
+	LDA MyTEMP2			; x position high byte
 	STA DISP_DT
 	JSR DISP_CHK_BUSY
+
+	LDA #$00
+	STA MyTEMP2			; this holds the high byte for Y
+
+	LDA DISP_crow
+	STA MyTEMP  		; this holds the low byte for Y
+	CLC
+	ROL MyTEMP			; multiply by 16 as each character is 16 bits high
+	ROL MyTEMP2
+	CLC
+	ROL MyTEMP
+	ROL MyTEMP2
+	CLC
+	ROL MyTEMP
+	ROL MyTEMP2
+	CLC
+	ROL MyTEMP
+	ROL MyTEMP2
+
 	LDA #$2C
 	STA DISP_RG
-	LDA #$00
+	LDA MyTEMP			; y position low byts
 	STA DISP_DT
 	JSR DISP_CHK_BUSY
 	LDA #$2D
 	STA DISP_RG
-	LDA #$00
+	LDA MyTEMP2			; y position high byts
 	STA DISP_DT
 	JSR DISP_CHK_BUSY
+
 	RTS
 
 DISP_TEXT_COLOUR
@@ -587,7 +675,7 @@ DISP_TEXT_COLOUR
 	JSR DISP_CHK_BUSY
 	LDA #$64			; GREEN colour, bits 0,1,2
 	STA DISP_RG
-	LDA #$02
+	LDA #$01
 	STA DISP_DT
 	JSR DISP_CHK_BUSY
 	LDA #$65			; BLUE colour, bits 0,1,2
@@ -599,33 +687,60 @@ DISP_TEXT_COLOUR
 
 DISP_TEXT_WR
 	STA DISP_temp		; Save character
-	LDA #$02			
-	STA DISP_RG
 
 	LDA DISP_temp				
-	CMP #20				; check for regular character
+	CMP #$20				; check for regular character
 	BMI DISP_text_nonascii
 
+	CMP #$7F				; check for delete character
+	BEQ DISP_textexit		; for now we ignore it
+
+DISP_normalchar	
+;	jsr DISP_CURSOR_SETXY	; adding this double spaces everything, but backspace behaves
+
+	LDA #$02			
+	STA DISP_RG			; send "WRITE TEXT COMMAND"
+	LDA DISP_temp
 	STA DISP_DT			; send to display
 	JSR DISP_CHK_BUSY
+	INC DISP_ccol		; increase coloumn counter (needed for backspace)
 	JMP DISP_textexit
+			; no need to word wrap as display does this automatically 
 
 DISP_text_nonascii
 	LDA DISP_temp
-	CMP #$0D
-	BNE DISP_textexit
+	CMP #$08				; check for backspace
+	BNE DISP_textcheckCR
 
-	; TODO insert CARRIAGE RETURN code here
-	
+	LDA DISP_ccol				;? holds correct value
+	CMP #$00				; don't do anything if at col 0
+	BEQ DISP_textexit
+
+	DEC DISP_ccol				;? holds correct updated value
+	JSR DISP_CURSOR_SETXY		;? but jumps forward???
+	JMP DISP_textexit
+
+DISP_textcheckCR
 	LDA DISP_temp
-	CMP #$0A
+	CMP #$0D				; check for CR
+	BNE DISP_text_checkLF
+
+	LDA #$00				; do carriage return
+	STA DISP_ccol
+	JSR DISP_CURSOR_SETXY
+	JMP DISP_textexit
+
+DISP_text_checkLF
+	LDA DISP_temp
+	CMP #$0A				; check for LF
 	BNE DISP_textexit
-
-	; TODO insert LINE FEED code here
-
-	; TODO add in scrolling if needed (USING BLOCK TRANSFER ENGINE)
+	; TODO add in scrolling if needed (USING BLOCK TRANSFER ENGINE) maybe make a function
+	INC DISP_crow
+	JSR DISP_CURSOR_SETXY
 
 DISP_textexit
+	LDA #$00
+	STA DISP_temp		; clear temp variable
 	RTS
 	
 
@@ -654,6 +769,7 @@ DISP_flt_exit
 	LDA MyERR
 	JSR KEYBout			; show on keyboard (may get weird things)
 	RTS
+
 
 ; ------ END OF DISPLAY BITS
 
@@ -725,6 +841,39 @@ BEEP_LOW2
 	PLY
 
 	RTS	
+
+; LOW BEEP
+BEEP_SHORT
+	PHY
+	PHX
+	PHA
+	LDA #BEEP_PW2		; PULSE WIDTH	
+	STA MyDL	
+
+BEEP_s1
+	LDA #$FF
+	STA A_Beeper
+	JSR DELAY1
+	DEC MyDL
+	BNE BEEP_s1
+	
+	LDA #BEEP_PW2
+	STA MyDL
+
+BEEP_s2
+	LDA #$00
+	STA A_Beeper
+	JSR DELAY1
+	DEC MyDL
+	BNE BEEP_s2
+
+	PLA
+	PLX
+	PLY
+
+	RTS	
+
+
 ; ------ END BEEPS
 
 
@@ -751,6 +900,7 @@ LAB_vec
 	.word	IO_LOAD		; load vector for EhBASIC		EhBASIC = V_LOAD
 	.word	IO_SAVE		; save vector for EhBASIC		EhBASIC = V_SAVE
 	.word   IO_DIR		; dir vector for EhBASIC		EhBASIC = V_DIR
+	.word 	IO_CLS		; CLS vector for EhBASIC		EhBASIC = V_CLS
 
 ; EhBASIC IRQ support
 IRQ_CODE
@@ -778,7 +928,7 @@ NMI_CODE
 END_CODE
 
 LAB_mess 					; sign on string (Console)
-	.byte	$0D,$0A,"LT6502 - [C]Cold/[W]arm or [M]onitor ?",$00
+	.byte	$0D,"LT6502 - [C]Cold/[W]arm or [M]onitor ?",$00
 
 KYB_mess					; sign on string (Keyboard)
 	.byte	$0D,"C/W/M ? ",$00

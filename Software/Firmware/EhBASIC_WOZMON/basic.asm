@@ -361,10 +361,9 @@ TK_BITSET         = TK_SWAP+1       ; BITSET token
 TK_BITCLR         = TK_BITSET+1     ; BITCLR token
 TK_IRQ            = TK_BITCLR+1     ; IRQ token
 TK_NMI            = TK_IRQ+1        ; NMI token
-TK_WOZMON         = TK_NMI+1        ;? WOZMON token
 ; secondary command tokens, can't start a statement
 
-TK_TAB            = TK_WOZMON+1     ; TAB token ;? UPDATED FOR WOZMON 
+TK_TAB            = TK_NMI+1        ; TAB token 
 TK_ELSE           = TK_TAB+1        ; ELSE token
 TK_TO             = TK_ELSE+1       ; TO token
 TK_FN             = TK_TO+1         ; FN token
@@ -457,7 +456,6 @@ VEC_IN            = VEC_CC+2  ; input vector
 VEC_OUT           = VEC_IN+2  ; output vector
 VEC_LD            = VEC_OUT+2 ; load vector
 VEC_SV            = VEC_LD+2  ; save vector
-VEC_WOZ           = VEC_SV+2  ;? wozmon vector
 ; end bulk initialize by min_mon.asm from LAB_vec at LAB_stlp
 
 ; Ibuffs can now be anywhere in RAM, ensure that the max length is < $80,
@@ -7915,8 +7913,6 @@ V_LOAD
       JMP   (VEC_LD)          ; load BASIC program
 V_SAVE
       JMP   (VEC_SV)          ; save BASIC program
-V_WOZMON
-      JMP   (VEC_WOZ)         ;? Start Wozmon
 ; The rest are tables messages and code for RAM
 
 ; the rest of the code is tables and BASIC start-up code
@@ -8162,7 +8158,6 @@ LAB_CTBL
       .word LAB_BITCLR-1      ; BITCLR          new command
       .word LAB_IRQ-1         ; IRQ             new command
       .word LAB_NMI-1         ; NMI             new command
-      .word V_WOZMON-1        ;? WOZMON         VERY NEW COMMAND
 
 ; function pre process routine table
 
@@ -8594,8 +8589,6 @@ LBB_VPTR
       .byte "ARPTR(",TK_VPTR  ; VARPTR(
       .byte $00
 TAB_ASCW
-LBB_WOZMON
-      .byte "OZMON",TK_WOZMON ;? WOZMON
 LBB_WAIT
       .byte "AIT",TK_WAIT     ; WAIT
 LBB_WHILE
@@ -8701,8 +8694,6 @@ LAB_KEYT
       .word LBB_IRQ           ; IRQ
       .byte 3,'N'
       .word LBB_NMI           ; NMI
-      .byte 6,'W'             
-      .word LBB_WOZMON        ;?WOZMON
 ; secondary commands (can't start a statement)
 
       .byte 4,'T'
