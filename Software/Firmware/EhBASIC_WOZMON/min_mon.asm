@@ -1,11 +1,14 @@
 ; Heavily edited to work with the LT6502 project
 ;	https://github.com/TechPaula/LT6502
 ;
-; TODO	1) Add scrolling when in text mode rather than the screen wrapping
-; TODO	2) Add "MODE" for switching between "MODE 0" (text) and "MODE 1" (Graphics) from basic
-; TODO  3) Move ALL the writing of RG and DT into a table to be read by a loop (save code space)
-; TODO	3) Add compact flash LOAD/SAVE/DIR
-; TODO  4) Add, if possible, more versatile beep, something with pitch and length?
+; TODO - Add scrolling when in text mode rather than the screen wrapping
+; TODO - Add plot, square, circle, etc
+; TODO - Add "PRINTK" to send text to the keyboard display
+; TODO - Add cursor move command  
+; TODO - Move ALL the writing of RG and DT into a table to be read by a loop (save code space)
+; TODO - compact flash LOAD/SAVE/DIR
+; TODO - Add, if possible, more versatile beep, something with pitch and length?
+; TODO - Make wozmon work with LCD and KEYBOARD
 
 	.feature labels_without_colons
 	.feature force_range
@@ -587,6 +590,10 @@ DISP_CLS
 	RTS
 
 DISP_TEXT_MODE
+	PHA
+	PHX
+	PHY
+
 	LDA #$40
 	STA DISP_RG
 	LDA #$E0
@@ -622,6 +629,17 @@ DISP_TEXT_MODE
 	STA DISP_DT
 	JSR DISP_CHK_BUSY
 
+	PLY
+	PLX
+	PLA
+	RTS
+
+DISP_GRAPHICS_MODE
+	LDA #$40
+	STA DISP_RG
+	LDA #$00
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
 	RTS
 
 DISP_CURSOR_SETXY
@@ -684,7 +702,7 @@ DISP_CURSOR_SETXY
 DISP_TEXT_COLOUR
 	LDA #$63			; RED colour, bits 0,1,2
 	STA DISP_RG
-	LDA #$03
+	LDA #$07
 	STA DISP_DT
 	JSR DISP_CHK_BUSY
 	LDA #$64			; GREEN colour, bits 0,1,2
@@ -782,6 +800,34 @@ DISP_flt_exit
 	JSR PRBYTE			; Add byte to error message
 	LDA MyERR
 	JSR KEYBout			; show on keyboard (may get weird things)
+	RTS
+
+; Switches display mode, 0 = text, 1 = graphics
+IO_MODE
+	PHY
+	PHX
+	PHA
+
+	JSR LAB_GFPN		; Gets value of variable AFTER the command
+	LDA Itempl			; This is the low byte of the value
+	STA MyTEMP			; REMEMBER THIS
+
+	; check if mode 1 (graphics)
+	CMP #$01
+	BNE IO_MODE_text
+	JSR DISP_GRAPHICS_MODE
+	JMP IO_MODE_exit
+
+	; else mode 0 (text)
+	; do text mode
+IO_MODE_text
+	JSR DISP_TEXT_MODE
+
+
+IO_MODE_exit
+	PLA
+	PLX
+	PLY
 	RTS
 ; ------ END OF DISPLAY BITS
 
@@ -929,6 +975,7 @@ LAB_vec
 	.word   IO_DIR		; dir vector for EhBASIC		EhBASIC = V_DIR
 	.word 	IO_CLS		; CLS vector for EhBASIC		EhBASIC = V_CLS
 	.word	IO_MODE		; MODE vector for EhBASIC		EhBASIC = V_MODE
+	.word 	DISP_TEXT_MODE ; set display back to text mode EhBASIC = V_TEXTMODE
 
 ; EhBASIC IRQ support
 IRQ_CODE

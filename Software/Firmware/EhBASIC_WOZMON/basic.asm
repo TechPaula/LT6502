@@ -40,6 +40,16 @@
 ;      5.5     garbage collection may cause an overlap with temporary strings
 ;      5.6     floating point multiply rounding bug
 ;      5.7     VAL() may cause string variables to be trashed
+;
+;
+; LT6502 extra commands
+;     CLS         clears screen
+;     LOAD nnnn   LOAD program from CF location nnnn (where n = 0 to ?????)
+;     SAVE nnnn   SAVE program to CF location nnnn (where n = 0 to ?????)
+;     DIR         CF location listing with program names
+;     MODE n      Changes screen mode, MODE 0 is text, MODE 1 is Graphics
+;      
+
 
 ; zero page use ..
 
@@ -317,7 +327,6 @@ Decssp1           = Decss+1   ; number to decimal string start
 ; token values needed for BASIC
 
 ; primary command tokens (can start a statement)
-
 TK_END            = $80             ; END token
 TK_FOR            = TK_END+1        ; FOR token
 TK_NEXT           = TK_FOR+1        ; NEXT token
@@ -363,9 +372,10 @@ TK_IRQ            = TK_BITCLR+1     ; IRQ token
 TK_NMI            = TK_IRQ+1        ; NMI token
 TK_DIR            = TK_NMI+1        ; ?  DIR          VERY NEW COMMAND
 TK_CLS            = TK_DIR+1        ; ?  CLS          VERY NEW COMMAND
-; secondary command tokens, can't start a statement
+TK_MODE           = TK_CLS+1        ; ?  MODE         VERY NEW COMMAND
 
-TK_TAB            = TK_CLS+1        ; TAB token 
+; secondary command tokens, can't start a statement
+TK_TAB            = TK_MODE+1        ; TAB token 
 TK_ELSE           = TK_TAB+1        ; ELSE token
 TK_TO             = TK_ELSE+1       ; TO token
 TK_FN             = TK_TO+1         ; FN token
@@ -378,7 +388,6 @@ TK_WHILE          = TK_UNTIL+1      ; WHILE token
 TK_OFF            = TK_WHILE+1      ; OFF token
 
 ; opperator tokens
-
 TK_PLUS           = TK_OFF+1        ; + token
 TK_MINUS          = TK_PLUS+1       ; - token
 TK_MUL            = TK_MINUS+1      ; * token
@@ -460,6 +469,8 @@ VEC_LD            = VEC_OUT+2 ; load vector
 VEC_SV            = VEC_LD+2  ; save vector
 VEC_DIR           = VEC_SV+2  ; dir vector
 VEC_CLS           = VEC_DIR+2 ; CLS vector
+VEC_MODE          = VEC_CLS+2 ; MODE vector
+VEC_DISPTEXT      = VEC_MODE+2; reset display back to text (used on error/break)
 ; end bulk initialize by min_mon.asm from LAB_vec at LAB_stlp
 
 ; Ibuffs can now be anywhere in RAM, ensure that the max length is < $80,
@@ -802,8 +813,8 @@ LAB_OMER
 ; do error #X, then warm start
 
 LAB_XERR
-;      JSR   PWR_BEEP_LOW
-      JSR ERROR_BEEP
+      JSR   ERROR_BEEP        ; make a beep
+      JSR   V_DISPTEXT        ; set text mode (in case we're in graphics mode)
 
       LDA   LAB_BAER,X        ; get error message pointer low byte
       LDY   LAB_BAER+1,X      ; get error message pointer high byte
@@ -1651,6 +1662,7 @@ LAB_1629
 ; if there was a key press it gets back here ..
 
 LAB_1636
+      JSR   V_DISPTEXT
       CMP   #$03              ; compare with CTRL-C
 
 ; perform STOP
@@ -2560,6 +2572,7 @@ LAB_18CD
 
       LDA   (ut1_pl),Y        ; get next byte
       JSR   LAB_PRNA          ; go print the character
+                  ; TODO for PRINTK change this to send just to the keyboard display
       INY                     ; increment index
       DEX                     ; decrement count
       BNE   LAB_18CD          ; loop if not done yet
@@ -7918,9 +7931,13 @@ V_LOAD
 V_SAVE
       JMP   (VEC_SV)          ; save BASIC program
 V_DIR
-      JMP   (VEC_DIR)          ; save BASIC program
+      JMP   (VEC_DIR)         ; DIR BASIC command
 V_CLS
-      JMP   (VEC_CLS)          ; save BASIC program
+      JMP   (VEC_CLS)         ; CLS BASIC command
+V_MODE
+      JMP   (VEC_MODE)        ; MODE BASIC command
+V_DISPTEXT
+      JMP   (VEC_DISPTEXT)
 ; The rest are tables messages and code for RAM
 
 ; the rest of the code is tables and BASIC start-up code
@@ -8168,7 +8185,7 @@ LAB_CTBL
       .word LAB_NMI-1         ; NMI             new command
       .word V_DIR-1           ; ? DIR           very new added by PAM
       .word V_CLS-1           ; ? CLS           very new added by PAM
-
+      .word V_MODE-1          ; ? MODE          very new, added by PAM
 ; function pre process routine table
 
 LAB_FTPL
@@ -8498,6 +8515,8 @@ LBB_MIDS
       .byte "ID$(",TK_MIDS    ; MID$(
 LBB_MIN
       .byte "IN(",TK_MIN      ; MIN(
+LBB_MODE
+      .byte "ODE",TK_MODE      ; ? MODE    very new command
       .byte $00
 TAB_ASCN
 LBB_NEW
@@ -8638,6 +8657,8 @@ LAB_KEYT
       .word LBB_DIR           ; ? DIR     VERY NEW COMMAND
       .byte 3,'C'
       .word LBB_DIR           ; ? CLS     VERY NEW COMMAND
+      .byte 4,'M'
+      .word LBB_MODE          ; ? MODE     VERY NEW COMMAND
       .byte 4,'R'
       .word LBB_READ          ; READ
       .byte 3,'L'
