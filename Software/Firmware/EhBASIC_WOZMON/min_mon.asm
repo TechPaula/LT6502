@@ -1,3 +1,12 @@
+; Heavily edited to work with the LT6502 project
+;	https://github.com/TechPaula/LT6502
+;
+; TODO	1) Add scrolling when in text mode rather than the screen wrapping
+; TODO	2) Add "MODE" for switching between "MODE 0" (text) and "MODE 1" (Graphics) from basic
+; TODO  3) Move ALL the writing of RG and DT into a table to be read by a loop (save code space)
+; TODO	3) Add compact flash LOAD/SAVE/DIR
+; TODO  4) Add, if possible, more versatile beep, something with pitch and length?
+
 	.feature labels_without_colons
 	.feature force_range
 	.pc02
@@ -84,7 +93,6 @@ MyTEMP3			= $652
 	.org	$F300			; pretend this is in a 1/8K ROM
 
 ; reset vector points here
-
 RES_vec
 	CLD				; clear decimal mode
 	LDX	#$FF		; empty stack
@@ -109,8 +117,9 @@ LAB_stlp
     STA A_ctl       ; set control register
 
 	JSR PWR_BEEP_LOW	; power beep
-
 	JSR DISP_INIT		; initialise screen
+	JSR PWR_BEEP_HIGH	; beep after display init
+
 
 
 ; now do the signon message, Y = $00 here
@@ -139,27 +148,22 @@ LAB_nokey
     BEQ LAB_dowoz
 
 	CMP	#'C'			; compare with [C]old start
-	BNE	RES_vec			; loop if not [C]old start
+	BNE RES_vec
 
 	LDA #$0D
 	STA A_txd			; clear keyboard screen
-	
 	JSR KYB_basmsg
-	JSR PWR_BEEP_HIGH
-
 	JMP	LAB_COLD		; do EhBASIC cold start
 
 LAB_dowarm
 	LDA #$0D
 	STA A_txd			; clear keyboard screen
-	JSR PWR_BEEP_HIGH
 	JSR KYB_basmsg
 	JMP	LAB_WARM		; do EhBASIC warm start
 LAB_dowoz
 	LDA #$0D
 	STA A_txd			; clear keyboard screen
 	JSR KYB_wozmsg
-	JSR PWR_BEEP_HIGH
     JMP EWOZ
 
 ; byte out to simulated ACIA
@@ -287,6 +291,11 @@ KEYB_exit
 
 ; empty load vector for EhBASIC
 IO_LOAD
+	JSR LAB_GFPN		; Gets value of variable AFTER the command
+	LDA Itemph			; This is the high byte of the value
+	JSR PRBYTE
+	LDA Itempl			; This is the low byte of the value
+	JSR PRBYTE
 	RTS
 ; empty save vector for EhBASIC
 IO_SAVE
@@ -310,7 +319,7 @@ DISP_INIT
 	STA DISP_RG
 	JSR DISP_CHK_BUSY
 	LDA DISP_DT
-	CMP #$75		; $75 means it's an RA8875 driver chip
+	CMP #$75		;$75 means it's an RA8875 driver chip
 	BEQ DISP_OK
 	JMP DISP_ERR
 
@@ -774,8 +783,6 @@ DISP_flt_exit
 	LDA MyERR
 	JSR KEYBout			; show on keyboard (may get weird things)
 	RTS
-
-
 ; ------ END OF DISPLAY BITS
 
 
@@ -844,33 +851,39 @@ BEEP_LOW2
 	PLA
 	PLX
 	PLY
-
 	RTS	
 
+; ERROR BEEP
 ; LOW BEEP
-BEEP_SHORT
+ERROR_BEEP
 	PHY
 	PHX
 	PHA
-	LDA #BEEP_PW2		; PULSE WIDTH	
+	LDA #BEEP_PW		; PULSE WIDTH	
 	STA MyDL	
 
-BEEP_s1
+	LDA #BEEP_LN		; LENGTH	
+	STA MyDL2
+
+ERROR_BEEP_lp1
 	LDA #$FF
 	STA A_Beeper
-	JSR DELAY1
+	JSR DELAY2
 	DEC MyDL
-	BNE BEEP_s1
+	BNE ERROR_BEEP_lp1
 	
-	LDA #BEEP_PW2
+	LDA #BEEP_PW
 	STA MyDL
 
-BEEP_s2
+ERROR_BEEP_lp2
 	LDA #$00
 	STA A_Beeper
-	JSR DELAY1
+	JSR DELAY2
 	DEC MyDL
-	BNE BEEP_s2
+	BNE ERROR_BEEP_lp2
+
+	DEC MyDL2
+	BNE ERROR_BEEP_lp1
 
 	PLA
 	PLX
@@ -878,11 +891,7 @@ BEEP_s2
 
 	RTS	
 
-
 ; ------ END BEEPS
-
-
-
 
 
 ; Delay loop for random things
@@ -896,6 +905,19 @@ DELAY1_LP
 
 	RTS
 
+DELAY2
+	LDA #DELAY_LEN1
+	STA MyDL3
+
+DELAY2_LP
+	NOP
+	NOP
+	NOP
+	NOP
+	DEC MyDL3
+	BNE DELAY1_LP
+
+	RTS
 
 
 ; vector tables
@@ -906,6 +928,7 @@ LAB_vec
 	.word	IO_SAVE		; save vector for EhBASIC		EhBASIC = V_SAVE
 	.word   IO_DIR		; dir vector for EhBASIC		EhBASIC = V_DIR
 	.word 	IO_CLS		; CLS vector for EhBASIC		EhBASIC = V_CLS
+	.word	IO_MODE		; MODE vector for EhBASIC		EhBASIC = V_MODE
 
 ; EhBASIC IRQ support
 IRQ_CODE
