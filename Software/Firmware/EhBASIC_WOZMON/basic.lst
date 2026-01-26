@@ -5,10 +5,9 @@ Current file: min_mon.asm
 000000r 1               ; Heavily edited to work with the LT6502 project
 000000r 1               ;	https://github.com/TechPaula/LT6502
 000000r 1               ;
-000000r 1               ; TODO - make sure any errors set screen mode back to text
 000000r 1               ; TODO - Add scrolling when in text mode rather than the screen wrapping
-000000r 1               ; TODO - Add "PRINTK" to send text to the keyboard display
 000000r 1               ; TODO - Add plot, square, circle, etc
+000000r 1               ; TODO - Add "PRINTK" to send text to the keyboard display
 000000r 1               ; TODO - Add cursor move command
 000000r 1               ; TODO - Move ALL the writing of RG and DT into a table to be read by a loop (save code space)
 000000r 1               ; TODO - compact flash LOAD/SAVE/DIR
@@ -20,6 +19,7 @@ Current file: min_mon.asm
 000000r 1               	.pc02
 000000r 1               
 000000r 1               ; minimal monitor for EhBASIC and 6502 simulator V1.05
+000000r 1               
 000000r 1               
 000000r 1               ; To run EhBASIC on the simulator load and assemble [F7] this file, start the simulator
 000000r 1               ; running [F6] then start the code with the RESET [CTRL][SHIFT]R. Just selecting RUN
@@ -841,8 +841,8 @@ Current file: min_mon.asm
 00C13C  2               ; do error #X, then warm start
 00C13C  2               
 00C13C  2               LAB_XERR
-00C13C  2  20 66 F8           JSR   ERROR_BEEP
-00C13F  2  20 11 E1           JSR   V_DISPTEXT
+00C13C  2  20 66 F8           JSR   ERROR_BEEP        ; make a beep
+00C13F  2  20 11 E1           JSR   V_DISPTEXT        ; set text mode (in case we're in graphics mode)
 00C142  2               
 00C142  2  BD E3 E6           LDA   LAB_BAER,X        ; get error message pointer low byte
 00C145  2  BC E4 E6           LDY   LAB_BAER+1,X      ; get error message pointer high byte
@@ -8715,212 +8715,215 @@ Current file: min_mon.asm
 00E551  2  30 E4              .word LBB_INPUT         ; INPUT
 00E553  2  03 44              .byte 3,'D'
 00E555  2  F2 E3              .word LBB_DIM           ; DIM
-00E557  2  03 44              .byte 3,'D'
-00E559  2  F5 E3              .word LBB_DIR           ; ? DIR     VERY NEW COMMAND
-00E55B  2  03 43              .byte 3,'C'
-00E55D  2  F5 E3              .word LBB_DIR           ; ? CLS     VERY NEW COMMAND
-00E55F  2  04 4D              .byte 4,'M'
-00E561  2  6F E4              .word LBB_MODE          ; ? MODE     VERY NEW COMMAND
-00E563  2  04 52              .byte 4,'R'
-00E565  2  A3 E4              .word LBB_READ          ; READ
-00E567  2  03 4C              .byte 3,'L'
-00E569  2  4E E4              .word LBB_LET           ; LET
-00E56B  2  03 44              .byte 3,'D'
-00E56D  2  E7 E3              .word LBB_DEC           ; DEC
-00E56F  2  04 47              .byte 4,'G'
-00E571  2  20 E4              .word LBB_GOTO          ; GOTO
-00E573  2  03 52              .byte 3,'R'
-00E575  2  CE E4              .word LBB_RUN           ; RUN
-00E577  2  02 49              .byte 2,'I'
-00E579  2  2B E4              .word LBB_IF            ; IF
-00E57B  2  07 52              .byte 7,'R'
-00E57D  2  AA E4              .word LBB_RESTORE       ; RESTORE
-00E57F  2  05 47              .byte 5,'G'
-00E581  2  1B E4              .word LBB_GOSUB         ; GOSUB
-00E583  2  06 52              .byte 6,'R'
-00E585  2  B1 E4              .word LBB_RETIRQ        ; RETIRQ
-00E587  2  06 52              .byte 6,'R'
-00E589  2  B7 E4              .word LBB_RETNMI        ; RETNMI
-00E58B  2  06 52              .byte 6,'R'
-00E58D  2  BD E4              .word LBB_RETURN        ; RETURN
-00E58F  2  03 52              .byte 3,'R'
-00E591  2  A7 E4              .word LBB_REM           ; REM
-00E593  2  04 53              .byte 4,'S'
-00E595  2  EF E4              .word LBB_STOP          ; STOP
-00E597  2  02 4F              .byte 2,'O'
-00E599  2  89 E4              .word LBB_ON            ; ON
-00E59B  2  04 4E              .byte 4,'N'
-00E59D  2  81 E4              .word LBB_NULL          ; NULL
-00E59F  2  03 49              .byte 3,'I'
-00E5A1  2  2D E4              .word LBB_INC           ; INC
-00E5A3  2  04 57              .byte 4,'W'
-00E5A5  2  2E E5              .word LBB_WAIT          ; WAIT
-00E5A7  2  04 4C              .byte 4,'L'
-00E5A9  2  55 E4              .word LBB_LOAD          ; LOAD
-00E5AB  2  04 53              .byte 4,'S'
-00E5AD  2  D7 E4              .word LBB_SAVE          ; SAVE
-00E5AF  2  03 44              .byte 3,'D'
-00E5B1  2  EF E3              .word LBB_DEF           ; DEF
-00E5B3  2  04 50              .byte 4,'P'
-00E5B5  2  95 E4              .word LBB_POKE          ; POKE
-00E5B7  2  04 44              .byte 4,'D'
-00E5B9  2  F8 E3              .word LBB_DOKE          ; DOKE
-00E5BB  2  04 43              .byte 4,'C'
-00E5BD  2  C9 E3              .word LBB_CALL          ; CALL
-00E5BF  2  02 44              .byte 2,'D'
-00E5C1  2  FC E3              .word LBB_DO            ; DO
+00E557  2  04 52              .byte 4,'R'
+00E559  2  A3 E4              .word LBB_READ          ; READ
+00E55B  2  03 4C              .byte 3,'L'
+00E55D  2  4E E4              .word LBB_LET           ; LET
+00E55F  2  03 44              .byte 3,'D'
+00E561  2  E7 E3              .word LBB_DEC           ; DEC
+00E563  2  04 47              .byte 4,'G'
+00E565  2  20 E4              .word LBB_GOTO          ; GOTO
+00E567  2  03 52              .byte 3,'R'
+00E569  2  CE E4              .word LBB_RUN           ; RUN
+00E56B  2  02 49              .byte 2,'I'
+00E56D  2  2B E4              .word LBB_IF            ; IF
+00E56F  2  07 52              .byte 7,'R'
+00E571  2  AA E4              .word LBB_RESTORE       ; RESTORE
+00E573  2  05 47              .byte 5,'G'
+00E575  2  1B E4              .word LBB_GOSUB         ; GOSUB
+00E577  2  06 52              .byte 6,'R'
+00E579  2  B1 E4              .word LBB_RETIRQ        ; RETIRQ
+00E57B  2  06 52              .byte 6,'R'
+00E57D  2  B7 E4              .word LBB_RETNMI        ; RETNMI
+00E57F  2  06 52              .byte 6,'R'
+00E581  2  BD E4              .word LBB_RETURN        ; RETURN
+00E583  2  03 52              .byte 3,'R'
+00E585  2  A7 E4              .word LBB_REM           ; REM
+00E587  2  04 53              .byte 4,'S'
+00E589  2  EF E4              .word LBB_STOP          ; STOP
+00E58B  2  02 4F              .byte 2,'O'
+00E58D  2  89 E4              .word LBB_ON            ; ON
+00E58F  2  04 4E              .byte 4,'N'
+00E591  2  81 E4              .word LBB_NULL          ; NULL
+00E593  2  03 49              .byte 3,'I'
+00E595  2  2D E4              .word LBB_INC           ; INC
+00E597  2  04 57              .byte 4,'W'
+00E599  2  2E E5              .word LBB_WAIT          ; WAIT
+00E59B  2  04 4C              .byte 4,'L'
+00E59D  2  55 E4              .word LBB_LOAD          ; LOAD
+00E59F  2  04 53              .byte 4,'S'
+00E5A1  2  D7 E4              .word LBB_SAVE          ; SAVE
+00E5A3  2  03 44              .byte 3,'D'
+00E5A5  2  EF E3              .word LBB_DEF           ; DEF
+00E5A7  2  04 50              .byte 4,'P'
+00E5A9  2  95 E4              .word LBB_POKE          ; POKE
+00E5AB  2  04 44              .byte 4,'D'
+00E5AD  2  F8 E3              .word LBB_DOKE          ; DOKE
+00E5AF  2  04 43              .byte 4,'C'
+00E5B1  2  C9 E3              .word LBB_CALL          ; CALL
+00E5B3  2  02 44              .byte 2,'D'
+00E5B5  2  FC E3              .word LBB_DO            ; DO
+00E5B7  2  04 4C              .byte 4,'L'
+00E5B9  2  5D E4              .word LBB_LOOP          ; LOOP
+00E5BB  2  05 50              .byte 5,'P'
+00E5BD  2  9D E4              .word LBB_PRINT         ; PRINT
+00E5BF  2  04 43              .byte 4,'C'
+00E5C1  2  DA E3              .word LBB_CONT          ; CONT
 00E5C3  2  04 4C              .byte 4,'L'
-00E5C5  2  5D E4              .word LBB_LOOP          ; LOOP
-00E5C7  2  05 50              .byte 5,'P'
-00E5C9  2  9D E4              .word LBB_PRINT         ; PRINT
-00E5CB  2  04 43              .byte 4,'C'
-00E5CD  2  DA E3              .word LBB_CONT          ; CONT
-00E5CF  2  04 4C              .byte 4,'L'
-00E5D1  2  51 E4              .word LBB_LIST          ; LIST
-00E5D3  2  05 43              .byte 5,'C'
-00E5D5  2  D2 E3              .word LBB_CLEAR         ; CLEAR
-00E5D7  2  03 4E              .byte 3,'N'
-00E5D9  2  74 E4              .word LBB_NEW           ; NEW
-00E5DB  2  05 57              .byte 5,'W'
-00E5DD  2  37 E5              .word LBB_WIDTH         ; WIDTH
-00E5DF  2  03 47              .byte 3,'G'
-00E5E1  2  18 E4              .word LBB_GET           ; GET
-00E5E3  2  04 53              .byte 4,'S'
-00E5E5  2  F8 E4              .word LBB_SWAP          ; SWAP
-00E5E7  2  06 42              .byte 6,'B'
-00E5E9  2  BB E3              .word LBB_BITSET        ; BITSET
-00E5EB  2  06 42              .byte 6,'B'
-00E5ED  2  B5 E3              .word LBB_BITCLR        ; BITCLR
-00E5EF  2  03 49              .byte 3,'I'
-00E5F1  2  39 E4              .word LBB_IRQ           ; IRQ
-00E5F3  2  03 4E              .byte 3,'N'
-00E5F5  2  7B E4              .word LBB_NMI           ; NMI
-00E5F7  2               ; secondary commands (can't start a statement)
-00E5F7  2               
-00E5F7  2  04 54              .byte 4,'T'
-00E5F9  2  FD E4              .word LBB_TAB           ; TAB
-00E5FB  2  04 45              .byte 4,'E'
-00E5FD  2  FF E3              .word LBB_ELSE          ; ELSE
-00E5FF  2  02 54              .byte 2,'T'
-00E601  2  09 E5              .word LBB_TO            ; TO
-00E603  2  02 46              .byte 2,'F'
-00E605  2  0E E4              .word LBB_FN            ; FN
+00E5C5  2  51 E4              .word LBB_LIST          ; LIST
+00E5C7  2  05 43              .byte 5,'C'
+00E5C9  2  D2 E3              .word LBB_CLEAR         ; CLEAR
+00E5CB  2  03 4E              .byte 3,'N'
+00E5CD  2  74 E4              .word LBB_NEW           ; NEW
+00E5CF  2  05 57              .byte 5,'W'
+00E5D1  2  37 E5              .word LBB_WIDTH         ; WIDTH
+00E5D3  2  03 47              .byte 3,'G'
+00E5D5  2  18 E4              .word LBB_GET           ; GET
+00E5D7  2  04 53              .byte 4,'S'
+00E5D9  2  F8 E4              .word LBB_SWAP          ; SWAP
+00E5DB  2  06 42              .byte 6,'B'
+00E5DD  2  BB E3              .word LBB_BITSET        ; BITSET
+00E5DF  2  06 42              .byte 6,'B'
+00E5E1  2  B5 E3              .word LBB_BITCLR        ; BITCLR
+00E5E3  2  03 49              .byte 3,'I'
+00E5E5  2  39 E4              .word LBB_IRQ           ; IRQ
+00E5E7  2  03 4E              .byte 3,'N'
+00E5E9  2  7B E4              .word LBB_NMI           ; NMI
+00E5EB  2               ; secondary commands (can't start a statement)
+00E5EB  2               
+00E5EB  2  04 54              .byte 4,'T'
+00E5ED  2  FD E4              .word LBB_TAB           ; TAB
+00E5EF  2  04 45              .byte 4,'E'
+00E5F1  2  FF E3              .word LBB_ELSE          ; ELSE
+00E5F3  2  02 54              .byte 2,'T'
+00E5F5  2  09 E5              .word LBB_TO            ; TO
+00E5F7  2  02 46              .byte 2,'F'
+00E5F9  2  0E E4              .word LBB_FN            ; FN
+00E5FB  2  04 53              .byte 4,'S'
+00E5FD  2  E3 E4              .word LBB_SPC           ; SPC
+00E5FF  2  04 54              .byte 4,'T'
+00E601  2  05 E5              .word LBB_THEN          ; THEN
+00E603  2  03 4E              .byte 3,'N'
+00E605  2  7E E4              .word LBB_NOT           ; NOT
 00E607  2  04 53              .byte 4,'S'
-00E609  2  E3 E4              .word LBB_SPC           ; SPC
-00E60B  2  04 54              .byte 4,'T'
-00E60D  2  05 E5              .word LBB_THEN          ; THEN
-00E60F  2  03 4E              .byte 3,'N'
-00E611  2  7E E4              .word LBB_NOT           ; NOT
-00E613  2  04 53              .byte 4,'S'
-00E615  2  EB E4              .word LBB_STEP          ; STEP
-00E617  2  05 55              .byte 5,'U'
-00E619  2  18 E5              .word LBB_UNTIL         ; UNTIL
-00E61B  2  05 57              .byte 5,'W'
-00E61D  2  32 E5              .word LBB_WHILE         ; WHILE
-00E61F  2  03 4F              .byte 3,'O'
-00E621  2  86 E4              .word LBB_OFF           ; OFF
-00E623  2               
-00E623  2               ; opperators
-00E623  2               
-00E623  2  01 2B              .byte 1,'+'
-00E625  2  00 00              .word $0000             ; +
-00E627  2  01 2D              .byte 1,'-'
-00E629  2  00 00              .word $0000             ; -
-00E62B  2  01 2A              .byte 1,'*'
-00E62D  2  00 00              .word $0000             ; *
-00E62F  2  01 2F              .byte 1,'/'
-00E631  2  00 00              .word $0000             ; /
-00E633  2  01 5E              .byte 1,'^'
-00E635  2  00 00              .word $0000             ; ^
-00E637  2  03 41              .byte 3,'A'
-00E639  2  A4 E3              .word LBB_AND           ; AND
-00E63B  2  03 45              .byte 3,'E'
-00E63D  2  06 E4              .word LBB_EOR           ; EOR
-00E63F  2  02 4F              .byte 2,'O'
-00E641  2  8B E4              .word LBB_OR            ; OR
-00E643  2  02 3E              .byte 2,'>'
-00E645  2  9A E3              .word LBB_RSHIFT        ; >>
-00E647  2  02 3C              .byte 2,'<'
-00E649  2  94 E3              .word LBB_LSHIFT        ; <<
-00E64B  2  01 3E              .byte 1,'>'
-00E64D  2  00 00              .word $0000             ; >
-00E64F  2  01 3D              .byte 1,'='
-00E651  2  00 00              .word $0000             ; =
-00E653  2  01 3C              .byte 1,'<'
-00E655  2  00 00              .word $0000             ; <
-00E657  2               
-00E657  2               ; functions
-00E657  2               
-00E657  2  04 53              .byte 4,'S'             ;
-00E659  2  DB E4              .word LBB_SGN           ; SGN
-00E65B  2  04 49              .byte 4,'I'             ;
-00E65D  2  35 E4              .word LBB_INT           ; INT
-00E65F  2  04 41              .byte 4,'A'             ;
-00E661  2  A0 E3              .word LBB_ABS           ; ABS
-00E663  2  04 55              .byte 4,'U'             ;
-00E665  2  1D E5              .word LBB_USR           ; USR
-00E667  2  04 46              .byte 4,'F'             ;
-00E669  2  13 E4              .word LBB_FRE           ; FRE
-00E66B  2  04 50              .byte 4,'P'             ;
-00E66D  2  99 E4              .word LBB_POS           ; POS
-00E66F  2  04 53              .byte 4,'S'             ;
-00E671  2  E7 E4              .word LBB_SQR           ; SQR
-00E673  2  04 52              .byte 4,'R'             ;
-00E675  2  CA E4              .word LBB_RND           ; RND
-00E677  2  04 4C              .byte 4,'L'             ;
-00E679  2  59 E4              .word LBB_LOG           ; LOG
-00E67B  2  04 45              .byte 4,'E'             ;
-00E67D  2  09 E4              .word LBB_EXP           ; EXP
-00E67F  2  04 43              .byte 4,'C'             ;
-00E681  2  DE E3              .word LBB_COS           ; COS
-00E683  2  04 53              .byte 4,'S'             ;
-00E685  2  DF E4              .word LBB_SIN           ; SIN
-00E687  2  04 54              .byte 4,'T'             ;
-00E689  2  01 E5              .word LBB_TAN           ; TAN
-00E68B  2  04 41              .byte 4,'A'             ;
-00E68D  2  AB E3              .word LBB_ATN           ; ATN
-00E68F  2  05 50              .byte 5,'P'             ;
-00E691  2  8E E4              .word LBB_PEEK          ; PEEK
-00E693  2  05 44              .byte 5,'D'             ;
-00E695  2  EA E3              .word LBB_DEEK          ; DEEK
-00E697  2  05 53              .byte 5,'S'             ;
-00E699  2  D2 E4              .word LBB_SADD          ; SADD
-00E69B  2  04 4C              .byte 4,'L'             ;
-00E69D  2  4A E4              .word LBB_LEN           ; LEN
-00E69F  2  05 53              .byte 5,'S'             ;
-00E6A1  2  F3 E4              .word LBB_STRS          ; STR$
-00E6A3  2  04 56              .byte 4,'V'             ;
-00E6A5  2  22 E5              .word LBB_VAL           ; VAL
-00E6A7  2  04 41              .byte 4,'A'             ;
-00E6A9  2  A7 E3              .word LBB_ASC           ; ASC
-00E6AB  2  07 55              .byte 7,'U'             ;
-00E6AD  2  11 E5              .word LBB_UCASES        ; UCASE$
-00E6AF  2  07 4C              .byte 7,'L'             ;
-00E6B1  2  3D E4              .word LBB_LCASES        ; LCASE$
-00E6B3  2  05 43              .byte 5,'C'             ;
-00E6B5  2  CD E3              .word LBB_CHRS          ; CHR$
-00E6B7  2  05 48              .byte 5,'H'             ;
-00E6B9  2  25 E4              .word LBB_HEXS          ; HEX$
-00E6BB  2  05 42              .byte 5,'B'             ;
-00E6BD  2  B0 E3              .word LBB_BINS          ; BIN$
-00E6BF  2  07 42              .byte 7,'B'             ;
-00E6C1  2  C1 E3              .word LBB_BITTST        ; BITTST
-00E6C3  2  04 4D              .byte 4,'M'             ;
-00E6C5  2  62 E4              .word LBB_MAX           ; MAX
-00E6C7  2  04 4D              .byte 4,'M'             ;
-00E6C9  2  6B E4              .word LBB_MIN           ; MIN
-00E6CB  2  02 50              .byte 2,'P'             ;
-00E6CD  2  93 E4              .word LBB_PI            ; PI
-00E6CF  2  05 54              .byte 5,'T'             ;
-00E6D1  2  0B E5              .word LBB_TWOPI         ; TWOPI
-00E6D3  2  07 56              .byte 7,'V'             ;
-00E6D5  2  26 E5              .word LBB_VPTR          ; VARPTR
-00E6D7  2  06 4C              .byte 6,'L'             ;
-00E6D9  2  44 E4              .word LBB_LEFTS         ; LEFT$
-00E6DB  2  07 52              .byte 7,'R'             ;
-00E6DD  2  C3 E4              .word LBB_RIGHTS        ; RIGHT$
-00E6DF  2  05 4D              .byte 5,'M'             ;
-00E6E1  2  66 E4              .word LBB_MIDS          ; MID$
+00E609  2  EB E4              .word LBB_STEP          ; STEP
+00E60B  2  05 55              .byte 5,'U'
+00E60D  2  18 E5              .word LBB_UNTIL         ; UNTIL
+00E60F  2  05 57              .byte 5,'W'
+00E611  2  32 E5              .word LBB_WHILE         ; WHILE
+00E613  2  03 4F              .byte 3,'O'
+00E615  2  86 E4              .word LBB_OFF           ; OFF
+00E617  2               
+00E617  2               ; opperators
+00E617  2               
+00E617  2  01 2B              .byte 1,'+'
+00E619  2  00 00              .word $0000             ; +
+00E61B  2  01 2D              .byte 1,'-'
+00E61D  2  00 00              .word $0000             ; -
+00E61F  2  01 2A              .byte 1,'*'
+00E621  2  00 00              .word $0000             ; *
+00E623  2  01 2F              .byte 1,'/'
+00E625  2  00 00              .word $0000             ; /
+00E627  2  01 5E              .byte 1,'^'
+00E629  2  00 00              .word $0000             ; ^
+00E62B  2  03 41              .byte 3,'A'
+00E62D  2  A4 E3              .word LBB_AND           ; AND
+00E62F  2  03 45              .byte 3,'E'
+00E631  2  06 E4              .word LBB_EOR           ; EOR
+00E633  2  02 4F              .byte 2,'O'
+00E635  2  8B E4              .word LBB_OR            ; OR
+00E637  2  02 3E              .byte 2,'>'
+00E639  2  9A E3              .word LBB_RSHIFT        ; >>
+00E63B  2  02 3C              .byte 2,'<'
+00E63D  2  94 E3              .word LBB_LSHIFT        ; <<
+00E63F  2  01 3E              .byte 1,'>'
+00E641  2  00 00              .word $0000             ; >
+00E643  2  01 3D              .byte 1,'='
+00E645  2  00 00              .word $0000             ; =
+00E647  2  01 3C              .byte 1,'<'
+00E649  2  00 00              .word $0000             ; <
+00E64B  2               
+00E64B  2               ; functions
+00E64B  2               
+00E64B  2  04 53              .byte 4,'S'             ;
+00E64D  2  DB E4              .word LBB_SGN           ; SGN
+00E64F  2  04 49              .byte 4,'I'             ;
+00E651  2  35 E4              .word LBB_INT           ; INT
+00E653  2  04 41              .byte 4,'A'             ;
+00E655  2  A0 E3              .word LBB_ABS           ; ABS
+00E657  2  04 55              .byte 4,'U'             ;
+00E659  2  1D E5              .word LBB_USR           ; USR
+00E65B  2  04 46              .byte 4,'F'             ;
+00E65D  2  13 E4              .word LBB_FRE           ; FRE
+00E65F  2  04 50              .byte 4,'P'             ;
+00E661  2  99 E4              .word LBB_POS           ; POS
+00E663  2  04 53              .byte 4,'S'             ;
+00E665  2  E7 E4              .word LBB_SQR           ; SQR
+00E667  2  04 52              .byte 4,'R'             ;
+00E669  2  CA E4              .word LBB_RND           ; RND
+00E66B  2  04 4C              .byte 4,'L'             ;
+00E66D  2  59 E4              .word LBB_LOG           ; LOG
+00E66F  2  04 45              .byte 4,'E'             ;
+00E671  2  09 E4              .word LBB_EXP           ; EXP
+00E673  2  04 43              .byte 4,'C'             ;
+00E675  2  DE E3              .word LBB_COS           ; COS
+00E677  2  04 53              .byte 4,'S'             ;
+00E679  2  DF E4              .word LBB_SIN           ; SIN
+00E67B  2  04 54              .byte 4,'T'             ;
+00E67D  2  01 E5              .word LBB_TAN           ; TAN
+00E67F  2  04 41              .byte 4,'A'             ;
+00E681  2  AB E3              .word LBB_ATN           ; ATN
+00E683  2  05 50              .byte 5,'P'             ;
+00E685  2  8E E4              .word LBB_PEEK          ; PEEK
+00E687  2  05 44              .byte 5,'D'             ;
+00E689  2  EA E3              .word LBB_DEEK          ; DEEK
+00E68B  2  05 53              .byte 5,'S'             ;
+00E68D  2  D2 E4              .word LBB_SADD          ; SADD
+00E68F  2  04 4C              .byte 4,'L'             ;
+00E691  2  4A E4              .word LBB_LEN           ; LEN
+00E693  2  05 53              .byte 5,'S'             ;
+00E695  2  F3 E4              .word LBB_STRS          ; STR$
+00E697  2  04 56              .byte 4,'V'             ;
+00E699  2  22 E5              .word LBB_VAL           ; VAL
+00E69B  2  04 41              .byte 4,'A'             ;
+00E69D  2  A7 E3              .word LBB_ASC           ; ASC
+00E69F  2  07 55              .byte 7,'U'             ;
+00E6A1  2  11 E5              .word LBB_UCASES        ; UCASE$
+00E6A3  2  07 4C              .byte 7,'L'             ;
+00E6A5  2  3D E4              .word LBB_LCASES        ; LCASE$
+00E6A7  2  05 43              .byte 5,'C'             ;
+00E6A9  2  CD E3              .word LBB_CHRS          ; CHR$
+00E6AB  2  05 48              .byte 5,'H'             ;
+00E6AD  2  25 E4              .word LBB_HEXS          ; HEX$
+00E6AF  2  05 42              .byte 5,'B'             ;
+00E6B1  2  B0 E3              .word LBB_BINS          ; BIN$
+00E6B3  2  07 42              .byte 7,'B'             ;
+00E6B5  2  C1 E3              .word LBB_BITTST        ; BITTST
+00E6B7  2  04 4D              .byte 4,'M'             ;
+00E6B9  2  62 E4              .word LBB_MAX           ; MAX
+00E6BB  2  04 4D              .byte 4,'M'             ;
+00E6BD  2  6B E4              .word LBB_MIN           ; MIN
+00E6BF  2  02 50              .byte 2,'P'             ;
+00E6C1  2  93 E4              .word LBB_PI            ; PI
+00E6C3  2  05 54              .byte 5,'T'             ;
+00E6C5  2  0B E5              .word LBB_TWOPI         ; TWOPI
+00E6C7  2  07 56              .byte 7,'V'             ;
+00E6C9  2  26 E5              .word LBB_VPTR          ; VARPTR
+00E6CB  2  06 4C              .byte 6,'L'             ;
+00E6CD  2  44 E4              .word LBB_LEFTS         ; LEFT$
+00E6CF  2  07 52              .byte 7,'R'             ;
+00E6D1  2  C3 E4              .word LBB_RIGHTS        ; RIGHT$
+00E6D3  2  05 4D              .byte 5,'M'             ;
+00E6D5  2  66 E4              .word LBB_MIDS          ; MID$
+00E6D7  2               
+00E6D7  2               ; ? NEW COMMANDS HERE otherwise they mess up the labels above when you type "LIST"
+00E6D7  2  03 44              .byte 3,'D'
+00E6D9  2  F5 E3              .word LBB_DIR           ; ? DIR     VERY NEW COMMAND
+00E6DB  2  03 43              .byte 3,'C'
+00E6DD  2  F5 E3              .word LBB_DIR           ; ? CLS     VERY NEW COMMAND
+00E6DF  2  04 4D              .byte 4,'M'
+00E6E1  2  6F E4              .word LBB_MODE          ; ? MODE     VERY NEW COMMAND
+00E6E3  2               
 00E6E3  2               
 00E6E3  2               ; BASIC messages, mostly error messages
 00E6E3  2               

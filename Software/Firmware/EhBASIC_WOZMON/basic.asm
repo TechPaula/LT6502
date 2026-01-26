@@ -8653,12 +8653,6 @@ LAB_KEYT
       .word LBB_INPUT         ; INPUT
       .byte 3,'D'
       .word LBB_DIM           ; DIM
-      .byte 3,'D'
-      .word LBB_DIR           ; ? DIR     VERY NEW COMMAND
-      .byte 3,'C'
-      .word LBB_DIR           ; ? CLS     VERY NEW COMMAND
-      .byte 4,'M'
-      .word LBB_MODE          ; ? MODE     VERY NEW COMMAND
       .byte 4,'R'
       .word LBB_READ          ; READ
       .byte 3,'L'
@@ -8732,7 +8726,7 @@ LAB_KEYT
       .byte 3,'I'
       .word LBB_IRQ           ; IRQ
       .byte 3,'N'
-      .word LBB_NMI           ; NMI
+      .word LBB_NMI           ; NMI     
 ; secondary commands (can't start a statement)
 
       .byte 4,'T'
@@ -8859,6 +8853,15 @@ LAB_KEYT
       .word LBB_RIGHTS        ; RIGHT$
       .byte 5,'M'             ;
       .word LBB_MIDS          ; MID$
+
+; ? NEW COMMANDS HERE otherwise they mess up the labels above when you type "LIST"
+      .byte 3,'D'
+      .word LBB_DIR           ; ? DIR     VERY NEW COMMAND
+      .byte 3,'C'
+      .word LBB_DIR           ; ? CLS     VERY NEW COMMAND
+      .byte 4,'M'
+      .word LBB_MODE          ; ? MODE     VERY NEW COMMAND
+
 
 ; BASIC messages, mostly error messages
 

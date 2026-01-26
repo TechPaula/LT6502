@@ -16,6 +16,7 @@
 
 ; minimal monitor for EhBASIC and 6502 simulator V1.05
 
+
 ; To run EhBASIC on the simulator load and assemble [F7] this file, start the simulator
 ; running [F6] then start the code with the RESET [CTRL][SHIFT]R. Just selecting RUN
 ; will do nothing, you'll still have to do a reset to run the code.
