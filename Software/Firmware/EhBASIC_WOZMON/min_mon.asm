@@ -1,7 +1,6 @@
 ; Heavily edited to work with the LT6502 project
 ;	https://github.com/TechPaula/LT6502
 ;
-; TODO - Add scrolling when in text mode rather than the screen wrapping
 ; TODO - Add plot, square, circle, etc
 ; TODO - Add "PRINTK" to send text to the keyboard display
 ; TODO - Add cursor move command  
@@ -767,11 +766,15 @@ DISP_text_checkLF
 	LDA DISP_temp
 	CMP #$0A				; check for LF
 	BNE DISP_textexit
-	; TODO add in scrolling if needed (USING BLOCK TRANSFER ENGINE) maybe make a function
-	INC DISP_crow
-	JSR DISP_CURSOR_SETXY
+	INC DISP_crow			; Do LF	
+
+	LDA DISP_crow			; Check for bottom of screen
+	CMP #30
+	BNE DISP_textexit		; if not bottom sckip scroll
+	JSR DISP_doscrollup		; else scroll
 
 DISP_textexit
+	JSR DISP_CURSOR_SETXY
 	LDA #$00
 	STA DISP_temp		; clear temp variable
 	RTS
@@ -830,6 +833,215 @@ IO_MODE_exit
 	PLX
 	PLY
 	RTS
+
+
+
+DISP_clearbottomline	
+	PHA
+	PHX
+	PHY
+					; START
+	LDA #$91
+	STA DISP_RG
+	LDA #$00			; X LSBYTE
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$92
+	STA DISP_RG
+	LDA #$00			; X MSBYTE
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$93
+	STA DISP_RG
+	LDA #$D0			; Y LSBYTE
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$94
+	STA DISP_RG
+	LDA #$01			; Y MSBYTE
+	STA DISP_DT
+					; END
+	JSR DISP_CHK_BUSY
+	LDA #$95
+	STA DISP_RG
+	LDA #$1F			; X LSBYTE
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$96
+	STA DISP_RG
+	LDA #$03			; X MSBYTE
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$97
+	STA DISP_RG
+	LDA #$DF			; Y LSBYTE
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$98
+	STA DISP_RG
+	LDA #$01			; Y MSBYTE
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+
+	LDA #$63				; RED colour, bits 0,1,2
+	STA DISP_RG
+	LDA #$00
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$64				; GREEN colour, bits 0,1,2
+	STA DISP_RG
+	LDA #$00
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$65				; BLUE colour, bits 0,1
+	STA DISP_RG
+	LDA #$00
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+	LDA #$90				; Start fill
+	STA DISP_RG
+	LDA #$B0
+	STA DISP_DT
+	JSR DISP_CHK_BUSY
+
+	LDA #$90				; CHECK IF WE'RE DONE
+	STA DISP_RG
+	LDA DISP_DT				; read status
+	JSR DISP_CHK_BUSY
+
+	PLY
+	PLX
+	PLA
+	RTS
+
+DISP_readreg
+	STA	DISP_RG
+	LDA DISP_DT
+	RTS
+
+DISP_writereg
+	STA	DISP_RG
+	STY DISP_DT
+	JSR DISP_CHK_BUSY
+	RTS
+
+DISP_doscrollup
+	phy               ; preserve Y
+
+	;; set up for move. I do this out of line so that the actual transfer
+	;; happens as quickly as it can. Look up the current foreground
+	;; color, cache it on the stack, and set the foreground to black.
+	;; look up current color values and save them
+	lda #$63
+	jsr DISP_readreg
+	pha
+
+	lda #$64
+	jsr DISP_readreg
+	pha
+
+	lda #$65
+	jsr DISP_readreg
+	pha
+
+	;; now set color to black, ready for painting the block after the move
+	ldy #0
+	lda #$63
+	jsr DISP_writereg
+	lda #$64
+	jsr DISP_writereg
+	lda #$65
+	jsr DISP_writereg
+
+	;; setup completed. next, do the block move.
+	;; set up source address
+	;; NOTE address includes layer specification. I'm setting this
+	;; to zero, which means Layer 1. I'm not even sure right now which
+	;; layer I'm using!
+	ldy #0            ; starting at 0, 16
+	lda #$54          ; LSB of X coordinate
+	jsr DISP_writereg
+	lda #$55          ; MSB of X coordinate
+	jsr DISP_writereg
+	ldy #$10          
+	lda #$56          ; LSB of Y coordinate
+	jsr DISP_writereg
+	ldy #0
+	lda #$57          ; MSB of Y coordinate
+	
+
+	;; set up destination address
+	ldy #0            ; copying to 0,0
+	lda #$58          ; LSB of X coordinate
+	jsr DISP_writereg
+	lda #$59          ; MSB of X coordinate
+	jsr DISP_writereg
+	lda #$5A          ; LSB of Y coordinate
+	jsr DISP_writereg
+	lda #$5B          ; MSB of Y coordinate
+
+	;; set BTE width and hight
+	ldy #$20          ; width is 800 ($320)
+	lda #$5C          ; LSB of width
+	jsr DISP_writereg
+	ldy #$03
+	lda #$5D          ; MSB of width
+	jsr DISP_writereg
+
+	ldy #$D0          ; height is 464 ($1D0)
+	lda #$5E          ; LSB of X coordinate
+	jsr DISP_writereg
+	ldy #$01
+	lda #$5F          ; MSB of X coordinate
+	jsr DISP_writereg
+
+	;; set BTE function
+	;; function is "move in a positive direction". The "positive direction"
+	;; means that we start at the beginning and move toward the end; since
+	;; the source and destination regions overlap, that's what we need.
+	;; ROP is "destionation = source" (ie, straight copy).
+	;; ROP is %1100 = $C, ROP is %0010 = $02
+	;; result is $C2
+	ldy #$C2
+	lda #$51
+	jsr DISP_writereg
+
+	;; enable BTE function
+	ldy #$80
+	lda #$50
+	jsr DISP_writereg
+
+	;; wait for block transfer to complete. Read register $50 until
+	;; the top bit is clear.
+DISP_busyloop
+	lda #$50
+	jsr DISP_readreg
+	bmi DISP_busyloop
+
+		; clear bottom line
+	JSR DISP_clearbottomline
+
+	;; reset color. 
+	pla
+	tay
+	lda #$65
+	jsr DISP_writereg
+	pla
+	tay
+	lda #$64
+	jsr DISP_writereg
+	pla
+	tay
+	lda #$63
+	jsr DISP_writereg
+
+
+	DEC DISP_crow
+	JSR DISP_CURSOR_SETXY
+
+	ply               ; restore Y
+	rts
+
 ; ------ END OF DISPLAY BITS
 
 
