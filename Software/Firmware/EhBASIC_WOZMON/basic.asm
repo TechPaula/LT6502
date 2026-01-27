@@ -327,57 +327,58 @@ Decssp1           = Decss+1   ; number to decimal string start
 ; token values needed for BASIC
 
 ; primary command tokens (can start a statement)
-TK_END            = $80             ; END token
-TK_FOR            = TK_END+1        ; FOR token
-TK_NEXT           = TK_FOR+1        ; NEXT token
-TK_DATA           = TK_NEXT+1       ; DATA token
-TK_INPUT          = TK_DATA+1       ; INPUT token
-TK_DIM            = TK_INPUT+1      ; DIM token
-TK_READ           = TK_DIM+1        ; READ token
-TK_LET            = TK_READ+1       ; LET token
-TK_DEC            = TK_LET+1        ; DEC token
-TK_GOTO           = TK_DEC+1        ; GOTO token
-TK_RUN            = TK_GOTO+1       ; RUN token
-TK_IF             = TK_RUN+1        ; IF token
-TK_RESTORE        = TK_IF+1         ; RESTORE token
-TK_GOSUB          = TK_RESTORE+1    ; GOSUB token
-TK_RETIRQ         = TK_GOSUB+1      ; RETIRQ token
-TK_RETNMI         = TK_RETIRQ+1     ; RETNMI token
-TK_RETURN         = TK_RETNMI+1     ; RETURN token
-TK_REM            = TK_RETURN+1     ; REM token
-TK_STOP           = TK_REM+1        ; STOP token
-TK_ON             = TK_STOP+1       ; ON token
-TK_NULL           = TK_ON+1         ; NULL token
-TK_INC            = TK_NULL+1       ; INC token
-TK_WAIT           = TK_INC+1        ; WAIT token
-TK_LOAD           = TK_WAIT+1       ; LOAD token
-TK_SAVE           = TK_LOAD+1       ; SAVE token
-TK_DEF            = TK_SAVE+1       ; DEF token
-TK_POKE           = TK_DEF+1        ; POKE token
-TK_DOKE           = TK_POKE+1       ; DOKE token
-TK_CALL           = TK_DOKE+1       ; CALL token
-TK_DO             = TK_CALL+1       ; DO token
-TK_LOOP           = TK_DO+1         ; LOOP token
-TK_PRINT          = TK_LOOP+1       ; PRINT token
-TK_CONT           = TK_PRINT+1      ; CONT token
-TK_LIST           = TK_CONT+1       ; LIST token
-TK_CLEAR          = TK_LIST+1       ; CLEAR token
-TK_NEW            = TK_CLEAR+1      ; NEW token
-TK_WIDTH          = TK_NEW+1        ; WIDTH token
-TK_GET            = TK_WIDTH+1      ; GET token
-TK_SWAP           = TK_GET+1        ; SWAP token
-TK_BITSET         = TK_SWAP+1       ; BITSET token
-TK_BITCLR         = TK_BITSET+1     ; BITCLR token
-TK_IRQ            = TK_BITCLR+1     ; IRQ token
-TK_NMI            = TK_IRQ+1        ; NMI token
-TK_DIR            = TK_NMI+1        ; ?  DIR          VERY NEW COMMAND
-TK_CLS            = TK_DIR+1        ; ?  CLS          VERY NEW COMMAND
-TK_MODE           = TK_CLS+1        ; ?  MODE         VERY NEW COMMAND
+TK_END            = $80             ; END token       $80
+TK_FOR            = TK_END+1        ; FOR token       $81
+TK_NEXT           = TK_FOR+1        ; NEXT token      $82
+TK_DATA           = TK_NEXT+1       ; DATA token      $83
+TK_INPUT          = TK_DATA+1       ; INPUT token     $84
+TK_DIM            = TK_INPUT+1      ; DIM token       $85
+TK_READ           = TK_DIM+1        ; READ token      $86
+TK_LET            = TK_READ+1       ; LET token       $87
+TK_DEC            = TK_LET+1        ; DEC token       $88
+TK_GOTO           = TK_DEC+1        ; GOTO token      $89
+TK_RUN            = TK_GOTO+1       ; RUN token       $8A
+TK_IF             = TK_RUN+1        ; IF token        $8B
+TK_RESTORE        = TK_IF+1         ; RESTORE token   $8C
+TK_GOSUB          = TK_RESTORE+1    ; GOSUB token     $8D
+TK_RETIRQ         = TK_GOSUB+1      ; RETIRQ token    $8E
+TK_RETNMI         = TK_RETIRQ+1     ; RETNMI token    $8F
+TK_RETURN         = TK_RETNMI+1     ; RETURN token    $90
+TK_REM            = TK_RETURN+1     ; REM token       $91
+TK_STOP           = TK_REM+1        ; STOP token      $91
+TK_ON             = TK_STOP+1       ; ON token        $93
+TK_NULL           = TK_ON+1         ; NULL token      $94
+TK_INC            = TK_NULL+1       ; INC token       $95
+TK_WAIT           = TK_INC+1        ; WAIT token      $96
+TK_LOAD           = TK_WAIT+1       ; LOAD token      $97
+TK_SAVE           = TK_LOAD+1       ; SAVE token      $98
+TK_DEF            = TK_SAVE+1       ; DEF token       $99
+TK_POKE           = TK_DEF+1        ; POKE token      $9A
+TK_DOKE           = TK_POKE+1       ; DOKE token      $9B
+TK_CALL           = TK_DOKE+1       ; CALL token      $9C
+TK_DO             = TK_CALL+1       ; DO token        $9D
+TK_LOOP           = TK_DO+1         ; LOOP token      $9E
+TK_PRINT          = TK_LOOP+1       ; PRINT token     $9F
+TK_CONT           = TK_PRINT+1      ; CONT token      $A0
+TK_LIST           = TK_CONT+1       ; LIST token      $A1
+TK_CLEAR          = TK_LIST+1       ; CLEAR token     $A2
+TK_NEW            = TK_CLEAR+1      ; NEW token       $A3
+TK_WIDTH          = TK_NEW+1        ; WIDTH token     $A4
+TK_GET            = TK_WIDTH+1      ; GET token       $A5
+TK_SWAP           = TK_GET+1        ; SWAP token      $A6
+TK_BITSET         = TK_SWAP+1       ; BITSET token    $A7
+TK_BITCLR         = TK_BITSET+1     ; BITCLR token    $A8
+TK_IRQ            = TK_BITCLR+1     ; IRQ token       $A9
+TK_NMI            = TK_IRQ+1        ; NMI token       $AA
+; ? new commands go here
+TK_DIR            = TK_NMI+1        ; ?  DIR          VERY NEW COMMAND  $AB
+TK_CLS            = TK_DIR+1        ; ?  CLS          VERY NEW COMMAND  $AC
+TK_MODE           = TK_CLS+1        ; ?  MODE         VERY NEW COMMAND  $AD
 
 ; secondary command tokens, can't start a statement
-TK_TAB            = TK_MODE+1        ; TAB token 
-TK_ELSE           = TK_TAB+1        ; ELSE token
-TK_TO             = TK_ELSE+1       ; TO token
+TK_TAB            = TK_MODE+1       ; TAB token       $AE   
+TK_ELSE           = TK_TAB+1        ; ELSE token      $AF
+TK_TO             = TK_ELSE+1       ; TO token        $B0
 TK_FN             = TK_TO+1         ; FN token
 TK_SPC            = TK_FN+1         ; SPC token
 TK_THEN           = TK_SPC+1        ; THEN token
@@ -403,7 +404,6 @@ TK_EQUAL          = TK_GT+1         ; = token
 TK_LT             = TK_EQUAL+1      ; < token
 
 ; functions tokens
-
 TK_SGN            = TK_LT+1         ; SGN token
 TK_INT            = TK_SGN+1        ; INT token
 TK_ABS            = TK_INT+1        ; ABS token
@@ -440,8 +440,9 @@ TK_LEFTS          = TK_VPTR+1       ; LEFT$ token
 TK_RIGHTS         = TK_LEFTS+1      ; RIGHT$ token
 TK_MIDS           = TK_RIGHTS+1     ; MID$ token
 
-; offsets from a base of X or Y
 
+
+; offsets from a base of X or Y
 PLUS_0            = $00       ; X or Y plus 0
 PLUS_1            = $01       ; X or Y plus 1
 PLUS_2            = $02       ; X or Y plus 2
@@ -8727,6 +8728,15 @@ LAB_KEYT
       .word LBB_IRQ           ; IRQ
       .byte 3,'N'
       .word LBB_NMI           ; NMI     
+
+; ? NEW COMMANDS, they MUST be in the same order as the TK_ section!
+      .byte 3,'D'
+      .word LBB_DIR           ; ? DIR     VERY NEW COMMAND
+      .byte 3,'C'
+      .word LBB_DIR           ; ? CLS     VERY NEW COMMAND
+      .byte 4,'M'
+      .word LBB_MODE          ; ? MODE     VERY NEW COMMAND
+
 ; secondary commands (can't start a statement)
 
       .byte 4,'T'
@@ -8854,13 +8864,6 @@ LAB_KEYT
       .byte 5,'M'             ;
       .word LBB_MIDS          ; MID$
 
-; ? NEW COMMANDS HERE otherwise they mess up the labels above when you type "LIST"
-      .byte 3,'D'
-      .word LBB_DIR           ; ? DIR     VERY NEW COMMAND
-      .byte 3,'C'
-      .word LBB_DIR           ; ? CLS     VERY NEW COMMAND
-      .byte 4,'M'
-      .word LBB_MODE          ; ? MODE     VERY NEW COMMAND
 
 
 ; BASIC messages, mostly error messages
