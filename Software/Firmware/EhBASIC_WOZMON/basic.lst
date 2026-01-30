@@ -8794,7 +8794,7 @@ Current file: min_mon.asm
 00E5EB  2  03 44              .byte 3,'D'
 00E5ED  2  F5 E3              .word LBB_DIR           ; ? DIR     VERY NEW COMMAND
 00E5EF  2  03 43              .byte 3,'C'
-00E5F1  2  F5 E3              .word LBB_DIR           ; ? CLS     VERY NEW COMMAND
+00E5F1  2  D7 E3              .word LBB_CLS           ; ? CLS     VERY NEW COMMAND
 00E5F3  2  04 4D              .byte 4,'M'
 00E5F5  2  6F E4              .word LBB_MODE          ; ? MODE     VERY NEW COMMAND
 00E5F7  2               

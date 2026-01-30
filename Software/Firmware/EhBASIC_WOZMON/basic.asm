@@ -8733,7 +8733,7 @@ LAB_KEYT
       .byte 3,'D'
       .word LBB_DIR           ; ? DIR     VERY NEW COMMAND
       .byte 3,'C'
-      .word LBB_DIR           ; ? CLS     VERY NEW COMMAND
+      .word LBB_CLS           ; ? CLS     VERY NEW COMMAND
       .byte 4,'M'
       .word LBB_MODE          ; ? MODE     VERY NEW COMMAND
 
