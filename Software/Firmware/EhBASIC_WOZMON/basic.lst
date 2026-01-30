@@ -843,7 +843,7 @@ Current file: min_mon.asm
 00C13C  2               ; do error #X, then warm start
 00C13C  2               
 00C13C  2               LAB_XERR
-00C13C  2  20 8E F9           JSR   ERROR_BEEP        ; make a beep
+00C13C  2  20 8D F9           JSR   ERROR_BEEP        ; make a beep
 00C13F  2  20 14 E1           JSR   V_DISPTEXT        ; set text mode (in case we're in graphics mode)
 00C142  2               
 00C142  2  BD F0 E6           LDA   LAB_BAER,X        ; get error message pointer low byte
@@ -9531,7 +9531,7 @@ Current file: min_mon.asm
 00F304  1               
 00F304  1  A0 26        	LDY	#END_CODE-LAB_vec	; set index/count
 00F306  1               LAB_stlp
-00F306  1  B9 0A FA     	LDA	LAB_vec-1,Y		; get byte from interrupt code
+00F306  1  B9 09 FA     	LDA	LAB_vec-1,Y		; get byte from interrupt code
 00F309  1  99 04 02     	STA	VEC_IN-1,Y		; save to RAM
 00F30C  1  88           	DEY					; decrement index/count
 00F30D  1  D0 F7        	BNE	LAB_stlp		; loop if more to do
@@ -9545,15 +9545,15 @@ Current file: min_mon.asm
 00F317  1  A9 10            LDA #$10        ; 8-N-1, 115200 baud
 00F319  1  8D E3 BF         STA A_ctl       ; set control register
 00F31C  1               
-00F31C  1  20 85 F9     	JSR PWR_BEEP_LOW	; power beep
+00F31C  1  20 84 F9     	JSR PWR_BEEP_LOW	; power beep
 00F31F  1  20 00 F4     	JSR DISP_INIT		; initialise screen
-00F322  1  20 7C F9     	JSR PWR_BEEP_HIGH	; beep after display init
+00F322  1  20 7B F9     	JSR PWR_BEEP_HIGH	; beep after display init
 00F325  1               
 00F325  1               
 00F325  1               
 00F325  1               ; now do the signon message, Y = $00 here
 00F325  1               LAB_signon
-00F325  1  B9 31 FA     	LDA	LAB_mess,Y		; get byte from sign on message
+00F325  1  B9 30 FA     	LDA	LAB_mess,Y		; get byte from sign on message
 00F328  1  F0 06        	BEQ KYB_msg			; display next message
 00F32A  1               
 00F32A  1  20 FF E0     	JSR	V_OUTP			; output character
@@ -9679,7 +9679,7 @@ Current file: min_mon.asm
 00F3BF  1  A0 00        	LDY #$00
 00F3C1  1               
 00F3C1  1               KYB_basmsg_lp
-00F3C1  1  B9 63 FA     	LDA KYB_basmess_str,Y
+00F3C1  1  B9 62 FA     	LDA KYB_basmess_str,Y
 00F3C4  1  F0 06        	BEQ	KYB_basmsg_exit	; exit loop if done
 00F3C6  1               
 00F3C6  1  20 7E F3     	JSR KEYBout			;
@@ -9694,7 +9694,7 @@ Current file: min_mon.asm
 00F3CD  1  A0 00        	LDY #$00
 00F3CF  1               
 00F3CF  1               KYB_wozmsg_lp
-00F3CF  1  B9 6E FA     	LDA KYB_wozmess_str,Y
+00F3CF  1  B9 6D FA     	LDA KYB_wozmess_str,Y
 00F3D2  1  F0 06        	BEQ	KYB_wozmsg_exit	; exit loop if done
 00F3D4  1               
 00F3D4  1  20 7E F3     	JSR KEYBout			;
@@ -9709,7 +9709,7 @@ Current file: min_mon.asm
 00F3DB  1  A0 00        	LDY #$00
 00F3DD  1               
 00F3DD  1               KYB_signon
-00F3DD  1  B9 59 FA     	LDA KYB_mess,Y
+00F3DD  1  B9 58 FA     	LDA KYB_mess,Y
 00F3E0  1  F0 06        	BEQ	KEYB_exit		; exit loop if done
 00F3E2  1               
 00F3E2  1  20 7E F3     	JSR KEYBout			;
@@ -9731,7 +9731,7 @@ Current file: min_mon.asm
 00F3F7  1  60           	RTS
 00F3F8  1               ; empty DIR vector for EhBASIC
 00F3F8  1               IO_DIR
-00F3F8  1  20 7C F9     	JSR PWR_BEEP_HIGH
+00F3F8  1  20 7B F9     	JSR PWR_BEEP_HIGH
 00F3FB  1  60           	RTS
 00F3FC  1               IO_CLS
 00F3FC  1  20 49 F6     	JSR DISP_CLS
@@ -10218,7 +10218,7 @@ Current file: min_mon.asm
 00F7D3  1  A0 00        	LDY #$00
 00F7D5  1               
 00F7D5  1               DISP_flt_lp				; Display error message
-00F7D5  1  B9 79 FA     	LDA ERR_disp,Y
+00F7D5  1  B9 78 FA     	LDA ERR_disp,Y
 00F7D8  1  F0 09        	BEQ	DISP_flt_exit	; exit loop if done
 00F7DA  1  20 6A F3     	JSR ACIAout			; Send to console
 00F7DD  1  20 7E F3     	JSR KEYBout			; Send to keyboard display
@@ -10477,204 +10477,192 @@ Current file: min_mon.asm
 00F96B  1  5A           	PHY
 00F96C  1  48           	PHA
 00F96D  1               
-00F96D  1               ;	JSR LAB_EVEX        ; evaluate expression (sadly the manual has ZERO info on this)
-00F96D  1               ;	LDA Dtypef			; $FF if string, $00 if value or variable
-00F96D  1               
-00F96D  1               ;	pha
-00F96D  1               ;	jsr PRBYTE
-00F96D  1               ;	pla
-00F96D  1               
-00F96D  1               
-00F96D  1               
-00F96D  1               BEEP_num
-00F96D  1               	; THIS BELOW WORKS FINE, LEAVE IT ALONE!
-00F96D  1  20 59 C7     	JSR LAB_GFPN		; Gets value of variable AFTER the command
-00F970  1  A5 11        	LDA Itempl			; This is the low byte of the value
-00F972  1  8D 50 06     	STA MyTEMP			; REMEMBER THIS
-00F975  1               
-00F975  1               BEEP_dobeep
-00F975  1  20 AD F9     	JSR VARI_BEEP
-00F978  1               
-00F978  1  68           	PLA
-00F979  1  7A           	PLY
-00F97A  1  FA           	PLX
-00F97B  1  60           	RTS
-00F97C  1               
-00F97C  1               ; HIGH BEEP
-00F97C  1               PWR_BEEP_HIGH
-00F97C  1  A9 F0        	LDA #BEEP_PW2		; PULSE WIDTH
-00F97E  1  8D 50 06     	STA MyTEMP
-00F981  1  20 AD F9     	JSR VARI_BEEP
-00F984  1  60           	RTS
-00F985  1               
-00F985  1               ; LOW BEEP
-00F985  1               PWR_BEEP_LOW
-00F985  1  A9 70        	LDA #BEEP_PW		; PULSE WIDTH
-00F987  1  8D 50 06     	STA MyTEMP
-00F98A  1  20 AD F9     	JSR VARI_BEEP
-00F98D  1  60           	RTS
-00F98E  1               
-00F98E  1               ; ERROR BEEP called by BASIC on error
-00F98E  1               ERROR_BEEP
-00F98E  1  5A           	PHY
-00F98F  1  DA           	PHX
-00F990  1  48           	PHA
-00F991  1               
-00F991  1  A9 00        	LDA #$00		; LOW NOTE
-00F993  1  8D 50 06     	STA MyTEMP
-00F996  1  20 AD F9     	JSR VARI_BEEP
-00F999  1  A9 00        	LDA #$00		; LOW NOTE
-00F99B  1  8D 50 06     	STA MyTEMP
-00F99E  1  20 AD F9     	JSR VARI_BEEP
-00F9A1  1  A9 00        	LDA #$00		; LOW NOTE
-00F9A3  1  8D 50 06     	STA MyTEMP
-00F9A6  1  20 AD F9     	JSR VARI_BEEP
-00F9A9  1               
-00F9A9  1  68           	PLA
-00F9AA  1  FA           	PLX
-00F9AB  1  7A           	PLY
-00F9AC  1  60           	RTS
-00F9AD  1               
-00F9AD  1               ; VARIABLE PITCH BEEP
-00F9AD  1               VARI_BEEP
-00F9AD  1  AD 50 06     	LDA MyTEMP			; PULSE WIDTH
-00F9B0  1  8D 51 06     	STA MyTEMP2			; SAVE TO USE TO CALC LENGTH
-00F9B3  1  49 FF        	EOR #$FF			; INVERT SO LOW NUMBER = LOW PITCH
-00F9B5  1  C9 00        	CMP #$0
-00F9B7  1  D0 01        	BNE VARI_BEEP_pok
-00F9B9  1  1A           	INC
-00F9BA  1               
-00F9BA  1               VARI_BEEP_pok
-00F9BA  1  8D 50 06     	STA MyTEMP
-00F9BD  1  8D 10 06     	STA MyDL
-00F9C0  1               
-00F9C0  1               	; FIGURE OUT LENGTH OF NOTE
-00F9C0  1               	;	HIGHER NOTES = MORE LOOPS
-00F9C0  1  49 FF        	EOR #$FF
+00F96D  1  20 A3 D4     	JSR LAB_GTBY		; GET NEXT BYTE
+00F970  1  8A           	TXA
+00F971  1  8D 50 06     	STA MyTEMP			; REMEMBER THIS
+00F974  1               
+00F974  1  20 AC F9     	JSR VARI_BEEP
+00F977  1               
+00F977  1  68           	PLA
+00F978  1  7A           	PLY
+00F979  1  FA           	PLX
+00F97A  1  60           	RTS
+00F97B  1               
+00F97B  1               ; HIGH BEEP
+00F97B  1               PWR_BEEP_HIGH
+00F97B  1  A9 F0        	LDA #BEEP_PW2		; PULSE WIDTH
+00F97D  1  8D 50 06     	STA MyTEMP
+00F980  1  20 AC F9     	JSR VARI_BEEP
+00F983  1  60           	RTS
+00F984  1               
+00F984  1               ; LOW BEEP
+00F984  1               PWR_BEEP_LOW
+00F984  1  A9 70        	LDA #BEEP_PW		; PULSE WIDTH
+00F986  1  8D 50 06     	STA MyTEMP
+00F989  1  20 AC F9     	JSR VARI_BEEP
+00F98C  1  60           	RTS
+00F98D  1               
+00F98D  1               ; ERROR BEEP called by BASIC on error
+00F98D  1               ERROR_BEEP
+00F98D  1  5A           	PHY
+00F98E  1  DA           	PHX
+00F98F  1  48           	PHA
+00F990  1               
+00F990  1  A9 00        	LDA #$00		; LOW NOTE
+00F992  1  8D 50 06     	STA MyTEMP
+00F995  1  20 AC F9     	JSR VARI_BEEP
+00F998  1  A9 00        	LDA #$00		; LOW NOTE
+00F99A  1  8D 50 06     	STA MyTEMP
+00F99D  1  20 AC F9     	JSR VARI_BEEP
+00F9A0  1  A9 00        	LDA #$00		; LOW NOTE
+00F9A2  1  8D 50 06     	STA MyTEMP
+00F9A5  1  20 AC F9     	JSR VARI_BEEP
+00F9A8  1               
+00F9A8  1  68           	PLA
+00F9A9  1  FA           	PLX
+00F9AA  1  7A           	PLY
+00F9AB  1  60           	RTS
+00F9AC  1               
+00F9AC  1               ; VARIABLE PITCH BEEP
+00F9AC  1               VARI_BEEP
+00F9AC  1  AD 50 06     	LDA MyTEMP			; PULSE WIDTH
+00F9AF  1  8D 51 06     	STA MyTEMP2			; SAVE TO USE TO CALC LENGTH
+00F9B2  1  49 FF        	EOR #$FF			; INVERT SO LOW NUMBER = LOW PITCH
+00F9B4  1  C9 00        	CMP #$0
+00F9B6  1  D0 01        	BNE VARI_BEEP_pok
+00F9B8  1  1A           	INC
+00F9B9  1               
+00F9B9  1               VARI_BEEP_pok
+00F9B9  1  8D 50 06     	STA MyTEMP
+00F9BC  1  8D 10 06     	STA MyDL
+00F9BF  1               
+00F9BF  1               	; FIGURE OUT LENGTH OF NOTE
+00F9BF  1               	;	HIGHER NOTES = MORE LOOPS
+00F9BF  1  49 FF        	EOR #$FF
+00F9C1  1  4A           	LSR
 00F9C2  1  4A           	LSR
 00F9C3  1  4A           	LSR
-00F9C4  1  4A           	LSR
-00F9C5  1  18           	CLC
-00F9C6  1  69 10        	ADC #$10
-00F9C8  1  8D 11 06     	STA MyDL2
-00F9CB  1               
-00F9CB  1               VARI_BEEP_LP1
-00F9CB  1  A9 FF        	LDA #$FF
-00F9CD  1  8D A0 BF     	STA A_Beeper
-00F9D0  1  20 F1 F9     	JSR DELAY1
-00F9D3  1  CE 10 06     	DEC MyDL
-00F9D6  1  D0 F3        	BNE VARI_BEEP_LP1
-00F9D8  1               
-00F9D8  1  AD 50 06     	LDA MyTEMP
-00F9DB  1  8D 10 06     	STA MyDL
-00F9DE  1               
-00F9DE  1               VARI_BEEP_LP2
-00F9DE  1  A9 00        	LDA #$00
-00F9E0  1  8D A0 BF     	STA A_Beeper
-00F9E3  1  20 F1 F9     	JSR DELAY1
-00F9E6  1  CE 10 06     	DEC MyDL
-00F9E9  1  D0 F3        	BNE VARI_BEEP_LP2
-00F9EB  1               
-00F9EB  1  CE 11 06     	DEC MyDL2
-00F9EE  1  D0 DB        	BNE VARI_BEEP_LP1
+00F9C4  1  18           	CLC
+00F9C5  1  69 10        	ADC #$10
+00F9C7  1  8D 11 06     	STA MyDL2
+00F9CA  1               
+00F9CA  1               VARI_BEEP_LP1
+00F9CA  1  A9 FF        	LDA #$FF
+00F9CC  1  8D A0 BF     	STA A_Beeper
+00F9CF  1  20 F0 F9     	JSR DELAY1
+00F9D2  1  CE 10 06     	DEC MyDL
+00F9D5  1  D0 F3        	BNE VARI_BEEP_LP1
+00F9D7  1               
+00F9D7  1  AD 50 06     	LDA MyTEMP
+00F9DA  1  8D 10 06     	STA MyDL
+00F9DD  1               
+00F9DD  1               VARI_BEEP_LP2
+00F9DD  1  A9 00        	LDA #$00
+00F9DF  1  8D A0 BF     	STA A_Beeper
+00F9E2  1  20 F0 F9     	JSR DELAY1
+00F9E5  1  CE 10 06     	DEC MyDL
+00F9E8  1  D0 F3        	BNE VARI_BEEP_LP2
+00F9EA  1               
+00F9EA  1  CE 11 06     	DEC MyDL2
+00F9ED  1  D0 DB        	BNE VARI_BEEP_LP1
+00F9EF  1               
+00F9EF  1  60           	RTS
 00F9F0  1               
-00F9F0  1  60           	RTS
-00F9F1  1               
-00F9F1  1               
-00F9F1  1               ; ------ END BEEPS
-00F9F1  1               
-00F9F1  1               
-00F9F1  1               ; Delay loop for random things
-00F9F1  1               DELAY1
-00F9F1  1  A9 05        	LDA #DELAY_LEN1
-00F9F3  1  8D 12 06     	STA MyDL3
-00F9F6  1               
-00F9F6  1               DELAY1_LP
-00F9F6  1  CE 12 06     	DEC MyDL3
-00F9F9  1  D0 FB        	BNE DELAY1_LP
+00F9F0  1               
+00F9F0  1               ; ------ END BEEPS
+00F9F0  1               
+00F9F0  1               
+00F9F0  1               ; Delay loop for random things
+00F9F0  1               DELAY1
+00F9F0  1  A9 05        	LDA #DELAY_LEN1
+00F9F2  1  8D 12 06     	STA MyDL3
+00F9F5  1               
+00F9F5  1               DELAY1_LP
+00F9F5  1  CE 12 06     	DEC MyDL3
+00F9F8  1  D0 FB        	BNE DELAY1_LP
+00F9FA  1               
+00F9FA  1  60           	RTS
 00F9FB  1               
-00F9FB  1  60           	RTS
-00F9FC  1               
-00F9FC  1               DELAY2
-00F9FC  1  A9 05        	LDA #DELAY_LEN1
-00F9FE  1  8D 12 06     	STA MyDL3
-00FA01  1               
-00FA01  1               DELAY2_LP
+00F9FB  1               DELAY2
+00F9FB  1  A9 05        	LDA #DELAY_LEN1
+00F9FD  1  8D 12 06     	STA MyDL3
+00FA00  1               
+00FA00  1               DELAY2_LP
+00FA00  1  EA           	NOP
 00FA01  1  EA           	NOP
 00FA02  1  EA           	NOP
 00FA03  1  EA           	NOP
-00FA04  1  EA           	NOP
-00FA05  1  CE 12 06     	DEC MyDL3
-00FA08  1  D0 EC        	BNE DELAY1_LP
+00FA04  1  CE 12 06     	DEC MyDL3
+00FA07  1  D0 EC        	BNE DELAY1_LP
+00FA09  1               
+00FA09  1  60           	RTS
 00FA0A  1               
-00FA0A  1  60           	RTS
-00FA0B  1               
-00FA0B  1               
-00FA0B  1               ; vector tables
-00FA0B  1               LAB_vec
-00FA0B  1  A2 F3        	.word	ACIAin		; byte in from simulated ACIA  	EhBASIC = V_INPT
-00FA0D  1  6A F3        	.word	ACIAout		; byte out to simulated ACIA   	EhBASIC = V_OUTP
-00FA0F  1  E9 F3        	.word	IO_LOAD		; load vector for EhBASIC		EhBASIC = V_LOAD
-00FA11  1  F7 F3        	.word	IO_SAVE		; save vector for EhBASIC		EhBASIC = V_SAVE
-00FA13  1  F8 F3        	.word   IO_DIR		; dir vector for EhBASIC		EhBASIC = V_DIR
-00FA15  1  FC F3        	.word 	IO_CLS		; CLS vector for EhBASIC		EhBASIC = V_CLS
-00FA17  1  F0 F7        	.word	IO_MODE		; MODE vector for EhBASIC		EhBASIC = V_MODE
-00FA19  1  6A F9        	.word   BEEP_CMD	; BEEP vector for EhBASIC		EhBASIC = V_BEEP
-00FA1B  1  56 F6        	.word 	DISP_TEXT_MODE ; set display back to text mode EhBASIC = V_TEXTMODE
-00FA1D  1               
-00FA1D  1               ; EhBASIC IRQ support
-00FA1D  1               IRQ_CODE
-00FA1D  1  48           	PHA				; save A
-00FA1E  1  A5 DF        	LDA	IrqBase		; get the IRQ flag byte
-00FA20  1  4A           	LSR				; shift the set b7 to b6, and on down ...
-00FA21  1  05 DF        	ORA	IrqBase		; OR the original back in
-00FA23  1  85 DF        	STA	IrqBase		; save the new IRQ flag byte
-00FA25  1  68           	PLA				; restore A
-00FA26  1  40           	RTI
-00FA27  1               
-00FA27  1               ; EhBASIC NMI support
-00FA27  1               NMI_CODE
-00FA27  1  48           	PHA				; save A
-00FA28  1  A5 DC        	LDA	NmiBase		; get the NMI flag byte
-00FA2A  1  4A           	LSR				; shift the set b7 to b6, and on down ...
-00FA2B  1  05 DC        	ORA	NmiBase		; OR the original back in
-00FA2D  1  85 DC        	STA	NmiBase		; save the new NMI flag byte
-00FA2F  1  68           	PLA				; restore A
-00FA30  1  40           	RTI
-00FA31  1               
-00FA31  1               
-00FA31  1               
-00FA31  1               
-00FA31  1               END_CODE
-00FA31  1               
-00FA31  1               LAB_mess 					; sign on string (Console)
-00FA31  1  0D 4C 54 36  	.byte	$0D,"LT6502 - [C]Cold/[W]arm or [M]onitor ?",$00
-00FA35  1  35 30 32 20  
-00FA39  1  2D 20 5B 43  
-00FA59  1               
-00FA59  1               KYB_mess					; sign on string (Keyboard)
-00FA59  1  0D 43 2F 57  	.byte	$0D,"C/W/M ? ",$00
-00FA5D  1  2F 4D 20 3F  
-00FA61  1  20 00        
-00FA63  1               KYB_basmess_str
-00FA63  1  0D 0D 45 68  	.byte	$0D,$0D,"EhBASIC ",$00
-00FA67  1  42 41 53 49  
-00FA6B  1  43 20 00     
-00FA6E  1               KYB_wozmess_str
-00FA6E  1  0D 0D 65 57  	.byte	$0D,$0D,"eWOZMON ",$00
-00FA72  1  4F 5A 4D 4F  
-00FA76  1  4E 20 00     
-00FA79  1               
-00FA79  1               ERR_disp
-00FA79  1  0D 0A 44 5F  	.byte	$0D,$0A,"D_ERR:",$00
-00FA7D  1  45 52 52 3A  
-00FA81  1  00           
-00FA82  1               
-00FA82  1               
-00FA82  1               ; system vectors
-00FA82  1               
-00FA82  1               	.segment "VECTS"
-00FA82  1               	.org	$FFFA
+00FA0A  1               
+00FA0A  1               ; vector tables
+00FA0A  1               LAB_vec
+00FA0A  1  A2 F3        	.word	ACIAin		; byte in from simulated ACIA  	EhBASIC = V_INPT
+00FA0C  1  6A F3        	.word	ACIAout		; byte out to simulated ACIA   	EhBASIC = V_OUTP
+00FA0E  1  E9 F3        	.word	IO_LOAD		; load vector for EhBASIC		EhBASIC = V_LOAD
+00FA10  1  F7 F3        	.word	IO_SAVE		; save vector for EhBASIC		EhBASIC = V_SAVE
+00FA12  1  F8 F3        	.word   IO_DIR		; dir vector for EhBASIC		EhBASIC = V_DIR
+00FA14  1  FC F3        	.word 	IO_CLS		; CLS vector for EhBASIC		EhBASIC = V_CLS
+00FA16  1  F0 F7        	.word	IO_MODE		; MODE vector for EhBASIC		EhBASIC = V_MODE
+00FA18  1  6A F9        	.word   BEEP_CMD	; BEEP vector for EhBASIC		EhBASIC = V_BEEP
+00FA1A  1  56 F6        	.word 	DISP_TEXT_MODE ; set display back to text mode EhBASIC = V_TEXTMODE
+00FA1C  1               
+00FA1C  1               ; EhBASIC IRQ support
+00FA1C  1               IRQ_CODE
+00FA1C  1  48           	PHA				; save A
+00FA1D  1  A5 DF        	LDA	IrqBase		; get the IRQ flag byte
+00FA1F  1  4A           	LSR				; shift the set b7 to b6, and on down ...
+00FA20  1  05 DF        	ORA	IrqBase		; OR the original back in
+00FA22  1  85 DF        	STA	IrqBase		; save the new IRQ flag byte
+00FA24  1  68           	PLA				; restore A
+00FA25  1  40           	RTI
+00FA26  1               
+00FA26  1               ; EhBASIC NMI support
+00FA26  1               NMI_CODE
+00FA26  1  48           	PHA				; save A
+00FA27  1  A5 DC        	LDA	NmiBase		; get the NMI flag byte
+00FA29  1  4A           	LSR				; shift the set b7 to b6, and on down ...
+00FA2A  1  05 DC        	ORA	NmiBase		; OR the original back in
+00FA2C  1  85 DC        	STA	NmiBase		; save the new NMI flag byte
+00FA2E  1  68           	PLA				; restore A
+00FA2F  1  40           	RTI
+00FA30  1               
+00FA30  1               
+00FA30  1               
+00FA30  1               
+00FA30  1               END_CODE
+00FA30  1               
+00FA30  1               LAB_mess 					; sign on string (Console)
+00FA30  1  0D 4C 54 36  	.byte	$0D,"LT6502 - [C]Cold/[W]arm or [M]onitor ?",$00
+00FA34  1  35 30 32 20  
+00FA38  1  2D 20 5B 43  
+00FA58  1               
+00FA58  1               KYB_mess					; sign on string (Keyboard)
+00FA58  1  0D 43 2F 57  	.byte	$0D,"C/W/M ? ",$00
+00FA5C  1  2F 4D 20 3F  
+00FA60  1  20 00        
+00FA62  1               KYB_basmess_str
+00FA62  1  0D 0D 45 68  	.byte	$0D,$0D,"EhBASIC ",$00
+00FA66  1  42 41 53 49  
+00FA6A  1  43 20 00     
+00FA6D  1               KYB_wozmess_str
+00FA6D  1  0D 0D 65 57  	.byte	$0D,$0D,"eWOZMON ",$00
+00FA71  1  4F 5A 4D 4F  
+00FA75  1  4E 20 00     
+00FA78  1               
+00FA78  1               ERR_disp
+00FA78  1  0D 0A 44 5F  	.byte	$0D,$0A,"D_ERR:",$00
+00FA7C  1  45 52 52 3A  
+00FA80  1  00           
+00FA81  1               
+00FA81  1               
+00FA81  1               ; system vectors
+00FA81  1               
+00FA81  1               	.segment "VECTS"
+00FA81  1               	.org	$FFFA
 00FFFA  1               
 00FFFA  1  17 02        	.word	NMI_vec		; NMI vector
 00FFFC  1  00 F3        	.word	RES_vec		; RESET vector

@@ -1052,24 +1052,10 @@ BEEP_CMD
 	PHY
 	PHA
 
-	; BASIC BEEP WORKS, BUT YOU CANNOT USE VARIABLES YET :(
-	; BELOW IS MY WORK TRYING TO READ A VARIABLE OR IMMEDAITE VALUE
-;	JSR LAB_EVEX        ; evaluate expression (sadly the manual has ZERO info on this)
-;	LDA Dtypef			; $FF if string, $00 if value or variable
+	JSR LAB_GTBY		; GET NEXT BYTE (puts it in X)
+	TXA
+	STA MyTEMP			; Used in VARI_BEEP routine
 
-;	pha
-;	jsr PRBYTE
-;	pla
-
-
-
-BEEP_num
-	; THIS BELOW WORKS FINE, LEAVE IT ALONE!
-	JSR LAB_GFPN		; Gets value of variable AFTER the command ONLY for immediate value
-	LDA Itempl			; This is the low byte of the value
-	STA MyTEMP			; REMEMBER THIS
-
-BEEP_dobeep
 	JSR VARI_BEEP
 
 	PLA
