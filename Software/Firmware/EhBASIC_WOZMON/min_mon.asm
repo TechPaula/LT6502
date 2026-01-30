@@ -49,10 +49,11 @@ A_ctl           = $BFE3 ; ACIA control port
 
 ; Beeper bits
 A_Beeper		= $BFA0 ; Beeper address
-BEEP_PW			= $FF		; pitch of "low" beep
-BEEP_PW2		= $7F		; pitch of "high" beep
+BEEP_PW			= $70		; pitch of "low" beep
+BEEP_PW2		= $F0		; pitch of "high" beep
 BEEP_LN			= $20
 DELAY_LEN1		= $05		; Also affects pitch
+BEEP_LN_CALC	= $05
 
 ; compact flash bits n bobs
 CF_ADDRESS		= $BFB0	; Compact flash address
@@ -1046,109 +1047,116 @@ DISP_busyloop
 
 
 ; ------ BEEPS
+BEEP_CMD
+	PHX
+	PHY
+	PHA
+
+	; BASIC BEEP WORKS, BUT YOU CANNOT USE VARIABLES YET :(
+	; BELOW IS MY WORK TRYING TO READ A VARIABLE OR IMMEDAITE VALUE
+;	JSR LAB_EVEX        ; evaluate expression (sadly the manual has ZERO info on this)
+;	LDA Dtypef			; $FF if string, $00 if value or variable
+
+;	pha
+;	jsr PRBYTE
+;	pla
+
+
+
+BEEP_num
+	; THIS BELOW WORKS FINE, LEAVE IT ALONE!
+	JSR LAB_GFPN		; Gets value of variable AFTER the command ONLY for immediate value
+	LDA Itempl			; This is the low byte of the value
+	STA MyTEMP			; REMEMBER THIS
+
+BEEP_dobeep
+	JSR VARI_BEEP
+
+	PLA
+	PLY
+	PLX
+	RTS
+
 ; HIGH BEEP
 PWR_BEEP_HIGH
 	LDA #BEEP_PW2		; PULSE WIDTH	
-	STA MyDL	
-
-	LDA #BEEP_LN		; LENGTH	
-	STA MyDL2
-
-BEEP_LP3
-	LDA #$FF
-	STA A_Beeper
-	JSR DELAY1
-	DEC MyDL
-	BNE BEEP_LP3
-	
-	LDA #BEEP_PW2
-	STA MyDL
-
-BEEP_LP4
-	LDA #$00
-	STA A_Beeper
-	JSR DELAY1
-	DEC MyDL
-	BNE BEEP_LP4
-
-	DEC MyDL2
-	BNE BEEP_LP3
-
-	RTS	
+	STA MyTEMP
+	JSR VARI_BEEP
+	RTS
 
 ; LOW BEEP
 PWR_BEEP_LOW
-	PHY
-	PHX
-	PHA
 	LDA #BEEP_PW		; PULSE WIDTH	
-	STA MyDL	
+	STA MyTEMP
+	JSR VARI_BEEP
+	RTS
 
-	LDA #BEEP_LN		; LENGTH	
-	STA MyDL2
-
-BEEP_LOW1
-	LDA #$FF
-	STA A_Beeper
-	JSR DELAY1
-	DEC MyDL
-	BNE BEEP_LOW1
-	
-	LDA #BEEP_PW
-	STA MyDL
-
-BEEP_LOW2
-	LDA #$00
-	STA A_Beeper
-	JSR DELAY1
-	DEC MyDL
-	BNE BEEP_LOW2
-
-	DEC MyDL2
-	BNE BEEP_LOW1
-
-	PLA
-	PLX
-	PLY
-	RTS	
-
-; ERROR BEEP
-; LOW BEEP
+; ERROR BEEP called by BASIC on error
 ERROR_BEEP
 	PHY
 	PHX
 	PHA
-	LDA #BEEP_PW		; PULSE WIDTH	
-	STA MyDL	
 
-	LDA #BEEP_LN		; LENGTH	
-	STA MyDL2
-
-ERROR_BEEP_lp1
-	LDA #$FF
-	STA A_Beeper
-	JSR DELAY2
-	DEC MyDL
-	BNE ERROR_BEEP_lp1
-	
-	LDA #BEEP_PW
-	STA MyDL
-
-ERROR_BEEP_lp2
-	LDA #$00
-	STA A_Beeper
-	JSR DELAY2
-	DEC MyDL
-	BNE ERROR_BEEP_lp2
-
-	DEC MyDL2
-	BNE ERROR_BEEP_lp1
+	LDA #$00		; LOW NOTE
+	STA MyTEMP
+	JSR VARI_BEEP
+	LDA #$00		; LOW NOTE
+	STA MyTEMP
+	JSR VARI_BEEP
+	LDA #$00		; LOW NOTE
+	STA MyTEMP
+	JSR VARI_BEEP
 
 	PLA
 	PLX
 	PLY
+	RTS	
+
+; VARIABLE PITCH BEEP
+VARI_BEEP
+	LDA MyTEMP			; PULSE WIDTH
+	STA MyTEMP2			; SAVE TO USE TO CALC LENGTH	
+	EOR #$FF			; INVERT SO LOW NUMBER = LOW PITCH
+	CMP #$0
+	BNE VARI_BEEP_pok
+	INC
+
+VARI_BEEP_pok
+	STA MyTEMP
+	STA MyDL	
+
+	; FIGURE OUT LENGTH OF NOTE
+	;	HIGHER NOTES = MORE LOOPS
+	EOR #$FF
+	LSR 
+	LSR
+	LSR
+	CLC
+	ADC #$10
+	STA MyDL2
+
+VARI_BEEP_LP1
+	LDA #$FF
+	STA A_Beeper
+	JSR DELAY1
+	DEC MyDL
+	BNE VARI_BEEP_LP1
+	
+	LDA MyTEMP
+	STA MyDL
+
+VARI_BEEP_LP2
+	LDA #$00
+	STA A_Beeper
+	JSR DELAY1
+	DEC MyDL
+	BNE VARI_BEEP_LP2
+
+	DEC MyDL2
+	BNE VARI_BEEP_LP1
 
 	RTS	
+
 
 ; ------ END BEEPS
 
@@ -1188,6 +1196,7 @@ LAB_vec
 	.word   IO_DIR		; dir vector for EhBASIC		EhBASIC = V_DIR
 	.word 	IO_CLS		; CLS vector for EhBASIC		EhBASIC = V_CLS
 	.word	IO_MODE		; MODE vector for EhBASIC		EhBASIC = V_MODE
+	.word   BEEP_CMD	; BEEP vector for EhBASIC		EhBASIC = V_BEEP
 	.word 	DISP_TEXT_MODE ; set display back to text mode EhBASIC = V_TEXTMODE
 
 ; EhBASIC IRQ support

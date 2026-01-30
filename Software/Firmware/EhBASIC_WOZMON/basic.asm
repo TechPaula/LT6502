@@ -374,9 +374,10 @@ TK_NMI            = TK_IRQ+1        ; NMI token       $AA
 TK_DIR            = TK_NMI+1        ; ?  DIR          VERY NEW COMMAND  $AB
 TK_CLS            = TK_DIR+1        ; ?  CLS          VERY NEW COMMAND  $AC
 TK_MODE           = TK_CLS+1        ; ?  MODE         VERY NEW COMMAND  $AD
+TK_BEEP           = TK_MODE+1       ; ?  BEEP         VERY NEW COMMAND  
 
 ; secondary command tokens, can't start a statement
-TK_TAB            = TK_MODE+1       ; TAB token       $AE   
+TK_TAB            = TK_BEEP+1       ; TAB token       ;? REMEMBER TO CHANGE THIS WHEN ADDING NEW COMMANDS   
 TK_ELSE           = TK_TAB+1        ; ELSE token      $AF
 TK_TO             = TK_ELSE+1       ; TO token        $B0
 TK_FN             = TK_TO+1         ; FN token
@@ -471,7 +472,8 @@ VEC_SV            = VEC_LD+2  ; save vector
 VEC_DIR           = VEC_SV+2  ; dir vector
 VEC_CLS           = VEC_DIR+2 ; CLS vector
 VEC_MODE          = VEC_CLS+2 ; MODE vector
-VEC_DISPTEXT      = VEC_MODE+2; reset display back to text (used on error/break)
+VEC_BEEP          = VEC_MODE+2; BEEP vector
+VEC_DISPTEXT      = VEC_BEEP+2; reset display back to text (used on error/break)
 ; end bulk initialize by min_mon.asm from LAB_vec at LAB_stlp
 
 ; Ibuffs can now be anywhere in RAM, ensure that the max length is < $80,
@@ -7937,6 +7939,8 @@ V_CLS
       JMP   (VEC_CLS)         ; CLS BASIC command
 V_MODE
       JMP   (VEC_MODE)        ; MODE BASIC command
+V_BEEP
+      JMP   (VEC_BEEP)         ; CLS BASIC command
 V_DISPTEXT
       JMP   (VEC_DISPTEXT)
 ; The rest are tables messages and code for RAM
@@ -8187,6 +8191,7 @@ LAB_CTBL
       .word V_DIR-1           ; ? DIR           very new added by PAM
       .word V_CLS-1           ; ? CLS           very new added by PAM
       .word V_MODE-1          ; ? MODE          very new, added by PAM
+      .word V_BEEP-1          ; ? BEEP          new command added by PAM
 ; function pre process routine table
 
 LAB_FTPL
@@ -8406,6 +8411,8 @@ LBB_ATN
       .byte "TN(",TK_ATN      ; ATN(
       .byte $00
 TAB_ASCB
+LBB_BEEP
+      .byte "EEP",TK_BEEP    ; ? BEEP    very new command
 LBB_BINS
       .byte "IN$(",TK_BINS    ; BIN$(
 LBB_BITCLR
@@ -8413,8 +8420,7 @@ LBB_BITCLR
 LBB_BITSET
       .byte "ITSET",TK_BITSET ; BITSET
 LBB_BITTST
-      .byte "ITTST(",TK_BITTST
-                              ; BITTST(
+      .byte "ITTST(",TK_BITTST ; BITTST(
       .byte $00
 TAB_ASCC
 LBB_CALL
@@ -8736,6 +8742,9 @@ LAB_KEYT
       .word LBB_CLS           ; ? CLS     VERY NEW COMMAND
       .byte 4,'M'
       .word LBB_MODE          ; ? MODE     VERY NEW COMMAND
+      .byte 4,'B'
+      .word LBB_BEEP          ; ? BEEP     VERY NEW COMMAND
+
 
 ; secondary commands (can't start a statement)
 
