@@ -1,5 +1,4 @@
-10 REM // bubble-universe
-11 REM //    Adapted from Facebook posting by Paul Dunn
+10 REM ---- bubble-verse
 
 20 DT = $BFD0
 21 RG = $BFD1
@@ -16,12 +15,12 @@
 140 X = 0 
 150 V = 0 
 160 REM T = 0 
-170 HS = 240
+170 HS = 200   : REM this uses width of screen
 175 VS = 120
 180 GW = 400
 190 GH = 240
 
-200 MODE 1          : REM Switch to graphics mode
+200 MODE 1     : REM Switch to graphics mode
 
 
 300 REM -- MAIN LOOP
@@ -37,7 +36,7 @@
 410 T = T + (1/N)
 410 T = T + 1
 420 REM PRINTK T
-430 CALL($F96A)     : REM BEEP
+430 BEEP 100
 450 GOTO 300 
 
 
@@ -58,10 +57,8 @@
 
 
 2000 REM -- CALC DOT POSITION AND PLOT
-2001 REM plot (u * sz, v * sz)
-
-2040 PX = INT(GW+(U*SZ))
-2050 PY = INT(GH+(V*SZ))
+2040 PX = INT(GW+(U*HS))
+2050 PY = INT(GH+(V*VS))
 2060 GOSUB 3500
 
 
