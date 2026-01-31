@@ -91,8 +91,10 @@ DISP_posw_l		= $62C	; width low byte
 DISP_posh_h		= $62D	; height high byte
 DISP_posh_l		= $62E	; height low byte
 DISP_col_l		= $62F	; colour for line or outline
-DISP_col_f		= $630	; colour for fill
-DISP_col_t		= $631  ; colour for TEXT
+DISP_col_t		= $630  ; colour for TEXT
+DISP_fill		= $631	; fill?
+DISP_dim_h		= $632
+DISP_dim_l		= $632
 
 			; Bunch of temporary values
 MyTEMP			= $650
@@ -745,14 +747,14 @@ DISP_doscrollup
 	pha
 
 	;; now set color to black, ready for painting the block after the move
-	ldy #0
 	lda #$63
-	jsr DISP_writereg
 	ldy #0
+	jsr DISP_writereg
 	lda #$64
-	jsr DISP_writereg
 	ldy #0
+	jsr DISP_writereg
 	lda #$65
+	ldy #0
 	jsr DISP_writereg
 
 	;; setup completed. next, do the block move.
@@ -760,46 +762,47 @@ DISP_doscrollup
 	;; NOTE address includes layer specification. I'm setting this
 	;; to zero, which means Layer 1. I'm not even sure right now which
 	;; layer I'm using!
-	ldy #0            ; starting at 0, 16
 	lda #$54          ; LSB of X coordinate
+	ldy #0            ; starting at 0, 16
 	jsr DISP_writereg
 	lda #$55          ; MSB of X coordinate
+	ldy #0            ; starting at 0, 16
 	jsr DISP_writereg
-	ldy #$10          
 	lda #$56          ; LSB of Y coordinate
+	ldy #$10          
 	jsr DISP_writereg
-	ldy #0
 	lda #$57          ; MSB of Y coordinate
+	ldy #0
 	jsr DISP_writereg
 	
 
 	;; set up destination address
-	ldy #0            ; copying to 0,0
 	lda #$58          ; LSB of X coordinate
+	ldy #0            ; copying to 0,0
 	jsr DISP_writereg
-	ldy #0
 	lda #$59          ; MSB of X coordinate
-	jsr DISP_writereg
 	ldy #0
+	jsr DISP_writereg
 	lda #$5A          ; LSB of Y coordinate
-	jsr DISP_writereg
 	ldy #0
+	jsr DISP_writereg
 	lda #$5B          ; MSB of Y coordinate
+	ldy #0
 	jsr DISP_writereg
 
 	;; set BTE width and hight
-	ldy #$20          ; width is 800 ($320)
 	lda #$5C          ; LSB of width
+	ldy #$20          ; width is 800 ($320)
 	jsr DISP_writereg
-	ldy #$03
 	lda #$5D          ; MSB of width
+	ldy #$03
 	jsr DISP_writereg
 
-	ldy #$D0          ; height is 464 ($1D0)
 	lda #$5E          ; LSB of X coordinate
+	ldy #$D0          ; height is 464 ($1D0)
 	jsr DISP_writereg
-	ldy #$01
 	lda #$5F          ; MSB of X coordinate
+	ldy #$01
 	jsr DISP_writereg
 
 	;; set BTE function
@@ -809,13 +812,13 @@ DISP_doscrollup
 	;; ROP is "destionation = source" (ie, straight copy).
 	;; ROP is %1100 = $C, ROP is %0010 = $02
 	;; result is $C2
-	ldy #$C2
 	lda #$51
+	ldy #$C2
 	jsr DISP_writereg
 
 	;; enable BTE function
-	ldy #$80
 	lda #$50
+	ldy #$80
 	jsr DISP_writereg
 
 	;; wait for block transfer to complete. Read register $50 until
@@ -849,8 +852,8 @@ DISP_busyloop
 	ply               ; restore Y
 	rts
 
-
-DISP_PLOT				; PLOT XXXX,YYYY,CC
+	; PLOT XXXX,YYYY,CC
+DISP_PLOT
 	PHA
 	PHX
 	PHY
@@ -899,11 +902,104 @@ DISP_PLOT				; PLOT XXXX,YYYY,CC
 	LDA #$02
 	JSR DISP_writereg
 
+	PLY
+	PLX
+	PLA
+	RTS
+
+	; CIRCLE XXXX,YYYY,RR,CC,FF
+DISP_CIRCLE
+	PHA
+	PHX
+	PHY
+		; GET PARAMETERS AND SAVE THEM
+			; XXXX
+	JSR LAB_EVNM		; evaluate expression and check is numeric,
+                        ; else do type mismatch
+	JSR LAB_F2FX        ; save integer part of FAC1 in temporary integer
+	LDA	Itemph
+	STA DISP_posx_h
+	LDA	Itempl
+	STA DISP_posx_l
+			; YYYY
+	JSR LAB_1C01        ; scan for "," , else do syntax error then warm start
+	JSR LAB_EVNM        ; evaluate expression and check is numeric,
+                        ; else do typDISP_CIRCLEe mismatch
+	JSR LAB_F2FX        ; save integer part of FAC1 in temporary integer
+	LDA	Itemph
+	STA DISP_posy_h
+	LDA	Itempl
+	STA DISP_posy_l
+			; RR
+	JSR LAB_SGBY		; Scan for "," and get next byte, return in X
+	TXA
+	STA DISP_dim_l
+			; CC
+	JSR LAB_SGBY		; Scan for "," and get next byte, return in X
+	TXA
+	STA DISP_col_t
+			; FF
+	JSR LAB_SGBY		; Scan for "," and get next byte, return in X
+	TXA
+	STA DISP_fill
+
+		; DRAW CIRCLE
+			; SET X
+	LDY DISP_posx_l
+	LDA #$99
+	JSR DISP_writereg	
+	LDY DISP_posx_h
+	LDA #$9A
+	JSR DISP_writereg
+			; SET Y
+	LDY DISP_posy_l
+	LDA #$9B
+	JSR DISP_writereg	
+	LDY DISP_posy_h
+	LDA #$9C
+	JSR DISP_writereg
+			; SET RADIUS
+	LDY DISP_dim_l
+	LDA #$9D
+	JSR DISP_writereg
+			; SET COLOUR
+	JSR DISP_TEXT_COLOUR_direct
+			; DRAW
+
+
+	LDA DISP_fill
+	BEQ DISP_circlenofill
+
+	LDA #$60		; DO CIRCLE ($40) AND FILL ($20)
+	STA DISP_fill
+	JMP DISP_circledoit
+
+DISP_circlenofill
+	LDA #$40		; DO CIRCLE ($40)
+	STA DISP_fill
+
+DISP_circledoit
+	LDY DISP_fill
+	LDA #$90
+	JSR DISP_writereg
+
+DISP_circle_busyloop
+	LDA #$90			; CHECK DCR
+	JSR DISP_readreg
+	ROL
+	BMI DISP_circle_busyloop
+
+	LDA #$90				; CHECK IF WE'RE DONE
+	STA DISP_RG
+	LDA DISP_DT				; read status
+	JSR DISP_CHK_BUSY
 
 	PLY
 	PLX
 	PLA
 	RTS
+
+
 
 ; ------ END OF DISPLAY BITS
 
@@ -1048,6 +1144,7 @@ LAB_vec
 	.word	EWOZ		; WOZMON vector					EhBASIC = V_WOZMON
 	.word	DISP_TEXT_COLOUR	; COLOUR vector			EhBASIC = V_COLOUR
 	.word	DISP_PLOT	; PLOT vector					EhBASIC = V_PLOT
+	.word	DISP_CIRCLE	; CIRCLE vector					EhBASIC = V_CIRCLE
 	.word 	DISP_TEXT_MODE ; set display back to text mode EhBASIC = V_TEXTMODE
 
 ; EhBASIC IRQ support
@@ -1090,9 +1187,9 @@ DISP_bottomline_data	; order is reg, then data, 24 BYTES
 	.byte	$63,$00,$64,$00,$65,$00,$90,$B0
 
 DISP_doscroll_data		; order is reg, data, 34 bytes
-	.byte	$00,$63,$00,$64,$00,$65,$00,$54,$00,$55,$10,$56,$00,$57,$00,$58
-	.byte	$00,$59,$00,$5A,$00,$5B,$20,$5C,$03,$5D,$D0,$5E,$01,$5F,$C2,$51
-	.byte	$80,$50
+	.byte	$63,$00,$64,$00,$65,$00,$54,$00,$55,$00,$56,$10,$57,$00,$58,$00
+	.byte	$59,$00,$5A,$00,$5B,$00,$5C,$20,$5D,$03,$5E,$D0,$5F,$01,$51,$C2
+	.byte	$50,$80
 
 
 

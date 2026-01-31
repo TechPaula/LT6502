@@ -378,9 +378,10 @@ TK_BEEP           = TK_MODE+1       ; ?  BEEP         VERY NEW COMMAND
 TK_WOZMON         = TK_BEEP+1       ; ?  jsr to wozmon
 TK_COLOUR         = TK_WOZMON+1     ; ?  text colour
 TK_PLOT           = TK_COLOUR+1     ; ?  PLOT SINGLE PIXEL
+TK_CIRCLE         = TK_PLOT+1       ; ?  CIRCLE
 
 ; secondary command tokens, can't start a statement
-TK_TAB            = TK_PLOT+1       ; TAB token       ;? REMEMBER TO CHANGE THIS WHEN ADDING NEW COMMANDS   
+TK_TAB            = TK_CIRCLE+1       ; TAB token       ;? REMEMBER TO CHANGE THIS WHEN ADDING NEW COMMANDS   
 TK_ELSE           = TK_TAB+1        ; ELSE token      $AF
 TK_TO             = TK_ELSE+1       ; TO token        $B0
 TK_FN             = TK_TO+1         ; FN token
@@ -479,7 +480,8 @@ VEC_BEEP          = VEC_MODE+2      ; BEEP vector
 VEC_WOZMON        = VEC_BEEP+2      ; WOZMON vector
 VEC_COLOUR        = VEC_WOZMON+2    ; COLOUR vector
 VEC_PLOT          = VEC_COLOUR+2    ; PLOT vector
-VEC_DISPTEXT      = VEC_PLOT+2      ; reset display back to text (used on error/break)
+VEC_CIRCLE        = VEC_PLOT+2    ; PLOT vector
+VEC_DISPTEXT      = VEC_CIRCLE+2      ; reset display back to text (used on error/break)
 ; end bulk initialize by min_mon.asm from LAB_vec at LAB_stlp
 
 ; Ibuffs can now be anywhere in RAM, ensure that the max length is < $80,
@@ -7952,6 +7954,8 @@ V_COLOUR
       JMP   (VEC_COLOUR)      ; COLOUR command   
 V_PLOT
       JMP   (VEC_PLOT)        ; PLOT command
+V_CIRCLE
+      JMP   (VEC_CIRCLE)      ; CIRCLE command   
 V_DISPTEXT
       JMP   (VEC_DISPTEXT)
 ; The rest are tables messages and code for RAM
@@ -8206,6 +8210,7 @@ LAB_CTBL
       .word V_WOZMON-1        ; ? WOZMON        calls wozmon, handy for dbeugging
       .word V_COLOUR-1        ; ? COLOUR        Sets text colour
       .word V_PLOT-1          ; ? PLOT          PLOT a single pixel
+      .word V_CIRCLE-1        ; ? CIRCLE        CIRCLE draw a circle
 ; function pre process routine table
 
 LAB_FTPL
@@ -8441,6 +8446,8 @@ LBB_CALL
       .byte "ALL",TK_CALL     ; CALL
 LBB_CHRS
       .byte "HR$(",TK_CHRS    ; CHR$(
+LBB_CIRCLE
+      .byte "IRCLE",TK_CIRCLE ; ? CIRCLE  
 LBB_CLEAR
       .byte "LEAR",TK_CLEAR   ; CLEAR
 LBB_CLS
@@ -8771,6 +8778,8 @@ LAB_KEYT
       .word LBB_COLOUR        ; ? COLOUR     VERY NEW COMMAND
       .byte 4,'P'
       .word LBB_PLOT          ; ? PLOT
+      .byte 6,'C'
+      .word LBB_CIRCLE        ; ? CIRCLE     VERY NEW COMMAND
 
 
 ; secondary commands (can't start a statement)
