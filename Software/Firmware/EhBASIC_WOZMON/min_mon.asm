@@ -124,10 +124,19 @@ LAB_stlp
 	JSR DISP_INIT		; initialise screen
 	JSR PWR_BEEP_HIGH	; beep after display init
 
+	LDY #$0
+LAB_dobanner
+	LDA	LAB_banner,Y	; get byte from sign on message
+	BEQ LAB_presignon		; display next message
+
+	JSR	V_OUTP			; output character
+	INY					; increment index
+	BNE	LAB_dobanner	; loop, branch always
 
 
-; now do the signon message, Y = $00 here
-LAB_signon
+LAB_presignon
+	LDY #$0
+LAB_signon				; now do the signon message, Y = $00 here
 	LDA	LAB_mess,Y		; get byte from sign on message
 	BEQ KYB_msg			; display next message
 
@@ -1210,8 +1219,11 @@ NMI_CODE
 
 END_CODE
 
+LAB_banner
+	.byte	$0D,"   __ __________ ____ ___  ___ ",$0D,$0A,"  / //_  __/ __// __// _ \|_  |",$0D,$0A," / /__/ / / _ \/__ \/ // / __/ ",$0D,$0A,"/____/_/  \___/____/\___/____/ ",$0A,$00
+
 LAB_mess 					; sign on string (Console)
-	.byte	$0D,"LT6502 - [C]Cold/[W]arm or [M]onitor ?",$00
+	.byte	$0D,"[C]Cold/[W]arm or [M]onitor ?",$00
 
 KYB_mess					; sign on string (Keyboard)
 	.byte	$0D,"C/W/M ? ",$00

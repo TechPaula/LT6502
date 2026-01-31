@@ -220,12 +220,30 @@ PRHEX:
 ECHO:
       PHA               ;*Save A
       AND   #$7F        ;*Change to "standard ASCII"
+
+      PHA 
+      JSR   DISP_TEXT_WR
+      PLA
+
       STA   ACIAData    ;*Send it.
+
+      CMP   #$0D        ; is it a carriage return?
+      BNE   @WAIT
+
+      PHA               ; if it IS a CR then also send an LF!!!
+      LDA   #$0A
+      STA   ACIAData    ;*Send it.
+      JSR   DISP_TEXT_WR
+      PLA
+
 @WAIT:
       LDA   ACIAStatus  ;*Load status register for ACIA
       AND   #$02        ;*Mask bit 2.
       CMP   #$02
       BNE    @WAIT      ;*ACIA not done yet, wait.
+
+
+
       PLA               ;*Restore A
       RTS               ;*Done, over and out...
 

@@ -578,12 +578,11 @@ Current file: min_mon.asm
 00C041  2  A9 3F              LDA   #<LAB_MSZM        ; point to memory size message (low addr)
 00C043  2  A0 E1              LDY   #>LAB_MSZM        ; point to memory size message (high addr)
 00C045  2  20 CB C8           JSR   LAB_18C3          ; print null terminated string from memory
-00C048  2               ;      JSR   LAB_INLN          ; print "? " and get BASIC input
-00C048  2               ;      STX   Bpntrl            ; set BASIC execute pointer low byte
-00C048  2               ;      STY   Bpntrh            ; set BASIC execute pointer high byte
-00C048  2               ;      JSR   LAB_GBYT          ; get last byte back
-00C048  2               
-00C048  2               ;      BNE   LAB_2DAA          ; branch if not null (user typed something)
+00C048  2               ;      JSR   LAB_INLN          ; print "? " and get BASIC input               ;? removed so we just use all the memory
+00C048  2               ;      STX   Bpntrl            ; set BASIC execute pointer low byte           ;? removed so we just use all the memory
+00C048  2               ;      STY   Bpntrh            ; set BASIC execute pointer high byte          ;? removed so we just use all the memory
+00C048  2               ;      JSR   LAB_GBYT          ; get last byte back                           ;? removed so we just use all the memory
+00C048  2               ;      BNE   LAB_2DAA          ; branch if not null (user typed something)    ;? removed so we just use all the memory
 00C048  2               
 00C048  2  A0 00              LDY   #$00              ; else clear Y
 00C04A  2                                             ; character was null so get memory size the hard way
@@ -843,7 +842,7 @@ Current file: min_mon.asm
 00C130  2               ; do error #X, then warm start
 00C130  2               
 00C130  2               LAB_XERR
-00C130  2  20 8D F9           JSR   ERROR_BEEP        ; make a beep
+00C130  2  20 9C F9           JSR   ERROR_BEEP        ; make a beep
 00C133  2  20 08 E1           JSR   V_DISPTEXT        ; set text mode (in case we're in graphics mode)
 00C136  2               
 00C136  2  BD E4 E6           LDA   LAB_BAER,X        ; get error message pointer low byte
@@ -9092,11 +9091,11 @@ Current file: min_mon.asm
 00F002  2               ;        STA ACIA_CMD
 00F002  2  A9 0D                 LDA #$0D
 00F004  2  20 27 F1              JSR ECHO      ;* New line.
-00F007  2  A9 30                 LDA #<MSG1
+00F007  2  A9 43                 LDA #<MSG1
 00F009  2  85 2C                 STA MSGL
 00F00B  2  A9 F2                 LDA #>MSG1
 00F00D  2  85 2D                 STA MSGH
-00F00F  2  20 38 F1              JSR SHWMSG      ;* Show Welcome.
+00F00F  2  20 4B F1              JSR SHWMSG      ;* Show Welcome.
 00F012  2  A9 0D                 LDA #$0D
 00F014  2  20 27 F1              JSR ECHO      ;* New line.
 00F017  2               SOFTRESET:
@@ -9200,7 +9199,7 @@ Current file: min_mon.asm
 00F0B5  2  6C 24 00           JMP (XAML)      ;Run at current XAM index.
 00F0B8  2               
 00F0B8  2               LOADINT:
-00F0B8  2  20 45 F1           JSR LOADINTEL   ;* Load the Intel code.
+00F0B8  2  20 58 F1           JSR LOADINTEL   ;* Load the Intel code.
 00F0BB  2  4C 17 F0              JMP   SOFTRESET   ;* When returned from the program, reset EWOZ.
 00F0BE  2               
 00F0BE  2               NOESCAPE:
@@ -9270,256 +9269,275 @@ Current file: min_mon.asm
 00F127  2               ECHO:
 00F127  2  48                 PHA               ;*Save A
 00F128  2  29 7F              AND   #$7F        ;*Change to "standard ASCII"
-00F12A  2  8D F1 BF           STA   ACIAData    ;*Send it.
-00F12D  2               @WAIT:
-00F12D  2  AD F0 BF           LDA   ACIAStatus  ;*Load status register for ACIA
-00F130  2  29 02              AND   #$02        ;*Mask bit 2.
-00F132  2  C9 02              CMP   #$02
-00F134  2  D0 F7              BNE    @WAIT      ;*ACIA not done yet, wait.
-00F136  2  68                 PLA               ;*Restore A
-00F137  2  60                 RTS               ;*Done, over and out...
-00F138  2               
-00F138  2               SHWMSG:
-00F138  2  A0 00              LDY #$0
-00F13A  2               @PRINT:
-00F13A  2  B1 2C              LDA (MSGL),Y
-00F13C  2  F0 06                 BEQ @DONE
-00F13E  2  20 27 F1              JSR ECHO
-00F141  2  C8                    INY
-00F142  2  D0 F6                 BNE @PRINT
-00F144  2               @DONE:
-00F144  2  60                 RTS
-00F145  2               
-00F145  2               
-00F145  2               ; Load an program in Intel Hex Format.
-00F145  2               LOADINTEL:
-00F145  2  A9 0D           LDA #$0D
-00F147  2  20 27 F1              JSR ECHO      ;New line.
-00F14A  2  A9 45                 LDA #<MSG2
-00F14C  2  85 2C                 STA MSGL
-00F14E  2  A9 F2                 LDA #>MSG2
-00F150  2  85 2D                 STA MSGH
-00F152  2  20 38 F1              JSR SHWMSG      ;Show Start Transfer.
-00F155  2  A9 0D                 LDA #$0D
-00F157  2  20 27 F1              JSR ECHO      ;New line.
-00F15A  2  A0 00                 LDY #$00
-00F15C  2  84 30                 STY CRCCHECK   ;If CRCCHECK=0, all is good.
-00F15E  2               INTELLINE:
-00F15E  2  20 23 F2        JSR GETCHAR      ;Get char
-00F161  2  99 00 03              STA IN,Y      ;Store it
-00F164  2  C8                    INY            ;Next
-00F165  2  C9 1B                 CMP   #$1B      ;Escape ?
-00F167  2  F0 67                 BEQ   INTELDONE   ;Yes, abort.
-00F169  2  C9 0D                 CMP #$0D      ;Did we find a new line ?
-00F16B  2  D0 F1                 BNE INTELLINE   ;Nope, continue to scan line.
-00F16D  2  A0 FF                 LDY #$FF      ;Find (:)
-00F16F  2               FINDCOL:
-00F16F  2  C8                 INY
-00F170  2  B9 00 03              LDA IN,Y
-00F173  2  C9 3A                 CMP #$3A      ; Is it Colon ?
-00F175  2  D0 F8                 BNE FINDCOL      ; Nope, try next.
-00F177  2  C8                    INY            ; Skip colon
-00F178  2  A2 00                 LDX   #$00      ; Zero in X
-00F17A  2  86 2F                 STX   CRC         ; Zero Check sum
-00F17C  2  20 00 F2              JSR GETHEX      ; Get Number of bytes.
-00F17F  2  85 2E                 STA COUNTER      ; Number of bytes in Counter.
-00F181  2  18                    CLC            ; Clear carry
-00F182  2  65 2F                 ADC CRC         ; Add CRC
-00F184  2  85 2F                 STA CRC         ; Store it
-00F186  2  20 00 F2              JSR GETHEX      ; Get Hi byte
-00F189  2  85 27                 STA STH         ; Store it
-00F18B  2  18                    CLC            ; Clear carry
-00F18C  2  65 2F                 ADC CRC         ; Add CRC
-00F18E  2  85 2F                 STA CRC         ; Store it
-00F190  2  20 00 F2              JSR GETHEX      ; Get Lo byte
-00F193  2  85 26                 STA STL         ; Store it
-00F195  2  18                    CLC            ; Clear carry
-00F196  2  65 2F                 ADC CRC         ; Add CRC
-00F198  2  85 2F                 STA CRC         ; Store it
-00F19A  2  A9 2E                 LDA #$2E      ; Load "."
-00F19C  2  20 27 F1              JSR ECHO      ; Print it to indicate activity.
-00F19F  2               NODOT:
-00F19F  2  20 00 F2           JSR GETHEX      ; Get Control byte.
-00F1A2  2  C9 01                 CMP   #$01      ; Is it a Termination record ?
-00F1A4  2  F0 2A                 BEQ   INTELDONE   ; Yes, we are done.
-00F1A6  2  18                    CLC            ; Clear carry
-00F1A7  2  65 2F                 ADC CRC         ; Add CRC
-00F1A9  2  85 2F                 STA CRC         ; Store it
-00F1AB  2               INTELSTORE:
-00F1AB  2  20 00 F2           JSR GETHEX      ; Get Data Byte
-00F1AE  2  81 26              STA (STL,X)      ; Store it
-00F1B0  2  18                 CLC            ; Clear carry
-00F1B1  2  65 2F              ADC CRC         ; Add CRC
-00F1B3  2  85 2F              STA CRC         ; Store it
-00F1B5  2  E6 26              INC STL         ; Next Address
-00F1B7  2  D0 02              BNE TESTCOUNT   ; Test to see if Hi byte needs INC
-00F1B9  2  E6 27              INC STH         ; If so, INC it.
-00F1BB  2               TESTCOUNT:
-00F1BB  2  C6 2E              DEC   COUNTER      ; Count down.
-00F1BD  2  D0 EC              BNE INTELSTORE   ; Next byte
-00F1BF  2  20 00 F2           JSR GETHEX      ; Get Checksum
-00F1C2  2  A0 00              LDY #$00      ; Zero Y
-00F1C4  2  18                 CLC            ; Clear carry
-00F1C5  2  65 2F              ADC CRC         ; Add CRC
-00F1C7  2  F0 95              BEQ INTELLINE   ; Checksum OK.
-00F1C9  2  A9 01              LDA #$01      ; Flag CRC error.
-00F1CB  2  85 30              STA   CRCCHECK   ; Store it
-00F1CD  2  4C 5E F1           JMP INTELLINE   ; Process next line.
-00F1D0  2               
-00F1D0  2               INTELDONE:
-00F1D0  2  A5 30              LDA CRCCHECK   ; Test if everything is OK.
-00F1D2  2  F0 16              BEQ OKMESS      ; Show OK message.
-00F1D4  2  A9 0D              LDA #$0D
-00F1D6  2  20 27 F1           JSR ECHO      ;New line.
-00F1D9  2  A9 7B              LDA #<MSG4      ; Load Error Message
-00F1DB  2  85 2C              STA MSGL
-00F1DD  2  A9 F2              LDA #>MSG4
-00F1DF  2  85 2D              STA MSGH
-00F1E1  2  20 38 F1           JSR SHWMSG      ;Show Error.
-00F1E4  2  A9 0D              LDA #$0D
-00F1E6  2  20 27 F1           JSR ECHO      ;New line.
-00F1E9  2  60                 RTS
-00F1EA  2               
-00F1EA  2               OKMESS:
-00F1EA  2  A9 0D              LDA #$0D
-00F1EC  2  20 27 F1           JSR ECHO      ;New line.
-00F1EF  2  A9 64              LDA #<MSG3      ;Load OK Message.
-00F1F1  2  85 2C              STA MSGL
-00F1F3  2  A9 F2              LDA #>MSG3
-00F1F5  2  85 2D              STA MSGH
-00F1F7  2  20 38 F1           JSR SHWMSG      ;Show Done.
-00F1FA  2  A9 0D              LDA #$0D
-00F1FC  2  20 27 F1           JSR ECHO      ;New line.
-00F1FF  2  60                 RTS
-00F200  2               
-00F200  2               GETHEX:
-00F200  2  B9 00 03           LDA IN,Y      ;Get first char.
-00F203  2  49 30              EOR #$30
-00F205  2  C9 0A              CMP #$0A
-00F207  2  90 02              BCC DONEFIRST
-00F209  2  69 08              ADC #$08
-00F20B  2               DONEFIRST:
-00F20B  2  0A                 ASL
-00F20C  2  0A                 ASL
-00F20D  2  0A                 ASL
-00F20E  2  0A                 ASL
-00F20F  2  85 28              STA L
-00F211  2  C8                 INY
-00F212  2  B9 00 03           LDA IN,Y      ;Get next char.
-00F215  2  49 30              EOR #$30
-00F217  2  C9 0A              CMP #$0A
-00F219  2  90 02              BCC DONESECOND
-00F21B  2  69 08              ADC #$08
-00F21D  2               DONESECOND:
-00F21D  2  29 0F              AND #$0F
-00F21F  2  05 28              ORA L
-00F221  2  C8                 INY
-00F222  2  60                 RTS
-00F223  2               
-00F223  2               GETCHAR:
-00F223  2  AD F0 BF           LDA ACIAStatus     ;See if we got an incoming char
-00F226  2  29 01              AND #$01        ;Test bit 3
-00F228  2  C9 01              CMP #$01
-00F22A  2  D0 F7              BNE GETCHAR     ;Wait for character
-00F22C  2  AD F1 BF           LDA ACIAData    ;Load char
-00F22F  2  60                 RTS
-00F230  2               
-00F230  2               MSG1:
-00F230  2  57 65 6C 63        .byte "Welcome to EWOZ 1.0.",0
-00F234  2  6F 6D 65 20  
-00F238  2  74 6F 20 45  
-00F245  2               MSG2:
-00F245  2  53 74 61 72        .byte "Start Intel Hex code Transfer.",0
-00F249  2  74 20 49 6E  
-00F24D  2  74 65 6C 20  
-00F264  2               MSG3:
-00F264  2  49 6E 74 65        .byte "Intel Hex Imported OK.",0
-00F268  2  6C 20 48 65  
-00F26C  2  78 20 49 6D  
-00F27B  2               MSG4:
-00F27B  2  49 6E 74 65        .byte "Intel Hex Imported with checksum error.",0
-00F27F  2  6C 20 48 65  
-00F283  2  78 20 49 6D  
-00F2A3  2               
-00F2A3  2               
-00F2A3  2               
-00F2A3  2               
-00F2A3  2               
-00F2A3  2               
-00F2A3  1               	.include ""
-00F2A3  2               
-00F2A3  1               
-00F2A3  1               ; put the IRQ and MNI code in RAM so that it can be changed
-00F2A3  1               
-00F2A3  1               IRQ_vec	= VEC_SV+2		; IRQ code vector
-00F2A3  1               NMI_vec	= IRQ_vec+$0A	; NMI code vector
-00F2A3  1               
-00F2A3  1               ; setup for the 6502 simulator environment
-00F2A3  1               
-00F2A3  1               IO_AREA	= $BFF0		; set I/O area for this monitor (Console port)
-00F2A3  1               
-00F2A3  1               
-00F2A3  1               ;ACIAsimwr	= IO_AREA+$01	; simulated ACIA write port
-00F2A3  1               ;ACIAsimrd	= IO_AREA+$04	; simulated ACIA read port
-00F2A3  1               ACIAStatus	= IO_AREA		; FT245 Status
-00F2A3  1               ACIAData	= IO_AREA+$01	; FT245 Data in/out
-00F2A3  1               
-00F2A3  1               ; Keyboard ACIA (65c51) memory locations
-00F2A3  1               A_rxd           = $BFE0 ; ACIA receive data port
-00F2A3  1               A_txd           = $BFE0 ; ACIA transmit data port
-00F2A3  1               A_sts           = $BFE1 ; ACIA status port
-00F2A3  1               A_res           = $BFE1 ; ACIA reset port
-00F2A3  1               A_cmd           = $BFE2 ; ACIA command port
-00F2A3  1               A_ctl           = $BFE3 ; ACIA control port
-00F2A3  1               
-00F2A3  1               ; Beeper bits
-00F2A3  1               A_Beeper		= $BFA0 ; Beeper address
-00F2A3  1               BEEP_PW			= $70		; pitch of "low" beep
-00F2A3  1               BEEP_PW2		= $F0		; pitch of "high" beep
-00F2A3  1               BEEP_LN			= $20
-00F2A3  1               DELAY_LEN1		= $05		; Also affects pitch
-00F2A3  1               BEEP_LN_CALC	= $05
-00F2A3  1               
-00F2A3  1               ; compact flash bits n bobs
-00F2A3  1               CF_ADDRESS		= $BFB0	; Compact flash address
-00F2A3  1               CF_BUFF1 		= $0400	; First 256 bytes of 512 Byte buffer for compact flash read/write
-00F2A3  1               CF_BUFF2 		= $0500	; Second 256 bytes of 512 Byte buffer for compact flash read/write
-00F2A3  1               CF_LB			= $0600 ; Place for low byte of sector address
-00F2A3  1               CF_MB			= $0601 ; Place for middle byte of sector address
-00F2A3  1               CF_HB			= $0602 ; Place for high byte of sector address
-00F2A3  1               
-00F2A3  1               ; display addresses
-00F2A3  1               DISP_DT			= $BFD0
-00F2A3  1               DISP_RG			= $BFD1
-00F2A3  1               DISP_WAIT		= $BFD2  ; This is the Glue logic, Bit 2 is LOW when display is busy, IGNORE all other bits
-00F2A3  1               
-00F2A3  1               
-00F2A3  1               ; 256 byte page used for my loops and bits (away from basic)
-00F2A3  1               MyDL 			= $610
-00F2A3  1               MyDL2		 	= $611
-00F2A3  1               MyDL3			= $612
-00F2A3  1               
-00F2A3  1               MyLP1			= $620
-00F2A3  1               MyLP2			= $621
-00F2A3  1               MyERR			= $622
-00F2A3  1               
-00F2A3  1               DISP_temp		= $623
-00F2A3  1               DISP_ccol		= $624	; current coloumn (useful for delete)
-00F2A3  1               DISP_crow		= $625	; current row (used for scrolling)
-00F2A3  1               DISP_initcom	= $626
-00F2A3  1               
-00F2A3  1               
-00F2A3  1               MyTEMP			= $650
-00F2A3  1               MyTEMP2			= $651
-00F2A3  1               MyTEMP3			= $652
-00F2A3  1               
-00F2A3  1               
-00F2A3  1               
-00F2A3  1               ; now the code. all this does is set up the vectors and interrupt code
-00F2A3  1               ; and wait for the user to select [C]old or [W]arm start. nothing else
-00F2A3  1               ; fits in less than 128 bytes
-00F2A3  1               	.segment "IOHANDLER"
-00F2A3  1               	.org	$F300			; pretend this is in a 1/8K ROM
+00F12A  2               
+00F12A  2  48                 PHA
+00F12B  2  20 70 F7           JSR   DISP_TEXT_WR
+00F12E  2  68                 PLA
+00F12F  2               
+00F12F  2  8D F1 BF           STA   ACIAData    ;*Send it.
+00F132  2               
+00F132  2  C9 0D              CMP   #$0D        ; is it a carriage return?
+00F134  2  D0 0A              BNE   @WAIT
+00F136  2               
+00F136  2  48                 PHA
+00F137  2  A9 0A              LDA   #$0A
+00F139  2  8D F1 BF           STA   ACIAData    ;*Send it.
+00F13C  2  20 70 F7           JSR   DISP_TEXT_WR
+00F13F  2  68                 PLA
+00F140  2               
+00F140  2               
+00F140  2               @WAIT:
+00F140  2  AD F0 BF           LDA   ACIAStatus  ;*Load status register for ACIA
+00F143  2  29 02              AND   #$02        ;*Mask bit 2.
+00F145  2  C9 02              CMP   #$02
+00F147  2  D0 F7              BNE    @WAIT      ;*ACIA not done yet, wait.
+00F149  2               
+00F149  2               
+00F149  2               
+00F149  2  68                 PLA               ;*Restore A
+00F14A  2  60                 RTS               ;*Done, over and out...
+00F14B  2               
+00F14B  2               SHWMSG:
+00F14B  2  A0 00              LDY #$0
+00F14D  2               @PRINT:
+00F14D  2  B1 2C              LDA (MSGL),Y
+00F14F  2  F0 06                 BEQ @DONE
+00F151  2  20 27 F1              JSR ECHO
+00F154  2  C8                    INY
+00F155  2  D0 F6                 BNE @PRINT
+00F157  2               @DONE:
+00F157  2  60                 RTS
+00F158  2               
+00F158  2               
+00F158  2               ; Load an program in Intel Hex Format.
+00F158  2               LOADINTEL:
+00F158  2  A9 0D           LDA #$0D
+00F15A  2  20 27 F1              JSR ECHO      ;New line.
+00F15D  2  A9 58                 LDA #<MSG2
+00F15F  2  85 2C                 STA MSGL
+00F161  2  A9 F2                 LDA #>MSG2
+00F163  2  85 2D                 STA MSGH
+00F165  2  20 4B F1              JSR SHWMSG      ;Show Start Transfer.
+00F168  2  A9 0D                 LDA #$0D
+00F16A  2  20 27 F1              JSR ECHO      ;New line.
+00F16D  2  A0 00                 LDY #$00
+00F16F  2  84 30                 STY CRCCHECK   ;If CRCCHECK=0, all is good.
+00F171  2               INTELLINE:
+00F171  2  20 36 F2        JSR GETCHAR      ;Get char
+00F174  2  99 00 03              STA IN,Y      ;Store it
+00F177  2  C8                    INY            ;Next
+00F178  2  C9 1B                 CMP   #$1B      ;Escape ?
+00F17A  2  F0 67                 BEQ   INTELDONE   ;Yes, abort.
+00F17C  2  C9 0D                 CMP #$0D      ;Did we find a new line ?
+00F17E  2  D0 F1                 BNE INTELLINE   ;Nope, continue to scan line.
+00F180  2  A0 FF                 LDY #$FF      ;Find (:)
+00F182  2               FINDCOL:
+00F182  2  C8                 INY
+00F183  2  B9 00 03              LDA IN,Y
+00F186  2  C9 3A                 CMP #$3A      ; Is it Colon ?
+00F188  2  D0 F8                 BNE FINDCOL      ; Nope, try next.
+00F18A  2  C8                    INY            ; Skip colon
+00F18B  2  A2 00                 LDX   #$00      ; Zero in X
+00F18D  2  86 2F                 STX   CRC         ; Zero Check sum
+00F18F  2  20 13 F2              JSR GETHEX      ; Get Number of bytes.
+00F192  2  85 2E                 STA COUNTER      ; Number of bytes in Counter.
+00F194  2  18                    CLC            ; Clear carry
+00F195  2  65 2F                 ADC CRC         ; Add CRC
+00F197  2  85 2F                 STA CRC         ; Store it
+00F199  2  20 13 F2              JSR GETHEX      ; Get Hi byte
+00F19C  2  85 27                 STA STH         ; Store it
+00F19E  2  18                    CLC            ; Clear carry
+00F19F  2  65 2F                 ADC CRC         ; Add CRC
+00F1A1  2  85 2F                 STA CRC         ; Store it
+00F1A3  2  20 13 F2              JSR GETHEX      ; Get Lo byte
+00F1A6  2  85 26                 STA STL         ; Store it
+00F1A8  2  18                    CLC            ; Clear carry
+00F1A9  2  65 2F                 ADC CRC         ; Add CRC
+00F1AB  2  85 2F                 STA CRC         ; Store it
+00F1AD  2  A9 2E                 LDA #$2E      ; Load "."
+00F1AF  2  20 27 F1              JSR ECHO      ; Print it to indicate activity.
+00F1B2  2               NODOT:
+00F1B2  2  20 13 F2           JSR GETHEX      ; Get Control byte.
+00F1B5  2  C9 01                 CMP   #$01      ; Is it a Termination record ?
+00F1B7  2  F0 2A                 BEQ   INTELDONE   ; Yes, we are done.
+00F1B9  2  18                    CLC            ; Clear carry
+00F1BA  2  65 2F                 ADC CRC         ; Add CRC
+00F1BC  2  85 2F                 STA CRC         ; Store it
+00F1BE  2               INTELSTORE:
+00F1BE  2  20 13 F2           JSR GETHEX      ; Get Data Byte
+00F1C1  2  81 26              STA (STL,X)      ; Store it
+00F1C3  2  18                 CLC            ; Clear carry
+00F1C4  2  65 2F              ADC CRC         ; Add CRC
+00F1C6  2  85 2F              STA CRC         ; Store it
+00F1C8  2  E6 26              INC STL         ; Next Address
+00F1CA  2  D0 02              BNE TESTCOUNT   ; Test to see if Hi byte needs INC
+00F1CC  2  E6 27              INC STH         ; If so, INC it.
+00F1CE  2               TESTCOUNT:
+00F1CE  2  C6 2E              DEC   COUNTER      ; Count down.
+00F1D0  2  D0 EC              BNE INTELSTORE   ; Next byte
+00F1D2  2  20 13 F2           JSR GETHEX      ; Get Checksum
+00F1D5  2  A0 00              LDY #$00      ; Zero Y
+00F1D7  2  18                 CLC            ; Clear carry
+00F1D8  2  65 2F              ADC CRC         ; Add CRC
+00F1DA  2  F0 95              BEQ INTELLINE   ; Checksum OK.
+00F1DC  2  A9 01              LDA #$01      ; Flag CRC error.
+00F1DE  2  85 30              STA   CRCCHECK   ; Store it
+00F1E0  2  4C 71 F1           JMP INTELLINE   ; Process next line.
+00F1E3  2               
+00F1E3  2               INTELDONE:
+00F1E3  2  A5 30              LDA CRCCHECK   ; Test if everything is OK.
+00F1E5  2  F0 16              BEQ OKMESS      ; Show OK message.
+00F1E7  2  A9 0D              LDA #$0D
+00F1E9  2  20 27 F1           JSR ECHO      ;New line.
+00F1EC  2  A9 8E              LDA #<MSG4      ; Load Error Message
+00F1EE  2  85 2C              STA MSGL
+00F1F0  2  A9 F2              LDA #>MSG4
+00F1F2  2  85 2D              STA MSGH
+00F1F4  2  20 4B F1           JSR SHWMSG      ;Show Error.
+00F1F7  2  A9 0D              LDA #$0D
+00F1F9  2  20 27 F1           JSR ECHO      ;New line.
+00F1FC  2  60                 RTS
+00F1FD  2               
+00F1FD  2               OKMESS:
+00F1FD  2  A9 0D              LDA #$0D
+00F1FF  2  20 27 F1           JSR ECHO      ;New line.
+00F202  2  A9 77              LDA #<MSG3      ;Load OK Message.
+00F204  2  85 2C              STA MSGL
+00F206  2  A9 F2              LDA #>MSG3
+00F208  2  85 2D              STA MSGH
+00F20A  2  20 4B F1           JSR SHWMSG      ;Show Done.
+00F20D  2  A9 0D              LDA #$0D
+00F20F  2  20 27 F1           JSR ECHO      ;New line.
+00F212  2  60                 RTS
+00F213  2               
+00F213  2               GETHEX:
+00F213  2  B9 00 03           LDA IN,Y      ;Get first char.
+00F216  2  49 30              EOR #$30
+00F218  2  C9 0A              CMP #$0A
+00F21A  2  90 02              BCC DONEFIRST
+00F21C  2  69 08              ADC #$08
+00F21E  2               DONEFIRST:
+00F21E  2  0A                 ASL
+00F21F  2  0A                 ASL
+00F220  2  0A                 ASL
+00F221  2  0A                 ASL
+00F222  2  85 28              STA L
+00F224  2  C8                 INY
+00F225  2  B9 00 03           LDA IN,Y      ;Get next char.
+00F228  2  49 30              EOR #$30
+00F22A  2  C9 0A              CMP #$0A
+00F22C  2  90 02              BCC DONESECOND
+00F22E  2  69 08              ADC #$08
+00F230  2               DONESECOND:
+00F230  2  29 0F              AND #$0F
+00F232  2  05 28              ORA L
+00F234  2  C8                 INY
+00F235  2  60                 RTS
+00F236  2               
+00F236  2               GETCHAR:
+00F236  2  AD F0 BF           LDA ACIAStatus     ;See if we got an incoming char
+00F239  2  29 01              AND #$01        ;Test bit 3
+00F23B  2  C9 01              CMP #$01
+00F23D  2  D0 F7              BNE GETCHAR     ;Wait for character
+00F23F  2  AD F1 BF           LDA ACIAData    ;Load char
+00F242  2  60                 RTS
+00F243  2               
+00F243  2               MSG1:
+00F243  2  57 65 6C 63        .byte "Welcome to EWOZ 1.0.",0
+00F247  2  6F 6D 65 20  
+00F24B  2  74 6F 20 45  
+00F258  2               MSG2:
+00F258  2  53 74 61 72        .byte "Start Intel Hex code Transfer.",0
+00F25C  2  74 20 49 6E  
+00F260  2  74 65 6C 20  
+00F277  2               MSG3:
+00F277  2  49 6E 74 65        .byte "Intel Hex Imported OK.",0
+00F27B  2  6C 20 48 65  
+00F27F  2  78 20 49 6D  
+00F28E  2               MSG4:
+00F28E  2  49 6E 74 65        .byte "Intel Hex Imported with checksum error.",0
+00F292  2  6C 20 48 65  
+00F296  2  78 20 49 6D  
+00F2B6  2               
+00F2B6  2               
+00F2B6  2               
+00F2B6  2               
+00F2B6  2               
+00F2B6  2               
+00F2B6  1               	.include ""
+00F2B6  2               
+00F2B6  1               
+00F2B6  1               ; put the IRQ and MNI code in RAM so that it can be changed
+00F2B6  1               
+00F2B6  1               IRQ_vec	= VEC_SV+2		; IRQ code vector
+00F2B6  1               NMI_vec	= IRQ_vec+$0A	; NMI code vector
+00F2B6  1               
+00F2B6  1               ; setup for the 6502 simulator environment
+00F2B6  1               
+00F2B6  1               IO_AREA	= $BFF0		; set I/O area for this monitor (Console port)
+00F2B6  1               
+00F2B6  1               
+00F2B6  1               ;ACIAsimwr	= IO_AREA+$01	; simulated ACIA write port
+00F2B6  1               ;ACIAsimrd	= IO_AREA+$04	; simulated ACIA read port
+00F2B6  1               ACIAStatus	= IO_AREA		; FT245 Status
+00F2B6  1               ACIAData	= IO_AREA+$01	; FT245 Data in/out
+00F2B6  1               
+00F2B6  1               ; Keyboard ACIA (65c51) memory locations
+00F2B6  1               A_rxd           = $BFE0 ; ACIA receive data port
+00F2B6  1               A_txd           = $BFE0 ; ACIA transmit data port
+00F2B6  1               A_sts           = $BFE1 ; ACIA status port
+00F2B6  1               A_res           = $BFE1 ; ACIA reset port
+00F2B6  1               A_cmd           = $BFE2 ; ACIA command port
+00F2B6  1               A_ctl           = $BFE3 ; ACIA control port
+00F2B6  1               
+00F2B6  1               ; Beeper bits
+00F2B6  1               A_Beeper		= $BFA0 ; Beeper address
+00F2B6  1               BEEP_PW			= $70		; pitch of "low" beep
+00F2B6  1               BEEP_PW2		= $F0		; pitch of "high" beep
+00F2B6  1               BEEP_LN			= $20
+00F2B6  1               DELAY_LEN1		= $05		; Also affects pitch
+00F2B6  1               BEEP_LN_CALC	= $05
+00F2B6  1               
+00F2B6  1               ; compact flash bits n bobs
+00F2B6  1               CF_ADDRESS		= $BFB0	; Compact flash address
+00F2B6  1               CF_BUFF1 		= $0400	; First 256 bytes of 512 Byte buffer for compact flash read/write
+00F2B6  1               CF_BUFF2 		= $0500	; Second 256 bytes of 512 Byte buffer for compact flash read/write
+00F2B6  1               CF_LB			= $0600 ; Place for low byte of sector address
+00F2B6  1               CF_MB			= $0601 ; Place for middle byte of sector address
+00F2B6  1               CF_HB			= $0602 ; Place for high byte of sector address
+00F2B6  1               
+00F2B6  1               ; display addresses
+00F2B6  1               DISP_DT			= $BFD0
+00F2B6  1               DISP_RG			= $BFD1
+00F2B6  1               DISP_WAIT		= $BFD2  ; This is the Glue logic, Bit 2 is LOW when display is busy, IGNORE all other bits
+00F2B6  1               
+00F2B6  1               
+00F2B6  1               ; 256 byte page used for my loops and bits (away from basic)
+00F2B6  1               MyDL 			= $610
+00F2B6  1               MyDL2		 	= $611
+00F2B6  1               MyDL3			= $612
+00F2B6  1               
+00F2B6  1               MyLP1			= $620
+00F2B6  1               MyLP2			= $621
+00F2B6  1               MyERR			= $622
+00F2B6  1               
+00F2B6  1               DISP_temp		= $623
+00F2B6  1               DISP_ccol		= $624	; current coloumn (useful for delete)
+00F2B6  1               DISP_crow		= $625	; current row (used for scrolling)
+00F2B6  1               DISP_initcom	= $626
+00F2B6  1               
+00F2B6  1               
+00F2B6  1               MyTEMP			= $650
+00F2B6  1               MyTEMP2			= $651
+00F2B6  1               MyTEMP3			= $652
+00F2B6  1               
+00F2B6  1               
+00F2B6  1               
+00F2B6  1               ; now the code. all this does is set up the vectors and interrupt code
+00F2B6  1               ; and wait for the user to select [C]old or [W]arm start. nothing else
+00F2B6  1               ; fits in less than 128 bytes
+00F2B6  1               	.segment "IOHANDLER"
+00F2B6  1               	.org	$F300			; pretend this is in a 1/8K ROM
 00F300  1               
 00F300  1               ; reset vector points here
 00F300  1               RES_vec
@@ -9531,7 +9549,7 @@ Current file: min_mon.asm
 00F304  1               
 00F304  1  A0 26        	LDY	#END_CODE-LAB_vec	; set index/count
 00F306  1               LAB_stlp
-00F306  1  B9 09 FA     	LDA	LAB_vec-1,Y		; get byte from interrupt code
+00F306  1  B9 18 FA     	LDA	LAB_vec-1,Y		; get byte from interrupt code
 00F309  1  99 04 02     	STA	VEC_IN-1,Y		; save to RAM
 00F30C  1  88           	DEY					; decrement index/count
 00F30D  1  D0 F7        	BNE	LAB_stlp		; loop if more to do
@@ -9545,1124 +9563,1138 @@ Current file: min_mon.asm
 00F317  1  A9 10            LDA #$10        ; 8-N-1, 115200 baud
 00F319  1  8D E3 BF         STA A_ctl       ; set control register
 00F31C  1               
-00F31C  1  20 84 F9     	JSR PWR_BEEP_LOW	; power beep
-00F31F  1  20 00 F4     	JSR DISP_INIT		; initialise screen
-00F322  1  20 7B F9     	JSR PWR_BEEP_HIGH	; beep after display init
+00F31C  1  20 93 F9     	JSR PWR_BEEP_LOW	; power beep
+00F31F  1  20 0F F4     	JSR DISP_INIT		; initialise screen
+00F322  1  20 8A F9     	JSR PWR_BEEP_HIGH	; beep after display init
 00F325  1               
-00F325  1               
-00F325  1               
-00F325  1               ; now do the signon message, Y = $00 here
-00F325  1               LAB_signon
-00F325  1  B9 30 FA     	LDA	LAB_mess,Y		; get byte from sign on message
-00F328  1  F0 06        	BEQ KYB_msg			; display next message
-00F32A  1               
-00F32A  1  20 F3 E0     	JSR	V_OUTP			; output character
-00F32D  1  C8           	INY					; increment index
-00F32E  1  D0 F5        	BNE	LAB_signon		; loop, branch always
-00F330  1               
-00F330  1               KYB_msg
-00F330  1  20 DB F3     	JSR KYB_cwmmsg
-00F333  1               
-00F333  1               LAB_nokey
-00F333  1  20 F0 E0     	JSR	V_INPT			; call scan input device
-00F336  1  90 FB        	BCC	LAB_nokey		; loop if no key
-00F338  1               
-00F338  1  20 6A F3     	JSR	ACIAout			; output character
-00F33B  1               
-00F33B  1  29 DF        	AND	#$DF			; mask xx0x xxxx, ensure upper case
-00F33D  1  C9 57        	CMP	#'W'			; compare with [W]arm start
-00F33F  1  F0 13        	BEQ	LAB_dowarm		; branch if [W]arm start
-00F341  1               
-00F341  1  C9 4D            CMP #'M'
-00F343  1  F0 1A            BEQ LAB_dowoz
-00F345  1               
-00F345  1  C9 43        	CMP	#'C'			; compare with [C]old start
-00F347  1  D0 B7        	BNE RES_vec
-00F349  1               
-00F349  1  A9 0D        	LDA #$0D
-00F34B  1  8D E0 BF     	STA A_txd			; clear keyboard screen
-00F34E  1  20 BF F3     	JSR KYB_basmsg
-00F351  1  4C 00 C0     	JMP	LAB_COLD		; do EhBASIC cold start
+00F325  1  A0 00        	LDY #$0
+00F327  1               LAB_dobanner
+00F327  1  B9 3F FA     	LDA	LAB_banner,Y	; get byte from sign on message
+00F32A  1  F0 06        	BEQ LAB_presignon		; display next message
+00F32C  1               
+00F32C  1  20 F3 E0     	JSR	V_OUTP			; output character
+00F32F  1  C8           	INY					; increment index
+00F330  1  D0 F5        	BNE	LAB_dobanner	; loop, branch always
+00F332  1               
+00F332  1               
+00F332  1               LAB_presignon
+00F332  1  A0 00        	LDY #$0
+00F334  1               LAB_signon				; now do the signon message, Y = $00 here
+00F334  1  B9 C4 FA     	LDA	LAB_mess,Y		; get byte from sign on message
+00F337  1  F0 06        	BEQ KYB_msg			; display next message
+00F339  1               
+00F339  1  20 F3 E0     	JSR	V_OUTP			; output character
+00F33C  1  C8           	INY					; increment index
+00F33D  1  D0 F5        	BNE	LAB_signon		; loop, branch always
+00F33F  1               
+00F33F  1               KYB_msg
+00F33F  1  20 EA F3     	JSR KYB_cwmmsg
+00F342  1               
+00F342  1               LAB_nokey
+00F342  1  20 F0 E0     	JSR	V_INPT			; call scan input device
+00F345  1  90 FB        	BCC	LAB_nokey		; loop if no key
+00F347  1               
+00F347  1  20 79 F3     	JSR	ACIAout			; output character
+00F34A  1               
+00F34A  1  29 DF        	AND	#$DF			; mask xx0x xxxx, ensure upper case
+00F34C  1  C9 57        	CMP	#'W'			; compare with [W]arm start
+00F34E  1  F0 13        	BEQ	LAB_dowarm		; branch if [W]arm start
+00F350  1               
+00F350  1  C9 4D            CMP #'M'
+00F352  1  F0 1A            BEQ LAB_dowoz
 00F354  1               
-00F354  1               LAB_dowarm
-00F354  1  A9 0D        	LDA #$0D
-00F356  1  8D E0 BF     	STA A_txd			; clear keyboard screen
-00F359  1  20 BF F3     	JSR KYB_basmsg
-00F35C  1  4C 00 00     	JMP	LAB_WARM		; do EhBASIC warm start
-00F35F  1               LAB_dowoz
-00F35F  1  A9 0D        	LDA #$0D
-00F361  1  8D E0 BF     	STA A_txd			; clear keyboard screen
-00F364  1  20 CD F3     	JSR KYB_wozmsg
-00F367  1  4C 00 F0         JMP EWOZ
-00F36A  1               
-00F36A  1               ; byte out to simulated ACIA
-00F36A  1               ACIAout
-00F36A  1  48           	PHA
-00F36B  1               SWait:
-00F36B  1  AD F0 BF     	LDA	ACIAStatus
-00F36E  1  29 02        	AND	#2
-00F370  1  C9 02        	CMP	#2
-00F372  1  D0 F7        	BNE	SWait
-00F374  1  68           	PLA
-00F375  1  8D F1 BF     	STA	ACIAData
-00F378  1               
-00F378  1               ; When screen is working insert screen text output code here
-00F378  1  48           	PHA
-00F379  1  20 61 F7     	JSR DISP_TEXT_WR
-00F37C  1  68           	PLA
-00F37D  1               
-00F37D  1               ; end of screen output code
-00F37D  1  60           	RTS						; end of ACIAout
-00F37E  1               
-00F37E  1               
-00F37E  1               
-00F37E  1               
-00F37E  1               
-00F37E  1               ; byte in from simulated ACIA
-00F37E  1               
-00F37E  1               ; byte out to keyboard 65c51
-00F37E  1               KEYBout
-00F37E  1  8D E0 BF     	STA A_txd			; send character to keyboard display
-00F381  1  48           	PHA					; save A
-00F382  1               
-00F382  1  A9 FF        	LDA #$FF
-00F384  1  8D 10 06     	STA MyDL
-00F387  1               KEYDL				; Outer loop
-00F387  1  A9 40        	LDA #$40
-00F389  1  8D 11 06     	STA MyDL2
-00F38C  1               KEYDL2				; Inner loop
-00F38C  1  CE 11 06     	DEC MyDL2
-00F38F  1  D0 FB        	BNE	KEYDL2
+00F354  1  C9 43        	CMP	#'C'			; compare with [C]old start
+00F356  1  D0 A8        	BNE RES_vec
+00F358  1               
+00F358  1  A9 0D        	LDA #$0D
+00F35A  1  8D E0 BF     	STA A_txd			; clear keyboard screen
+00F35D  1  20 CE F3     	JSR KYB_basmsg
+00F360  1  4C 00 C0     	JMP	LAB_COLD		; do EhBASIC cold start
+00F363  1               
+00F363  1               LAB_dowarm
+00F363  1  A9 0D        	LDA #$0D
+00F365  1  8D E0 BF     	STA A_txd			; clear keyboard screen
+00F368  1  20 CE F3     	JSR KYB_basmsg
+00F36B  1  4C 00 00     	JMP	LAB_WARM		; do EhBASIC warm start
+00F36E  1               LAB_dowoz
+00F36E  1  A9 0D        	LDA #$0D
+00F370  1  8D E0 BF     	STA A_txd			; clear keyboard screen
+00F373  1  20 DC F3     	JSR KYB_wozmsg
+00F376  1  4C 00 F0         JMP EWOZ
+00F379  1               
+00F379  1               ; byte out to simulated ACIA
+00F379  1               ACIAout
+00F379  1  48           	PHA
+00F37A  1               SWait:
+00F37A  1  AD F0 BF     	LDA	ACIAStatus
+00F37D  1  29 02        	AND	#2
+00F37F  1  C9 02        	CMP	#2
+00F381  1  D0 F7        	BNE	SWait
+00F383  1  68           	PLA
+00F384  1  8D F1 BF     	STA	ACIAData
+00F387  1               
+00F387  1               ; When screen is working insert screen text output code here
+00F387  1  48           	PHA
+00F388  1  20 70 F7     	JSR DISP_TEXT_WR
+00F38B  1  68           	PLA
+00F38C  1               
+00F38C  1               ; end of screen output code
+00F38C  1  60           	RTS						; end of ACIAout
+00F38D  1               
+00F38D  1               
+00F38D  1               
+00F38D  1               
+00F38D  1               
+00F38D  1               ; byte in from simulated ACIA
+00F38D  1               
+00F38D  1               ; byte out to keyboard 65c51
+00F38D  1               KEYBout
+00F38D  1  8D E0 BF     	STA A_txd			; send character to keyboard display
+00F390  1  48           	PHA					; save A
 00F391  1               
-00F391  1  CE 10 06     	DEC MyDL
-00F394  1  D0 F1        	BNE KEYDL		; if not 0 increment more
-00F396  1               
-00F396  1  68           	PLA
-00F397  1  60           	RTS
-00F398  1               
-00F398  1               LAB_WAIT_Rx
-00F398  1  AD E1 BF         LDA A_sts       ; get ACIA status
-00F39B  1  29 08            AND #$08        ; mask rx buffer status flag
-00F39D  1  F0 F9            BEQ LAB_WAIT_Rx ; loop if rx buffer empty
-00F39F  1               
-00F39F  1  AD E0 BF         LDA A_rxd       ; get byte from ACIA data port
-00F3A2  1               
-00F3A2  1               
-00F3A2  1               ; byte in from simulated ACIA (CONSOLE) or Keyboard
-00F3A2  1               ACIAin
-00F3A2  1  AD F0 BF     	LDA	ACIAStatus
-00F3A5  1  29 01        	AND	#1
-00F3A7  1  C9 01        	CMP	#1
-00F3A9  1  D0 05        	BNE	NoDataIn
-00F3AB  1  AD F1 BF     	LDA	ACIAData
-00F3AE  1  38           	SEC		; Carry set if key available
-00F3AF  1  60           	RTS
-00F3B0  1               NoDataIn:	; nothing from console port
-00F3B0  1  18           	CLC		; Carry clear if no key pressed
+00F391  1  A9 FF        	LDA #$FF
+00F393  1  8D 10 06     	STA MyDL
+00F396  1               KEYDL				; Outer loop
+00F396  1  A9 40        	LDA #$40
+00F398  1  8D 11 06     	STA MyDL2
+00F39B  1               KEYDL2				; Inner loop
+00F39B  1  CE 11 06     	DEC MyDL2
+00F39E  1  D0 FB        	BNE	KEYDL2
+00F3A0  1               
+00F3A0  1  CE 10 06     	DEC MyDL
+00F3A3  1  D0 F1        	BNE KEYDL		; if not 0 increment more
+00F3A5  1               
+00F3A5  1  68           	PLA
+00F3A6  1  60           	RTS
+00F3A7  1               
+00F3A7  1               LAB_WAIT_Rx
+00F3A7  1  AD E1 BF         LDA A_sts       ; get ACIA status
+00F3AA  1  29 08            AND #$08        ; mask rx buffer status flag
+00F3AC  1  F0 F9            BEQ LAB_WAIT_Rx ; loop if rx buffer empty
+00F3AE  1               
+00F3AE  1  AD E0 BF         LDA A_rxd       ; get byte from ACIA data port
 00F3B1  1               
-00F3B1  1               KEY_RX		; we get here if there is no data from console
-00F3B1  1  AD E1 BF         LDA A_sts       ; get ACIA status
-00F3B4  1  29 08            AND #$08        ; mask rx buffer status flag
-00F3B6  1  F0 05            BEQ KEYB_NoData ; skip if rx buffer empty
-00F3B8  1               
-00F3B8  1  AD E0 BF         LDA A_rxd       ; get byte from ACIA data port
-00F3BB  1  38           	SEC				; Carry set if key available
-00F3BC  1  60           	RTS
-00F3BD  1               
-00F3BD  1               KEYB_NoData
-00F3BD  1  18           	CLC				; Carry clear if no key pressed
+00F3B1  1               
+00F3B1  1               ; byte in from simulated ACIA (CONSOLE) or Keyboard
+00F3B1  1               ACIAin
+00F3B1  1  AD F0 BF     	LDA	ACIAStatus
+00F3B4  1  29 01        	AND	#1
+00F3B6  1  C9 01        	CMP	#1
+00F3B8  1  D0 05        	BNE	NoDataIn
+00F3BA  1  AD F1 BF     	LDA	ACIAData
+00F3BD  1  38           	SEC		; Carry set if key available
 00F3BE  1  60           	RTS
-00F3BF  1               
-00F3BF  1               
-00F3BF  1               ; Show "EhBASIC " on keyboard display
-00F3BF  1               KYB_basmsg
-00F3BF  1  A0 00        	LDY #$00
-00F3C1  1               
-00F3C1  1               KYB_basmsg_lp
-00F3C1  1  B9 62 FA     	LDA KYB_basmess_str,Y
-00F3C4  1  F0 06        	BEQ	KYB_basmsg_exit	; exit loop if done
-00F3C6  1               
-00F3C6  1  20 7E F3     	JSR KEYBout			;
-00F3C9  1  C8           	INY					; increment index
-00F3CA  1  D0 F5        	BNE KYB_basmsg_lp	; loop, always
+00F3BF  1               NoDataIn:	; nothing from console port
+00F3BF  1  18           	CLC		; Carry clear if no key pressed
+00F3C0  1               
+00F3C0  1               KEY_RX		; we get here if there is no data from console
+00F3C0  1  AD E1 BF         LDA A_sts       ; get ACIA status
+00F3C3  1  29 08            AND #$08        ; mask rx buffer status flag
+00F3C5  1  F0 05            BEQ KEYB_NoData ; skip if rx buffer empty
+00F3C7  1               
+00F3C7  1  AD E0 BF         LDA A_rxd       ; get byte from ACIA data port
+00F3CA  1  38           	SEC				; Carry set if key available
+00F3CB  1  60           	RTS
 00F3CC  1               
-00F3CC  1               KYB_basmsg_exit
-00F3CC  1  60           	RTS
-00F3CD  1               
-00F3CD  1               ; Show "eWOZMON " on keyboard display
-00F3CD  1               KYB_wozmsg
-00F3CD  1  A0 00        	LDY #$00
-00F3CF  1               
-00F3CF  1               KYB_wozmsg_lp
-00F3CF  1  B9 6D FA     	LDA KYB_wozmess_str,Y
-00F3D2  1  F0 06        	BEQ	KYB_wozmsg_exit	; exit loop if done
-00F3D4  1               
-00F3D4  1  20 7E F3     	JSR KEYBout			;
-00F3D7  1  C8           	INY					; increment index
-00F3D8  1  D0 F5        	BNE KYB_wozmsg_lp	; loop, always
-00F3DA  1               
-00F3DA  1               KYB_wozmsg_exit
-00F3DA  1  60           	RTS
+00F3CC  1               KEYB_NoData
+00F3CC  1  18           	CLC				; Carry clear if no key pressed
+00F3CD  1  60           	RTS
+00F3CE  1               
+00F3CE  1               
+00F3CE  1               ; Show "EhBASIC " on keyboard display
+00F3CE  1               KYB_basmsg
+00F3CE  1  A0 00        	LDY #$00
+00F3D0  1               
+00F3D0  1               KYB_basmsg_lp
+00F3D0  1  B9 ED FA     	LDA KYB_basmess_str,Y
+00F3D3  1  F0 06        	BEQ	KYB_basmsg_exit	; exit loop if done
+00F3D5  1               
+00F3D5  1  20 8D F3     	JSR KEYBout			;
+00F3D8  1  C8           	INY					; increment index
+00F3D9  1  D0 F5        	BNE KYB_basmsg_lp	; loop, always
 00F3DB  1               
-00F3DB  1               ; send signon message to keyboard
-00F3DB  1               KYB_cwmmsg
-00F3DB  1  A0 00        	LDY #$00
-00F3DD  1               
-00F3DD  1               KYB_signon
-00F3DD  1  B9 58 FA     	LDA KYB_mess,Y
-00F3E0  1  F0 06        	BEQ	KEYB_exit		; exit loop if done
-00F3E2  1               
-00F3E2  1  20 7E F3     	JSR KEYBout			;
-00F3E5  1  C8           	INY					; increment index
-00F3E6  1  D0 F5        	BNE KYB_signon		; loop, always
-00F3E8  1               KEYB_exit
-00F3E8  1  60           	RTS
+00F3DB  1               KYB_basmsg_exit
+00F3DB  1  60           	RTS
+00F3DC  1               
+00F3DC  1               ; Show "eWOZMON " on keyboard display
+00F3DC  1               KYB_wozmsg
+00F3DC  1  A0 00        	LDY #$00
+00F3DE  1               
+00F3DE  1               KYB_wozmsg_lp
+00F3DE  1  B9 F8 FA     	LDA KYB_wozmess_str,Y
+00F3E1  1  F0 06        	BEQ	KYB_wozmsg_exit	; exit loop if done
+00F3E3  1               
+00F3E3  1  20 8D F3     	JSR KEYBout			;
+00F3E6  1  C8           	INY					; increment index
+00F3E7  1  D0 F5        	BNE KYB_wozmsg_lp	; loop, always
 00F3E9  1               
-00F3E9  1               ; empty load vector for EhBASIC
-00F3E9  1               IO_LOAD
-00F3E9  1  20 4D C7     	JSR LAB_GFPN		; Gets value of variable AFTER the command
-00F3EC  1  A5 12        	LDA Itemph			; This is the high byte of the value
-00F3EE  1  20 14 F1     	JSR PRBYTE
-00F3F1  1  A5 11        	LDA Itempl			; This is the low byte of the value
-00F3F3  1  20 14 F1     	JSR PRBYTE
-00F3F6  1  60           	RTS
-00F3F7  1               ; empty save vector for EhBASIC
-00F3F7  1               IO_SAVE
+00F3E9  1               KYB_wozmsg_exit
+00F3E9  1  60           	RTS
+00F3EA  1               
+00F3EA  1               ; send signon message to keyboard
+00F3EA  1               KYB_cwmmsg
+00F3EA  1  A0 00        	LDY #$00
+00F3EC  1               
+00F3EC  1               KYB_signon
+00F3EC  1  B9 E3 FA     	LDA KYB_mess,Y
+00F3EF  1  F0 06        	BEQ	KEYB_exit		; exit loop if done
+00F3F1  1               
+00F3F1  1  20 8D F3     	JSR KEYBout			;
+00F3F4  1  C8           	INY					; increment index
+00F3F5  1  D0 F5        	BNE KYB_signon		; loop, always
+00F3F7  1               KEYB_exit
 00F3F7  1  60           	RTS
-00F3F8  1               ; empty DIR vector for EhBASIC
-00F3F8  1               IO_DIR
-00F3F8  1  20 7B F9     	JSR PWR_BEEP_HIGH
-00F3FB  1  60           	RTS
-00F3FC  1               IO_CLS
-00F3FC  1  20 49 F6     	JSR DISP_CLS
-00F3FF  1  60           	RTS
-00F400  1               
-00F400  1               
-00F400  1               
-00F400  1               ; ----- DISPLAY BITS
-00F400  1               ; display driver for the LT6502 project using the RA8875 driver
-00F400  1               ; the display is set to 800x480 pixels
-00F400  1               DISP_INIT
-00F400  1               		; write to reg 0 and read back driver chip number
-00F400  1  A9 00        	LDA #$00
-00F402  1  8D D1 BF     	STA DISP_RG
-00F405  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F408  1  AD D0 BF     	LDA DISP_DT
-00F40B  1  C9 75        	CMP #$75		;$75 means it's an RA8875 driver chip
-00F40D  1  F0 03        	BEQ DISP_OK
-00F40F  1  4C 89 F5     	JMP DISP_ERR
-00F412  1               
-00F412  1               DISP_OK
-00F412  1               		; soft reset
-00F412  1  A9 01        	LDA #$01
-00F414  1  8D D1 BF     	STA DISP_RG
-00F417  1  8D D0 BF     	STA DISP_DT
-00F41A  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F41D  1  A9 01        	LDA #$01
-00F41F  1  8D D1 BF     	STA DISP_RG
-00F422  1  A9 00        	LDA #$00
-00F424  1  8D D0 BF     	STA DISP_DT
-00F427  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F42A  1               
-00F42A  1               		; PLL init (800x480)
-00F42A  1  A9 88        	LDA #$88
-00F42C  1  8D D1 BF     	STA DISP_RG
-00F42F  1  A9 0A        	LDA #$0A
-00F431  1  8D D0 BF     	STA DISP_DT
-00F434  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F437  1  A9 89        	LDA #$89
-00F439  1  8D D1 BF     	STA DISP_RG
-00F43C  1  A9 02        	LDA #$02
-00F43E  1  8D D0 BF     	STA DISP_DT
-00F441  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F444  1               
-00F444  1               		; Set colour depth and interface width
-00F444  1  A9 10        	LDA #$10
-00F446  1  8D D1 BF     	STA DISP_RG
-00F449  1  A9 00        	LDA #$00
-00F44B  1  8D D0 BF     	STA DISP_DT
-00F44E  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F451  1               
-00F451  1               		; Set pixelclk
-00F451  1  A9 04        	LDA #$04
-00F453  1  8D D1 BF     	STA DISP_RG
-00F456  1  A9 81        	LDA #$81
-00F458  1  8D D0 BF     	STA DISP_DT
-00F45B  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F45E  1               
-00F45E  1               		; Horizontal set
-00F45E  1  A9 14        	LDA #$14
-00F460  1  8D D1 BF     	STA DISP_RG
-00F463  1  A9 63        	LDA #$63
-00F465  1  8D D0 BF     	STA DISP_DT
-00F468  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F46B  1  A9 15        	LDA #$15
-00F46D  1  8D D1 BF     	STA DISP_RG
-00F470  1  A9 00        	LDA #$00
-00F472  1  8D D0 BF     	STA DISP_DT
-00F475  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F478  1  A9 16        	LDA #$16
-00F47A  1  8D D1 BF     	STA DISP_RG
-00F47D  1  A9 03        	LDA #$03
-00F47F  1  8D D0 BF     	STA DISP_DT
-00F482  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F485  1  A9 17        	LDA #$17
-00F487  1  8D D1 BF     	STA DISP_RG
-00F48A  1  A9 03        	LDA #$03
-00F48C  1  8D D0 BF     	STA DISP_DT
-00F48F  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F492  1  A9 18        	LDA #$18
-00F494  1  8D D1 BF     	STA DISP_RG
-00F497  1  A9 0B        	LDA #$0B
-00F499  1  8D D0 BF     	STA DISP_DT
-00F49C  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F49F  1               
-00F49F  1               		; Vertical set
-00F49F  1  A9 19        	LDA #$19
-00F4A1  1  8D D1 BF     	STA DISP_RG
-00F4A4  1  A9 DF        	LDA #$DF
-00F4A6  1  8D D0 BF     	STA DISP_DT
-00F4A9  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F4AC  1  A9 1A        	LDA #$1A
-00F4AE  1  8D D1 BF     	STA DISP_RG
-00F4B1  1  A9 01        	LDA #$01
-00F4B3  1  8D D0 BF     	STA DISP_DT
-00F4B6  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F4B9  1  A9 1B        	LDA #$1B
-00F4BB  1  8D D1 BF     	STA DISP_RG
-00F4BE  1  A9 1F        	LDA #$1F
-00F4C0  1  8D D0 BF     	STA DISP_DT
-00F4C3  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F4C6  1  A9 1C        	LDA #$1C
-00F4C8  1  8D D1 BF     	STA DISP_RG
-00F4CB  1  A9 00        	LDA #$00
-00F4CD  1  8D D0 BF     	STA DISP_DT
-00F4D0  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F4D3  1  A9 1D        	LDA #$1D
-00F4D5  1  8D D1 BF     	STA DISP_RG
-00F4D8  1  A9 16        	LDA #$16
-00F4DA  1  8D D0 BF     	STA DISP_DT
-00F4DD  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F4E0  1  A9 1E        	LDA #$1E
-00F4E2  1  8D D1 BF     	STA DISP_RG
-00F4E5  1  A9 00        	LDA #$00
-00F4E7  1  8D D0 BF     	STA DISP_DT
-00F4EA  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F4ED  1  A9 1F        	LDA #$1F
-00F4EF  1  8D D1 BF     	STA DISP_RG
-00F4F2  1  A9 01        	LDA #$01
-00F4F4  1  8D D0 BF     	STA DISP_DT
-00F4F7  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F4FA  1               
-00F4FA  1               		; Active window
-00F4FA  1  A9 30        	LDA #$30
-00F4FC  1  8D D1 BF     	STA DISP_RG
-00F4FF  1  A9 00        	LDA #$00
-00F501  1  8D D0 BF     	STA DISP_DT
-00F504  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F507  1  A9 31        	LDA #$31
-00F509  1  8D D1 BF     	STA DISP_RG
-00F50C  1  A9 00        	LDA #$00
-00F50E  1  8D D0 BF     	STA DISP_DT
-00F511  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F514  1  A9 34        	LDA #$34
-00F516  1  8D D1 BF     	STA DISP_RG
-00F519  1  A9 1F        	LDA #$1F
-00F51B  1  8D D0 BF     	STA DISP_DT
-00F51E  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F521  1  A9 35        	LDA #$35
-00F523  1  8D D1 BF     	STA DISP_RG
-00F526  1  A9 03        	LDA #$03
-00F528  1  8D D0 BF     	STA DISP_DT
-00F52B  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F52E  1  A9 32        	LDA #$32
-00F530  1  8D D1 BF     	STA DISP_RG
-00F533  1  A9 00        	LDA #$00
-00F535  1  8D D0 BF     	STA DISP_DT
-00F538  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F53B  1  A9 33        	LDA #$33
-00F53D  1  8D D1 BF     	STA DISP_RG
-00F540  1  A9 00        	LDA #$00
-00F542  1  8D D0 BF     	STA DISP_DT
-00F545  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F548  1  A9 36        	LDA #$36
-00F54A  1  8D D1 BF     	STA DISP_RG
-00F54D  1  A9 DF        	LDA #$DF
-00F54F  1  8D D0 BF     	STA DISP_DT
-00F552  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F555  1  A9 37        	LDA #$37
-00F557  1  8D D1 BF     	STA DISP_RG
-00F55A  1  A9 01        	LDA #$01
-00F55C  1  8D D0 BF     	STA DISP_DT
-00F55F  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F562  1               
-00F562  1               		; Display on
-00F562  1  A9 01        	LDA #$01
-00F564  1  8D D1 BF     	STA DISP_RG
-00F567  1  A9 80        	LDA #$80
-00F569  1  8D D0 BF     	STA DISP_DT
-00F56C  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F56F  1  A9 C7        	LDA #$C7
-00F571  1  8D D1 BF     	STA DISP_RG
-00F574  1  A9 01        	LDA #$01
-00F576  1  8D D0 BF     	STA DISP_DT
-00F579  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F57C  1               
-00F57C  1  20 90 F5     	JSR DISP_CLR_SCREEN
-00F57F  1  20 56 F6     	JSR DISP_TEXT_MODE
-00F582  1               
-00F582  1  20 B9 F6     	JSR DISP_CURSOR_SETXY
-00F585  1  20 39 F7     	JSR DISP_TEXT_COLOUR
-00F588  1               
-00F588  1  60           	RTS
-00F589  1               	; end of DISP_INIT
-00F589  1               
-00F589  1               DISP_ERR				; Show error message
-00F589  1  8D 22 06     	STA MyERR
-00F58C  1  20 D3 F7     	JSR DISP_flt
-00F58F  1  60           	RTS
-00F590  1               
-00F590  1               DISP_CLR_SCREEN			; Fills the screen with black
-00F590  1  48           	PHA
-00F591  1  DA           	PHX
-00F592  1  5A           	PHY
-00F593  1               
-00F593  1  A9 91        	LDA #$91
-00F595  1  8D D1 BF     	STA DISP_RG
-00F598  1  A9 00        	LDA #$00
-00F59A  1  8D D0 BF     	STA DISP_DT
-00F59D  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F5A0  1  A9 92        	LDA #$92
-00F5A2  1  8D D1 BF     	STA DISP_RG
-00F5A5  1  A9 00        	LDA #$00
-00F5A7  1  8D D0 BF     	STA DISP_DT
-00F5AA  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F5AD  1  A9 93        	LDA #$93
-00F5AF  1  8D D1 BF     	STA DISP_RG
-00F5B2  1  A9 00        	LDA #$00
-00F5B4  1  8D D0 BF     	STA DISP_DT
-00F5B7  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F5BA  1  A9 94        	LDA #$94
-00F5BC  1  8D D1 BF     	STA DISP_RG
-00F5BF  1  A9 00        	LDA #$00
-00F5C1  1  8D D0 BF     	STA DISP_DT
-00F5C4  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F5C7  1  A9 95        	LDA #$95
-00F5C9  1  8D D1 BF     	STA DISP_RG
-00F5CC  1  A9 1F        	LDA #$1F
-00F5CE  1  8D D0 BF     	STA DISP_DT
-00F5D1  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F5D4  1  A9 96        	LDA #$96
-00F5D6  1  8D D1 BF     	STA DISP_RG
-00F5D9  1  A9 03        	LDA #$03
-00F5DB  1  8D D0 BF     	STA DISP_DT
-00F5DE  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F5E1  1  A9 97        	LDA #$97
-00F5E3  1  8D D1 BF     	STA DISP_RG
-00F5E6  1  A9 DF        	LDA #$DF
-00F5E8  1  8D D0 BF     	STA DISP_DT
-00F5EB  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F5EE  1  A9 98        	LDA #$98
-00F5F0  1  8D D1 BF     	STA DISP_RG
-00F5F3  1  A9 01        	LDA #$01
-00F5F5  1  8D D0 BF     	STA DISP_DT
-00F5F8  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F5FB  1               
-00F5FB  1  A9 63        	LDA #$63				; RED colour, bits 0,1,2
-00F5FD  1  8D D1 BF     	STA DISP_RG
-00F600  1  A9 00        	LDA #$00
-00F602  1  8D D0 BF     	STA DISP_DT
-00F605  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F608  1  A9 64        	LDA #$64				; GREEN colour, bits 0,1,2
-00F60A  1  8D D1 BF     	STA DISP_RG
-00F60D  1  A9 00        	LDA #$00
-00F60F  1  8D D0 BF     	STA DISP_DT
-00F612  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F615  1  A9 65        	LDA #$65				; BLUE colour, bits 0,1
-00F617  1  8D D1 BF     	STA DISP_RG
-00F61A  1  A9 00        	LDA #$00
-00F61C  1  8D D0 BF     	STA DISP_DT
-00F61F  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F622  1  A9 90        	LDA #$90				; Start fill
-00F624  1  8D D1 BF     	STA DISP_RG
-00F627  1  A9 B0        	LDA #$B0
-00F629  1  8D D0 BF     	STA DISP_DT
-00F62C  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F62F  1               
-00F62F  1               DISP_fillcomp
-00F62F  1  A9 90        	LDA #$90				; CHECK IF WE'RE DONE
-00F631  1  8D D1 BF     	STA DISP_RG
-00F634  1  AD D0 BF     	LDA DISP_DT				; read status
-00F637  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F63A  1               
-00F63A  1               DISP_resetxy
-00F63A  1  A9 00        	LDA #$00			; reset current coloumn and row
-00F63C  1  8D 24 06     	STA DISP_ccol
-00F63F  1  8D 25 06     	STA DISP_crow
-00F642  1  20 B9 F6     	JSR DISP_CURSOR_SETXY
-00F645  1               
-00F645  1  7A           	PLY
-00F646  1  FA           	PLX
-00F647  1  68           	PLA
-00F648  1               
-00F648  1  60           	RTS
+00F3F8  1               
+00F3F8  1               ; empty load vector for EhBASIC
+00F3F8  1               IO_LOAD
+00F3F8  1  20 4D C7     	JSR LAB_GFPN		; Gets value of variable AFTER the command
+00F3FB  1  A5 12        	LDA Itemph			; This is the high byte of the value
+00F3FD  1  20 14 F1     	JSR PRBYTE
+00F400  1  A5 11        	LDA Itempl			; This is the low byte of the value
+00F402  1  20 14 F1     	JSR PRBYTE
+00F405  1  60           	RTS
+00F406  1               ; empty save vector for EhBASIC
+00F406  1               IO_SAVE
+00F406  1  60           	RTS
+00F407  1               ; empty DIR vector for EhBASIC
+00F407  1               IO_DIR
+00F407  1  20 8A F9     	JSR PWR_BEEP_HIGH
+00F40A  1  60           	RTS
+00F40B  1               IO_CLS
+00F40B  1  20 58 F6     	JSR DISP_CLS
+00F40E  1  60           	RTS
+00F40F  1               
+00F40F  1               
+00F40F  1               
+00F40F  1               ; ----- DISPLAY BITS
+00F40F  1               ; display driver for the LT6502 project using the RA8875 driver
+00F40F  1               ; the display is set to 800x480 pixels
+00F40F  1               DISP_INIT
+00F40F  1               		; write to reg 0 and read back driver chip number
+00F40F  1  A9 00        	LDA #$00
+00F411  1  8D D1 BF     	STA DISP_RG
+00F414  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F417  1  AD D0 BF     	LDA DISP_DT
+00F41A  1  C9 75        	CMP #$75		;$75 means it's an RA8875 driver chip
+00F41C  1  F0 03        	BEQ DISP_OK
+00F41E  1  4C 98 F5     	JMP DISP_ERR
+00F421  1               
+00F421  1               DISP_OK
+00F421  1               		; soft reset
+00F421  1  A9 01        	LDA #$01
+00F423  1  8D D1 BF     	STA DISP_RG
+00F426  1  8D D0 BF     	STA DISP_DT
+00F429  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F42C  1  A9 01        	LDA #$01
+00F42E  1  8D D1 BF     	STA DISP_RG
+00F431  1  A9 00        	LDA #$00
+00F433  1  8D D0 BF     	STA DISP_DT
+00F436  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F439  1               
+00F439  1               		; PLL init (800x480)
+00F439  1  A9 88        	LDA #$88
+00F43B  1  8D D1 BF     	STA DISP_RG
+00F43E  1  A9 0A        	LDA #$0A
+00F440  1  8D D0 BF     	STA DISP_DT
+00F443  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F446  1  A9 89        	LDA #$89
+00F448  1  8D D1 BF     	STA DISP_RG
+00F44B  1  A9 02        	LDA #$02
+00F44D  1  8D D0 BF     	STA DISP_DT
+00F450  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F453  1               
+00F453  1               		; Set colour depth and interface width
+00F453  1  A9 10        	LDA #$10
+00F455  1  8D D1 BF     	STA DISP_RG
+00F458  1  A9 00        	LDA #$00
+00F45A  1  8D D0 BF     	STA DISP_DT
+00F45D  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F460  1               
+00F460  1               		; Set pixelclk
+00F460  1  A9 04        	LDA #$04
+00F462  1  8D D1 BF     	STA DISP_RG
+00F465  1  A9 81        	LDA #$81
+00F467  1  8D D0 BF     	STA DISP_DT
+00F46A  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F46D  1               
+00F46D  1               		; Horizontal set
+00F46D  1  A9 14        	LDA #$14
+00F46F  1  8D D1 BF     	STA DISP_RG
+00F472  1  A9 63        	LDA #$63
+00F474  1  8D D0 BF     	STA DISP_DT
+00F477  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F47A  1  A9 15        	LDA #$15
+00F47C  1  8D D1 BF     	STA DISP_RG
+00F47F  1  A9 00        	LDA #$00
+00F481  1  8D D0 BF     	STA DISP_DT
+00F484  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F487  1  A9 16        	LDA #$16
+00F489  1  8D D1 BF     	STA DISP_RG
+00F48C  1  A9 03        	LDA #$03
+00F48E  1  8D D0 BF     	STA DISP_DT
+00F491  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F494  1  A9 17        	LDA #$17
+00F496  1  8D D1 BF     	STA DISP_RG
+00F499  1  A9 03        	LDA #$03
+00F49B  1  8D D0 BF     	STA DISP_DT
+00F49E  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F4A1  1  A9 18        	LDA #$18
+00F4A3  1  8D D1 BF     	STA DISP_RG
+00F4A6  1  A9 0B        	LDA #$0B
+00F4A8  1  8D D0 BF     	STA DISP_DT
+00F4AB  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F4AE  1               
+00F4AE  1               		; Vertical set
+00F4AE  1  A9 19        	LDA #$19
+00F4B0  1  8D D1 BF     	STA DISP_RG
+00F4B3  1  A9 DF        	LDA #$DF
+00F4B5  1  8D D0 BF     	STA DISP_DT
+00F4B8  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F4BB  1  A9 1A        	LDA #$1A
+00F4BD  1  8D D1 BF     	STA DISP_RG
+00F4C0  1  A9 01        	LDA #$01
+00F4C2  1  8D D0 BF     	STA DISP_DT
+00F4C5  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F4C8  1  A9 1B        	LDA #$1B
+00F4CA  1  8D D1 BF     	STA DISP_RG
+00F4CD  1  A9 1F        	LDA #$1F
+00F4CF  1  8D D0 BF     	STA DISP_DT
+00F4D2  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F4D5  1  A9 1C        	LDA #$1C
+00F4D7  1  8D D1 BF     	STA DISP_RG
+00F4DA  1  A9 00        	LDA #$00
+00F4DC  1  8D D0 BF     	STA DISP_DT
+00F4DF  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F4E2  1  A9 1D        	LDA #$1D
+00F4E4  1  8D D1 BF     	STA DISP_RG
+00F4E7  1  A9 16        	LDA #$16
+00F4E9  1  8D D0 BF     	STA DISP_DT
+00F4EC  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F4EF  1  A9 1E        	LDA #$1E
+00F4F1  1  8D D1 BF     	STA DISP_RG
+00F4F4  1  A9 00        	LDA #$00
+00F4F6  1  8D D0 BF     	STA DISP_DT
+00F4F9  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F4FC  1  A9 1F        	LDA #$1F
+00F4FE  1  8D D1 BF     	STA DISP_RG
+00F501  1  A9 01        	LDA #$01
+00F503  1  8D D0 BF     	STA DISP_DT
+00F506  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F509  1               
+00F509  1               		; Active window
+00F509  1  A9 30        	LDA #$30
+00F50B  1  8D D1 BF     	STA DISP_RG
+00F50E  1  A9 00        	LDA #$00
+00F510  1  8D D0 BF     	STA DISP_DT
+00F513  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F516  1  A9 31        	LDA #$31
+00F518  1  8D D1 BF     	STA DISP_RG
+00F51B  1  A9 00        	LDA #$00
+00F51D  1  8D D0 BF     	STA DISP_DT
+00F520  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F523  1  A9 34        	LDA #$34
+00F525  1  8D D1 BF     	STA DISP_RG
+00F528  1  A9 1F        	LDA #$1F
+00F52A  1  8D D0 BF     	STA DISP_DT
+00F52D  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F530  1  A9 35        	LDA #$35
+00F532  1  8D D1 BF     	STA DISP_RG
+00F535  1  A9 03        	LDA #$03
+00F537  1  8D D0 BF     	STA DISP_DT
+00F53A  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F53D  1  A9 32        	LDA #$32
+00F53F  1  8D D1 BF     	STA DISP_RG
+00F542  1  A9 00        	LDA #$00
+00F544  1  8D D0 BF     	STA DISP_DT
+00F547  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F54A  1  A9 33        	LDA #$33
+00F54C  1  8D D1 BF     	STA DISP_RG
+00F54F  1  A9 00        	LDA #$00
+00F551  1  8D D0 BF     	STA DISP_DT
+00F554  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F557  1  A9 36        	LDA #$36
+00F559  1  8D D1 BF     	STA DISP_RG
+00F55C  1  A9 DF        	LDA #$DF
+00F55E  1  8D D0 BF     	STA DISP_DT
+00F561  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F564  1  A9 37        	LDA #$37
+00F566  1  8D D1 BF     	STA DISP_RG
+00F569  1  A9 01        	LDA #$01
+00F56B  1  8D D0 BF     	STA DISP_DT
+00F56E  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F571  1               
+00F571  1               		; Display on
+00F571  1  A9 01        	LDA #$01
+00F573  1  8D D1 BF     	STA DISP_RG
+00F576  1  A9 80        	LDA #$80
+00F578  1  8D D0 BF     	STA DISP_DT
+00F57B  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F57E  1  A9 C7        	LDA #$C7
+00F580  1  8D D1 BF     	STA DISP_RG
+00F583  1  A9 01        	LDA #$01
+00F585  1  8D D0 BF     	STA DISP_DT
+00F588  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F58B  1               
+00F58B  1  20 9F F5     	JSR DISP_CLR_SCREEN
+00F58E  1  20 65 F6     	JSR DISP_TEXT_MODE
+00F591  1               
+00F591  1  20 C8 F6     	JSR DISP_CURSOR_SETXY
+00F594  1  20 48 F7     	JSR DISP_TEXT_COLOUR
+00F597  1               
+00F597  1  60           	RTS
+00F598  1               	; end of DISP_INIT
+00F598  1               
+00F598  1               DISP_ERR				; Show error message
+00F598  1  8D 22 06     	STA MyERR
+00F59B  1  20 E2 F7     	JSR DISP_flt
+00F59E  1  60           	RTS
+00F59F  1               
+00F59F  1               DISP_CLR_SCREEN			; Fills the screen with black
+00F59F  1  48           	PHA
+00F5A0  1  DA           	PHX
+00F5A1  1  5A           	PHY
+00F5A2  1               
+00F5A2  1  A9 91        	LDA #$91
+00F5A4  1  8D D1 BF     	STA DISP_RG
+00F5A7  1  A9 00        	LDA #$00
+00F5A9  1  8D D0 BF     	STA DISP_DT
+00F5AC  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F5AF  1  A9 92        	LDA #$92
+00F5B1  1  8D D1 BF     	STA DISP_RG
+00F5B4  1  A9 00        	LDA #$00
+00F5B6  1  8D D0 BF     	STA DISP_DT
+00F5B9  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F5BC  1  A9 93        	LDA #$93
+00F5BE  1  8D D1 BF     	STA DISP_RG
+00F5C1  1  A9 00        	LDA #$00
+00F5C3  1  8D D0 BF     	STA DISP_DT
+00F5C6  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F5C9  1  A9 94        	LDA #$94
+00F5CB  1  8D D1 BF     	STA DISP_RG
+00F5CE  1  A9 00        	LDA #$00
+00F5D0  1  8D D0 BF     	STA DISP_DT
+00F5D3  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F5D6  1  A9 95        	LDA #$95
+00F5D8  1  8D D1 BF     	STA DISP_RG
+00F5DB  1  A9 1F        	LDA #$1F
+00F5DD  1  8D D0 BF     	STA DISP_DT
+00F5E0  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F5E3  1  A9 96        	LDA #$96
+00F5E5  1  8D D1 BF     	STA DISP_RG
+00F5E8  1  A9 03        	LDA #$03
+00F5EA  1  8D D0 BF     	STA DISP_DT
+00F5ED  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F5F0  1  A9 97        	LDA #$97
+00F5F2  1  8D D1 BF     	STA DISP_RG
+00F5F5  1  A9 DF        	LDA #$DF
+00F5F7  1  8D D0 BF     	STA DISP_DT
+00F5FA  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F5FD  1  A9 98        	LDA #$98
+00F5FF  1  8D D1 BF     	STA DISP_RG
+00F602  1  A9 01        	LDA #$01
+00F604  1  8D D0 BF     	STA DISP_DT
+00F607  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F60A  1               
+00F60A  1  A9 63        	LDA #$63				; RED colour, bits 0,1,2
+00F60C  1  8D D1 BF     	STA DISP_RG
+00F60F  1  A9 00        	LDA #$00
+00F611  1  8D D0 BF     	STA DISP_DT
+00F614  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F617  1  A9 64        	LDA #$64				; GREEN colour, bits 0,1,2
+00F619  1  8D D1 BF     	STA DISP_RG
+00F61C  1  A9 00        	LDA #$00
+00F61E  1  8D D0 BF     	STA DISP_DT
+00F621  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F624  1  A9 65        	LDA #$65				; BLUE colour, bits 0,1
+00F626  1  8D D1 BF     	STA DISP_RG
+00F629  1  A9 00        	LDA #$00
+00F62B  1  8D D0 BF     	STA DISP_DT
+00F62E  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F631  1  A9 90        	LDA #$90				; Start fill
+00F633  1  8D D1 BF     	STA DISP_RG
+00F636  1  A9 B0        	LDA #$B0
+00F638  1  8D D0 BF     	STA DISP_DT
+00F63B  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F63E  1               
+00F63E  1               DISP_fillcomp
+00F63E  1  A9 90        	LDA #$90				; CHECK IF WE'RE DONE
+00F640  1  8D D1 BF     	STA DISP_RG
+00F643  1  AD D0 BF     	LDA DISP_DT				; read status
+00F646  1  20 D8 F7     	JSR DISP_CHK_BUSY
 00F649  1               
-00F649  1               DISP_CLS
-00F649  1  20 90 F5     	JSR DISP_CLR_SCREEN
-00F64C  1  20 56 F6     	JSR DISP_TEXT_MODE
-00F64F  1               
-00F64F  1  20 B9 F6     	JSR DISP_CURSOR_SETXY
-00F652  1  20 39 F7     	JSR DISP_TEXT_COLOUR
-00F655  1  60           	RTS
-00F656  1               
-00F656  1               DISP_TEXT_MODE
-00F656  1  48           	PHA
-00F657  1  DA           	PHX
-00F658  1  5A           	PHY
-00F659  1               
-00F659  1  A9 40        	LDA #$40
-00F65B  1  8D D1 BF     	STA DISP_RG
-00F65E  1  A9 E0        	LDA #$E0
-00F660  1  8D D0 BF     	STA DISP_DT
-00F663  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F666  1  A9 44        	LDA #$44
-00F668  1  8D D1 BF     	STA DISP_RG
-00F66B  1  A9 20        	LDA #$20
-00F66D  1  8D D0 BF     	STA DISP_DT
-00F670  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F673  1               
-00F673  1  A9 21        	LDA #$21			; FONT control register 0
-00F675  1  8D D1 BF     	STA DISP_RG
-00F678  1  A9 00        	LDA #$00
-00F67A  1  8D D0 BF     	STA DISP_DT
-00F67D  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F680  1               
-00F680  1  A9 22        	LDA #$22			; FONT control register 1
-00F682  1  8D D1 BF     	STA DISP_RG
-00F685  1  A9 00        	LDA #$00
-00F687  1  8D D0 BF     	STA DISP_DT
-00F68A  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F68D  1               
-00F68D  1  A9 29        	LDA #$29			; FONT distance setting register
-00F68F  1  8D D1 BF     	STA DISP_RG
-00F692  1  A9 00        	LDA #$00
-00F694  1  8D D0 BF     	STA DISP_DT
-00F697  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F69A  1               
-00F69A  1  A9 2E        	LDA #$2E			; FONT write type setting register
-00F69C  1  8D D1 BF     	STA DISP_RG
-00F69F  1  A9 00        	LDA #$00
-00F6A1  1  8D D0 BF     	STA DISP_DT
-00F6A4  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F6A7  1               
-00F6A7  1  7A           	PLY
-00F6A8  1  FA           	PLX
-00F6A9  1  68           	PLA
-00F6AA  1  60           	RTS
-00F6AB  1               
-00F6AB  1               DISP_GRAPHICS_MODE
-00F6AB  1  A9 40        	LDA #$40
-00F6AD  1  8D D1 BF     	STA DISP_RG
-00F6B0  1  A9 00        	LDA #$00
-00F6B2  1  8D D0 BF     	STA DISP_DT
-00F6B5  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F6B8  1  60           	RTS
-00F6B9  1               
-00F6B9  1               DISP_CURSOR_SETXY
-00F6B9  1  A9 00        	LDA #$00
-00F6BB  1  8D 51 06     	STA MyTEMP2
-00F6BE  1  AD 24 06     	LDA DISP_ccol
-00F6C1  1  8D 50 06     	STA MyTEMP  		; this holds the low byte for X
-00F6C4  1  18           	CLC
-00F6C5  1  2E 50 06     	ROL MyTEMP			; multiply by 8 as each character is 8 bits wide
-00F6C8  1  2E 51 06     	ROL MyTEMP2
-00F6CB  1  18           	CLC
-00F6CC  1  2E 50 06     	ROL MyTEMP
-00F6CF  1  2E 51 06     	ROL MyTEMP2
-00F6D2  1  18           	CLC
-00F6D3  1  2E 50 06     	ROL MyTEMP
-00F6D6  1  2E 51 06     	ROL MyTEMP2
-00F6D9  1               
-00F6D9  1  A9 2A        	LDA #$2A
-00F6DB  1  8D D1 BF     	STA DISP_RG
-00F6DE  1  AD 50 06     	LDA MyTEMP			; x position low byts
-00F6E1  1  8D D0 BF     	STA DISP_DT
-00F6E4  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F6E7  1  A9 2B        	LDA #$2B
-00F6E9  1  8D D1 BF     	STA DISP_RG
-00F6EC  1  AD 51 06     	LDA MyTEMP2			; x position high byte
-00F6EF  1  8D D0 BF     	STA DISP_DT
-00F6F2  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F6F5  1               
-00F6F5  1  A9 00        	LDA #$00
-00F6F7  1  8D 51 06     	STA MyTEMP2			; this holds the high byte for Y
-00F6FA  1               
-00F6FA  1  AD 25 06     	LDA DISP_crow
-00F6FD  1  8D 50 06     	STA MyTEMP  		; this holds the low byte for Y
-00F700  1  18           	CLC
-00F701  1  2E 50 06     	ROL MyTEMP			; multiply by 16 as each character is 16 bits high
-00F704  1  2E 51 06     	ROL MyTEMP2
-00F707  1  18           	CLC
-00F708  1  2E 50 06     	ROL MyTEMP
-00F70B  1  2E 51 06     	ROL MyTEMP2
-00F70E  1  18           	CLC
-00F70F  1  2E 50 06     	ROL MyTEMP
-00F712  1  2E 51 06     	ROL MyTEMP2
-00F715  1  18           	CLC
-00F716  1  2E 50 06     	ROL MyTEMP
-00F719  1  2E 51 06     	ROL MyTEMP2
-00F71C  1               
-00F71C  1  A9 2C        	LDA #$2C
-00F71E  1  8D D1 BF     	STA DISP_RG
-00F721  1  AD 50 06     	LDA MyTEMP			; y position low byts
-00F724  1  8D D0 BF     	STA DISP_DT
-00F727  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F72A  1  A9 2D        	LDA #$2D
-00F72C  1  8D D1 BF     	STA DISP_RG
-00F72F  1  AD 51 06     	LDA MyTEMP2			; y position high byts
-00F732  1  8D D0 BF     	STA DISP_DT
-00F735  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F738  1               
-00F738  1  60           	RTS
-00F739  1               
-00F739  1               DISP_TEXT_COLOUR
-00F739  1  A9 63        	LDA #$63			; RED colour, bits 0,1,2
+00F649  1               DISP_resetxy
+00F649  1  A9 00        	LDA #$00			; reset current coloumn and row
+00F64B  1  8D 24 06     	STA DISP_ccol
+00F64E  1  8D 25 06     	STA DISP_crow
+00F651  1  20 C8 F6     	JSR DISP_CURSOR_SETXY
+00F654  1               
+00F654  1  7A           	PLY
+00F655  1  FA           	PLX
+00F656  1  68           	PLA
+00F657  1               
+00F657  1  60           	RTS
+00F658  1               
+00F658  1               DISP_CLS
+00F658  1  20 9F F5     	JSR DISP_CLR_SCREEN
+00F65B  1  20 65 F6     	JSR DISP_TEXT_MODE
+00F65E  1               
+00F65E  1  20 C8 F6     	JSR DISP_CURSOR_SETXY
+00F661  1  20 48 F7     	JSR DISP_TEXT_COLOUR
+00F664  1  60           	RTS
+00F665  1               
+00F665  1               DISP_TEXT_MODE
+00F665  1  48           	PHA
+00F666  1  DA           	PHX
+00F667  1  5A           	PHY
+00F668  1               
+00F668  1  A9 40        	LDA #$40
+00F66A  1  8D D1 BF     	STA DISP_RG
+00F66D  1  A9 E0        	LDA #$E0
+00F66F  1  8D D0 BF     	STA DISP_DT
+00F672  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F675  1  A9 44        	LDA #$44
+00F677  1  8D D1 BF     	STA DISP_RG
+00F67A  1  A9 20        	LDA #$20
+00F67C  1  8D D0 BF     	STA DISP_DT
+00F67F  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F682  1               
+00F682  1  A9 21        	LDA #$21			; FONT control register 0
+00F684  1  8D D1 BF     	STA DISP_RG
+00F687  1  A9 00        	LDA #$00
+00F689  1  8D D0 BF     	STA DISP_DT
+00F68C  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F68F  1               
+00F68F  1  A9 22        	LDA #$22			; FONT control register 1
+00F691  1  8D D1 BF     	STA DISP_RG
+00F694  1  A9 00        	LDA #$00
+00F696  1  8D D0 BF     	STA DISP_DT
+00F699  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F69C  1               
+00F69C  1  A9 29        	LDA #$29			; FONT distance setting register
+00F69E  1  8D D1 BF     	STA DISP_RG
+00F6A1  1  A9 00        	LDA #$00
+00F6A3  1  8D D0 BF     	STA DISP_DT
+00F6A6  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F6A9  1               
+00F6A9  1  A9 2E        	LDA #$2E			; FONT write type setting register
+00F6AB  1  8D D1 BF     	STA DISP_RG
+00F6AE  1  A9 00        	LDA #$00
+00F6B0  1  8D D0 BF     	STA DISP_DT
+00F6B3  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F6B6  1               
+00F6B6  1  7A           	PLY
+00F6B7  1  FA           	PLX
+00F6B8  1  68           	PLA
+00F6B9  1  60           	RTS
+00F6BA  1               
+00F6BA  1               DISP_GRAPHICS_MODE
+00F6BA  1  A9 40        	LDA #$40
+00F6BC  1  8D D1 BF     	STA DISP_RG
+00F6BF  1  A9 00        	LDA #$00
+00F6C1  1  8D D0 BF     	STA DISP_DT
+00F6C4  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F6C7  1  60           	RTS
+00F6C8  1               
+00F6C8  1               DISP_CURSOR_SETXY
+00F6C8  1  A9 00        	LDA #$00
+00F6CA  1  8D 51 06     	STA MyTEMP2
+00F6CD  1  AD 24 06     	LDA DISP_ccol
+00F6D0  1  8D 50 06     	STA MyTEMP  		; this holds the low byte for X
+00F6D3  1  18           	CLC
+00F6D4  1  2E 50 06     	ROL MyTEMP			; multiply by 8 as each character is 8 bits wide
+00F6D7  1  2E 51 06     	ROL MyTEMP2
+00F6DA  1  18           	CLC
+00F6DB  1  2E 50 06     	ROL MyTEMP
+00F6DE  1  2E 51 06     	ROL MyTEMP2
+00F6E1  1  18           	CLC
+00F6E2  1  2E 50 06     	ROL MyTEMP
+00F6E5  1  2E 51 06     	ROL MyTEMP2
+00F6E8  1               
+00F6E8  1  A9 2A        	LDA #$2A
+00F6EA  1  8D D1 BF     	STA DISP_RG
+00F6ED  1  AD 50 06     	LDA MyTEMP			; x position low byts
+00F6F0  1  8D D0 BF     	STA DISP_DT
+00F6F3  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F6F6  1  A9 2B        	LDA #$2B
+00F6F8  1  8D D1 BF     	STA DISP_RG
+00F6FB  1  AD 51 06     	LDA MyTEMP2			; x position high byte
+00F6FE  1  8D D0 BF     	STA DISP_DT
+00F701  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F704  1               
+00F704  1  A9 00        	LDA #$00
+00F706  1  8D 51 06     	STA MyTEMP2			; this holds the high byte for Y
+00F709  1               
+00F709  1  AD 25 06     	LDA DISP_crow
+00F70C  1  8D 50 06     	STA MyTEMP  		; this holds the low byte for Y
+00F70F  1  18           	CLC
+00F710  1  2E 50 06     	ROL MyTEMP			; multiply by 16 as each character is 16 bits high
+00F713  1  2E 51 06     	ROL MyTEMP2
+00F716  1  18           	CLC
+00F717  1  2E 50 06     	ROL MyTEMP
+00F71A  1  2E 51 06     	ROL MyTEMP2
+00F71D  1  18           	CLC
+00F71E  1  2E 50 06     	ROL MyTEMP
+00F721  1  2E 51 06     	ROL MyTEMP2
+00F724  1  18           	CLC
+00F725  1  2E 50 06     	ROL MyTEMP
+00F728  1  2E 51 06     	ROL MyTEMP2
+00F72B  1               
+00F72B  1  A9 2C        	LDA #$2C
+00F72D  1  8D D1 BF     	STA DISP_RG
+00F730  1  AD 50 06     	LDA MyTEMP			; y position low byts
+00F733  1  8D D0 BF     	STA DISP_DT
+00F736  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F739  1  A9 2D        	LDA #$2D
 00F73B  1  8D D1 BF     	STA DISP_RG
-00F73E  1  A9 07        	LDA #$07
-00F740  1  8D D0 BF     	STA DISP_DT
-00F743  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F746  1  A9 64        	LDA #$64			; GREEN colour, bits 0,1,2
-00F748  1  8D D1 BF     	STA DISP_RG
-00F74B  1  A9 01        	LDA #$01
-00F74D  1  8D D0 BF     	STA DISP_DT
-00F750  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F753  1  A9 65        	LDA #$65			; BLUE colour, bits 0,1,2
-00F755  1  8D D1 BF     	STA DISP_RG
-00F758  1  A9 00        	LDA #$00
-00F75A  1  8D D0 BF     	STA DISP_DT
-00F75D  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F760  1  60           	RTS
-00F761  1               
-00F761  1               DISP_TEXT_WR
-00F761  1  8D 23 06     	STA DISP_temp		; Save character
-00F764  1               
-00F764  1  AD 23 06     	LDA DISP_temp
-00F767  1  C9 20        	CMP #$20				; check for regular character
-00F769  1  30 18        	BMI DISP_text_nonascii
-00F76B  1               
-00F76B  1  C9 7F        	CMP #$7F				; check for delete character
-00F76D  1  F0 51        	BEQ DISP_textexit		; for now we ignore it
-00F76F  1               
-00F76F  1               DISP_normalchar
-00F76F  1               ;	jsr DISP_CURSOR_SETXY	; adding this double spaces everything, but backspace behaves
-00F76F  1               
-00F76F  1  A9 02        	LDA #$02
-00F771  1  8D D1 BF     	STA DISP_RG			; send "WRITE TEXT COMMAND"
-00F774  1  AD 23 06     	LDA DISP_temp
-00F777  1  8D D0 BF     	STA DISP_DT			; send to display
-00F77A  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F77D  1  EE 24 06     	INC DISP_ccol		; increase coloumn counter (needed for backspace)
-00F780  1  4C C0 F7     	JMP DISP_textexit
-00F783  1               			; no need to word wrap as display does this automatically
-00F783  1               
-00F783  1               DISP_text_nonascii
+00F73E  1  AD 51 06     	LDA MyTEMP2			; y position high byts
+00F741  1  8D D0 BF     	STA DISP_DT
+00F744  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F747  1               
+00F747  1  60           	RTS
+00F748  1               
+00F748  1               DISP_TEXT_COLOUR
+00F748  1  A9 63        	LDA #$63			; RED colour, bits 0,1,2
+00F74A  1  8D D1 BF     	STA DISP_RG
+00F74D  1  A9 07        	LDA #$07
+00F74F  1  8D D0 BF     	STA DISP_DT
+00F752  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F755  1  A9 64        	LDA #$64			; GREEN colour, bits 0,1,2
+00F757  1  8D D1 BF     	STA DISP_RG
+00F75A  1  A9 01        	LDA #$01
+00F75C  1  8D D0 BF     	STA DISP_DT
+00F75F  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F762  1  A9 65        	LDA #$65			; BLUE colour, bits 0,1,2
+00F764  1  8D D1 BF     	STA DISP_RG
+00F767  1  A9 00        	LDA #$00
+00F769  1  8D D0 BF     	STA DISP_DT
+00F76C  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F76F  1  60           	RTS
+00F770  1               
+00F770  1               DISP_TEXT_WR
+00F770  1  8D 23 06     	STA DISP_temp		; Save character
+00F773  1               
+00F773  1  AD 23 06     	LDA DISP_temp
+00F776  1  C9 20        	CMP #$20				; check for regular character
+00F778  1  30 18        	BMI DISP_text_nonascii
+00F77A  1               
+00F77A  1  C9 7F        	CMP #$7F				; check for delete character
+00F77C  1  F0 51        	BEQ DISP_textexit		; for now we ignore it
+00F77E  1               
+00F77E  1               DISP_normalchar
+00F77E  1               ;	jsr DISP_CURSOR_SETXY	; adding this double spaces everything, but backspace behaves
+00F77E  1               
+00F77E  1  A9 02        	LDA #$02
+00F780  1  8D D1 BF     	STA DISP_RG			; send "WRITE TEXT COMMAND"
 00F783  1  AD 23 06     	LDA DISP_temp
-00F786  1  C9 08        	CMP #$08				; check for backspace
-00F788  1  D0 10        	BNE DISP_textcheckCR
-00F78A  1               
-00F78A  1  AD 24 06     	LDA DISP_ccol				;? holds correct value
-00F78D  1  C9 00        	CMP #$00				; don't do anything if at col 0
-00F78F  1  F0 2F        	BEQ DISP_textexit
-00F791  1               
-00F791  1  CE 24 06     	DEC DISP_ccol				;? holds correct updated value
-00F794  1  20 B9 F6     	JSR DISP_CURSOR_SETXY		;? but jumps forward???
-00F797  1  4C C0 F7     	JMP DISP_textexit
-00F79A  1               
-00F79A  1               DISP_textcheckCR
-00F79A  1  AD 23 06     	LDA DISP_temp
-00F79D  1  C9 0D        	CMP #$0D				; check for CR
-00F79F  1  D0 0B        	BNE DISP_text_checkLF
-00F7A1  1               
-00F7A1  1  A9 00        	LDA #$00				; do carriage return
-00F7A3  1  8D 24 06     	STA DISP_ccol
-00F7A6  1  20 B9 F6     	JSR DISP_CURSOR_SETXY
-00F7A9  1  4C C0 F7     	JMP DISP_textexit
-00F7AC  1               
-00F7AC  1               DISP_text_checkLF
-00F7AC  1  AD 23 06     	LDA DISP_temp
-00F7AF  1  C9 0A        	CMP #$0A				; check for LF
-00F7B1  1  D0 0D        	BNE DISP_textexit
-00F7B3  1  EE 25 06     	INC DISP_crow			; Do LF
-00F7B6  1               
-00F7B6  1  AD 25 06     	LDA DISP_crow			; Check for bottom of screen
-00F7B9  1  C9 1E        	CMP #30
-00F7BB  1  D0 03        	BNE DISP_textexit		; if not bottom sckip scroll
-00F7BD  1  20 CB F8     	JSR DISP_doscrollup		; else scroll
-00F7C0  1               
-00F7C0  1               DISP_textexit
-00F7C0  1  20 B9 F6     	JSR DISP_CURSOR_SETXY
-00F7C3  1  A9 00        	LDA #$00
-00F7C5  1  8D 23 06     	STA DISP_temp		; clear temp variable
-00F7C8  1  60           	RTS
-00F7C9  1               
-00F7C9  1               
-00F7C9  1               DISP_CHK_BUSY			; Read BIT2 from Glue, if it's LOW the display is busy
-00F7C9  1  AD D2 BF     	LDA DISP_WAIT		; Get wait status
-00F7CC  1  29 04        	AND #$04			; it's in BIT2
-00F7CE  1  C9 04        	CMP #$04			; Compare bit2
-00F7D0  1  D0 F7        	BNE DISP_CHK_BUSY	; if it's not the same, i.e. it's ZERO then recheck
-00F7D2  1  60           	RTS					; else return, i.e. display is ready
-00F7D3  1               
-00F7D3  1               ; DISPLAY ERROR
-00F7D3  1               DISP_flt
-00F7D3  1  A0 00        	LDY #$00
-00F7D5  1               
-00F7D5  1               DISP_flt_lp				; Display error message
-00F7D5  1  B9 78 FA     	LDA ERR_disp,Y
-00F7D8  1  F0 09        	BEQ	DISP_flt_exit	; exit loop if done
-00F7DA  1  20 6A F3     	JSR ACIAout			; Send to console
-00F7DD  1  20 7E F3     	JSR KEYBout			; Send to keyboard display
-00F7E0  1  C8           	INY					; increment index
-00F7E1  1  D0 F2        	BNE DISP_flt_lp	; loop, always
-00F7E3  1               
-00F7E3  1               DISP_flt_exit
-00F7E3  1  AD 22 06     	LDA MyERR
-00F7E6  1  20 14 F1     	JSR PRBYTE			; Add byte to error message
-00F7E9  1  AD 22 06     	LDA MyERR
-00F7EC  1  20 7E F3     	JSR KEYBout			; show on keyboard (may get weird things)
-00F7EF  1  60           	RTS
-00F7F0  1               
-00F7F0  1               ; Switches display mode, 0 = text, 1 = graphics
-00F7F0  1               IO_MODE
-00F7F0  1  5A           	PHY
-00F7F1  1  DA           	PHX
-00F7F2  1  48           	PHA
-00F7F3  1               
-00F7F3  1  20 4D C7     	JSR LAB_GFPN		; Gets value of variable AFTER the command
-00F7F6  1  A5 11        	LDA Itempl			; This is the low byte of the value
-00F7F8  1  8D 50 06     	STA MyTEMP			; REMEMBER THIS
-00F7FB  1               
-00F7FB  1               	; check if mode 1 (graphics)
-00F7FB  1  C9 01        	CMP #$01
-00F7FD  1  D0 06        	BNE IO_MODE_text
-00F7FF  1  20 AB F6     	JSR DISP_GRAPHICS_MODE
-00F802  1  4C 08 F8     	JMP IO_MODE_exit
-00F805  1               
-00F805  1               	; else mode 0 (text)
-00F805  1               	; do text mode
-00F805  1               IO_MODE_text
-00F805  1  20 56 F6     	JSR DISP_TEXT_MODE
-00F808  1               
-00F808  1               
-00F808  1               IO_MODE_exit
-00F808  1  68           	PLA
-00F809  1  FA           	PLX
-00F80A  1  7A           	PLY
-00F80B  1  60           	RTS
-00F80C  1               
-00F80C  1               
-00F80C  1               
-00F80C  1               DISP_clearbottomline
-00F80C  1  48           	PHA
-00F80D  1  DA           	PHX
-00F80E  1  5A           	PHY
-00F80F  1               					; START
-00F80F  1  A9 91        	LDA #$91
-00F811  1  8D D1 BF     	STA DISP_RG
-00F814  1  A9 00        	LDA #$00			; X LSBYTE
-00F816  1  8D D0 BF     	STA DISP_DT
-00F819  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F81C  1  A9 92        	LDA #$92
-00F81E  1  8D D1 BF     	STA DISP_RG
-00F821  1  A9 00        	LDA #$00			; X MSBYTE
-00F823  1  8D D0 BF     	STA DISP_DT
-00F826  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F829  1  A9 93        	LDA #$93
-00F82B  1  8D D1 BF     	STA DISP_RG
-00F82E  1  A9 D0        	LDA #$D0			; Y LSBYTE
-00F830  1  8D D0 BF     	STA DISP_DT
-00F833  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F836  1  A9 94        	LDA #$94
-00F838  1  8D D1 BF     	STA DISP_RG
-00F83B  1  A9 01        	LDA #$01			; Y MSBYTE
-00F83D  1  8D D0 BF     	STA DISP_DT
-00F840  1               					; END
-00F840  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F843  1  A9 95        	LDA #$95
-00F845  1  8D D1 BF     	STA DISP_RG
-00F848  1  A9 1F        	LDA #$1F			; X LSBYTE
-00F84A  1  8D D0 BF     	STA DISP_DT
-00F84D  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F850  1  A9 96        	LDA #$96
-00F852  1  8D D1 BF     	STA DISP_RG
-00F855  1  A9 03        	LDA #$03			; X MSBYTE
-00F857  1  8D D0 BF     	STA DISP_DT
-00F85A  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F85D  1  A9 97        	LDA #$97
-00F85F  1  8D D1 BF     	STA DISP_RG
-00F862  1  A9 DF        	LDA #$DF			; Y LSBYTE
-00F864  1  8D D0 BF     	STA DISP_DT
-00F867  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F86A  1  A9 98        	LDA #$98
-00F86C  1  8D D1 BF     	STA DISP_RG
-00F86F  1  A9 01        	LDA #$01			; Y MSBYTE
-00F871  1  8D D0 BF     	STA DISP_DT
-00F874  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F877  1               
-00F877  1  A9 63        	LDA #$63				; RED colour, bits 0,1,2
-00F879  1  8D D1 BF     	STA DISP_RG
-00F87C  1  A9 00        	LDA #$00
-00F87E  1  8D D0 BF     	STA DISP_DT
-00F881  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F884  1  A9 64        	LDA #$64				; GREEN colour, bits 0,1,2
-00F886  1  8D D1 BF     	STA DISP_RG
-00F889  1  A9 00        	LDA #$00
-00F88B  1  8D D0 BF     	STA DISP_DT
-00F88E  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F891  1  A9 65        	LDA #$65				; BLUE colour, bits 0,1
-00F893  1  8D D1 BF     	STA DISP_RG
-00F896  1  A9 00        	LDA #$00
-00F898  1  8D D0 BF     	STA DISP_DT
-00F89B  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F89E  1  A9 90        	LDA #$90				; Start fill
-00F8A0  1  8D D1 BF     	STA DISP_RG
-00F8A3  1  A9 B0        	LDA #$B0
-00F8A5  1  8D D0 BF     	STA DISP_DT
-00F8A8  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F8AB  1               
-00F8AB  1  A9 90        	LDA #$90				; CHECK IF WE'RE DONE
-00F8AD  1  8D D1 BF     	STA DISP_RG
-00F8B0  1  AD D0 BF     	LDA DISP_DT				; read status
-00F8B3  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F8B6  1               
-00F8B6  1  7A           	PLY
-00F8B7  1  FA           	PLX
-00F8B8  1  68           	PLA
-00F8B9  1  60           	RTS
+00F786  1  8D D0 BF     	STA DISP_DT			; send to display
+00F789  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F78C  1  EE 24 06     	INC DISP_ccol		; increase coloumn counter (needed for backspace)
+00F78F  1  4C CF F7     	JMP DISP_textexit
+00F792  1               			; no need to word wrap as display does this automatically
+00F792  1               
+00F792  1               DISP_text_nonascii
+00F792  1  AD 23 06     	LDA DISP_temp
+00F795  1  C9 08        	CMP #$08				; check for backspace
+00F797  1  D0 10        	BNE DISP_textcheckCR
+00F799  1               
+00F799  1  AD 24 06     	LDA DISP_ccol				;? holds correct value
+00F79C  1  C9 00        	CMP #$00				; don't do anything if at col 0
+00F79E  1  F0 2F        	BEQ DISP_textexit
+00F7A0  1               
+00F7A0  1  CE 24 06     	DEC DISP_ccol				;? holds correct updated value
+00F7A3  1  20 C8 F6     	JSR DISP_CURSOR_SETXY		;? but jumps forward???
+00F7A6  1  4C CF F7     	JMP DISP_textexit
+00F7A9  1               
+00F7A9  1               DISP_textcheckCR
+00F7A9  1  AD 23 06     	LDA DISP_temp
+00F7AC  1  C9 0D        	CMP #$0D				; check for CR
+00F7AE  1  D0 0B        	BNE DISP_text_checkLF
+00F7B0  1               
+00F7B0  1  A9 00        	LDA #$00				; do carriage return
+00F7B2  1  8D 24 06     	STA DISP_ccol
+00F7B5  1  20 C8 F6     	JSR DISP_CURSOR_SETXY
+00F7B8  1  4C CF F7     	JMP DISP_textexit
+00F7BB  1               
+00F7BB  1               DISP_text_checkLF
+00F7BB  1  AD 23 06     	LDA DISP_temp
+00F7BE  1  C9 0A        	CMP #$0A				; check for LF
+00F7C0  1  D0 0D        	BNE DISP_textexit
+00F7C2  1  EE 25 06     	INC DISP_crow			; Do LF
+00F7C5  1               
+00F7C5  1  AD 25 06     	LDA DISP_crow			; Check for bottom of screen
+00F7C8  1  C9 1E        	CMP #30
+00F7CA  1  D0 03        	BNE DISP_textexit		; if not bottom sckip scroll
+00F7CC  1  20 DA F8     	JSR DISP_doscrollup		; else scroll
+00F7CF  1               
+00F7CF  1               DISP_textexit
+00F7CF  1  20 C8 F6     	JSR DISP_CURSOR_SETXY
+00F7D2  1  A9 00        	LDA #$00
+00F7D4  1  8D 23 06     	STA DISP_temp		; clear temp variable
+00F7D7  1  60           	RTS
+00F7D8  1               
+00F7D8  1               
+00F7D8  1               DISP_CHK_BUSY			; Read BIT2 from Glue, if it's LOW the display is busy
+00F7D8  1  AD D2 BF     	LDA DISP_WAIT		; Get wait status
+00F7DB  1  29 04        	AND #$04			; it's in BIT2
+00F7DD  1  C9 04        	CMP #$04			; Compare bit2
+00F7DF  1  D0 F7        	BNE DISP_CHK_BUSY	; if it's not the same, i.e. it's ZERO then recheck
+00F7E1  1  60           	RTS					; else return, i.e. display is ready
+00F7E2  1               
+00F7E2  1               ; DISPLAY ERROR
+00F7E2  1               DISP_flt
+00F7E2  1  A0 00        	LDY #$00
+00F7E4  1               
+00F7E4  1               DISP_flt_lp				; Display error message
+00F7E4  1  B9 03 FB     	LDA ERR_disp,Y
+00F7E7  1  F0 09        	BEQ	DISP_flt_exit	; exit loop if done
+00F7E9  1  20 79 F3     	JSR ACIAout			; Send to console
+00F7EC  1  20 8D F3     	JSR KEYBout			; Send to keyboard display
+00F7EF  1  C8           	INY					; increment index
+00F7F0  1  D0 F2        	BNE DISP_flt_lp	; loop, always
+00F7F2  1               
+00F7F2  1               DISP_flt_exit
+00F7F2  1  AD 22 06     	LDA MyERR
+00F7F5  1  20 14 F1     	JSR PRBYTE			; Add byte to error message
+00F7F8  1  AD 22 06     	LDA MyERR
+00F7FB  1  20 8D F3     	JSR KEYBout			; show on keyboard (may get weird things)
+00F7FE  1  60           	RTS
+00F7FF  1               
+00F7FF  1               ; Switches display mode, 0 = text, 1 = graphics
+00F7FF  1               IO_MODE
+00F7FF  1  5A           	PHY
+00F800  1  DA           	PHX
+00F801  1  48           	PHA
+00F802  1               
+00F802  1  20 4D C7     	JSR LAB_GFPN		; Gets value of variable AFTER the command
+00F805  1  A5 11        	LDA Itempl			; This is the low byte of the value
+00F807  1  8D 50 06     	STA MyTEMP			; REMEMBER THIS
+00F80A  1               
+00F80A  1               	; check if mode 1 (graphics)
+00F80A  1  C9 01        	CMP #$01
+00F80C  1  D0 06        	BNE IO_MODE_text
+00F80E  1  20 BA F6     	JSR DISP_GRAPHICS_MODE
+00F811  1  4C 17 F8     	JMP IO_MODE_exit
+00F814  1               
+00F814  1               	; else mode 0 (text)
+00F814  1               	; do text mode
+00F814  1               IO_MODE_text
+00F814  1  20 65 F6     	JSR DISP_TEXT_MODE
+00F817  1               
+00F817  1               
+00F817  1               IO_MODE_exit
+00F817  1  68           	PLA
+00F818  1  FA           	PLX
+00F819  1  7A           	PLY
+00F81A  1  60           	RTS
+00F81B  1               
+00F81B  1               
+00F81B  1               
+00F81B  1               DISP_clearbottomline
+00F81B  1  48           	PHA
+00F81C  1  DA           	PHX
+00F81D  1  5A           	PHY
+00F81E  1               					; START
+00F81E  1  A9 91        	LDA #$91
+00F820  1  8D D1 BF     	STA DISP_RG
+00F823  1  A9 00        	LDA #$00			; X LSBYTE
+00F825  1  8D D0 BF     	STA DISP_DT
+00F828  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F82B  1  A9 92        	LDA #$92
+00F82D  1  8D D1 BF     	STA DISP_RG
+00F830  1  A9 00        	LDA #$00			; X MSBYTE
+00F832  1  8D D0 BF     	STA DISP_DT
+00F835  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F838  1  A9 93        	LDA #$93
+00F83A  1  8D D1 BF     	STA DISP_RG
+00F83D  1  A9 D0        	LDA #$D0			; Y LSBYTE
+00F83F  1  8D D0 BF     	STA DISP_DT
+00F842  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F845  1  A9 94        	LDA #$94
+00F847  1  8D D1 BF     	STA DISP_RG
+00F84A  1  A9 01        	LDA #$01			; Y MSBYTE
+00F84C  1  8D D0 BF     	STA DISP_DT
+00F84F  1               					; END
+00F84F  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F852  1  A9 95        	LDA #$95
+00F854  1  8D D1 BF     	STA DISP_RG
+00F857  1  A9 1F        	LDA #$1F			; X LSBYTE
+00F859  1  8D D0 BF     	STA DISP_DT
+00F85C  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F85F  1  A9 96        	LDA #$96
+00F861  1  8D D1 BF     	STA DISP_RG
+00F864  1  A9 03        	LDA #$03			; X MSBYTE
+00F866  1  8D D0 BF     	STA DISP_DT
+00F869  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F86C  1  A9 97        	LDA #$97
+00F86E  1  8D D1 BF     	STA DISP_RG
+00F871  1  A9 DF        	LDA #$DF			; Y LSBYTE
+00F873  1  8D D0 BF     	STA DISP_DT
+00F876  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F879  1  A9 98        	LDA #$98
+00F87B  1  8D D1 BF     	STA DISP_RG
+00F87E  1  A9 01        	LDA #$01			; Y MSBYTE
+00F880  1  8D D0 BF     	STA DISP_DT
+00F883  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F886  1               
+00F886  1  A9 63        	LDA #$63				; RED colour, bits 0,1,2
+00F888  1  8D D1 BF     	STA DISP_RG
+00F88B  1  A9 00        	LDA #$00
+00F88D  1  8D D0 BF     	STA DISP_DT
+00F890  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F893  1  A9 64        	LDA #$64				; GREEN colour, bits 0,1,2
+00F895  1  8D D1 BF     	STA DISP_RG
+00F898  1  A9 00        	LDA #$00
+00F89A  1  8D D0 BF     	STA DISP_DT
+00F89D  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F8A0  1  A9 65        	LDA #$65				; BLUE colour, bits 0,1
+00F8A2  1  8D D1 BF     	STA DISP_RG
+00F8A5  1  A9 00        	LDA #$00
+00F8A7  1  8D D0 BF     	STA DISP_DT
+00F8AA  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F8AD  1  A9 90        	LDA #$90				; Start fill
+00F8AF  1  8D D1 BF     	STA DISP_RG
+00F8B2  1  A9 B0        	LDA #$B0
+00F8B4  1  8D D0 BF     	STA DISP_DT
+00F8B7  1  20 D8 F7     	JSR DISP_CHK_BUSY
 00F8BA  1               
-00F8BA  1               DISP_readreg
-00F8BA  1  8D D1 BF     	STA	DISP_RG
-00F8BD  1  AD D0 BF     	LDA DISP_DT
-00F8C0  1  60           	RTS
-00F8C1  1               
-00F8C1  1               DISP_writereg
-00F8C1  1  8D D1 BF     	STA	DISP_RG
-00F8C4  1  8C D0 BF     	STY DISP_DT
-00F8C7  1  20 C9 F7     	JSR DISP_CHK_BUSY
-00F8CA  1  60           	RTS
-00F8CB  1               
-00F8CB  1               DISP_doscrollup
-00F8CB  1  5A           	phy               ; preserve Y
-00F8CC  1               
-00F8CC  1               	;; set up for move. I do this out of line so that the actual transfer
-00F8CC  1               	;; happens as quickly as it can. Look up the current foreground
-00F8CC  1               	;; color, cache it on the stack, and set the foreground to black.
-00F8CC  1               	;; look up current color values and save them
-00F8CC  1  A9 63        	lda #$63
-00F8CE  1  20 BA F8     	jsr DISP_readreg
-00F8D1  1  48           	pha
-00F8D2  1               
-00F8D2  1  A9 64        	lda #$64
-00F8D4  1  20 BA F8     	jsr DISP_readreg
-00F8D7  1  48           	pha
-00F8D8  1               
-00F8D8  1  A9 65        	lda #$65
-00F8DA  1  20 BA F8     	jsr DISP_readreg
-00F8DD  1  48           	pha
-00F8DE  1               
-00F8DE  1               	;; now set color to black, ready for painting the block after the move
-00F8DE  1  A0 00        	ldy #0
-00F8E0  1  A9 63        	lda #$63
-00F8E2  1  20 C1 F8     	jsr DISP_writereg
-00F8E5  1  A9 64        	lda #$64
-00F8E7  1  20 C1 F8     	jsr DISP_writereg
-00F8EA  1  A9 65        	lda #$65
-00F8EC  1  20 C1 F8     	jsr DISP_writereg
-00F8EF  1               
-00F8EF  1               	;; setup completed. next, do the block move.
-00F8EF  1               	;; set up source address
-00F8EF  1               	;; NOTE address includes layer specification. I'm setting this
-00F8EF  1               	;; to zero, which means Layer 1. I'm not even sure right now which
-00F8EF  1               	;; layer I'm using!
-00F8EF  1  A0 00        	ldy #0            ; starting at 0, 16
-00F8F1  1  A9 54        	lda #$54          ; LSB of X coordinate
-00F8F3  1  20 C1 F8     	jsr DISP_writereg
-00F8F6  1  A9 55        	lda #$55          ; MSB of X coordinate
-00F8F8  1  20 C1 F8     	jsr DISP_writereg
-00F8FB  1  A0 10        	ldy #$10
-00F8FD  1  A9 56        	lda #$56          ; LSB of Y coordinate
-00F8FF  1  20 C1 F8     	jsr DISP_writereg
-00F902  1  A0 00        	ldy #0
-00F904  1  A9 57        	lda #$57          ; MSB of Y coordinate
-00F906  1               
-00F906  1               
-00F906  1               	;; set up destination address
-00F906  1  A0 00        	ldy #0            ; copying to 0,0
-00F908  1  A9 58        	lda #$58          ; LSB of X coordinate
-00F90A  1  20 C1 F8     	jsr DISP_writereg
-00F90D  1  A9 59        	lda #$59          ; MSB of X coordinate
-00F90F  1  20 C1 F8     	jsr DISP_writereg
-00F912  1  A9 5A        	lda #$5A          ; LSB of Y coordinate
-00F914  1  20 C1 F8     	jsr DISP_writereg
-00F917  1  A9 5B        	lda #$5B          ; MSB of Y coordinate
-00F919  1               
-00F919  1               	;; set BTE width and hight
-00F919  1  A0 20        	ldy #$20          ; width is 800 ($320)
-00F91B  1  A9 5C        	lda #$5C          ; LSB of width
-00F91D  1  20 C1 F8     	jsr DISP_writereg
-00F920  1  A0 03        	ldy #$03
-00F922  1  A9 5D        	lda #$5D          ; MSB of width
-00F924  1  20 C1 F8     	jsr DISP_writereg
-00F927  1               
-00F927  1  A0 D0        	ldy #$D0          ; height is 464 ($1D0)
-00F929  1  A9 5E        	lda #$5E          ; LSB of X coordinate
-00F92B  1  20 C1 F8     	jsr DISP_writereg
-00F92E  1  A0 01        	ldy #$01
-00F930  1  A9 5F        	lda #$5F          ; MSB of X coordinate
-00F932  1  20 C1 F8     	jsr DISP_writereg
-00F935  1               
-00F935  1               	;; set BTE function
-00F935  1               	;; function is "move in a positive direction". The "positive direction"
-00F935  1               	;; means that we start at the beginning and move toward the end; since
-00F935  1               	;; the source and destination regions overlap, that's what we need.
-00F935  1               	;; ROP is "destionation = source" (ie, straight copy).
-00F935  1               	;; ROP is %1100 = $C, ROP is %0010 = $02
-00F935  1               	;; result is $C2
-00F935  1  A0 C2        	ldy #$C2
-00F937  1  A9 51        	lda #$51
-00F939  1  20 C1 F8     	jsr DISP_writereg
-00F93C  1               
-00F93C  1               	;; enable BTE function
-00F93C  1  A0 80        	ldy #$80
-00F93E  1  A9 50        	lda #$50
-00F940  1  20 C1 F8     	jsr DISP_writereg
-00F943  1               
-00F943  1               	;; wait for block transfer to complete. Read register $50 until
-00F943  1               	;; the top bit is clear.
-00F943  1               DISP_busyloop
-00F943  1  A9 50        	lda #$50
-00F945  1  20 BA F8     	jsr DISP_readreg
-00F948  1  30 F9        	bmi DISP_busyloop
-00F94A  1               
-00F94A  1               		; clear bottom line
-00F94A  1  20 0C F8     	JSR DISP_clearbottomline
-00F94D  1               
-00F94D  1               	;; reset color.
-00F94D  1  68           	pla
-00F94E  1  A8           	tay
-00F94F  1  A9 65        	lda #$65
-00F951  1  20 C1 F8     	jsr DISP_writereg
-00F954  1  68           	pla
-00F955  1  A8           	tay
-00F956  1  A9 64        	lda #$64
-00F958  1  20 C1 F8     	jsr DISP_writereg
-00F95B  1  68           	pla
-00F95C  1  A8           	tay
-00F95D  1  A9 63        	lda #$63
-00F95F  1  20 C1 F8     	jsr DISP_writereg
-00F962  1               
-00F962  1               
-00F962  1  CE 25 06     	DEC DISP_crow
-00F965  1  20 B9 F6     	JSR DISP_CURSOR_SETXY
-00F968  1               
-00F968  1  7A           	ply               ; restore Y
-00F969  1  60           	rts
-00F96A  1               
-00F96A  1               ; ------ END OF DISPLAY BITS
-00F96A  1               
-00F96A  1               
-00F96A  1               ; ------ BEEPS
-00F96A  1               BEEP_CMD
-00F96A  1  DA           	PHX
-00F96B  1  5A           	PHY
-00F96C  1  48           	PHA
-00F96D  1               
-00F96D  1  20 97 D4     	JSR LAB_GTBY		; GET NEXT BYTE (puts it in X)
-00F970  1  8A           	TXA
-00F971  1  8D 50 06     	STA MyTEMP			; Used in VARI_BEEP routine
-00F974  1               
-00F974  1  20 AC F9     	JSR VARI_BEEP
+00F8BA  1  A9 90        	LDA #$90				; CHECK IF WE'RE DONE
+00F8BC  1  8D D1 BF     	STA DISP_RG
+00F8BF  1  AD D0 BF     	LDA DISP_DT				; read status
+00F8C2  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F8C5  1               
+00F8C5  1  7A           	PLY
+00F8C6  1  FA           	PLX
+00F8C7  1  68           	PLA
+00F8C8  1  60           	RTS
+00F8C9  1               
+00F8C9  1               DISP_readreg
+00F8C9  1  8D D1 BF     	STA	DISP_RG
+00F8CC  1  AD D0 BF     	LDA DISP_DT
+00F8CF  1  60           	RTS
+00F8D0  1               
+00F8D0  1               DISP_writereg
+00F8D0  1  8D D1 BF     	STA	DISP_RG
+00F8D3  1  8C D0 BF     	STY DISP_DT
+00F8D6  1  20 D8 F7     	JSR DISP_CHK_BUSY
+00F8D9  1  60           	RTS
+00F8DA  1               
+00F8DA  1               DISP_doscrollup
+00F8DA  1  5A           	phy               ; preserve Y
+00F8DB  1               
+00F8DB  1               	;; set up for move. I do this out of line so that the actual transfer
+00F8DB  1               	;; happens as quickly as it can. Look up the current foreground
+00F8DB  1               	;; color, cache it on the stack, and set the foreground to black.
+00F8DB  1               	;; look up current color values and save them
+00F8DB  1  A9 63        	lda #$63
+00F8DD  1  20 C9 F8     	jsr DISP_readreg
+00F8E0  1  48           	pha
+00F8E1  1               
+00F8E1  1  A9 64        	lda #$64
+00F8E3  1  20 C9 F8     	jsr DISP_readreg
+00F8E6  1  48           	pha
+00F8E7  1               
+00F8E7  1  A9 65        	lda #$65
+00F8E9  1  20 C9 F8     	jsr DISP_readreg
+00F8EC  1  48           	pha
+00F8ED  1               
+00F8ED  1               	;; now set color to black, ready for painting the block after the move
+00F8ED  1  A0 00        	ldy #0
+00F8EF  1  A9 63        	lda #$63
+00F8F1  1  20 D0 F8     	jsr DISP_writereg
+00F8F4  1  A9 64        	lda #$64
+00F8F6  1  20 D0 F8     	jsr DISP_writereg
+00F8F9  1  A9 65        	lda #$65
+00F8FB  1  20 D0 F8     	jsr DISP_writereg
+00F8FE  1               
+00F8FE  1               	;; setup completed. next, do the block move.
+00F8FE  1               	;; set up source address
+00F8FE  1               	;; NOTE address includes layer specification. I'm setting this
+00F8FE  1               	;; to zero, which means Layer 1. I'm not even sure right now which
+00F8FE  1               	;; layer I'm using!
+00F8FE  1  A0 00        	ldy #0            ; starting at 0, 16
+00F900  1  A9 54        	lda #$54          ; LSB of X coordinate
+00F902  1  20 D0 F8     	jsr DISP_writereg
+00F905  1  A9 55        	lda #$55          ; MSB of X coordinate
+00F907  1  20 D0 F8     	jsr DISP_writereg
+00F90A  1  A0 10        	ldy #$10
+00F90C  1  A9 56        	lda #$56          ; LSB of Y coordinate
+00F90E  1  20 D0 F8     	jsr DISP_writereg
+00F911  1  A0 00        	ldy #0
+00F913  1  A9 57        	lda #$57          ; MSB of Y coordinate
+00F915  1               
+00F915  1               
+00F915  1               	;; set up destination address
+00F915  1  A0 00        	ldy #0            ; copying to 0,0
+00F917  1  A9 58        	lda #$58          ; LSB of X coordinate
+00F919  1  20 D0 F8     	jsr DISP_writereg
+00F91C  1  A9 59        	lda #$59          ; MSB of X coordinate
+00F91E  1  20 D0 F8     	jsr DISP_writereg
+00F921  1  A9 5A        	lda #$5A          ; LSB of Y coordinate
+00F923  1  20 D0 F8     	jsr DISP_writereg
+00F926  1  A9 5B        	lda #$5B          ; MSB of Y coordinate
+00F928  1               
+00F928  1               	;; set BTE width and hight
+00F928  1  A0 20        	ldy #$20          ; width is 800 ($320)
+00F92A  1  A9 5C        	lda #$5C          ; LSB of width
+00F92C  1  20 D0 F8     	jsr DISP_writereg
+00F92F  1  A0 03        	ldy #$03
+00F931  1  A9 5D        	lda #$5D          ; MSB of width
+00F933  1  20 D0 F8     	jsr DISP_writereg
+00F936  1               
+00F936  1  A0 D0        	ldy #$D0          ; height is 464 ($1D0)
+00F938  1  A9 5E        	lda #$5E          ; LSB of X coordinate
+00F93A  1  20 D0 F8     	jsr DISP_writereg
+00F93D  1  A0 01        	ldy #$01
+00F93F  1  A9 5F        	lda #$5F          ; MSB of X coordinate
+00F941  1  20 D0 F8     	jsr DISP_writereg
+00F944  1               
+00F944  1               	;; set BTE function
+00F944  1               	;; function is "move in a positive direction". The "positive direction"
+00F944  1               	;; means that we start at the beginning and move toward the end; since
+00F944  1               	;; the source and destination regions overlap, that's what we need.
+00F944  1               	;; ROP is "destionation = source" (ie, straight copy).
+00F944  1               	;; ROP is %1100 = $C, ROP is %0010 = $02
+00F944  1               	;; result is $C2
+00F944  1  A0 C2        	ldy #$C2
+00F946  1  A9 51        	lda #$51
+00F948  1  20 D0 F8     	jsr DISP_writereg
+00F94B  1               
+00F94B  1               	;; enable BTE function
+00F94B  1  A0 80        	ldy #$80
+00F94D  1  A9 50        	lda #$50
+00F94F  1  20 D0 F8     	jsr DISP_writereg
+00F952  1               
+00F952  1               	;; wait for block transfer to complete. Read register $50 until
+00F952  1               	;; the top bit is clear.
+00F952  1               DISP_busyloop
+00F952  1  A9 50        	lda #$50
+00F954  1  20 C9 F8     	jsr DISP_readreg
+00F957  1  30 F9        	bmi DISP_busyloop
+00F959  1               
+00F959  1               		; clear bottom line
+00F959  1  20 1B F8     	JSR DISP_clearbottomline
+00F95C  1               
+00F95C  1               	;; reset color.
+00F95C  1  68           	pla
+00F95D  1  A8           	tay
+00F95E  1  A9 65        	lda #$65
+00F960  1  20 D0 F8     	jsr DISP_writereg
+00F963  1  68           	pla
+00F964  1  A8           	tay
+00F965  1  A9 64        	lda #$64
+00F967  1  20 D0 F8     	jsr DISP_writereg
+00F96A  1  68           	pla
+00F96B  1  A8           	tay
+00F96C  1  A9 63        	lda #$63
+00F96E  1  20 D0 F8     	jsr DISP_writereg
+00F971  1               
+00F971  1               
+00F971  1  CE 25 06     	DEC DISP_crow
+00F974  1  20 C8 F6     	JSR DISP_CURSOR_SETXY
 00F977  1               
-00F977  1  68           	PLA
-00F978  1  7A           	PLY
-00F979  1  FA           	PLX
-00F97A  1  60           	RTS
-00F97B  1               
-00F97B  1               ; HIGH BEEP
-00F97B  1               PWR_BEEP_HIGH
-00F97B  1  A9 F0        	LDA #BEEP_PW2		; PULSE WIDTH
-00F97D  1  8D 50 06     	STA MyTEMP
-00F980  1  20 AC F9     	JSR VARI_BEEP
-00F983  1  60           	RTS
-00F984  1               
-00F984  1               ; LOW BEEP
-00F984  1               PWR_BEEP_LOW
-00F984  1  A9 70        	LDA #BEEP_PW		; PULSE WIDTH
-00F986  1  8D 50 06     	STA MyTEMP
-00F989  1  20 AC F9     	JSR VARI_BEEP
-00F98C  1  60           	RTS
-00F98D  1               
-00F98D  1               ; ERROR BEEP called by BASIC on error
-00F98D  1               ERROR_BEEP
-00F98D  1  5A           	PHY
-00F98E  1  DA           	PHX
-00F98F  1  48           	PHA
-00F990  1               
-00F990  1  A9 00        	LDA #$00		; LOW NOTE
-00F992  1  8D 50 06     	STA MyTEMP
-00F995  1  20 AC F9     	JSR VARI_BEEP
-00F998  1  A9 00        	LDA #$00		; LOW NOTE
-00F99A  1  8D 50 06     	STA MyTEMP
-00F99D  1  20 AC F9     	JSR VARI_BEEP
-00F9A0  1  A9 00        	LDA #$00		; LOW NOTE
-00F9A2  1  8D 50 06     	STA MyTEMP
-00F9A5  1  20 AC F9     	JSR VARI_BEEP
-00F9A8  1               
-00F9A8  1  68           	PLA
-00F9A9  1  FA           	PLX
-00F9AA  1  7A           	PLY
-00F9AB  1  60           	RTS
-00F9AC  1               
-00F9AC  1               ; VARIABLE PITCH BEEP
-00F9AC  1               VARI_BEEP
-00F9AC  1  AD 50 06     	LDA MyTEMP			; PULSE WIDTH
-00F9AF  1  8D 51 06     	STA MyTEMP2			; SAVE TO USE TO CALC LENGTH
-00F9B2  1  49 FF        	EOR #$FF			; INVERT SO LOW NUMBER = LOW PITCH
-00F9B4  1  C9 00        	CMP #$0
-00F9B6  1  D0 01        	BNE VARI_BEEP_pok
-00F9B8  1  1A           	INC
-00F9B9  1               
-00F9B9  1               VARI_BEEP_pok
-00F9B9  1  8D 50 06     	STA MyTEMP
-00F9BC  1  8D 10 06     	STA MyDL
-00F9BF  1               
-00F9BF  1               	; FIGURE OUT LENGTH OF NOTE
-00F9BF  1               	;	HIGHER NOTES = MORE LOOPS
-00F9BF  1  49 FF        	EOR #$FF
-00F9C1  1  4A           	LSR
-00F9C2  1  4A           	LSR
-00F9C3  1  4A           	LSR
-00F9C4  1  18           	CLC
-00F9C5  1  69 10        	ADC #$10
-00F9C7  1  8D 11 06     	STA MyDL2
-00F9CA  1               
-00F9CA  1               VARI_BEEP_LP1
-00F9CA  1  A9 FF        	LDA #$FF
-00F9CC  1  8D A0 BF     	STA A_Beeper
-00F9CF  1  20 F0 F9     	JSR DELAY1
-00F9D2  1  CE 10 06     	DEC MyDL
-00F9D5  1  D0 F3        	BNE VARI_BEEP_LP1
-00F9D7  1               
-00F9D7  1  AD 50 06     	LDA MyTEMP
-00F9DA  1  8D 10 06     	STA MyDL
-00F9DD  1               
-00F9DD  1               VARI_BEEP_LP2
-00F9DD  1  A9 00        	LDA #$00
-00F9DF  1  8D A0 BF     	STA A_Beeper
-00F9E2  1  20 F0 F9     	JSR DELAY1
-00F9E5  1  CE 10 06     	DEC MyDL
-00F9E8  1  D0 F3        	BNE VARI_BEEP_LP2
-00F9EA  1               
-00F9EA  1  CE 11 06     	DEC MyDL2
-00F9ED  1  D0 DB        	BNE VARI_BEEP_LP1
-00F9EF  1               
-00F9EF  1  60           	RTS
-00F9F0  1               
-00F9F0  1               
-00F9F0  1               ; ------ END BEEPS
-00F9F0  1               
-00F9F0  1               
-00F9F0  1               ; Delay loop for random things
-00F9F0  1               DELAY1
-00F9F0  1  A9 05        	LDA #DELAY_LEN1
-00F9F2  1  8D 12 06     	STA MyDL3
-00F9F5  1               
-00F9F5  1               DELAY1_LP
-00F9F5  1  CE 12 06     	DEC MyDL3
-00F9F8  1  D0 FB        	BNE DELAY1_LP
-00F9FA  1               
-00F9FA  1  60           	RTS
-00F9FB  1               
-00F9FB  1               DELAY2
-00F9FB  1  A9 05        	LDA #DELAY_LEN1
-00F9FD  1  8D 12 06     	STA MyDL3
-00FA00  1               
-00FA00  1               DELAY2_LP
-00FA00  1  EA           	NOP
-00FA01  1  EA           	NOP
-00FA02  1  EA           	NOP
-00FA03  1  EA           	NOP
+00F977  1  7A           	ply               ; restore Y
+00F978  1  60           	rts
+00F979  1               
+00F979  1               ; ------ END OF DISPLAY BITS
+00F979  1               
+00F979  1               
+00F979  1               ; ------ BEEPS
+00F979  1               BEEP_CMD
+00F979  1  DA           	PHX
+00F97A  1  5A           	PHY
+00F97B  1  48           	PHA
+00F97C  1               
+00F97C  1  20 97 D4     	JSR LAB_GTBY		; GET NEXT BYTE (puts it in X)
+00F97F  1  8A           	TXA
+00F980  1  8D 50 06     	STA MyTEMP			; Used in VARI_BEEP routine
+00F983  1               
+00F983  1  20 BB F9     	JSR VARI_BEEP
+00F986  1               
+00F986  1  68           	PLA
+00F987  1  7A           	PLY
+00F988  1  FA           	PLX
+00F989  1  60           	RTS
+00F98A  1               
+00F98A  1               ; HIGH BEEP
+00F98A  1               PWR_BEEP_HIGH
+00F98A  1  A9 F0        	LDA #BEEP_PW2		; PULSE WIDTH
+00F98C  1  8D 50 06     	STA MyTEMP
+00F98F  1  20 BB F9     	JSR VARI_BEEP
+00F992  1  60           	RTS
+00F993  1               
+00F993  1               ; LOW BEEP
+00F993  1               PWR_BEEP_LOW
+00F993  1  A9 70        	LDA #BEEP_PW		; PULSE WIDTH
+00F995  1  8D 50 06     	STA MyTEMP
+00F998  1  20 BB F9     	JSR VARI_BEEP
+00F99B  1  60           	RTS
+00F99C  1               
+00F99C  1               ; ERROR BEEP called by BASIC on error
+00F99C  1               ERROR_BEEP
+00F99C  1  5A           	PHY
+00F99D  1  DA           	PHX
+00F99E  1  48           	PHA
+00F99F  1               
+00F99F  1  A9 00        	LDA #$00		; LOW NOTE
+00F9A1  1  8D 50 06     	STA MyTEMP
+00F9A4  1  20 BB F9     	JSR VARI_BEEP
+00F9A7  1  A9 00        	LDA #$00		; LOW NOTE
+00F9A9  1  8D 50 06     	STA MyTEMP
+00F9AC  1  20 BB F9     	JSR VARI_BEEP
+00F9AF  1  A9 00        	LDA #$00		; LOW NOTE
+00F9B1  1  8D 50 06     	STA MyTEMP
+00F9B4  1  20 BB F9     	JSR VARI_BEEP
+00F9B7  1               
+00F9B7  1  68           	PLA
+00F9B8  1  FA           	PLX
+00F9B9  1  7A           	PLY
+00F9BA  1  60           	RTS
+00F9BB  1               
+00F9BB  1               ; VARIABLE PITCH BEEP
+00F9BB  1               VARI_BEEP
+00F9BB  1  AD 50 06     	LDA MyTEMP			; PULSE WIDTH
+00F9BE  1  8D 51 06     	STA MyTEMP2			; SAVE TO USE TO CALC LENGTH
+00F9C1  1  49 FF        	EOR #$FF			; INVERT SO LOW NUMBER = LOW PITCH
+00F9C3  1  C9 00        	CMP #$0
+00F9C5  1  D0 01        	BNE VARI_BEEP_pok
+00F9C7  1  1A           	INC
+00F9C8  1               
+00F9C8  1               VARI_BEEP_pok
+00F9C8  1  8D 50 06     	STA MyTEMP
+00F9CB  1  8D 10 06     	STA MyDL
+00F9CE  1               
+00F9CE  1               	; FIGURE OUT LENGTH OF NOTE
+00F9CE  1               	;	HIGHER NOTES = MORE LOOPS
+00F9CE  1  49 FF        	EOR #$FF
+00F9D0  1  4A           	LSR
+00F9D1  1  4A           	LSR
+00F9D2  1  4A           	LSR
+00F9D3  1  18           	CLC
+00F9D4  1  69 10        	ADC #$10
+00F9D6  1  8D 11 06     	STA MyDL2
+00F9D9  1               
+00F9D9  1               VARI_BEEP_LP1
+00F9D9  1  A9 FF        	LDA #$FF
+00F9DB  1  8D A0 BF     	STA A_Beeper
+00F9DE  1  20 FF F9     	JSR DELAY1
+00F9E1  1  CE 10 06     	DEC MyDL
+00F9E4  1  D0 F3        	BNE VARI_BEEP_LP1
+00F9E6  1               
+00F9E6  1  AD 50 06     	LDA MyTEMP
+00F9E9  1  8D 10 06     	STA MyDL
+00F9EC  1               
+00F9EC  1               VARI_BEEP_LP2
+00F9EC  1  A9 00        	LDA #$00
+00F9EE  1  8D A0 BF     	STA A_Beeper
+00F9F1  1  20 FF F9     	JSR DELAY1
+00F9F4  1  CE 10 06     	DEC MyDL
+00F9F7  1  D0 F3        	BNE VARI_BEEP_LP2
+00F9F9  1               
+00F9F9  1  CE 11 06     	DEC MyDL2
+00F9FC  1  D0 DB        	BNE VARI_BEEP_LP1
+00F9FE  1               
+00F9FE  1  60           	RTS
+00F9FF  1               
+00F9FF  1               
+00F9FF  1               ; ------ END BEEPS
+00F9FF  1               
+00F9FF  1               
+00F9FF  1               ; Delay loop for random things
+00F9FF  1               DELAY1
+00F9FF  1  A9 05        	LDA #DELAY_LEN1
+00FA01  1  8D 12 06     	STA MyDL3
+00FA04  1               
+00FA04  1               DELAY1_LP
 00FA04  1  CE 12 06     	DEC MyDL3
-00FA07  1  D0 EC        	BNE DELAY1_LP
+00FA07  1  D0 FB        	BNE DELAY1_LP
 00FA09  1               
 00FA09  1  60           	RTS
 00FA0A  1               
-00FA0A  1               
-00FA0A  1               ; vector tables
-00FA0A  1               LAB_vec
-00FA0A  1  A2 F3        	.word	ACIAin		; byte in from simulated ACIA  	EhBASIC = V_INPT
-00FA0C  1  6A F3        	.word	ACIAout		; byte out to simulated ACIA   	EhBASIC = V_OUTP
-00FA0E  1  E9 F3        	.word	IO_LOAD		; load vector for EhBASIC		EhBASIC = V_LOAD
-00FA10  1  F7 F3        	.word	IO_SAVE		; save vector for EhBASIC		EhBASIC = V_SAVE
-00FA12  1  F8 F3        	.word   IO_DIR		; dir vector for EhBASIC		EhBASIC = V_DIR
-00FA14  1  FC F3        	.word 	IO_CLS		; CLS vector for EhBASIC		EhBASIC = V_CLS
-00FA16  1  F0 F7        	.word	IO_MODE		; MODE vector for EhBASIC		EhBASIC = V_MODE
-00FA18  1  6A F9        	.word   BEEP_CMD	; BEEP vector for EhBASIC		EhBASIC = V_BEEP
-00FA1A  1  56 F6        	.word 	DISP_TEXT_MODE ; set display back to text mode EhBASIC = V_TEXTMODE
-00FA1C  1               
-00FA1C  1               ; EhBASIC IRQ support
-00FA1C  1               IRQ_CODE
-00FA1C  1  48           	PHA				; save A
-00FA1D  1  A5 DF        	LDA	IrqBase		; get the IRQ flag byte
-00FA1F  1  4A           	LSR				; shift the set b7 to b6, and on down ...
-00FA20  1  05 DF        	ORA	IrqBase		; OR the original back in
-00FA22  1  85 DF        	STA	IrqBase		; save the new IRQ flag byte
-00FA24  1  68           	PLA				; restore A
-00FA25  1  40           	RTI
-00FA26  1               
-00FA26  1               ; EhBASIC NMI support
-00FA26  1               NMI_CODE
-00FA26  1  48           	PHA				; save A
-00FA27  1  A5 DC        	LDA	NmiBase		; get the NMI flag byte
-00FA29  1  4A           	LSR				; shift the set b7 to b6, and on down ...
-00FA2A  1  05 DC        	ORA	NmiBase		; OR the original back in
-00FA2C  1  85 DC        	STA	NmiBase		; save the new NMI flag byte
-00FA2E  1  68           	PLA				; restore A
-00FA2F  1  40           	RTI
-00FA30  1               
-00FA30  1               
-00FA30  1               
-00FA30  1               
-00FA30  1               END_CODE
-00FA30  1               
-00FA30  1               LAB_mess 					; sign on string (Console)
-00FA30  1  0D 4C 54 36  	.byte	$0D,"LT6502 - [C]Cold/[W]arm or [M]onitor ?",$00
-00FA34  1  35 30 32 20  
-00FA38  1  2D 20 5B 43  
-00FA58  1               
-00FA58  1               KYB_mess					; sign on string (Keyboard)
-00FA58  1  0D 43 2F 57  	.byte	$0D,"C/W/M ? ",$00
-00FA5C  1  2F 4D 20 3F  
-00FA60  1  20 00        
-00FA62  1               KYB_basmess_str
-00FA62  1  0D 0D 45 68  	.byte	$0D,$0D,"EhBASIC ",$00
-00FA66  1  42 41 53 49  
-00FA6A  1  43 20 00     
-00FA6D  1               KYB_wozmess_str
-00FA6D  1  0D 0D 65 57  	.byte	$0D,$0D,"eWOZMON ",$00
-00FA71  1  4F 5A 4D 4F  
-00FA75  1  4E 20 00     
-00FA78  1               
-00FA78  1               ERR_disp
-00FA78  1  0D 0A 44 5F  	.byte	$0D,$0A,"D_ERR:",$00
-00FA7C  1  45 52 52 3A  
-00FA80  1  00           
-00FA81  1               
-00FA81  1               
-00FA81  1               ; system vectors
-00FA81  1               
-00FA81  1               	.segment "VECTS"
-00FA81  1               	.org	$FFFA
+00FA0A  1               DELAY2
+00FA0A  1  A9 05        	LDA #DELAY_LEN1
+00FA0C  1  8D 12 06     	STA MyDL3
+00FA0F  1               
+00FA0F  1               DELAY2_LP
+00FA0F  1  EA           	NOP
+00FA10  1  EA           	NOP
+00FA11  1  EA           	NOP
+00FA12  1  EA           	NOP
+00FA13  1  CE 12 06     	DEC MyDL3
+00FA16  1  D0 EC        	BNE DELAY1_LP
+00FA18  1               
+00FA18  1  60           	RTS
+00FA19  1               
+00FA19  1               
+00FA19  1               ; vector tables
+00FA19  1               LAB_vec
+00FA19  1  B1 F3        	.word	ACIAin		; byte in from simulated ACIA  	EhBASIC = V_INPT
+00FA1B  1  79 F3        	.word	ACIAout		; byte out to simulated ACIA   	EhBASIC = V_OUTP
+00FA1D  1  F8 F3        	.word	IO_LOAD		; load vector for EhBASIC		EhBASIC = V_LOAD
+00FA1F  1  06 F4        	.word	IO_SAVE		; save vector for EhBASIC		EhBASIC = V_SAVE
+00FA21  1  07 F4        	.word   IO_DIR		; dir vector for EhBASIC		EhBASIC = V_DIR
+00FA23  1  0B F4        	.word 	IO_CLS		; CLS vector for EhBASIC		EhBASIC = V_CLS
+00FA25  1  FF F7        	.word	IO_MODE		; MODE vector for EhBASIC		EhBASIC = V_MODE
+00FA27  1  79 F9        	.word   BEEP_CMD	; BEEP vector for EhBASIC		EhBASIC = V_BEEP
+00FA29  1  65 F6        	.word 	DISP_TEXT_MODE ; set display back to text mode EhBASIC = V_TEXTMODE
+00FA2B  1               
+00FA2B  1               ; EhBASIC IRQ support
+00FA2B  1               IRQ_CODE
+00FA2B  1  48           	PHA				; save A
+00FA2C  1  A5 DF        	LDA	IrqBase		; get the IRQ flag byte
+00FA2E  1  4A           	LSR				; shift the set b7 to b6, and on down ...
+00FA2F  1  05 DF        	ORA	IrqBase		; OR the original back in
+00FA31  1  85 DF        	STA	IrqBase		; save the new IRQ flag byte
+00FA33  1  68           	PLA				; restore A
+00FA34  1  40           	RTI
+00FA35  1               
+00FA35  1               ; EhBASIC NMI support
+00FA35  1               NMI_CODE
+00FA35  1  48           	PHA				; save A
+00FA36  1  A5 DC        	LDA	NmiBase		; get the NMI flag byte
+00FA38  1  4A           	LSR				; shift the set b7 to b6, and on down ...
+00FA39  1  05 DC        	ORA	NmiBase		; OR the original back in
+00FA3B  1  85 DC        	STA	NmiBase		; save the new NMI flag byte
+00FA3D  1  68           	PLA				; restore A
+00FA3E  1  40           	RTI
+00FA3F  1               
+00FA3F  1               
+00FA3F  1               
+00FA3F  1               
+00FA3F  1               END_CODE
+00FA3F  1               
+00FA3F  1               LAB_banner
+00FA3F  1  0D 20 20 20  	.byte	$0D,"   __ __________ ____ ___  ___ ",$0D,$0A,"  / //_  __/ __// __// _ \|_  |",$0D,$0A," / /__/ / / _ \/__ \/ // / __/ ",$0D,$0A,"/____/_/  \___/____/\___/____/ ",$0A,$00
+00FA43  1  5F 5F 20 5F  
+00FA47  1  5F 5F 5F 5F  
+00FAC4  1               
+00FAC4  1               LAB_mess 					; sign on string (Console)
+00FAC4  1  0D 5B 43 5D  	.byte	$0D,"[C]Cold/[W]arm or [M]onitor ?",$00
+00FAC8  1  43 6F 6C 64  
+00FACC  1  2F 5B 57 5D  
+00FAE3  1               
+00FAE3  1               KYB_mess					; sign on string (Keyboard)
+00FAE3  1  0D 43 2F 57  	.byte	$0D,"C/W/M ? ",$00
+00FAE7  1  2F 4D 20 3F  
+00FAEB  1  20 00        
+00FAED  1               KYB_basmess_str
+00FAED  1  0D 0D 45 68  	.byte	$0D,$0D,"EhBASIC ",$00
+00FAF1  1  42 41 53 49  
+00FAF5  1  43 20 00     
+00FAF8  1               KYB_wozmess_str
+00FAF8  1  0D 0D 65 57  	.byte	$0D,$0D,"eWOZMON ",$00
+00FAFC  1  4F 5A 4D 4F  
+00FB00  1  4E 20 00     
+00FB03  1               
+00FB03  1               ERR_disp
+00FB03  1  0D 0A 44 5F  	.byte	$0D,$0A,"D_ERR:",$00
+00FB07  1  45 52 52 3A  
+00FB0B  1  00           
+00FB0C  1               
+00FB0C  1               
+00FB0C  1               ; system vectors
+00FB0C  1               
+00FB0C  1               	.segment "VECTS"
+00FB0C  1               	.org	$FFFA
 00FFFA  1               
 00FFFA  1  17 02        	.word	NMI_vec		; NMI vector
 00FFFC  1  00 F3        	.word	RES_vec		; RESET vector
