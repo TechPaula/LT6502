@@ -365,164 +365,21 @@ DISP_INIT
 	JMP DISP_ERR
 
 DISP_OK	
-		; soft reset
-	LDA #$01
-	STA DISP_RG
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$01
-	STA DISP_RG
-	LDA #$00
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
 
-		; PLL init (800x480)
-	LDA #$88
-	STA DISP_RG
-	LDA #$0A
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$89
-	STA DISP_RG
-	LDA #$02
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
+	; 56 bytes in our initialisation array
+	LDX #$00
+DISP_initloop
+	LDA	DISP_INIT_data,X		; get REGISTER value from array
+	INX
+	LDY DISP_INIT_data,X		; get DATA value from array
+	JSR DISP_writereg			; WRITE DATA
+	INX
+	TXA
+	CMP #56
+	BNE DISP_initloop
 
-		; Set colour depth and interface width
-	LDA #$10
-	STA DISP_RG
-	LDA #$00
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	
-		; Set pixelclk
-	LDA #$04
-	STA DISP_RG
-	LDA #$81
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-
-		; Horizontal set
-	LDA #$14
-	STA DISP_RG
-	LDA #$63
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$15
-	STA DISP_RG
-	LDA #$00
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$16
-	STA DISP_RG
-	LDA #$03
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$17
-	STA DISP_RG
-	LDA #$03
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$18
-	STA DISP_RG
-	LDA #$0B
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	
-		; Vertical set
-	LDA #$19
-	STA DISP_RG
-	LDA #$DF
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$1A
-	STA DISP_RG
-	LDA #$01
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$1B
-	STA DISP_RG
-	LDA #$1F
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$1C
-	STA DISP_RG
-	LDA #$00
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$1D
-	STA DISP_RG
-	LDA #$16
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$1E
-	STA DISP_RG
-	LDA #$00
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$1F
-	STA DISP_RG
-	LDA #$01
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-
-		; Active window
-	LDA #$30
-	STA DISP_RG
-	LDA #$00
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$31
-	STA DISP_RG
-	LDA #$00
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$34
-	STA DISP_RG
-	LDA #$1F
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$35
-	STA DISP_RG
-	LDA #$03
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$32
-	STA DISP_RG
-	LDA #$00
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$33
-	STA DISP_RG
-	LDA #$00
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$36
-	STA DISP_RG
-	LDA #$DF
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$37
-	STA DISP_RG
-	LDA #$01
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-
-		; Display on
-	LDA #$01
-	STA DISP_RG
-	LDA #$80
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$C7
-	STA DISP_RG
-	LDA #$01
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-		
 	JSR DISP_CLR_SCREEN	
 	JSR DISP_TEXT_MODE
-
 	JSR DISP_CURSOR_SETXY
 	PHA
 	LDA #%11100100
@@ -541,68 +398,18 @@ DISP_CLR_SCREEN			; Fills the screen with black
 	PHA
 	PHX
 	PHY
-
-	LDA #$91
-	STA DISP_RG
-	LDA #$00
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$92
-	STA DISP_RG
-	LDA #$00
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$93
-	STA DISP_RG
-	LDA #$00
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$94
-	STA DISP_RG
-	LDA #$00
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$95
-	STA DISP_RG
-	LDA #$1F
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$96
-	STA DISP_RG
-	LDA #$03
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$97
-	STA DISP_RG
-	LDA #$DF
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$98
-	STA DISP_RG
-	LDA #$01
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-
-	LDA #$63				; RED colour, bits 0,1,2
-	STA DISP_RG
-	LDA #$00
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$64				; GREEN colour, bits 0,1,2
-	STA DISP_RG
-	LDA #$00
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$65				; BLUE colour, bits 0,1
-	STA DISP_RG
-	LDA #$00
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$90				; Start fill
-	STA DISP_RG
-	LDA #$B0
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
+			
+	; 24 bytes in our clear array
+	LDX #$00
+DISP_clrloop
+	LDA	DISP_CLR_data,X		; get REGISTER value from array
+	INX
+	LDY DISP_CLR_data,X		; get DATA value from array
+	JSR DISP_writereg
+	INX
+	TXA
+	CMP #24
+	BNE DISP_clrloop
 
 DISP_fillcomp	
 	LDA #$90				; CHECK IF WE'RE DONE
@@ -635,39 +442,28 @@ DISP_TEXT_MODE
 	PHY
 
 	LDA #$40
-	STA DISP_RG
-	LDA #$E0
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
+	LDY #$E0
+	JSR DISP_writereg
+	
 	LDA #$44
-	STA DISP_RG
-	LDA #$20
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
+	LDY #$20
+	JSR DISP_writereg
 
 	LDA #$21			; FONT control register 0
-	STA DISP_RG
-	LDA #$00
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
+	LDY #$00
+	JSR DISP_writereg
 
 	LDA #$22			; FONT control register 1
-	STA DISP_RG
-	LDA #$00
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
+	LDY #$00
+	JSR DISP_writereg
 
 	LDA #$29			; FONT distance setting register
-	STA DISP_RG
-	LDA #$00
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
+	LDY #$00
+	JSR DISP_writereg
 
 	LDA #$2E			; FONT write type setting register
-	STA DISP_RG
-	LDA #$00
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
+	LDY #$00
+	JSR DISP_writereg
 
 	PLY
 	PLX
@@ -894,69 +690,19 @@ DISP_clearbottomline
 	PHA
 	PHX
 	PHY
-					; START
-	LDA #$91
-	STA DISP_RG
-	LDA #$00			; X LSBYTE
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$92
-	STA DISP_RG
-	LDA #$00			; X MSBYTE
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$93
-	STA DISP_RG
-	LDA #$D0			; Y LSBYTE
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$94
-	STA DISP_RG
-	LDA #$01			; Y MSBYTE
-	STA DISP_DT
-					; END
-	JSR DISP_CHK_BUSY
-	LDA #$95
-	STA DISP_RG
-	LDA #$1F			; X LSBYTE
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$96
-	STA DISP_RG
-	LDA #$03			; X MSBYTE
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$97
-	STA DISP_RG
-	LDA #$DF			; Y LSBYTE
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$98
-	STA DISP_RG
-	LDA #$01			; Y MSBYTE
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
 
-	LDA #$63				; RED colour, bits 0,1,2
-	STA DISP_RG
-	LDA #$00
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$64				; GREEN colour, bits 0,1,2
-	STA DISP_RG
-	LDA #$00
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$65				; BLUE colour, bits 0,1
-	STA DISP_RG
-	LDA #$00
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
-	LDA #$90				; Start fill
-	STA DISP_RG
-	LDA #$B0
-	STA DISP_DT
-	JSR DISP_CHK_BUSY
+	; 24 bytes in our clear bottom line array
+	LDX #$00
+DISP_clrbotlineloop
+	LDA	DISP_bottomline_data,X	; get REGISTER value from array
+	INX
+	LDY DISP_bottomline_data,X	; get DATA value from array
+	JSR DISP_writereg
+	INX
+	TXA
+	CMP #24
+	BNE DISP_clrbotlineloop
+
 
 	LDA #$90				; CHECK IF WE'RE DONE
 	STA DISP_RG
@@ -1002,8 +748,10 @@ DISP_doscrollup
 	ldy #0
 	lda #$63
 	jsr DISP_writereg
+	ldy #0
 	lda #$64
 	jsr DISP_writereg
+	ldy #0
 	lda #$65
 	jsr DISP_writereg
 
@@ -1022,17 +770,22 @@ DISP_doscrollup
 	jsr DISP_writereg
 	ldy #0
 	lda #$57          ; MSB of Y coordinate
+	jsr DISP_writereg
 	
 
 	;; set up destination address
 	ldy #0            ; copying to 0,0
 	lda #$58          ; LSB of X coordinate
 	jsr DISP_writereg
+	ldy #0
 	lda #$59          ; MSB of X coordinate
 	jsr DISP_writereg
+	ldy #0
 	lda #$5A          ; LSB of Y coordinate
 	jsr DISP_writereg
+	ldy #0
 	lda #$5B          ; MSB of Y coordinate
+	jsr DISP_writereg
 
 	;; set BTE width and hight
 	ldy #$20          ; width is 800 ($320)
@@ -1321,6 +1074,28 @@ NMI_CODE
 
 
 END_CODE
+
+DISP_INIT_data 		 	; order is reg, then data, 56 BYTES
+	.byte  	$01,$01,$01,$00,$88,$0A,$89,$02,$10,$00,$04,$81,$14,$63,$15,$00
+	.byte	$16,$03,$17,$03,$18,$0B,$19,$DF,$1A,$01,$1B,$1F,$1C,$00,$1D,$16
+	.byte	$1E,$00,$1F,$01,$30,$00,$31,$00,$34,$1F,$35,$03,$32,$00,$33,$00
+	.byte	$36,$DF,$37,$01,$01,$80,$C7,$01
+
+DISP_CLR_data 		 	; order is reg, then data, 24 BYTES
+	.byte	$91,$00,$92,$00,$93,$00,$94,$00,$95,$1F,$96,$03,$97,$DF,$98,$01
+	.byte	$63,$00,$64,$00,$65,$00,$90,$B0
+
+DISP_bottomline_data	; order is reg, then data, 24 BYTES
+	.byte 	$91,$00,$92,$00,$93,$D0,$94,$01,$95,$1F,$96,$03,$97,$DF,$98,$01
+	.byte	$63,$00,$64,$00,$65,$00,$90,$B0
+
+DISP_doscroll_data		; order is reg, data, 34 bytes
+	.byte	$00,$63,$00,$64,$00,$65,$00,$54,$00,$55,$10,$56,$00,$57,$00,$58
+	.byte	$00,$59,$00,$5A,$00,$5B,$20,$5C,$03,$5D,$D0,$5E,$01,$5F,$C2,$51
+	.byte	$80,$50
+
+
+
 
 	; banner done with https://www.asciiart.eu/text-to-ascii-art
 LAB_banner
