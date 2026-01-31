@@ -890,8 +890,6 @@ IO_MODE_exit
 	PLY
 	RTS
 
-
-
 DISP_clearbottomline	
 	PHA
 	PHX
@@ -1098,6 +1096,62 @@ DISP_busyloop
 	ply               ; restore Y
 	rts
 
+
+DISP_PLOT				; PLOT XXXX,YYYY,CC
+	PHA
+	PHX
+	PHY
+			; GET PARAMETERS AND SAVE THEM
+	JSR LAB_EVNM		; evaluate expression and check is numeric,
+                        ; else do type mismatch
+	JSR LAB_F2FX        ; save integer part of FAC1 in temporary integer
+
+	LDA	Itemph
+	STA DISP_posx_h
+	LDA	Itempl
+	STA DISP_posx_l
+
+	JSR LAB_1C01        ; scan for "," , else do syntax error then warm start
+
+	JSR LAB_EVNM        ; evaluate expression and check is numeric,
+                        ; else do type mismatch
+	JSR LAB_F2FX        ; save integer part of FAC1 in temporary integer
+
+	LDA	Itemph
+	STA DISP_posy_h
+	LDA	Itempl
+	STA DISP_posy_l
+
+	JSR LAB_SGBY		; Scan for "," and get next byte, return in X
+	TXA
+	STA DISP_col_l
+			; PLOT THE DOT
+	LDY DISP_posx_l
+	LDA #$46
+	JSR DISP_writereg
+
+	LDY DISP_posx_h
+	LDA #$47
+	JSR DISP_writereg
+
+	LDY DISP_posy_l
+	LDA #$48
+	JSR DISP_writereg
+
+	LDY DISP_posy_h
+	LDA #$49
+	JSR DISP_writereg
+
+	LDY DISP_col_l
+	LDA #$02
+	JSR DISP_writereg
+
+
+	PLY
+	PLX
+	PLA
+	RTS
+
 ; ------ END OF DISPLAY BITS
 
 
@@ -1240,6 +1294,7 @@ LAB_vec
 	.word   BEEP_CMD	; BEEP vector for EhBASIC		EhBASIC = V_BEEP
 	.word	EWOZ		; WOZMON vector					EhBASIC = V_WOZMON
 	.word	DISP_TEXT_COLOUR	; COLOUR vector			EhBASIC = V_COLOUR
+	.word	DISP_PLOT	; PLOT vector					EhBASIC = V_PLOT
 	.word 	DISP_TEXT_MODE ; set display back to text mode EhBASIC = V_TEXTMODE
 
 ; EhBASIC IRQ support

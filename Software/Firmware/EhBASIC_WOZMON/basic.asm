@@ -377,9 +377,10 @@ TK_MODE           = TK_CLS+1        ; ?  MODE         VERY NEW COMMAND  $AD
 TK_BEEP           = TK_MODE+1       ; ?  BEEP         VERY NEW COMMAND  
 TK_WOZMON         = TK_BEEP+1       ; ?  jsr to wozmon
 TK_COLOUR         = TK_WOZMON+1     ; ?  text colour
+TK_PLOT           = TK_COLOUR+1     ; ?  PLOT SINGLE PIXEL
 
 ; secondary command tokens, can't start a statement
-TK_TAB            = TK_COLOUR+1     ; TAB token       ;? REMEMBER TO CHANGE THIS WHEN ADDING NEW COMMANDS   
+TK_TAB            = TK_PLOT+1       ; TAB token       ;? REMEMBER TO CHANGE THIS WHEN ADDING NEW COMMANDS   
 TK_ELSE           = TK_TAB+1        ; ELSE token      $AF
 TK_TO             = TK_ELSE+1       ; TO token        $B0
 TK_FN             = TK_TO+1         ; FN token
@@ -477,7 +478,8 @@ VEC_MODE          = VEC_CLS+2       ; MODE vector
 VEC_BEEP          = VEC_MODE+2      ; BEEP vector
 VEC_WOZMON        = VEC_BEEP+2      ; WOZMON vector
 VEC_COLOUR        = VEC_WOZMON+2    ; COLOUR vector
-VEC_DISPTEXT      = VEC_COLOUR+2    ; reset display back to text (used on error/break)
+VEC_PLOT          = VEC_COLOUR+2    ; PLOT vector
+VEC_DISPTEXT      = VEC_PLOT+2      ; reset display back to text (used on error/break)
 ; end bulk initialize by min_mon.asm from LAB_vec at LAB_stlp
 
 ; Ibuffs can now be anywhere in RAM, ensure that the max length is < $80,
@@ -7947,7 +7949,9 @@ V_BEEP
 V_WOZMON
       JMP   (VEC_WOZMON)      ; wozmon call
 V_COLOUR
-      JMP   (VEC_COLOUR)      ; COLOUR command      
+      JMP   (VEC_COLOUR)      ; COLOUR command   
+V_PLOT
+      JMP   (VEC_PLOT)        ; PLOT command
 V_DISPTEXT
       JMP   (VEC_DISPTEXT)
 ; The rest are tables messages and code for RAM
@@ -8201,6 +8205,7 @@ LAB_CTBL
       .word V_BEEP-1          ; ? BEEP          new command added by PAM
       .word V_WOZMON-1        ; ? WOZMON        calls wozmon, handy for dbeugging
       .word V_COLOUR-1        ; ? COLOUR        Sets text colour
+      .word V_PLOT-1          ; ? PLOT          PLOT a single pixel
 ; function pre process routine table
 
 LAB_FTPL
@@ -8561,6 +8566,8 @@ LBB_PEEK
       .byte "EEK(",TK_PEEK    ; PEEK(
 LBB_PI
       .byte "I",TK_PI         ; PI
+LBB_PLOT
+      .byte "LOT",TK_PLOT     ; ? PLOT      
 LBB_POKE
       .byte "OKE",TK_POKE     ; POKE
 LBB_POS
@@ -8762,6 +8769,8 @@ LAB_KEYT
       .word LBB_WOZMON        ; ? WOZMON     VERY NEW COMMAND
       .byte 6,'C'
       .word LBB_COLOUR        ; ? COLOUR     VERY NEW COMMAND
+      .byte 4,'P'
+      .word LBB_PLOT          ; ? PLOT
 
 
 ; secondary commands (can't start a statement)
