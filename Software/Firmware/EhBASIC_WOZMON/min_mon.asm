@@ -6,8 +6,7 @@
 ; TODO - Add cursor move command  
 ; TODO - Move ALL the writing of RG and DT into a table to be read by a loop (save code space)
 ; TODO - compact flash LOAD/SAVE/DIR
-; TODO - Add, if possible, more versatile beep, something with pitch and length?
-; TODO - Make wozmon work with LCD and KEYBOARD
+; TODO - Add, if possible, more versatile beep, something with more pitch range and length?
 
 	.feature labels_without_colons
 	.feature force_range
@@ -93,7 +92,7 @@ DISP_posh_h		= $62D	; height high byte
 DISP_posh_l		= $62E	; height low byte
 DISP_col_l		= $62F	; colour for line or outline
 DISP_col_f		= $630	; colour for fill
-DISP_col_t		= $631  ; TEXT colour
+DISP_col_t		= $631  ; colour for TEXT
 
 			; Bunch of temporary values
 MyTEMP			= $650
@@ -136,18 +135,35 @@ LAB_stlp
 	JSR DISP_INIT		; initialise screen
 	JSR PWR_BEEP_HIGH	; beep after display init
 
+	; Set colours
+	LDA #%11111100
+	STA DISP_col_t
+	JSR DISP_TEXT_COLOUR_direct
 	LDY #$0
 LAB_dobanner
 	LDA	LAB_banner,Y	; get byte from sign on message
-	BEQ LAB_presignon		; display next message
+	CMP #$0D
+	BNE LAB_dobanner_char
+	JSR	V_OUTP			; output character (CR)
+	DEC DISP_col_t		; Change colour based on row
+	DEC DISP_col_t
+	DEC DISP_col_t
+	DEC DISP_col_t
+	JSR DISP_TEXT_COLOUR_direct
 
+LAB_dobanner_char
+	CMP #$00
+	BEQ LAB_presignon	; display next message
 	JSR	V_OUTP			; output character
 	INY					; increment index
 	BNE	LAB_dobanner	; loop, branch always
 
-
 LAB_presignon
 	LDY #$0
+	LDA #%11100100
+	STA DISP_col_t
+	JSR DISP_TEXT_COLOUR_direct
+
 LAB_signon				; now do the signon message, Y = $00 here
 	LDA	LAB_mess,Y		; get byte from sign on message
 	BEQ KYB_msg			; display next message
@@ -1251,8 +1267,14 @@ NMI_CODE
 
 END_CODE
 
+	; banner done with https://www.asciiart.eu/text-to-ascii-art
 LAB_banner
-	.byte	$0D,"   __ __________ ____ ___  ___ ",$0D,$0A,"  / //_  __/ __// __// _ \|_  |",$0D,$0A," / /__/ / / _ \/__ \/ // / __/ ",$0D,$0A,"/____/_/  \___/____/\___/____/ ",$0A,$00
+	.byte	$0D,"    __   ______ _____  ______ ____  ___ ",$0D,$0A		; "  <- stops weird colours in editor
+	.byte		"   / /  /_  __// ___/ / ____// __ \|__ \",$0D,$0A		; "  <- stops weird colours in editor  
+	.byte		"  / /    / /  / __ \ /___ \ / / / /__/ /",$0D,$0A		; "  <- stops weird colours in editor    
+	.byte		" / /___ / /  / /_/ /____/ // /_/ // __/ ",$0D,$0A		; "  <- stops weird colours in editor    
+	.byte		"/_____//_/   \____//_____/ \____//____/ ",$0A,$00		; "  <- stops weird colours in editor    
+
 
 LAB_mess 					; sign on string (Console)
 	.byte	$0D,"[C]Cold/[W]arm or [M]onitor ?",$00
