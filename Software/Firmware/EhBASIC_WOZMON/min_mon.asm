@@ -82,8 +82,20 @@ DISP_temp		= $623
 DISP_ccol		= $624	; current coloumn (useful for delete)
 DISP_crow		= $625	; current row (used for scrolling)
 DISP_initcom	= $626
+			; lines below used for plot, square, circle, line, etc
+DISP_posx_h		= $627	; X position high byte
+DISP_posx_l		= $628	; X position low byte
+DISP_posy_h		= $629	; Y position high byte
+DISP_posy_l		= $62A	; Y position low byte
+DISP_posw_h		= $62B	; width high byte
+DISP_posw_l		= $62C	; width low byte
+DISP_posh_h		= $62D	; height high byte
+DISP_posh_l		= $62E	; height low byte
+DISP_col_l		= $62F	; colour for line or outline
+DISP_col_f		= $630	; colour for fill
+DISP_col_t		= $631  ; TEXT colour
 
-
+			; Bunch of temporary values
 MyTEMP			= $650
 MyTEMP2			= $651
 MyTEMP3			= $652
@@ -496,8 +508,11 @@ DISP_OK
 	JSR DISP_TEXT_MODE
 
 	JSR DISP_CURSOR_SETXY
-	JSR DISP_TEXT_COLOUR
-
+	PHA
+	LDA #%11100100
+	STA DISP_col_t
+	JSR DISP_TEXT_COLOUR_direct
+	PLA
 	RTS
 	; end of DISP_INIT
 
@@ -588,7 +603,6 @@ DISP_resetxy
 	PLY
 	PLX
 	PLA
-
 	RTS
 
 DISP_CLS
@@ -596,7 +610,7 @@ DISP_CLS
 	JSR DISP_TEXT_MODE
 
 	JSR DISP_CURSOR_SETXY
-	JSR DISP_TEXT_COLOUR	
+	JSR DISP_TEXT_COLOUR_direct
 	RTS
 
 DISP_TEXT_MODE
@@ -710,19 +724,35 @@ DISP_CURSOR_SETXY
 	RTS
 
 DISP_TEXT_COLOUR
+	JSR LAB_GTBY		; GET NEXT BYTE (puts it in X)
+	TXA
+	STA DISP_col_t		; Used in VARI_BEEP routine
+
+DISP_TEXT_COLOUR_direct
 	LDA #$63			; RED colour, bits 0,1,2
 	STA DISP_RG
-	LDA #$07
+	LDA DISP_col_t		; get text colour
+	LSR
+	LSR
+	LSR
+	LSR
+	LSR
 	STA DISP_DT
 	JSR DISP_CHK_BUSY
+
 	LDA #$64			; GREEN colour, bits 0,1,2
 	STA DISP_RG
-	LDA #$01
+	LDA DISP_col_t		; get text colour
+	AND #%00011100
+	LSR
+	LSR
 	STA DISP_DT
 	JSR DISP_CHK_BUSY
+
 	LDA #$65			; BLUE colour, bits 0,1,2
 	STA DISP_RG
-	LDA #$00
+	LDA DISP_col_t		; get text colour
+	AND #%00000011
 	STA DISP_DT
 	JSR DISP_CHK_BUSY
 	RTS
@@ -1192,6 +1222,8 @@ LAB_vec
 	.word 	IO_CLS		; CLS vector for EhBASIC		EhBASIC = V_CLS
 	.word	IO_MODE		; MODE vector for EhBASIC		EhBASIC = V_MODE
 	.word   BEEP_CMD	; BEEP vector for EhBASIC		EhBASIC = V_BEEP
+	.word	EWOZ		; WOZMON vector					EhBASIC = V_WOZMON
+	.word	DISP_TEXT_COLOUR	; COLOUR vector			EhBASIC = V_COLOUR
 	.word 	DISP_TEXT_MODE ; set display back to text mode EhBASIC = V_TEXTMODE
 
 ; EhBASIC IRQ support

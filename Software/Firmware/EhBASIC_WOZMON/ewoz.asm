@@ -153,7 +153,7 @@ ACTRUN:
 
 LOADINT:
       JSR LOADINTEL   ;* Load the Intel code.
-      JMP   SOFTRESET ;* When returned from the program, reset EWOZ.
+      JMP SOFTRESET   ;* When returned from the program, reset EWOZ.
 
 NOESCAPE:
       BIT MODE        ;Test MODE byte.

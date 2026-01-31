@@ -375,9 +375,11 @@ TK_DIR            = TK_NMI+1        ; ?  DIR          VERY NEW COMMAND  $AB
 TK_CLS            = TK_DIR+1        ; ?  CLS          VERY NEW COMMAND  $AC
 TK_MODE           = TK_CLS+1        ; ?  MODE         VERY NEW COMMAND  $AD
 TK_BEEP           = TK_MODE+1       ; ?  BEEP         VERY NEW COMMAND  
+TK_WOZMON         = TK_BEEP+1       ; ?  jsr to wozmon
+TK_COLOUR         = TK_WOZMON+1     ; ?  text colour
 
 ; secondary command tokens, can't start a statement
-TK_TAB            = TK_BEEP+1       ; TAB token       ;? REMEMBER TO CHANGE THIS WHEN ADDING NEW COMMANDS   
+TK_TAB            = TK_COLOUR+1     ; TAB token       ;? REMEMBER TO CHANGE THIS WHEN ADDING NEW COMMANDS   
 TK_ELSE           = TK_TAB+1        ; ELSE token      $AF
 TK_TO             = TK_ELSE+1       ; TO token        $B0
 TK_FN             = TK_TO+1         ; FN token
@@ -465,15 +467,17 @@ VEC_CC            = ccnull+1  ; ctrl c check vector
 ; end bulk initialize from PG2_TABS at LAB_COLD
 
 ; the following locations are bulk initialized by min_mon.asm from LAB_vec at LAB_stlp
-VEC_IN            = VEC_CC+2  ; input vector
-VEC_OUT           = VEC_IN+2  ; output vector
-VEC_LD            = VEC_OUT+2 ; load vector
-VEC_SV            = VEC_LD+2  ; save vector
-VEC_DIR           = VEC_SV+2  ; dir vector
-VEC_CLS           = VEC_DIR+2 ; CLS vector
-VEC_MODE          = VEC_CLS+2 ; MODE vector
-VEC_BEEP          = VEC_MODE+2; BEEP vector
-VEC_DISPTEXT      = VEC_BEEP+2; reset display back to text (used on error/break)
+VEC_IN            = VEC_CC+2        ; input vector
+VEC_OUT           = VEC_IN+2        ; output vector
+VEC_LD            = VEC_OUT+2       ; load vector
+VEC_SV            = VEC_LD+2        ; save vector
+VEC_DIR           = VEC_SV+2        ; dir vector
+VEC_CLS           = VEC_DIR+2       ; CLS vector
+VEC_MODE          = VEC_CLS+2       ; MODE vector
+VEC_BEEP          = VEC_MODE+2      ; BEEP vector
+VEC_WOZMON        = VEC_BEEP+2      ; WOZMON vector
+VEC_COLOUR        = VEC_WOZMON+2    ; COLOUR vector
+VEC_DISPTEXT      = VEC_COLOUR+2    ; reset display back to text (used on error/break)
 ; end bulk initialize by min_mon.asm from LAB_vec at LAB_stlp
 
 ; Ibuffs can now be anywhere in RAM, ensure that the max length is < $80,
@@ -7940,6 +7944,10 @@ V_MODE
       JMP   (VEC_MODE)        ; MODE BASIC command
 V_BEEP
       JMP   (VEC_BEEP)         ; CLS BASIC command
+V_WOZMON
+      JMP   (VEC_WOZMON)      ; wozmon call
+V_COLOUR
+      JMP   (VEC_COLOUR)      ; COLOUR command      
 V_DISPTEXT
       JMP   (VEC_DISPTEXT)
 ; The rest are tables messages and code for RAM
@@ -8191,6 +8199,8 @@ LAB_CTBL
       .word V_CLS-1           ; ? CLS           very new added by PAM
       .word V_MODE-1          ; ? MODE          very new, added by PAM
       .word V_BEEP-1          ; ? BEEP          new command added by PAM
+      .word V_WOZMON-1        ; ? WOZMON        calls wozmon, handy for dbeugging
+      .word V_COLOUR-1        ; ? COLOUR        Sets text colour
 ; function pre process routine table
 
 LAB_FTPL
@@ -8430,6 +8440,8 @@ LBB_CLEAR
       .byte "LEAR",TK_CLEAR   ; CLEAR
 LBB_CLS
       .byte "LS",TK_CLS       ; ? CLS    very new command
+LBB_COLOUR
+      .byte "OLOUR",TK_COLOUR ; ? COLOUR  
 LBB_CONT
       .byte "ONT",TK_CONT     ; CONT
 LBB_COS
@@ -8634,6 +8646,9 @@ LBB_WHILE
       .byte "HILE",TK_WHILE   ; WHILE
 LBB_WIDTH
       .byte "IDTH",TK_WIDTH   ; WIDTH
+LBB_WOZMON
+      .byte "OZMON",TK_WOZMON ; ? WOZMON   very new command
+
       .byte $00
 
 TAB_POWR
@@ -8743,6 +8758,10 @@ LAB_KEYT
       .word LBB_MODE          ; ? MODE     VERY NEW COMMAND
       .byte 4,'B'
       .word LBB_BEEP          ; ? BEEP     VERY NEW COMMAND
+      .byte 6,'W'
+      .word LBB_WOZMON        ; ? WOZMON     VERY NEW COMMAND
+      .byte 6,'C'
+      .word LBB_COLOUR        ; ? COLOUR     VERY NEW COMMAND
 
 
 ; secondary commands (can't start a statement)
