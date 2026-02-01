@@ -8,6 +8,7 @@
 60 PRINT "LT6502 Bubbleverse"
 65 T = 0
 70 INPUT "Start";T
+75 CLS
 110 N = 200
 120 TA = (2*PI)/235
 130 R = TA / 235
