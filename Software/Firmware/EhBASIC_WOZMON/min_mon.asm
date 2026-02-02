@@ -101,6 +101,8 @@ MyTEMP			= $650
 MyTEMP2			= $651
 MyTEMP3			= $652
 
+OutK_Y			= $655
+OutK_X			= $656
 
 
 ; now the code. all this does is set up the vectors and interrupt code
@@ -1104,6 +1106,60 @@ VARI_BEEP_LP2
 
 ; ------ END BEEPS
 
+; ----- OUTK send text to keyboard display
+;			we always print to the next character, don't need ; or , 
+;			CRLF is not auto sent
+OUTK
+	PHY
+	PHX
+	PHA
+
+	; send result to keyboard
+    JSR LAB_EVEX        ; evaluate expression
+    BIT Dtypef          ; test data type flag, $FF=string, $00=numeric
+    BMI OUTK_string     ; branch if string
+	JSR LAB_296E        ; convert FAC1 to string
+
+	LDY #$00			; Reset offset
+OUTK_lp	
+	LDA $00F0,Y			; Read string
+	CMP #$00
+	BEQ OUTK_exit		; if end of string, exit
+	CMP #$20			
+	BEQ OUTK_skip		; if " " then skip
+	JSR KEYBout			; send character
+
+OUTK_skip	
+	INY
+	JMP OUTK_lp
+
+OUTK_exit
+	PLA
+	PLX
+	PLY
+	RTS
+
+OUTK_string
+	LDA #$0D				; Clear the display BEFORE sending text
+	JSR KEYBout
+
+	JSR LAB_22B6        ; pop string off descriptor stack, or from top of string
+						; space returns with A = length, X=$71=pointer low byte,
+						; Y=$72=pointer high byte
+	LDY #$00           	; reset index
+	TAX                 ; copy length to X
+	BEQ OUTK_exit       ; exit (RTS) if null string
+
+OUTK_string_loop
+	LDA (ut1_pl),Y     		; get next byte
+	JSR KEYBout          	; go print the character
+	INY                     ; increment index
+	DEX                     ; decrement count
+	BNE OUTK_string_loop  	; loop if not done yet
+
+	JMP OUTK_exit
+; ----- END OF OUTK
+
 
 ; Delay loop for random things
 DELAY1
@@ -1145,6 +1201,7 @@ LAB_vec
 	.word	DISP_TEXT_COLOUR	; COLOUR vector			EhBASIC = V_COLOUR
 	.word	DISP_PLOT	; PLOT vector					EhBASIC = V_PLOT
 	.word	DISP_CIRCLE	; CIRCLE vector					EhBASIC = V_CIRCLE
+	.word 	OUTK		; OUTK vector					EhBASIC = V_OUTK
 	.word 	DISP_TEXT_MODE ; set display back to text mode EhBASIC = V_TEXTMODE
 
 ; EhBASIC IRQ support

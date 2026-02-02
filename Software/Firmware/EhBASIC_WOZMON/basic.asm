@@ -379,9 +379,10 @@ TK_WOZMON         = TK_BEEP+1       ; ?  jsr to wozmon
 TK_COLOUR         = TK_WOZMON+1     ; ?  text colour
 TK_PLOT           = TK_COLOUR+1     ; ?  PLOT SINGLE PIXEL
 TK_CIRCLE         = TK_PLOT+1       ; ?  CIRCLE
+TK_OUTK           = TK_CIRCLE+1     ; ?  OUTK
 
 ; secondary command tokens, can't start a statement
-TK_TAB            = TK_CIRCLE+1       ; TAB token       ;? REMEMBER TO CHANGE THIS WHEN ADDING NEW COMMANDS   
+TK_TAB            = TK_OUTK+1       ; TAB token       ;? REMEMBER TO CHANGE THIS WHEN ADDING NEW COMMANDS   
 TK_ELSE           = TK_TAB+1        ; ELSE token      $AF
 TK_TO             = TK_ELSE+1       ; TO token        $B0
 TK_FN             = TK_TO+1         ; FN token
@@ -480,8 +481,9 @@ VEC_BEEP          = VEC_MODE+2      ; BEEP vector
 VEC_WOZMON        = VEC_BEEP+2      ; WOZMON vector
 VEC_COLOUR        = VEC_WOZMON+2    ; COLOUR vector
 VEC_PLOT          = VEC_COLOUR+2    ; PLOT vector
-VEC_CIRCLE        = VEC_PLOT+2    ; PLOT vector
-VEC_DISPTEXT      = VEC_CIRCLE+2      ; reset display back to text (used on error/break)
+VEC_CIRCLE        = VEC_PLOT+2      ; CIRCLE vector
+VEC_OUTK          = VEC_CIRCLE+2    ; OUTK vector
+VEC_DISPTEXT      = VEC_OUTK+2      ; reset display back to text (used on error/break)
 ; end bulk initialize by min_mon.asm from LAB_vec at LAB_stlp
 
 ; Ibuffs can now be anywhere in RAM, ensure that the max length is < $80,
@@ -7956,6 +7958,8 @@ V_PLOT
       JMP   (VEC_PLOT)        ; PLOT command
 V_CIRCLE
       JMP   (VEC_CIRCLE)      ; CIRCLE command   
+V_OUTK
+      JMP   (VEC_OUTK)        ; OUTK command
 V_DISPTEXT
       JMP   (VEC_DISPTEXT)
 ; The rest are tables messages and code for RAM
@@ -8211,6 +8215,7 @@ LAB_CTBL
       .word V_COLOUR-1        ; ? COLOUR        Sets text colour
       .word V_PLOT-1          ; ? PLOT          PLOT a single pixel
       .word V_CIRCLE-1        ; ? CIRCLE        CIRCLE draw a circle
+      .word V_OUTK-1          ; ? OUTK    
 ; function pre process routine table
 
 LAB_FTPL
@@ -8567,6 +8572,8 @@ LBB_ON
       .byte "N",TK_ON         ; ON
 LBB_OR
       .byte "R",TK_OR         ; OR
+LBB_OUTK
+      .byte "UTK",TK_OUTK     ; OUTK
       .byte $00
 TAB_ASCP
 LBB_PEEK
@@ -8780,6 +8787,8 @@ LAB_KEYT
       .word LBB_PLOT          ; ? PLOT
       .byte 6,'C'
       .word LBB_CIRCLE        ; ? CIRCLE     VERY NEW COMMAND
+      .byte 4,'O'
+      .word LBB_OUTK          ; ? OUTK
 
 
 ; secondary commands (can't start a statement)
