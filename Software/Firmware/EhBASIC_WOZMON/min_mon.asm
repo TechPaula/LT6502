@@ -2,7 +2,6 @@
 ;	https://github.com/TechPaula/LT6502
 ;
 ; TODO - Add plot, square, circle, etc
-; TODO - Add "PRINTK" to send text to the keyboard display
 ; TODO - Add cursor move command  
 ; TODO - Move ALL the writing of RG and DT into a table to be read by a loop (save code space)
 ; TODO - compact flash LOAD/SAVE/DIR
@@ -55,12 +54,47 @@ DELAY_LEN1		= $05		; Also affects pitch
 BEEP_LN_CALC	= $05
 
 ; compact flash bits n bobs
-CF_ADDRESS		= $BFB0	; Compact flash address
-CF_BUFF1 		= $0400	; First 256 bytes of 512 Byte buffer for compact flash read/write
-CF_BUFF2 		= $0500	; Second 256 bytes of 512 Byte buffer for compact flash read/write
+CF_BASE			= $BFB0	; Compact flash address
+CF_DATA     	= CF_BASE+0
+CF_FEATURE  	= CF_BASE+1
+CF_ERROR    	= CF_BASE+1
+CF_SEC_CNT  	= CF_BASE+2
+CF_SECTOR   	= CF_BASE+3
+CF_CYL_LOW  	= CF_BASE+4
+CF_CYL_HI   	= CF_BASE+5
+CF_HEAD     	= CF_BASE+6
+CF_STATUS   	= CF_BASE+7
+CF_COMMAND  	= CF_BASE+7
+CF_LBA0     	= CF_BASE+3
+CF_LBA1     	= CF_BASE+4
+CF_LBA2     	= CF_BASE+5
+CF_LBA3     	= CF_BASE+6
+
+CMD_READ    	= $20
+CMD_WRITE   	= $30
+CMD_FEATURE 	= $EF
+
+CF_BUFFER 		= $04	; Start of two pages (512 bytes) of buffer
+
+BUFPTR      	= $40         ; Pointer to CF Read/Write Buffer (16 bit)
+BUFPTRL     	= $40         ; Pointer to CF Read/Write Buffer Low Byte
+BUFPTRH     	= $41         ; Pointer to CF Read/Write Buffer Low Byte
+LBA_0       	= $42         ; Temp storage for LBA Byte 0
+LBA_1       	= LBA_0+1     ; ... LBA Byte 1
+LBA_2       	= LBA_0+2     ; ... LBA Byte 2
+LBA_3       	= LBA_0+3     ; ... LBA Byte 3 (lower 4 bits only)
+PAGES       	= LBA_0+4     ; Counter for number of mem pages to use
+LOC				= LBA_0+5	  ; Pointer for location on CF (16 bit)
+LOC_L			= LBA_0+5	  ; low byte of location on CF to save
+LOC_H			= LOC_L+1	  ; low byte of location on CF to save
+
 CF_LB			= $0600 ; Place for low byte of sector address
 CF_MB			= $0601 ; Place for middle byte of sector address
 CF_HB			= $0602 ; Place for high byte of sector address
+CF_LDSV			= $0603 ; Store the "are we accessing CF" variable here, used to redirect input/output
+BUFF_NEWCHAR	= $604
+
+
 
 ; display addresses
 DISP_DT			= $BFD0
@@ -139,6 +173,11 @@ LAB_stlp
 	JSR DISP_INIT		; initialise screen
 	JSR PWR_BEEP_HIGH	; beep after display init
 
+	; other bits of system init
+	LDA #$00
+	STA CF_LDSV		; no redirect of input/output to CF
+
+
 	; Set colours
 	LDA #%11111100
 	STA DISP_col_t
@@ -193,8 +232,10 @@ LAB_nokey
     BEQ LAB_dowoz
 
 	CMP	#'C'			; compare with [C]old start
-	BNE RES_vec
+	BEQ LAB_docold 
+	JMP RES_vec
 
+LAB_docold
 	LDA #$0D
 	STA A_txd			; clear keyboard screen
 	JSR KYB_basmsg
@@ -214,6 +255,7 @@ LAB_dowoz
 ; byte out to simulated ACIA
 ACIAout
 	PHA
+
 SWait:
 	LDA	ACIAStatus
 	AND	#2
@@ -222,11 +264,12 @@ SWait:
 	PLA
 	STA	ACIAData
 
-; When screen is working insert screen text output code here
+	; Send output to display
 	PHA
 	JSR DISP_TEXT_WR
 	PLA
 
+ACIAout_exit
 ; end of screen output code
 	RTS						; end of ACIAout
 
@@ -333,26 +376,6 @@ KYB_signon
 	BNE KYB_signon		; loop, always
 KEYB_exit
 	RTS
-
-; empty load vector for EhBASIC
-IO_LOAD
-	JSR LAB_GFPN		; Gets value of variable AFTER the command
-	LDA Itemph			; This is the high byte of the value
-	JSR PRBYTE
-	LDA Itempl			; This is the low byte of the value
-	JSR PRBYTE
-	RTS
-; empty save vector for EhBASIC
-IO_SAVE
-	RTS
-; empty DIR vector for EhBASIC
-IO_DIR
-	JSR PWR_BEEP_HIGH
-	RTS
-IO_CLS
-	JSR DISP_CLS
-	RTS
-
 
 
 ; ----- DISPLAY BITS
@@ -1001,7 +1024,9 @@ DISP_circle_busyloop
 	PLA
 	RTS
 
-
+IO_CLS
+	JSR DISP_CLS
+	RTS
 
 ; ------ END OF DISPLAY BITS
 
@@ -1105,6 +1130,352 @@ VARI_BEEP_LP2
 
 
 ; ------ END BEEPS
+
+; ------ Compact Flash bits
+
+; empty load vector for EhBASIC
+IO_LOAD
+	JSR LAB_EVNM		; evaluate expression and check is numeric,
+                        ; else do type mismatch
+	JSR LAB_F2FX        ; save integer part of FAC1 in temporary integer
+
+	LDA	Itemph
+	STA LOC_H			; save the CF "Slot"
+	LDA	Itempl
+	STA LOC_L			; save the CF "Slot"
+
+		; ADD ONE TO LOAD SLOT
+	CLC
+	ADC #$01
+	STA LOC_L			; save the CF "Slot" low byte
+	STA LBA_1
+	LDA LOC_H
+	ADC #$00
+	STA LOC_H			; save the CF "Slot" high byte			
+	STA LBA_2
+
+	LDA #$00
+	STA LBA_0
+	STA LBA_3
+
+	;	load does NOT need a string
+
+	; LOAD "INFO" SECTOR
+;	LDA #$04			; Set START (BUFFER)
+;	STA BUFPTRH
+;	LDA #$00
+;	STA BUFPTRL
+
+	JSR CF_INIT
+;	JSR CF_READ_SECTOR
+
+;	LDA $0400
+;	STA Smemh
+;	LDA $0401
+;	STA Smeml
+;	LDA $0402
+;	STA Svarh
+;	LDA $0403
+;	STA Svarl
+
+
+	; LOAD ACTUAL BASIC CODE
+	LDA #$08			; Set START (basic)
+	STA BUFPTRH
+	LDA #$00
+	STA BUFPTRL
+
+;	JSR CF_INIT
+IO_LOAD_loop			; ! HACKY, JUST READ 46K OF CF CARD TO RAM
+	JSR CF_READ_SECTOR
+
+	LDA BUFPTRH
+	PHA				;! DEBUG 
+	JSR PRBYTE		;! DEBUG
+	PLA				;! DEBUG
+;	CMP Svarh
+;	BNE IO_LOAD_loop
+
+
+
+	STZ $F8   		; VOODOO that EhBASIC needs
+    JMP LAB_1319 	; VOODOO that EhBASIC needs
+
+	RTS
+
+; SAVE vector for EhBASIC
+;	usage - SAVE nnnn,"PROG NAME"
+;	where nnnn is save location
+IO_SAVE
+	JSR LAB_EVNM		; evaluate expression and check is numeric,
+                        ; else do type mismatch
+	JSR LAB_F2FX        ; save integer part of FAC1 in temporary integer
+
+	LDA	Itemph
+	STA LOC_H			; save the CF "Slot"
+	LDA	Itempl
+	STA LOC_L			; save the CF "Slot"
+
+		; ADD ONE TO SAVE SLOT
+	CLC
+	ADC #$01
+	STA LOC_L			; save the CF "Slot" low byte
+	STA LBA_1
+	LDA LOC_H
+	ADC #$00
+	STA LOC_H			; save the CF "Slot" high byte			
+	STA LBA_2
+
+	LDA #$00
+	STA LBA_0
+	STA LBA_3
+
+;	JSR LAB_1C01        ; scan for "," , else do syntax error then warm start
+
+
+;  CREATE "INFO" SECTOR (FIRST SECTOR OF BLOCK)
+;	LDA Smemh
+;	STA $0400
+;	LDA Smeml
+;	STA $0401
+;	LDA Svarh
+;	STA $0402
+;	LDA Svarl
+;	STA $0403
+
+;	LDA #$04			; Set START (basic)
+;	STA BUFPTRH
+;	LDA #$00
+;	STA BUFPTRL
+
+	JSR CF_INIT
+;	JSR CF_WRITE_SECTOR
+
+	; SAVE ACTUAL BASIC CODE
+
+	LDA #$08			; Set START (basic)
+	STA BUFPTRH
+	LDA #$00
+	STA BUFPTRL
+
+;	JSR CF_INIT
+IO_SAVE_loop			; ! HACKY, JUST DUMP ALL 46K OF RAM TO CF CARD
+	JSR CF_WRITE_SECTOR
+
+	LDA BUFPTRH
+	PHA				;! DEBUG 
+	JSR PRBYTE		;! DEBUG
+	PLA				;! DEBUG
+;	CMP Svarh
+;	BNE IO_SAVE_loop
+
+	RTS
+
+
+
+
+
+; empty DIR vector for EhBASIC
+IO_DIR
+	JSR CF_INIT
+	JSR PWR_BEEP_HIGH
+	RTS
+
+
+
+
+
+;-------------------------------------------------------------------------------
+; CF_INIT - Set 8 bit mode, write 1 to feature register
+;			then $EF to command register to execute    
+;-------------------------------------------------------------------------------
+CF_INIT:
+    PHY
+    PHX
+    PHA
+    JSR     CF_WAIT
+    LDA     #$01
+    STA     CF_FEATURE
+    LDA     #CMD_FEATURE
+    STA     CF_COMMAND
+    PLA
+    PLX
+    PLY
+    RTS
+
+
+
+
+
+
+
+
+;-------------------------------------------------------------------------------
+; CF_WAIT - Checks the CF card isn't busy
+; 
+; Wait for flag MSB of status register to be clear
+; 
+; TODO - Implement time out?
+;
+;-------------------------------------------------------------------------------
+CF_WAIT:
+    LDA     CF_STATUS
+    BMI     CF_WAIT
+    RTS
+
+
+
+;-------------------------------------------------------------------------------
+; CF_SET_LBA - Sets up the CF Card with LBA and Sector Count parameters
+; 
+; LBA values are read from Zero Page at $42(LBA0) to $45(LBA3)
+; 
+; Sector count is always 1
+;
+;-------------------------------------------------------------------------------
+CF_SET_LBA:
+    JSR     CF_WAIT
+
+    ; SET ONE SECTOR (512 BYTES) AT A TIME
+    LDA     #$01
+    STA     CF_SEC_CNT
+    JSR     CF_WAIT
+
+
+    LDA     LBA_0           ; Lower Byte
+    STA     CF_LBA0
+    JSR     CF_WAIT
+  
+    LDA     LBA_1           ; Lower Middle Byte
+    STA     CF_LBA1
+    JSR     CF_WAIT
+
+    LDA     LBA_2           ; Upper Middle Byte
+    STA     CF_LBA2
+    JSR     CF_WAIT
+
+    LDA     LBA_3           ; Upper Nybble
+    AND     #$0F            ; Ensure top 4 bits are 0000
+    ORA     #$E0            ; Then force top 4 bits to 1110
+    STA     CF_LBA3
+    JSR     CF_WAIT
+    RTS
+
+
+;-------------------------------------------------------------------------------
+; CF_READ_SECTOR - Reads a single sector from CF into a buffer
+; 
+; Buffer address should always be page aligned. Set BUFPTRL to 0, and 
+; BUFPTRH to high byte of buffer address
+; Set number of memory pages to use for buffer in PAGES, default = 2
+;
+;-------------------------------------------------------------------------------
+CF_READ_SECTOR:
+    JSR     CF_SET_LBA
+    JSR     CF_WAIT
+
+    LDA     #CMD_READ           ; Send the Read command to the CF
+    STA     CF_COMMAND
+    JSR     CF_WAIT             ; de dum de dum
+
+    LDA     #$02                ; Set page count to 2
+    STA     PAGES
+
+    LDY     #$00                ; Clear Y
+
+CF_RD_LP1:
+    LDA     CF_DATA             ; Read CF Data Register
+    STA     (BUFPTRL),Y         ; Save to buffer
+
+    INY                         ; Increment buffer pointer
+    BNE     CF_RD_LP1           ; If it's zero, we need a new page, otherwise repeat
+    
+    INC     BUFPTRH             ; Increment the high byte of the buffer pointer
+                                ; (So subsequent reads don't need to set up pointer)
+
+    DEC     PAGES               ; decrement page counter
+    BEQ     CF_RD_EXIT          ; if it's zero, we're done, so exit
+
+    LDY     #$00                ; Clear Y (it should be already, but JFDI)
+    BRA     CF_RD_LP1           ; and repeat for another 256 bytes
+
+CF_RD_EXIT:
+    RTS
+
+;-------------------------------------------------------------------------------
+; CF_WRITE_SECTOR - writes a single sector from buffer into a CF
+; 
+; Buffer address should always be page aligned. Set BUFPTRL to 0, and 
+; BUFPTRH to high byte of buffer address
+; Set number of memory pages to use for buffer in PAGES, default = 2
+;-------------------------------------------------------------------------------
+CF_WRITE_SECTOR:
+    JSR     CF_SET_LBA
+    JSR     CF_WAIT
+
+    LDA     #CMD_WRITE          ; Send the Read command to the CF
+    STA     CF_COMMAND
+    JSR     CF_WAIT             ; de dum de dum;
+
+    LDA     #$02                ; Set page count to 2
+    STA     PAGES
+
+    LDY     #$00                ; Clear Y
+
+CF_WR_LP1:
+    LDA     (BUFPTRL),Y         ; Read from buffer
+    STA     CF_DATA             ; Write to CF Data Register
+
+    INY                         ; Increment buffer pointer
+    BNE     CF_WR_LP1           ; If it's zero, we need a new page, otherwise repeat
+
+    INC     BUFPTRH             ; Increment the high byte of the buffer pointer
+                                ; (So subsequent writes don't need to set pointer)
+
+    DEC     PAGES               ; decrement page counter
+    BEQ     CF_WR_EXIT          ; if it's zero, we're done, so exit
+
+
+    LDY     #$00                ; Clear Y (it should be already, but JFDI)
+    BRA     CF_WR_LP1           ; and repeat for another 256 bytes
+
+CF_WR_EXIT:
+    RTS
+
+;-------------------------------------------------------------------------------
+; CLR_CFBUFFER - Clears the Compact Flash read/write buffer
+; 
+; Buffer address should always be page aligned. Set BUFPTRL to 0, and 
+; BUFPTRH to high byte of buffer address
+; Set number of memory pages to clear in PAGES
+;
+;-------------------------------------------------------------------------------
+ CLR_CFBUFFER:
+
+    LDY     #$00            ; Set offset to 0
+
+    LDA     #$00            ; Value to write
+CLRLOOP:
+    STA     (BUFPTR),Y      ; Write data to memory
+    INY                     ; Point to next byte
+    BNE     CLRLOOP         ; do it 256 times
+
+    DEC     PAGES           ; Check if all done
+    BEQ     CLRDONE         ; if so, exit
+
+    LDY     #$00            ; if not, clear offset again
+    INC     BUFPTRH         ; Increment page counter
+    BRA     CLRLOOP         ; and repeat
+CLRDONE:
+    RTS
+
+
+
+
+
+
+; ------ END compact flash
+
 
 ; ----- OUTK send text to keyboard display
 ;			we always print to the next character, don't need ; or , 
