@@ -1161,22 +1161,23 @@ IO_LOAD
 	;	load does NOT need a string
 
 	; LOAD "INFO" SECTOR
-;	LDA #$04			; Set START (BUFFER)
-;	STA BUFPTRH
-;	LDA #$00
-;	STA BUFPTRL
+	LDA #$04			; Set START (BUFFER)
+	STA BUFPTRH
+	LDA #$00
+	STA BUFPTRL
 
 	JSR CF_INIT
-;	JSR CF_READ_SECTOR
+	JSR CF_READ_SECTOR
+	JSR IO_LOAD_SAVE_incrlba
 
-;	LDA $0400
-;	STA Smemh
-;	LDA $0401
-;	STA Smeml
-;	LDA $0402
-;	STA Svarh
-;	LDA $0403
-;	STA Svarl
+	LDA $0410
+	STA Smemh
+	LDA $0411
+	STA Smeml
+	LDA $0412
+	STA Svarh
+	LDA $0413
+	STA Svarl
 
 
 	; LOAD ACTUAL BASIC CODE
@@ -1185,16 +1186,14 @@ IO_LOAD
 	LDA #$00
 	STA BUFPTRL
 
-;	JSR CF_INIT
 IO_LOAD_loop			; ! HACKY, JUST READ 46K OF CF CARD TO RAM
 	JSR CF_READ_SECTOR
 
+	JSR IO_LOAD_SAVE_incrlba
 	LDA BUFPTRH
-	PHA				;! DEBUG 
-	JSR PRBYTE		;! DEBUG
-	PLA				;! DEBUG
+	CMP #$BE
 ;	CMP Svarh
-;	BNE IO_LOAD_loop
+	BNE IO_LOAD_loop
 
 
 
@@ -1233,46 +1232,61 @@ IO_SAVE
 ;	JSR LAB_1C01        ; scan for "," , else do syntax error then warm start
 
 
-;  CREATE "INFO" SECTOR (FIRST SECTOR OF BLOCK)
-;	LDA Smemh
-;	STA $0400
-;	LDA Smeml
-;	STA $0401
-;	LDA Svarh
-;	STA $0402
-;	LDA Svarl
-;	STA $0403
+;!DEBUG
+	LDA #$2A
+	STA $0400
+	STA $0401
+	STA $0402
+	STA $0403
+	STA $0404
+	STA $0405
+	STA $0406
+	STA $0407
+	STA $0408
+	STA $0409
+	STA $040A
+	STA $040B
+	STA $040C
+	STA $040D
+	STA $040E
+	STA $040F
+;!DEBUG
 
-;	LDA #$04			; Set START (basic)
-;	STA BUFPTRH
-;	LDA #$00
-;	STA BUFPTRL
+;  CREATE "INFO" SECTOR (FIRST SECTOR OF BLOCK)
+	LDA Smemh
+	STA $0410
+	LDA Smeml
+	STA $0411
+	LDA Svarh
+	STA $0412
+	LDA Svarl
+	STA $0413
+
+	LDA #$04			; Set START (basic)
+	STA BUFPTRH
+	LDA #$00
+	STA BUFPTRL
 
 	JSR CF_INIT
-;	JSR CF_WRITE_SECTOR
+	JSR CF_WRITE_SECTOR
+	JSR IO_LOAD_SAVE_incrlba
 
 	; SAVE ACTUAL BASIC CODE
-
 	LDA #$08			; Set START (basic)
 	STA BUFPTRH
 	LDA #$00
 	STA BUFPTRL
 
-;	JSR CF_INIT
 IO_SAVE_loop			; ! HACKY, JUST DUMP ALL 46K OF RAM TO CF CARD
 	JSR CF_WRITE_SECTOR
 
+	JSR IO_LOAD_SAVE_incrlba
 	LDA BUFPTRH
-	PHA				;! DEBUG 
-	JSR PRBYTE		;! DEBUG
-	PLA				;! DEBUG
+	CMP #$BE
 ;	CMP Svarh
-;	BNE IO_SAVE_loop
+	BNE IO_SAVE_loop
 
 	RTS
-
-
-
 
 
 ; empty DIR vector for EhBASIC
@@ -1282,7 +1296,12 @@ IO_DIR
 	RTS
 
 
+IO_LOAD_SAVE_incrlba
+	LDA LBA_0
+	INC
+	STA LBA_0
 
+	RTS
 
 
 ;-------------------------------------------------------------------------------
