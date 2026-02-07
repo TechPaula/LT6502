@@ -1192,15 +1192,19 @@ IO_LOAD_loop			; ! HACKY, JUST READ 46K OF CF CARD TO RAM
 	JSR IO_LOAD_SAVE_incrlba
 	LDA BUFPTRH
 	CMP #$BE
-;	CMP Svarh
+;	CMP Svarh			; TODO - IS THIS A BETTER WAY TO DO IT???
 	BNE IO_LOAD_loop
 
+	; PRINT "Ready"
+	LDA   #<LAB_RMSG        ; point to "Ready" message low byte
+	LDY   #>LAB_RMSG        ; point to "Ready" message high byte
+	JSR   LAB_18C3          ; go do print string
 
-
+	; VOODOO that EhBASIC needs
 	STZ $F8   		; VOODOO that EhBASIC needs
     JMP LAB_1319 	; VOODOO that EhBASIC needs
 
-	RTS
+
 
 ; SAVE vector for EhBASIC
 ;	usage - SAVE nnnn,"PROG NAME"
@@ -1229,29 +1233,47 @@ IO_SAVE
 	STA LBA_0
 	STA LBA_3
 
-;	JSR LAB_1C01        ; scan for "," , else do syntax error then warm start
+	JSR LAB_1C01        ; scan for "," , else do syntax error then warm start
+
+    JSR LAB_EVEX        ; evaluate expression
+    BIT Dtypef          ; test data type flag, $FF=string, $00=numeric
+    BMI IO_SAVE_string  ; branch if string
+	JSR ERROR_BEEP		; SHOULD NOT BE NUMERIC
+	JMP IO_SAVE_exit
+
+IO_SAVE_string
+; save string to buffer
+	JSR LAB_22B6        ; pop string off descriptor stack, or from top of string
+						; space returns with A = length, X=$71=pointer low byte,
+						; Y=$72=pointer high byte
+	LDY #$00           	; reset index
+	TAX                 ; copy length to X
+
+IO_SAVE_stringloop
+	LDA (ut1_pl),Y     		; get next byte
+	STA $0400,Y          	; Put char into buffer
+	INY                     ; increment index
+
+	TYA
+	CMP #$10
+	BEQ IO_SAVE_createinfo	; break if more than 16 characters long
+
+	DEX                     ; decrement count
+	BNE IO_SAVE_stringloop 	; loop if not done yet
+
+	; PAD OUT REST WITH SPACES
+IO_SAVE_pad
+	LDA #$20	     		; get next byte
+	STA $0400,Y          	; Put char into buffer
+	INY                     ; increment index
+	TYA
+	CMP #$10
+	BEQ IO_SAVE_createinfo	; break if more than 16 characters long
+	DEX                     ; decrement count
+	BNE IO_SAVE_pad 	; loop if not done yet
 
 
-;!DEBUG
-	LDA #$2A
-	STA $0400
-	STA $0401
-	STA $0402
-	STA $0403
-	STA $0404
-	STA $0405
-	STA $0406
-	STA $0407
-	STA $0408
-	STA $0409
-	STA $040A
-	STA $040B
-	STA $040C
-	STA $040D
-	STA $040E
-	STA $040F
-;!DEBUG
-
+IO_SAVE_createinfo
 ;  CREATE "INFO" SECTOR (FIRST SECTOR OF BLOCK)
 	LDA Smemh
 	STA $0410
@@ -1283,9 +1305,10 @@ IO_SAVE_loop			; ! HACKY, JUST DUMP ALL 46K OF RAM TO CF CARD
 	JSR IO_LOAD_SAVE_incrlba
 	LDA BUFPTRH
 	CMP #$BE
-;	CMP Svarh
+;	CMP Svarh			; TODO - IS THIS A BETTER WAY TO DO IT???
 	BNE IO_SAVE_loop
 
+IO_SAVE_exit
 	RTS
 
 
