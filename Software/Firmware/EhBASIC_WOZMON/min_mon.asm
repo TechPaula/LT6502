@@ -1158,8 +1158,6 @@ IO_LOAD
 	STA LBA_0
 	STA LBA_3
 
-	;	load does NOT need a string
-
 	; LOAD "INFO" SECTOR
 	LDA #$04			; Set START (BUFFER)
 	STA BUFPTRH
@@ -1170,6 +1168,27 @@ IO_LOAD
 	JSR CF_READ_SECTOR
 	JSR IO_LOAD_SAVE_incrlba
 
+	; show loading message and file name
+	LDY #$00
+IO_LOAD_message				; now do the loading message
+	LDA	LOAD_mess,Y			; get byte from sign on message
+	BEQ IO_LOAD_showname	; display filename
+
+	JSR	V_OUTP			; output character
+	INY					; increment index
+	BNE	IO_LOAD_message	; loop, branch always
+
+IO_LOAD_showname
+	LDY #$00
+IO_LOAD_showname_lp
+	LDA $0400,Y
+	JSR V_OUTP
+	INY
+	TYA
+	CMP #$10
+	BNE IO_LOAD_showname_lp
+
+	; get important things from the INFO sector
 	LDA $0410
 	STA Smemh
 	LDA $0411
@@ -1178,7 +1197,6 @@ IO_LOAD
 	STA Svarh
 	LDA $0413
 	STA Svarl
-
 
 	; LOAD ACTUAL BASIC CODE
 	LDA #$08			; Set START (basic)
@@ -1682,6 +1700,8 @@ KYB_basmess_str
 	.byte	$0D,$0D,"EhBASIC ",$00
 KYB_wozmess_str
 	.byte	$0D,$0D,"eWOZMON ",$00
+LOAD_mess
+	.byte   "Loading - ",$00
 
 ERR_disp
 	.byte	$0D,$0A,"D_ERR:",$00
