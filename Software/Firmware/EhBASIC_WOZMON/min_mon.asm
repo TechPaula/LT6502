@@ -134,6 +134,7 @@ DISP_dim_l		= $632
 MyTEMP			= $650
 MyTEMP2			= $651
 MyTEMP3			= $652
+gthan			= $653
 
 OutK_Y			= $655
 OutK_X			= $656
@@ -1141,18 +1142,10 @@ IO_LOAD
 
 	LDA	Itemph
 	STA LOC_H			; save the CF "Slot"
+	STA LBA_2
 	LDA	Itempl
 	STA LOC_L			; save the CF "Slot"
-
-		; ADD ONE TO LOAD SLOT
-	CLC
-	ADC #$01
-	STA LOC_L			; save the CF "Slot" low byte
 	STA LBA_1
-	LDA LOC_H
-	ADC #$00
-	STA LOC_H			; save the CF "Slot" high byte			
-	STA LBA_2
 
 	LDA #$00
 	STA LBA_0
@@ -1260,18 +1253,10 @@ IO_SAVE
 
 	LDA	Itemph
 	STA LOC_H			; save the CF "Slot"
+	STA LBA_2
 	LDA	Itempl
 	STA LOC_L			; save the CF "Slot"
-
-		; ADD ONE TO SAVE SLOT
-	CLC
-	ADC #$01
-	STA LOC_L			; save the CF "Slot" low byte
 	STA LBA_1
-	LDA LOC_H
-	ADC #$00
-	STA LOC_H			; save the CF "Slot" high byte			
-	STA LBA_2
 
 	LDA #$00
 	STA LBA_0
@@ -1316,7 +1301,6 @@ IO_SAVE_pad
 	DEX                     ; decrement count
 	BNE IO_SAVE_pad 	; loop if not done yet
 
-
 IO_SAVE_createinfo
 ;  CREATE "INFO" SECTOR (FIRST SECTOR OF BLOCK)
 	LDA Smemh
@@ -1358,8 +1342,76 @@ IO_SAVE_exit
 
 ; empty DIR vector for EhBASIC
 IO_DIR
+	LDA #$00	; with LBA to 0,0,0
+	STA LBA_0	; this STAYS at $00
+	STA LBA_1
+	STA LBA_2
+	STA LBA_3	; this STAYS at $00
+
 	JSR CF_INIT
-	JSR PWR_BEEP_HIGH
+
+IO_DIR_read_lp
+
+	LDA #$04
+	STA BUFPTRH
+	LDA #$00
+	STA BUFPTRL
+
+	JSR CF_SET_LBA
+	JSR CF_READ_SECTOR
+
+	; Check slot has valid data, if not skip it
+	LDA $0400
+
+	CMP #$20
+	BMI IO_DIR_nextslot
+	LDA $0400
+	CMP #$7E
+	BPL IO_DIR_nextslot
+
+	; print slot number
+	LDA LBA_2
+	LDX LBA_1
+	JSR LAB_295E
+
+	; seperator
+	LDA #$20
+	JSR V_OUTP
+	LDA #$2D
+	JSR V_OUTP
+	LDA #$20
+	JSR V_OUTP
+
+	; print slot name
+IO_DIR_showname
+	LDY #$00
+IO_DIR_showname_lp
+	LDA $0400,Y
+	JSR V_OUTP
+	INY
+	TYA
+	CMP #$10
+	BNE IO_DIR_showname_lp
+
+	LDA #$0D
+	JSR V_OUTP
+	LDA #$0A
+	JSR V_OUTP
+
+IO_DIR_nextslot
+	CLC
+	LDA LBA_1
+	ADC #$01
+	STA LBA_1
+
+	LDA LBA_2
+	ADC #$00
+	STA LBA_2
+
+	CMP #$FF
+	BNE IO_DIR_read_lp
+
+IO_DIR_end
 	RTS
 
 
@@ -1370,6 +1422,9 @@ IO_LOAD_SAVE_incrlba
 
 	RTS
 
+IO_INTtoASCII
+
+	RTS
 
 ;-------------------------------------------------------------------------------
 ; CF_INIT - Set 8 bit mode, write 1 to feature register
