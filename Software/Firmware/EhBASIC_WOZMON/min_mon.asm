@@ -1168,6 +1168,16 @@ IO_LOAD
 	JSR CF_READ_SECTOR
 	JSR IO_LOAD_SAVE_incrlba
 
+	; ADD CHECK FOR FIRST BYTE BEING ASCII, IF NOT IT'S EMPTY!!! RETURN WITH AN EMPTY ERROR
+
+	LDA $0400
+	CMP #$20
+	BMI IO_LOAD_ERROR
+	LDA $0400
+	CMP #$7E
+	BPL IO_LOAD_ERROR
+	
+
 	; show loading message and file name
 	LDY #$00
 IO_LOAD_message				; now do the loading message
@@ -1222,6 +1232,22 @@ IO_LOAD_loop			; ! HACKY, JUST READ 46K OF CF CARD TO RAM
 	STZ $F8   		; VOODOO that EhBASIC needs
     JMP LAB_1319 	; VOODOO that EhBASIC needs
 
+
+; load error
+IO_LOAD_ERROR
+	LDY #$00
+IO_LOAD_err_lp				; now do the loading message
+	LDA	LOAD_nofile_mess,Y	; get byte from sign on message
+	BEQ IO_LOAD_ERROR_exit	; display filename
+
+	JSR	V_OUTP			; output character
+	INY					; increment index
+	BNE	IO_LOAD_err_lp	; loop, branch always
+
+	; LOAD_nofile_mess
+IO_LOAD_ERROR_exit
+	JSR ERROR_BEEP
+	RTS
 
 
 ; SAVE vector for EhBASIC
@@ -1702,6 +1728,9 @@ KYB_wozmess_str
 	.byte	$0D,$0D,"eWOZMON ",$00
 LOAD_mess
 	.byte   "Loading - ",$00
+LOAD_nofile_mess
+	.byte   "NO FILE FOUND",$0D,$0A,$00
+
 
 ERR_disp
 	.byte	$0D,$0A,"D_ERR:",$00
