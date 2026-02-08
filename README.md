@@ -23,6 +23,8 @@ It'll be simple, these are the preliminary specs;
 ![Picture of the 6502 laptop as of 5th Jan 2026](https://raw.githubusercontent.com/TechPaula/LT6502/refs/heads/main/Images/Keyboard_hello_basic_Test.jpeg)
 
 ## Status
+* 2026-02-08 - Bunch of BASIC commands added, CF working, more BASIC examples added
+* 2026-01-05 - Keyboard added
 * 2025-11-12 - Initial commit with work in progress PCB, Schematics complete.
 * 2025-12-30 - PCBs arrived!
 * 2026-01-01 - Initial power up of PCBs gives all the correct voltages
