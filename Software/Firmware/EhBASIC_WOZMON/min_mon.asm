@@ -1408,7 +1408,7 @@ IO_DIR_nextslot
 	ADC #$00
 	STA LBA_2
 
-	CMP #$FF
+	CMP #$08
 	BNE IO_DIR_read_lp
 
 IO_DIR_end

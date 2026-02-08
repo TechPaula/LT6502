@@ -10896,7 +10896,7 @@ Current file: min_mon.asm
 00FA25  1  69 00        	ADC #$00
 00FA27  1  85 44        	STA LBA_2
 00FA29  1               
-00FA29  1  C9 FF        	CMP #$FF
+00FA29  1  C9 08        	CMP #$08
 00FA2B  1  D0 A5        	BNE IO_DIR_read_lp
 00FA2D  1               
 00FA2D  1               IO_DIR_end
