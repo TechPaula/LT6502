@@ -30,9 +30,10 @@ It'll be simple, these are the preliminary specs;
 * 2025-01-16 - Connected a 4.3" 800x480 RA8875 based display and got that working. I failed to get the LT7683 based display working.
 * 2025-01-17 - work on a number of case related things that did not quite work in actual life.
 * 2025-01-18 - Tweaked CPLD to slow down FTDI read/writes. Also begun work on bios, added start beep and begun work on load/save functions
+* 2025-02-08 - Added more commands, notably SAVE,LOAD and DIR for compact flash
 
 ## In Progress
-* Add SAVE / LOAD / DIR style commands
+* Add in remainder of graphics commands, LINE, SQUARE, OVAL, etc
   
 ## To do (probably in order)
 * add in larger display (going to try a 10.1" RA8889 based 1024x600, fall back is a 9" RA8875 based 800x480)
@@ -75,6 +76,24 @@ The memory map is fairly stable at the moment, everything seems to be working fi
 |0xBFDO|0-F|0-1| Display |   |
 |0xBFEO|0-F|RW| 65C21 | internal keyboard  |
 |0xBFF0|0-1|RW| Console | FTDI USB console port   |
+
+## EhBASIC Extra commands
+I've Added a some extra commands to EhBASIC and they are as follows;
+
+
+* BEEP <0-255> - Beeps at a variable pitch, higher number gives a higher pitch
+* CIRCLE X,Y,R,C,F - Draws a Circle, X is 0-799, Y is 0-479, R(radius) is 1 - 65535, C is 8bit RGB Value (RRRGGGBB), F is fill (0 = no fill, 1 = fill)
+* CLS - Clear screen (both graphic and text mode)
+* COLOUR <0-255> - Sets the colour (text) to 8bit RGB value, in the form RRRGGGBB
+* DIR - Scans the Compact Flash card and shows slot number and name for any files present
+* LOAD <0-2047> - LOAD a file from CF
+* MODE <0,1> - Sets the display mode, MODE 0 is text, MODE 1 is graphics
+* OUTK - Outputs Text to the 8 character display on the keybed, can be a string or value, anything more than 8 characters will result in text shifting. a String will clear the display and then output the characters
+* PLOT X,Y,C - Plots a dot, X is 0-799, Y is 0-479 and C is 8bit RGB Value (RRRGGGBB)
+* SAVE <0-2047>,"<FILENAME>" - SAVE current BASIC program into a SLOT and give it a name, upto 16 characters
+* WOZMON - Jumps to wozmon, Q will exit WOZMON and return to basic (Handy for check chunks of memory)
+
+
 
 
 
