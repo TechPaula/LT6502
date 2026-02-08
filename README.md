@@ -18,8 +18,11 @@ It'll be simple, these are the preliminary specs;
 
 ## Pictures
 
+Lower parts (main board, battery, keyboard) in it's case
 ![Picture of the 6502 laptop base in it's 3D printed case](https://github.com/TechPaula/LT6502/blob/main/Images/LT6502_BaseCase.jpeg?raw=true)
+Screen with BASIC code
 ![Picture of the 6502 laptop with screen and basic Jan 2026](https://raw.githubusercontent.com/TechPaula/LT6502/refs/heads/main/Images/LT6502_SCREEN_BASIC.jpeg)
+First bring up
 ![Picture of the 6502 laptop as of 5th Jan 2026](https://raw.githubusercontent.com/TechPaula/LT6502/refs/heads/main/Images/Keyboard_hello_basic_Test.jpeg)
 
 ## Status
