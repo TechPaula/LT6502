@@ -26,19 +26,17 @@ First bring up
 ![Picture of the 6502 laptop as of 5th Jan 2026](https://raw.githubusercontent.com/TechPaula/LT6502/refs/heads/main/Images/Keyboard_hello_basic_Test.jpeg)
 
 ## Status
-* 2026-02-08 - Bunch of BASIC commands added, CF working, more BASIC examples added
-* 2026-01-05 - Keyboard added
 * 2025-11-12 - Initial commit with work in progress PCB, Schematics complete.
 * 2025-12-30 - PCBs arrived!
 * 2026-01-01 - Initial power up of PCBs gives all the correct voltages
-* 2025-01-03 - Bring up of board with simple ROM/RAM/Console working.
-* 2025-01-04 - VIA working, ACIA working, comms to/from the keyboard in basic working. Begun integrating keyboard into firmware
-* 2025-01-05 - Keyboard now integrated into firmware, so you can type on the keyboard and don't need the console for input
-* 2025-01-09 - Compact flash working, Beeper also now working. Also runs from battery just fine.
-* 2025-01-16 - Connected a 4.3" 800x480 RA8875 based display and got that working. I failed to get the LT7683 based display working.
-* 2025-01-17 - work on a number of case related things that did not quite work in actual life.
-* 2025-01-18 - Tweaked CPLD to slow down FTDI read/writes. Also begun work on bios, added start beep and begun work on load/save functions
-* 2025-02-08 - Added more commands, notably SAVE,LOAD and DIR for compact flash
+* 2026-01-03 - Bring up of board with simple ROM/RAM/Console working.
+* 2026-01-04 - VIA working, ACIA working, comms to/from the keyboard in basic working. Begun integrating keyboard into firmware
+* 2026-01-05 - Keyboard now integrated into firmware, so you can type on the keyboard and don't need the console for input
+* 2026-01-09 - Compact flash working, Beeper also now working. Also runs from battery just fine.
+* 2026-01-16 - Connected a 4.3" 800x480 RA8875 based display and got that working. I failed to get the LT7683 based display working.
+* 2026-01-17 - work on a number of case related things that did not quite work in actual life.
+* 2026-01-18 - Tweaked CPLD to slow down FTDI read/writes. Also begun work on bios, added start beep and begun work on load/save functions
+* 2026-02-08 - Added more commands, notably SAVE,LOAD and DIR for compact flash
 
 ## In Progress
 * Add in remainder of graphics commands, LINE, SQUARE, OVAL, etc
