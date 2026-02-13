@@ -1,12 +1,12 @@
 10 REM -- DUAL BALL BOUNCE 
 12 C = RND(123456)
 15 CLS
-20 INPUT "X:";X
-30 INPUT "Y:";Y
-40 INPUT "R:";R
-50 INPUT "C:";C
-60 INPUT "F:";F
-65 INPUT "S:";S
+20 INPUT "Start X:";X
+30 INPUT "Start Y:";Y
+40 INPUT "Radius:";R
+50 INPUT "Colour:";C
+60 INPUT "Fill [0 = no]:";F
+65 INPUT "Speed [bigger = slower]:";S
 66 CLS
 70 XD = R/2
 71 YD = R/2
