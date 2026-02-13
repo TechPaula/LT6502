@@ -3,6 +3,8 @@
 15 CLS
 20 INPUT "START X:";XT
 21 INPUT "START Y:";YT
+20 XT = 200
+21 YT = 200
 22 INPUT "RADIUS:";R
 23 CT = 255 : REM INPUT "COLOUR:";CT
 24 INPUT "FILL [0=NO]:";F
@@ -17,8 +19,8 @@
 36 DIM YO(BN)
 
 40 FOR BL = 0 TO BN-1
-42 X(BL) = XT + (10 * BL)
-43 Y(BL) = YT + (10 * BL)
+42 X(BL) = XT + (RND(0) * 600) + BL
+43 Y(BL) = YT + (RND(0) * 400) + BL
 44 C(BL) = 1+(RND(0)*254)
 
 45 XD(BL) = R * S + 0.1
