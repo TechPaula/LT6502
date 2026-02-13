@@ -382,7 +382,8 @@ TK_CIRCLE         = TK_PLOT+1       ; ?  CIRCLE
 TK_LINE           = TK_CIRCLE+1     ; ?  LINE
 TK_SQUARE         = TK_LINE+1       ; ?  SQUARE
 TK_ELIPSE         = TK_SQUARE+1     ; ?  ELIPSE
-TK_OUTK           = TK_ELIPSE+1     ; ?  OUTK
+TK_TRIANGLE       = TK_ELIPSE+1     ; ?  TRIANGLE
+TK_OUTK           = TK_TRIANGLE+1   ; ?  OUTK
 
 ; secondary command tokens, can't start a statement
 TK_TAB            = TK_OUTK+1       ; TAB token       ;? REMEMBER TO CHANGE THIS WHEN ADDING NEW COMMANDS   
@@ -488,7 +489,8 @@ VEC_CIRCLE        = VEC_PLOT+2      ; CIRCLE vector
 VEC_LINE          = VEC_CIRCLE+2    ;
 VEC_SQUARE        = VEC_LINE+2      ;
 VEC_ELIPSE        = VEC_SQUARE+2    ;
-VEC_OUTK          = VEC_ELIPSE+2    ; OUTK vector
+VEC_TRIANGLE      = VEC_ELIPSE+2    ;
+VEC_OUTK          = VEC_TRIANGLE+2  ; OUTK vector
 VEC_DISPTEXT      = VEC_OUTK+2      ; reset display back to text (used on error/break)
 ; end bulk initialize by min_mon.asm from LAB_vec at LAB_stlp
 
@@ -497,7 +499,7 @@ VEC_DISPTEXT      = VEC_OUTK+2      ; reset display back to text (used on error/
 ; program RAM pages!
 
 ;Ibuffs            = IRQ_vec+$14
-Ibuffs            = VEC_SV+$1E            ; ? HAD TO EXTEND THIS
+Ibuffs            = VEC_SV+$20            ; ? HAD TO EXTEND THIS
                               ; start of input buffer after IRQ/NMI code
 Ibuffe            = Ibuffs+$47; end of input buffer
 
@@ -7970,6 +7972,8 @@ V_SQUARE
       JMP   (VEC_SQUARE)      ; SQUARE command   
 V_ELIPSE
       JMP   (VEC_ELIPSE)      ; ELIPSE command   
+V_TRIANGLE
+      JMP   (VEC_TRIANGLE)    ; TRIANGLE command   
 V_OUTK
       JMP   (VEC_OUTK)        ; OUTK command
 V_DISPTEXT
@@ -8230,6 +8234,7 @@ LAB_CTBL
       .word V_LINE-1          ; ? LINE
       .word V_SQUARE-1        ; ? SQUARE
       .word V_ELIPSE-1        ; ? ELIPSE
+      .word V_TRIANGLE-1      ; ? TRIANGLE
       .word V_OUTK-1          ; ? OUTK    
 ; function pre process routine table
 
@@ -8663,6 +8668,8 @@ LBB_THEN
       .byte "HEN",TK_THEN     ; THEN
 LBB_TO
       .byte "O",TK_TO         ; TO
+LBB_TRIANGLE
+      .byte "RIANGLE",TK_TRIANGLE ; ? TRIANGLE
 LBB_TWOPI
       .byte "WOPI",TK_TWOPI   ; TWOPI
       .byte $00
@@ -8814,6 +8821,8 @@ LAB_KEYT
       .word LBB_SQUARE        ; ? SQUARE     VERY NEW COMMAND
       .byte 6,'E'
       .word LBB_ELIPSE        ; ? ELIPSE     VERY NEW COMMAND
+      .byte 8,'T'
+      .word LBB_TRIANGLE      ; ? TRIANGLE     VERY NEW COMMAND
       .byte 4,'O'
       .word LBB_OUTK          ; ? OUTK
 

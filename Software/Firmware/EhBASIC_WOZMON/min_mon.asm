@@ -883,26 +883,9 @@ DISP_PLOT
 	PHX
 	PHY
 			; GET PARAMETERS AND SAVE THEM
-	JSR LAB_EVNM		; evaluate expression and check is numeric,
-                        ; else do type mismatch
-	JSR LAB_F2FX        ; save integer part of FAC1 in temporary integer
+	JSR DISP_GETXY
 
-	LDA	Itemph
-	STA DISP_posx_h
-	LDA	Itempl
-	STA DISP_posx_l
-
-	JSR LAB_1C01        ; scan for "," , else do syntax error then warm start
-
-	JSR LAB_EVNM        ; evaluate expression and check is numeric,
-                        ; else do type mismatch
-	JSR LAB_F2FX        ; save integer part of FAC1 in temporary integer
-
-	LDA	Itemph
-	STA DISP_posy_h
-	LDA	Itempl
-	STA DISP_posy_l
-
+			; GET COLOUR
 	JSR LAB_SGBY		; Scan for "," and get next byte, return in X
 	TXA
 	STA DISP_col_l
@@ -1175,10 +1158,140 @@ DISP_ELIPSE
 	PHX
 	PHY
 		; GET PARAMETERS AND SAVE THEM
+	JSR DISP_GETXY
+	JSR DISP_GETENDXY   ; ACTUALL RX AND RY
+			; CC
+	JSR LAB_SGBY		; Scan for "," and get next byte, return in X
+	TXA
+	STA DISP_col_t
+			; FF
+	JSR LAB_SGBY		; Scan for "," and get next byte, return in X
+	TXA
+	STA DISP_fill
+
+		; SET UP PARAMETERS
+			; SET X
+	LDY DISP_posx_l
+	LDA #$A5
+	JSR DISP_writereg	
+	LDY DISP_posx_h
+	LDA #$A6
+	JSR DISP_writereg
+			; SET Y
+	LDY DISP_posy_l
+	LDA #$A7
+	JSR DISP_writereg	
+	LDY DISP_posy_h
+	LDA #$A8
+	JSR DISP_writereg
+
+			; SET RADIUS X
+	LDY DISP_posw_l
+	LDA #$A1
+	JSR DISP_writereg	
+	LDY DISP_posw_h
+	LDA #$A2
+	JSR DISP_writereg
+			; SET RADIUS Y
+	LDY DISP_posh_l
+	LDA #$A3
+	JSR DISP_writereg	
+	LDY DISP_posh_h
+	LDA #$A4
+	JSR DISP_writereg
+
+			; SET COLOUR
+	LDA DISP_col_t
+	JSR DISP_TEXT_COLOUR_direct
+
+			; CHECK FOR FILL
+	LDY #$80
+	LDA DISP_fill
+	CMP #$00
+	BEQ DISP_ELIPSE_nofill
+	TYA
+	ORA #$40					; OR in extra bit for fill
+	TAY
+
+DISP_ELIPSE_nofill
+			; DRAW SQUARE
+	; Y ALREADY HOLDS COMMAND
+	LDA #$A0
+	JSR DISP_writereg	
+
+			; wait for display to be done
+	JSR DISP_busyloop
+
 	PLY
 	PLX
 	PLA
 	RTS
+
+
+DISP_TRIANGLE
+	PHA
+	PHX
+	PHY
+
+		; GET PARAMETERS AND SAVE THEM
+	JSR DISP_GETXY		; POINT 0 (TOP)
+	JSR DISP_GETENDXY	; POINT 1 (BOTTOM LEFT)
+			; SET POINT 0 AND POINT 1
+	JSR DISP_SETXY_ENDXY
+
+	JSR DISP_GETENDXY	; GET POINT 2 (BOTTOM RIGHT)
+
+			; CC
+	JSR LAB_SGBY		; Scan for "," and get next byte, return in X
+	TXA
+	STA DISP_col_t
+
+			; FF
+	JSR LAB_SGBY		; Scan for "," and get next byte, return in X
+	TXA
+	STA DISP_fill
+
+			; SET POINT 3
+	LDY DISP_posw_l
+	LDA #$A9
+	JSR DISP_writereg	
+	LDY DISP_posw_h
+	LDA #$AA
+	JSR DISP_writereg
+			; SET Y
+	LDY DISP_posh_l
+	LDA #$AB
+	JSR DISP_writereg	
+	LDY DISP_posh_h
+	LDA #$AC
+	JSR DISP_writereg
+
+	LDA DISP_col_t
+	JSR DISP_TEXT_COLOUR_direct
+
+
+			; CHECK FOR FILL
+	LDY #$81					; TRIANGLE COMMAND
+	LDA DISP_fill
+	CMP #$00
+	BEQ DISP_TRIANGLE_nofill
+	TYA
+	ORA #$20					; OR in extra bit for fill
+	TAY
+
+DISP_TRIANGLE_nofill
+	; Y ALREADY HOLDS COMMAND
+	LDA #$90
+	JSR DISP_writereg	
+
+			; wait for display to be done
+	JSR DISP_busyloop
+
+	PLY
+	PLX
+	PLA
+	RTS
+
 
 
 
@@ -1873,6 +1986,7 @@ LAB_vec
 	.word	DISP_LINE	; LINE vector					EhBASIC = V_LINE
 	.word	DISP_SQUARE	; SQUARE vector					EhBASIC = V_SQUARE
 	.word	DISP_ELIPSE	; ELIPSE vector					EhBASIC = V_ELIPSE
+	.word	DISP_TRIANGLE; TRIANGLE vector				EhBASIC = V_TRIANGLE
 	.word 	OUTK		; OUTK vector					EhBASIC = V_OUTK
 	.word 	DISP_TEXT_MODE ; set display back to text mode EhBASIC = V_TEXTMODE
 
