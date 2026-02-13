@@ -1,7 +1,6 @@
 ; Heavily edited to work with the LT6502 project
 ;	https://github.com/TechPaula/LT6502
 ;
-; TODO - Add plot, square, circle, etc
 ; TODO - Add cursor move command  
 ; TODO - Move ALL the writing of RG and DT into a table to be read by a loop (save code space)
 ; TODO - compact flash LOAD/SAVE/DIR
@@ -849,10 +848,10 @@ DISP_doscrollup
 
 	;; wait for block transfer to complete. Read register $50 until
 	;; the top bit is clear.
-DISP_busyloop
+DISP_scroll_busyloop
 	lda #$50
 	jsr DISP_readreg
-	bmi DISP_busyloop
+	bmi DISP_scroll_busyloop
 
 		; clear bottom line
 	JSR DISP_clearbottomline
@@ -933,11 +932,7 @@ DISP_PLOT
 	PLA
 	RTS
 
-	; CIRCLE XXXX,YYYY,RR,CC,FF
-DISP_CIRCLE
-	PHA
-	PHX
-	PHY
+DISP_GETXY
 		; GET PARAMETERS AND SAVE THEM
 			; XXXX
 	JSR LAB_EVNM		; evaluate expression and check is numeric,
@@ -956,6 +951,39 @@ DISP_CIRCLE
 	STA DISP_posy_h
 	LDA	Itempl
 	STA DISP_posy_l
+
+	RTS
+
+DISP_GETENDXY
+		; GET PARAMETERS AND SAVE THEM
+			; END XXXX
+	JSR LAB_1C01        ; scan for "," , else do syntax error then warm start
+	JSR LAB_EVNM        ; evaluate expression and check is numeric,
+                        ; else do typDISP_CIRCLEe mismatch
+	JSR LAB_F2FX        ; save integer part of FAC1 in temporary integer
+	LDA	Itemph
+	STA DISP_posw_h
+	LDA	Itempl
+	STA DISP_posw_l
+			; END YYYY
+	JSR LAB_1C01        ; scan for "," , else do syntax error then warm start
+	JSR LAB_EVNM        ; evaluate expression and check is numeric,
+                        ; else do typDISP_CIRCLEe mismatch
+	JSR LAB_F2FX        ; save integer part of FAC1 in temporary integer
+	LDA	Itemph
+	STA DISP_posh_h
+	LDA	Itempl
+	STA DISP_posh_l
+
+	RTS
+
+	; CIRCLE XXXX,YYYY,RR,CC,FF
+DISP_CIRCLE
+	PHA
+	PHX
+	PHY
+		; GET PARAMETERS AND SAVE THEM
+	JSR DISP_GETXY
 			; RR
 	JSR LAB_SGBY		; Scan for "," and get next byte, return in X
 	TXA
@@ -1009,21 +1037,150 @@ DISP_circledoit
 	LDA #$90
 	JSR DISP_writereg
 
-DISP_circle_busyloop
-	LDA #$90			; CHECK DCR
-	JSR DISP_readreg
-	ROL
-	BMI DISP_circle_busyloop
-
-	LDA #$90				; CHECK IF WE'RE DONE
-	STA DISP_RG
-	LDA DISP_DT				; read status
-	JSR DISP_CHK_BUSY
+			; wait for display to be done
+	JSR DISP_busyloop
 
 	PLY
 	PLX
 	PLA
 	RTS
+
+
+DISP_busyloop
+	LDA #$90			; CHECK DCR
+	JSR DISP_readreg
+	ROL
+	BMI DISP_busyloop
+
+	LDA #$90				; CHECK IF WE'RE DONE
+	STA DISP_RG
+	LDA DISP_DT				; read status
+	JSR DISP_CHK_BUSY
+	RTS
+
+DISP_SETXY_ENDXY
+			; SET X
+	LDY DISP_posx_l
+	LDA #$91
+	JSR DISP_writereg	
+	LDY DISP_posx_h
+	LDA #$92
+	JSR DISP_writereg
+			; SET Y
+	LDY DISP_posy_l
+	LDA #$93
+	JSR DISP_writereg	
+	LDY DISP_posy_h
+	LDA #$94
+	JSR DISP_writereg
+
+			; SET END X
+	LDY DISP_posw_l
+	LDA #$95
+	JSR DISP_writereg	
+	LDY DISP_posw_h
+	LDA #$96
+	JSR DISP_writereg
+			; SET END Y
+	LDY DISP_posh_l
+	LDA #$97
+	JSR DISP_writereg	
+	LDY DISP_posh_h
+	LDA #$98
+	JSR DISP_writereg
+
+	RTS
+
+
+DISP_LINE
+	PHA
+	PHX
+	PHY
+		; GET PARAMETERS AND SAVE THEM
+	JSR DISP_GETXY
+	JSR DISP_GETENDXY
+			; CC
+	JSR LAB_SGBY		; Scan for "," and get next byte, return in X
+	TXA
+	STA DISP_col_t
+
+			; SET START/END POINTS 
+	JSR DISP_SETXY_ENDXY
+
+			; SET COLOUR
+	LDA DISP_col_t
+	JSR DISP_TEXT_COLOUR_direct
+
+			; DRAW LINE
+	LDY #$80
+	LDA #$90
+	JSR DISP_writereg	
+
+			; wait for display to be done
+	JSR DISP_busyloop
+
+	PLY
+	PLX
+	PLA
+	RTS
+
+DISP_SQUARE
+	PHA
+	PHX
+	PHY
+		; GET PARAMETERS AND SAVE THEM
+	JSR DISP_GETXY
+	JSR DISP_GETENDXY
+			; CC
+	JSR LAB_SGBY		; Scan for "," and get next byte, return in X
+	TXA
+	STA DISP_col_t
+			; FF
+	JSR LAB_SGBY		; Scan for "," and get next byte, return in X
+	TXA
+	STA DISP_fill
+
+			; SET START/END POINTS 
+	JSR DISP_SETXY_ENDXY
+
+			; SET COLOUR
+	LDA DISP_col_t
+	JSR DISP_TEXT_COLOUR_direct
+
+			; CHECK FOR FILL
+	LDY #$90					; $50 is square command
+	LDA DISP_fill
+	CMP #$00
+	BEQ DISP_SQUARE_nofill
+	TYA
+	ORA #$20					; OR in extra bit for fill
+	TAY
+
+DISP_SQUARE_nofill
+			; DRAW SQUARE
+	; Y ALREADY HOLDS COMMAND
+	LDA #$90
+	JSR DISP_writereg	
+
+			; wait for display to be done
+	JSR DISP_busyloop
+
+	PLY
+	PLX
+	PLA
+	RTS
+
+DISP_ELIPSE
+	PHA
+	PHX
+	PHY
+		; GET PARAMETERS AND SAVE THEM
+	PLY
+	PLX
+	PLA
+	RTS
+
+
 
 IO_CLS
 	JSR DISP_CLS
@@ -1713,6 +1870,9 @@ LAB_vec
 	.word	DISP_TEXT_COLOUR	; COLOUR vector			EhBASIC = V_COLOUR
 	.word	DISP_PLOT	; PLOT vector					EhBASIC = V_PLOT
 	.word	DISP_CIRCLE	; CIRCLE vector					EhBASIC = V_CIRCLE
+	.word	DISP_LINE	; LINE vector					EhBASIC = V_LINE
+	.word	DISP_SQUARE	; SQUARE vector					EhBASIC = V_SQUARE
+	.word	DISP_ELIPSE	; ELIPSE vector					EhBASIC = V_ELIPSE
 	.word 	OUTK		; OUTK vector					EhBASIC = V_OUTK
 	.word 	DISP_TEXT_MODE ; set display back to text mode EhBASIC = V_TEXTMODE
 

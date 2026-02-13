@@ -379,7 +379,10 @@ TK_WOZMON         = TK_BEEP+1       ; ?  jsr to wozmon
 TK_COLOUR         = TK_WOZMON+1     ; ?  text colour
 TK_PLOT           = TK_COLOUR+1     ; ?  PLOT SINGLE PIXEL
 TK_CIRCLE         = TK_PLOT+1       ; ?  CIRCLE
-TK_OUTK           = TK_CIRCLE+1     ; ?  OUTK
+TK_LINE           = TK_CIRCLE+1     ; ?  LINE
+TK_SQUARE         = TK_LINE+1       ; ?  SQUARE
+TK_ELIPSE         = TK_SQUARE+1     ; ?  ELIPSE
+TK_OUTK           = TK_ELIPSE+1     ; ?  OUTK
 
 ; secondary command tokens, can't start a statement
 TK_TAB            = TK_OUTK+1       ; TAB token       ;? REMEMBER TO CHANGE THIS WHEN ADDING NEW COMMANDS   
@@ -482,7 +485,10 @@ VEC_WOZMON        = VEC_BEEP+2      ; WOZMON vector
 VEC_COLOUR        = VEC_WOZMON+2    ; COLOUR vector
 VEC_PLOT          = VEC_COLOUR+2    ; PLOT vector
 VEC_CIRCLE        = VEC_PLOT+2      ; CIRCLE vector
-VEC_OUTK          = VEC_CIRCLE+2    ; OUTK vector
+VEC_LINE          = VEC_CIRCLE+2    ;
+VEC_SQUARE        = VEC_LINE+2      ;
+VEC_ELIPSE        = VEC_SQUARE+2    ;
+VEC_OUTK          = VEC_ELIPSE+2    ; OUTK vector
 VEC_DISPTEXT      = VEC_OUTK+2      ; reset display back to text (used on error/break)
 ; end bulk initialize by min_mon.asm from LAB_vec at LAB_stlp
 
@@ -491,7 +497,7 @@ VEC_DISPTEXT      = VEC_OUTK+2      ; reset display back to text (used on error/
 ; program RAM pages!
 
 ;Ibuffs            = IRQ_vec+$14
-Ibuffs            = VEC_SV+$16
+Ibuffs            = VEC_SV+$1E            ; ? HAD TO EXTEND THIS
                               ; start of input buffer after IRQ/NMI code
 Ibuffe            = Ibuffs+$47; end of input buffer
 
@@ -7958,6 +7964,12 @@ V_PLOT
       JMP   (VEC_PLOT)        ; PLOT command
 V_CIRCLE
       JMP   (VEC_CIRCLE)      ; CIRCLE command   
+V_LINE
+      JMP   (VEC_LINE)        ; CIRCLE command   
+V_SQUARE
+      JMP   (VEC_SQUARE)      ; SQUARE command   
+V_ELIPSE
+      JMP   (VEC_ELIPSE)      ; ELIPSE command   
 V_OUTK
       JMP   (VEC_OUTK)        ; OUTK command
 V_DISPTEXT
@@ -8215,6 +8227,9 @@ LAB_CTBL
       .word V_COLOUR-1        ; ? COLOUR        Sets text colour
       .word V_PLOT-1          ; ? PLOT          PLOT a single pixel
       .word V_CIRCLE-1        ; ? CIRCLE        CIRCLE draw a circle
+      .word V_LINE-1          ; ? LINE
+      .word V_SQUARE-1        ; ? SQUARE
+      .word V_ELIPSE-1        ; ? ELIPSE
       .word V_OUTK-1          ; ? OUTK    
 ; function pre process routine table
 
@@ -8483,6 +8498,8 @@ LBB_DO
       .byte "O",TK_DO         ; DO
       .byte $00
 TAB_ASCE
+LBB_ELIPSE
+      .byte "LIPSE",TK_ELIPSE ; ? ELIPSE
 LBB_ELSE
       .byte "LSE",TK_ELSE     ; ELSE
 LBB_END
@@ -8534,6 +8551,8 @@ LBB_LEN
       .byte "EN(",TK_LEN      ; LEN(
 LBB_LET
       .byte "ET",TK_LET       ; LET
+LBB_LINE
+      .byte "INE",TK_LINE     ; ? LINE
 LBB_LIST
       .byte "IST",TK_LIST     ; LIST
 LBB_LOAD
@@ -8573,7 +8592,7 @@ LBB_ON
 LBB_OR
       .byte "R",TK_OR         ; OR
 LBB_OUTK
-      .byte "UTK",TK_OUTK     ; OUTK
+      .byte "UTK",TK_OUTK     ; ? OUTK
       .byte $00
 TAB_ASCP
 LBB_PEEK
@@ -8624,6 +8643,8 @@ LBB_SPC
       .byte "PC(",TK_SPC      ; SPC(
 LBB_SQR
       .byte "QR(",TK_SQR      ; SQR(
+LBB_SQUARE
+      .byte "QUARE",TK_SQUARE ; ? SQUARE
 LBB_STEP
       .byte "TEP",TK_STEP     ; STEP
 LBB_STOP
@@ -8787,6 +8808,12 @@ LAB_KEYT
       .word LBB_PLOT          ; ? PLOT
       .byte 6,'C'
       .word LBB_CIRCLE        ; ? CIRCLE     VERY NEW COMMAND
+      .byte 4,'L'
+      .word LBB_LINE          ; ? LINE     VERY NEW COMMAND
+      .byte 6,'S'
+      .word LBB_SQUARE        ; ? SQUARE     VERY NEW COMMAND
+      .byte 6,'E'
+      .word LBB_ELIPSE        ; ? ELIPSE     VERY NEW COMMAND
       .byte 4,'O'
       .word LBB_OUTK          ; ? OUTK
 
