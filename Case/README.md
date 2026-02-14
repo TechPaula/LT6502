@@ -6,3 +6,5 @@ I found that half of one of these is enough for both of these, so print one and 
 
 The case could be better, but this is my first effort at a 3D printed design.
 I've learned a lot :)
+
+Hinges were based on this https://www.printables.com/model/658393-friction-hinge-mechanism/comments#preview.file.aPNjd
