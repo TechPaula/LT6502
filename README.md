@@ -7,7 +7,7 @@ It's very simple, these are the specs
 * 46K RAM
 * BASIC in ROM
 * 65C22 VIA (for timers and some IO)
-* 10.1" DIsplay (with built in font/simple graphics)
+* 9" DIsplay (with built in font/simple graphics)
 * Built in keyboard
 * Compact Flash for storage
 * 10000mAh battery built in
