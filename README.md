@@ -2,7 +2,7 @@
 A 6502 based laptop design
 
 Yes, I know I'm crazy, but I figured why not. I'm enjoying working the [PC6502](https://github.com/TechPaula/PC6502/) project but having a little tower of PCBs on the sofa isn't the best.
-It'll be simple, these are the preliminary specs;
+It's very simple, these are the specs
 * 65C02 running at 8MHz
 * 46K RAM
 * BASIC in ROM
@@ -17,6 +17,20 @@ It'll be simple, these are the preliminary specs;
 
 
 ## Pictures
+Assembled front view
+![Picture of the assembled 6502 laptop in it's 3D printed case from the front](https://github.com/TechPaula/LT6502/blob/main/Images/Assembled_Front_Open.jpeg?raw=true)
+Assembled rear view
+![Picture of the assembled 6502 laptop in it's 3D printed case from the rear](https://github.com/TechPaula/LT6502/blob/main/Images/Assembled_Rear_Open.jpeg?raw=true)
+Assembled LHS view
+![Picture of the assembled 6502 laptop in it's 3D printed case from the left hand side](https://github.com/TechPaula/LT6502/blob/main/Images/Assembled_LHS_Open.jpeg?raw=true)
+Assembled RHS view
+![Picture of the assembled 6502 laptop in it's 3D printed case from the right hand side](https://github.com/TechPaula/LT6502/blob/main/Images/Assembled_RHS_Open.jpeg?raw=true)
+
+Assembled closed front view
+![Picture of the assembled 6502 laptop in it's 3D printed case from the front when closed](https://github.com/TechPaula/LT6502/blob/main/Images/Assembled_Front_Closed.jpeg?raw=true)
+Assembled closed rear view
+![Picture of the assembled 6502 laptop in it's 3D printed case from the rear when closed](https://github.com/TechPaula/LT6502/blob/main/Images/Assembled_Rear_Closed.jpeg?raw=true)
+
 
 Lower parts (main board, battery, keyboard) in it's case
 ![Picture of the 6502 laptop base in it's 3D printed case](https://github.com/TechPaula/LT6502/blob/main/Images/LT6502_BaseCase.jpeg?raw=true)
@@ -37,14 +51,15 @@ First bring up
 * 2026-01-17 - work on a number of case related things that did not quite work in actual life.
 * 2026-01-18 - Tweaked CPLD to slow down FTDI read/writes. Also begun work on bios, added start beep and begun work on load/save functions
 * 2026-02-08 - Added more commands, notably SAVE,LOAD and DIR for compact flash
+* 2026-02-13 - Added more graphics commands :)
+* 2026-02-14 - Assembled the case
 
 ## In Progress
-* Add in remainder of graphics commands, LINE, SQUARE, OVAL, etc
+* Expansion board
   
 ## To do (probably in order)
 * add in larger display (going to try a 10.1" RA8889 based 1024x600, fall back is a 9" RA8875 based 800x480)
 * Fix buggy keyscan code on MEGA644P
-
 
 ## Memory Map
 The memory map is fairly stable at the moment, everything seems to be working fine.
@@ -92,11 +107,14 @@ I've Added a some extra commands to EhBASIC and they are as follows;
 * CLS - Clear screen (both graphic and text mode)
 * COLOUR <0-255> - Sets the colour (text) to 8bit RGB value, in the form RRRGGGBB
 * DIR - Scans the Compact Flash card and shows slot number and name for any files present
+* ELIPSE - X,Y,RX,RY,C,F - Draws an elipse, X is 0-799, Y is 0-479, RX is X radius, RY is Y radius, C is colour and F is fill
+* LINE X,Y,EX,EY,C - Draws a line, X is 0-799, Y is 0-479, EX is X end point (0-799), EY is Y end point (0-479), C is colour
 * LOAD <0-2047> - LOAD a file from CF
 * MODE <0,1> - Sets the display mode, MODE 0 is text, MODE 1 is graphics
 * OUTK - Outputs Text to the 8 character display on the keybed, can be a string or value, anything more than 8 characters will result in text shifting. a String will clear the display and then output the characters
 * PLOT X,Y,C - Plots a dot, X is 0-799, Y is 0-479 and C is 8bit RGB Value (RRRGGGBB)
 * SAVE <0-2047>,"<FILENAME>" - SAVE current BASIC program into a SLOT and give it a name, upto 16 characters
+* SQUARE - X,Y,EX,EY,C,F - Draws a square, X is 0-799, Y is 0-479, EX is X end point (0-799), EY is Y end point (0-479), C is colour and F is fill
 * WOZMON - Jumps to wozmon, Q will exit WOZMON and return to basic (Handy for check chunks of memory)
 
 
