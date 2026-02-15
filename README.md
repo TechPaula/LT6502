@@ -102,7 +102,7 @@ The memory map is fairly stable at the moment, everything seems to be working fi
 I've Added a some extra commands to EhBASIC and they are as follows;
 
 
-* BEEP <0-255> - Beeps at a variable pitch, higher number gives a higher pitch
+* BEEP P,L - Pitch (P) is 0-255, length (L) = 0 to 255
 * CIRCLE X,Y,R,C,F - Draws a Circle, X is 0-799, Y is 0-479, R(radius) is 1 - 65535, C is 8bit RGB Value (RRRGGGBB), F is fill (0 = no fill, 1 = fill)
 * CLS - Clear screen (both graphic and text mode)
 * COLOUR <0-255> - Sets the colour (text) to 8bit RGB value, in the form RRRGGGBB
