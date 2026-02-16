@@ -9997,11 +9997,11 @@ Current file: min_mon.asm
 00F499  1               
 00F499  1  20 A3 D4     	JSR LAB_GTBY	; GET X
 00F49C  1  8A           	TXA
-00F49D  1  8D 25 06     	STA DISP_crow
+00F49D  1  8D 24 06     	STA DISP_ccol
 00F4A0  1               
 00F4A0  1  20 A0 D4     	JSR LAB_SGBY	; GET Y
 00F4A3  1  8A           	TXA
-00F4A4  1  8D 24 06     	STA DISP_ccol
+00F4A4  1  8D 25 06     	STA DISP_crow
 00F4A7  1               
 00F4A7  1  20 FA F4     	JSR DISP_CURSOR_SETXY
 00F4AA  1               
