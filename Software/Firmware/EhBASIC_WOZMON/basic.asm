@@ -383,12 +383,13 @@ TK_LINE           = TK_CIRCLE+1     ; ?  LINE
 TK_SQUARE         = TK_LINE+1       ; ?  SQUARE
 TK_ELIPSE         = TK_SQUARE+1     ; ?  ELIPSE
 TK_TRIANGLE       = TK_ELIPSE+1     ; ?  TRIANGLE
-TK_OUTK           = TK_TRIANGLE+1   ; ?  OUTK
+TK_CURSOR         = TK_TRIANGLE+1   ; ?  CURSOUR X,Y
+TK_OUTK           = TK_CURSOR+1     ; ?  OUTK
 
 ; secondary command tokens, can't start a statement
 TK_TAB            = TK_OUTK+1       ; TAB token       ;? REMEMBER TO CHANGE THIS WHEN ADDING NEW COMMANDS   
-TK_ELSE           = TK_TAB+1        ; ELSE token      $AF
-TK_TO             = TK_ELSE+1       ; TO token        $B0
+TK_ELSE           = TK_TAB+1        ; ELSE token      
+TK_TO             = TK_ELSE+1       ; TO token        
 TK_FN             = TK_TO+1         ; FN token
 TK_SPC            = TK_FN+1         ; SPC token
 TK_THEN           = TK_SPC+1        ; THEN token
@@ -490,7 +491,8 @@ VEC_LINE          = VEC_CIRCLE+2    ;
 VEC_SQUARE        = VEC_LINE+2      ;
 VEC_ELIPSE        = VEC_SQUARE+2    ;
 VEC_TRIANGLE      = VEC_ELIPSE+2    ;
-VEC_OUTK          = VEC_TRIANGLE+2  ; OUTK vector
+VEC_CURSOR        = VEC_TRIANGLE+2  ;
+VEC_OUTK          = VEC_CURSOR+2    ; OUTK vector
 VEC_DISPTEXT      = VEC_OUTK+2      ; reset display back to text (used on error/break)
 ; end bulk initialize by min_mon.asm from LAB_vec at LAB_stlp
 
@@ -7973,7 +7975,9 @@ V_SQUARE
 V_ELIPSE
       JMP   (VEC_ELIPSE)      ; ELIPSE command   
 V_TRIANGLE
-      JMP   (VEC_TRIANGLE)    ; TRIANGLE command   
+      JMP   (VEC_TRIANGLE)    ; TRIANGLE command  
+V_CURSOR
+      JMP   (VEC_CURSOR)      ; CURSOR command
 V_OUTK
       JMP   (VEC_OUTK)        ; OUTK command
 V_DISPTEXT
@@ -8235,6 +8239,7 @@ LAB_CTBL
       .word V_SQUARE-1        ; ? SQUARE
       .word V_ELIPSE-1        ; ? ELIPSE
       .word V_TRIANGLE-1      ; ? TRIANGLE
+      .word V_CURSOR-1        ; ? CURSOR
       .word V_OUTK-1          ; ? OUTK    
 ; function pre process routine table
 
@@ -8483,6 +8488,8 @@ LBB_CONT
       .byte "ONT",TK_CONT     ; CONT
 LBB_COS
       .byte "OS(",TK_COS      ; COS(
+LBB_CURSOR
+      .byte "URSOR",TK_CURSOR ; CURSOR
       .byte $00
 TAB_ASCD
 LBB_DATA
@@ -8823,6 +8830,8 @@ LAB_KEYT
       .word LBB_ELIPSE        ; ? ELIPSE     VERY NEW COMMAND
       .byte 8,'T'
       .word LBB_TRIANGLE      ; ? TRIANGLE     VERY NEW COMMAND
+      .byte 6,"C"
+      .word LBB_CURSOR        ; ? CURSOR
       .byte 4,'O'
       .word LBB_OUTK          ; ? OUTK
 

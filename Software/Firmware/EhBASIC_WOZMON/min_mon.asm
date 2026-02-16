@@ -2,8 +2,6 @@
 ;	https://github.com/TechPaula/LT6502
 ;
 ; TODO - Add cursor move command  
-; TODO - Move ALL the writing of RG and DT into a table to be read by a loop (save code space)
-; TODO - compact flash LOAD/SAVE/DIR
 ; TODO - Add, if possible, more versatile beep, something with more pitch range and length?
 
 	.feature labels_without_colons
@@ -454,6 +452,27 @@ DISP_resetxy
 	PLX
 	PLA
 	RTS
+
+DISP_MOVE_CURSOR
+	PHA
+	PHX
+	PHY
+
+	JSR LAB_GTBY	; GET X
+	TXA
+	STA DISP_crow
+
+	JSR LAB_SGBY	; GET Y
+	TXA
+	STA DISP_ccol
+
+	JSR DISP_CURSOR_SETXY
+
+	PLY
+	PLX
+	PLA
+	RTS
+
 
 DISP_CLS
 	JSR DISP_CLR_SCREEN	
@@ -1525,6 +1544,13 @@ IO_LOAD_loop			; ! HACKY, JUST READ 46K OF CF CARD TO RAM
 	LDY   #>LAB_RMSG        ; point to "Ready" message high byte
 	JSR   LAB_18C3          ; go do print string
 
+		; BEEP AT END
+	LDA #$F0
+	STA MyTEMP
+	LDA #$10
+	STA BEEP_LN
+	JSR VARI_BEEP
+
 	; VOODOO that EhBASIC needs
 	STZ $F8   		; VOODOO that EhBASIC needs
     JMP LAB_1319 	; VOODOO that EhBASIC needs
@@ -1641,6 +1667,13 @@ IO_SAVE_loop			; ! HACKY, JUST DUMP ALL 46K OF RAM TO CF CARD
 	BNE IO_SAVE_loop
 
 IO_SAVE_exit
+		; BEEP AT END
+	LDA #$F0
+	STA MyTEMP
+	LDA #$10
+	STA BEEP_LN
+	JSR VARI_BEEP
+
 	RTS
 
 
@@ -1664,9 +1697,9 @@ IO_DIR_read_lp
 	JSR CF_READ_SECTOR
 
 	; "TICK" whilst scanning
-	LDA #$01
+	LDA #$FC
 	STA MyTEMP
-	LDA #$02
+	LDA #$01
 	STA BEEP_LN
 	JSR VARI_BEEP
 
@@ -1722,6 +1755,13 @@ IO_DIR_nextslot
 	BNE IO_DIR_read_lp
 
 IO_DIR_end
+		; BEEP AT END
+	LDA #$F0
+	STA MyTEMP
+	LDA #$10
+	STA BEEP_LN
+	JSR VARI_BEEP
+
 	RTS
 
 
@@ -2011,24 +2051,25 @@ DELAY2_LP
 
 ; vector tables
 LAB_vec
-	.word	ACIAin		; byte in from simulated ACIA  	EhBASIC = V_INPT
-	.word	ACIAout		; byte out to simulated ACIA   	EhBASIC = V_OUTP
-	.word	IO_LOAD		; load vector for EhBASIC		EhBASIC = V_LOAD
-	.word	IO_SAVE		; save vector for EhBASIC		EhBASIC = V_SAVE
-	.word   IO_DIR		; dir vector for EhBASIC		EhBASIC = V_DIR
-	.word 	IO_CLS		; CLS vector for EhBASIC		EhBASIC = V_CLS
-	.word	IO_MODE		; MODE vector for EhBASIC		EhBASIC = V_MODE
-	.word   BEEP_CMD	; BEEP vector for EhBASIC		EhBASIC = V_BEEP
-	.word	EWOZ		; WOZMON vector					EhBASIC = V_WOZMON
-	.word	DISP_TEXT_COLOUR	; COLOUR vector			EhBASIC = V_COLOUR
-	.word	DISP_PLOT	; PLOT vector					EhBASIC = V_PLOT
-	.word	DISP_CIRCLE	; CIRCLE vector					EhBASIC = V_CIRCLE
-	.word	DISP_LINE	; LINE vector					EhBASIC = V_LINE
-	.word	DISP_SQUARE	; SQUARE vector					EhBASIC = V_SQUARE
-	.word	DISP_ELIPSE	; ELIPSE vector					EhBASIC = V_ELIPSE
-	.word	DISP_TRIANGLE; TRIANGLE vector				EhBASIC = V_TRIANGLE
-	.word 	OUTK		; OUTK vector					EhBASIC = V_OUTK
-	.word 	DISP_TEXT_MODE ; set display back to text mode EhBASIC = V_TEXTMODE
+	.word	ACIAin				; byte in from simulated ACIA  	EhBASIC = V_INPT
+	.word	ACIAout				; byte out to simulated ACIA   	EhBASIC = V_OUTP
+	.word	IO_LOAD				; load vector for EhBASIC		EhBASIC = V_LOAD
+	.word	IO_SAVE				; save vector for EhBASIC		EhBASIC = V_SAVE
+	.word   IO_DIR				; dir vector for EhBASIC		EhBASIC = V_DIR
+	.word 	IO_CLS				; CLS vector for EhBASIC		EhBASIC = V_CLS
+	.word	IO_MODE				; MODE vector for EhBASIC		EhBASIC = V_MODE
+	.word   BEEP_CMD			; BEEP vector for EhBASIC		EhBASIC = V_BEEP
+	.word	EWOZ				; WOZMON vector					EhBASIC = V_WOZMON
+	.word	DISP_TEXT_COLOUR	; COLOUR vector					EhBASIC = V_COLOUR
+	.word	DISP_PLOT			; PLOT vector					EhBASIC = V_PLOT
+	.word	DISP_CIRCLE			; CIRCLE vector					EhBASIC = V_CIRCLE
+	.word	DISP_LINE			; LINE vector					EhBASIC = V_LINE
+	.word	DISP_SQUARE			; SQUARE vector					EhBASIC = V_SQUARE
+	.word	DISP_ELIPSE			; ELIPSE vector					EhBASIC = V_ELIPSE
+	.word	DISP_TRIANGLE		; TRIANGLE vector				EhBASIC = V_TRIANGLE
+	.word 	DISP_MOVE_CURSOR 	; MOVECursor					EhBASIC = V_MOVEC
+	.word 	OUTK				; OUTK vector					EhBASIC = V_OUTK
+	.word 	DISP_TEXT_MODE 		; set display back to text mode EhBASIC = V_TEXTMODE
 
 ; EhBASIC IRQ support
 IRQ_CODE
