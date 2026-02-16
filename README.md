@@ -53,6 +53,7 @@ First bring up
 * 2026-02-08 - Added more commands, notably SAVE,LOAD and DIR for compact flash
 * 2026-02-13 - Added more graphics commands :)
 * 2026-02-14 - Assembled the case
+* 2026-02-16 - Added CURSOR command to move the cursor, also added beep at end of DIR/LOAD/SAVE
 
 ## In Progress
 * Expansion board
@@ -106,6 +107,7 @@ I've Added a some extra commands to EhBASIC and they are as follows;
 * CIRCLE X,Y,R,C,F - Draws a Circle, X is 0-799, Y is 0-479, R(radius) is 1 - 65535, C is 8bit RGB Value (RRRGGGBB), F is fill (0 = no fill, 1 = fill)
 * CLS - Clear screen (both graphic and text mode)
 * COLOUR <0-255> - Sets the colour (text) to 8bit RGB value, in the form RRRGGGBB
+* CURSOR X,Y - Sets the cursor position (in characters)
 * DIR - Scans the Compact Flash card and shows slot number and name for any files present
 * ELIPSE - X,Y,RX,RY,C,F - Draws an elipse, X is 0-799, Y is 0-479, RX is X radius, RY is Y radius, C is colour and F is fill
 * LINE X,Y,EX,EY,C - Draws a line, X is 0-799, Y is 0-479, EX is X end point (0-799), EY is Y end point (0-479), C is colour
