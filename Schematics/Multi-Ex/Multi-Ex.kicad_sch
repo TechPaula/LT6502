@@ -165,10 +165,6 @@
 		(uuid "9e95b860-16f3-444a-9647-3efb0a168086")
 	)
 	(no_connect
-		(at 31.75 58.42)
-		(uuid "a83db0dc-39ab-4911-a3d3-71c8c7e23db3")
-	)
-	(no_connect
 		(at 31.75 66.04)
 		(uuid "c3eba249-b6c6-4434-a8f1-8e692e90c3d9")
 	)
@@ -270,6 +266,16 @@
 	)
 	(wire
 		(pts
+			(xy 63.5 129.54) (xy 25.4 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "23446221-df95-4042-ae04-5b11e7fb4972")
+	)
+	(wire
+		(pts
 			(xy 85.09 48.26) (xy 55.88 48.26)
 		)
 		(stroke
@@ -357,6 +363,16 @@
 			(type default)
 		)
 		(uuid "5ebee3bc-2342-45e5-b08f-8f07d6cca98a")
+	)
+	(wire
+		(pts
+			(xy 25.4 129.54) (xy 25.4 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "621e77a5-77ba-4544-ae66-3b2818865ecd")
 	)
 	(wire
 		(pts
@@ -657,6 +673,16 @@
 			(type default)
 		)
 		(uuid "d595b250-7784-40a9-9542-b1167b696cb4")
+	)
+	(wire
+		(pts
+			(xy 25.4 58.42) (xy 31.75 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d5cb8f26-8c4a-4a77-838b-55ad5cfed195")
 	)
 	(wire
 		(pts
@@ -1336,6 +1362,16 @@
 					(size 1.27 1.27)
 				)
 				(justify right)
+			)
+		)
+		(pin "RDY" output
+			(at 63.5 129.54 180)
+			(uuid "84af6f55-1d4f-4fa5-8286-0d9487d62ea1")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
 			)
 		)
 		(instances

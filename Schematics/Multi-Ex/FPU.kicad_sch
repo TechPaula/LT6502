@@ -2576,6 +2576,26 @@
 			(embedded_fonts no)
 		)
 	)
+	(text_box "As shown above, the data bus can be configured to operate in 8-bit chunks, originally for compatibility with the 68008. Just tie /SIZE low, gang all four bytes of the 68882's databus together, and connect all five address lines. The /CS line should be produced conventionally for a 32-byte address range, R/W should be brought directly from the CPU, /DS is just /WE, and /AS is just Phi1.\nThe only real wrinkle is /DSACK0, which in the 68K bus protocol is used to implement wait states; it is also a line that should be pulled up (gently). Since the 68882 has complex internal processing and operates on an independent clock from the CPU bus (in general, though you can use the same clock for both if requirements permit), the number of wait-states is not predictable in advance. So you'll need to pull RDY low (or stretch the 65xx clock, if you prefer) when accessing the 68882, until /DSACK0 also goes low. I think you can do that by cascading two NAND gates:\nCode:\n  RDY = !(/DSACK0 & !(/CS & /CS))\nSo, if either the 68882 is deselected or it has signalled completion, RDY goes high.\nI think a 1-chip interface solution - of which only half the chip is even used - is definitely simpler than the Z80 board linked earlier.\nOne final wrinkle: the 68882 only guarantees TTL signal levels. This is probably fine for a basic system, just something to be aware of."
+		(exclude_from_sim no)
+		(at 307.34 19.05 0)
+		(size 109.22 38.1)
+		(margins 0.9525 0.9525 0.9525 0.9525)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(fill
+			(type none)
+		)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left top)
+		)
+		(uuid "2b8d4361-ac99-4a03-80dc-f3dbfaf36454")
+	)
 	(junction
 		(at 187.96 130.81)
 		(diameter 0)
@@ -2623,6 +2643,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "2e84f2eb-bc05-4d02-99cf-1218ce37fdd3")
+	)
+	(junction
+		(at 218.44 53.34)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "34d59c38-9bbc-4e6e-8560-e8ad5fe6d689")
 	)
 	(junction
 		(at 255.27 118.11)
@@ -2731,6 +2757,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "b2c6ef27-2ee0-4a9e-8dbf-ff72d13c04f2")
+	)
+	(junction
+		(at 207.01 50.8)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "b73b304a-1c3a-40f3-bdc2-825e7bf10088")
 	)
 	(junction
 		(at 187.96 135.89)
@@ -3425,6 +3457,16 @@
 	)
 	(wire
 		(pts
+			(xy 218.44 44.45) (xy 218.44 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "13ee2419-0885-455f-a129-b8c8fa712e57")
+	)
+	(wire
+		(pts
 			(xy 182.88 128.27) (xy 187.96 128.27)
 		)
 		(stroke
@@ -3582,6 +3624,16 @@
 			(type default)
 		)
 		(uuid "2c284d8f-c357-4ed9-a062-47bbce767c9c")
+	)
+	(wire
+		(pts
+			(xy 218.44 33.02) (xy 218.44 36.83)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2de21b25-af15-4dab-b305-cb0f32edd5e9")
 	)
 	(wire
 		(pts
@@ -4085,7 +4137,17 @@
 	)
 	(wire
 		(pts
-			(xy 187.96 50.8) (xy 182.88 50.8)
+			(xy 207.01 44.45) (xy 207.01 50.8)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6462e3a7-5961-4747-9ac0-a0221f9413b4")
+	)
+	(wire
+		(pts
+			(xy 227.33 50.8) (xy 207.01 50.8)
 		)
 		(stroke
 			(width 0)
@@ -4365,7 +4427,7 @@
 	)
 	(wire
 		(pts
-			(xy 187.96 53.34) (xy 182.88 53.34)
+			(xy 227.33 53.34) (xy 218.44 53.34)
 		)
 		(stroke
 			(width 0)
@@ -4425,7 +4487,7 @@
 	)
 	(bus
 		(pts
-			(xy 21.59 95.25) (xy 41.91 95.25)
+			(xy 30.48 95.25) (xy 41.91 95.25)
 		)
 		(stroke
 			(width 0)
@@ -4462,6 +4524,16 @@
 			(type default)
 		)
 		(uuid "a0102ca3-6647-42f7-855e-2f26ec2d9233")
+	)
+	(wire
+		(pts
+			(xy 207.01 50.8) (xy 182.88 50.8)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a1093cc1-0f45-422a-b1ab-fce8bb9df7c7")
 	)
 	(bus
 		(pts
@@ -4572,6 +4644,16 @@
 			(type default)
 		)
 		(uuid "a8132948-131a-41e9-80b8-5b167b442954")
+	)
+	(wire
+		(pts
+			(xy 218.44 53.34) (xy 182.88 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "aa4356d0-1a2d-4923-bb16-899c9874b102")
 	)
 	(wire
 		(pts
@@ -4822,6 +4904,16 @@
 			(type default)
 		)
 		(uuid "cb02a45a-c997-4409-ad05-e6f3d2a872e7")
+	)
+	(wire
+		(pts
+			(xy 207.01 33.02) (xy 207.01 36.83)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cc48dae6-2964-431e-987b-7dc1028e1c49")
 	)
 	(wire
 		(pts
@@ -5953,7 +6045,7 @@
 	)
 	(hierarchical_label "D[0..7]"
 		(shape passive)
-		(at 21.59 95.25 180)
+		(at 30.48 95.25 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5997,7 +6089,7 @@
 	)
 	(hierarchical_label "FPU_nDSACK0"
 		(shape output)
-		(at 187.96 50.8 0)
+		(at 227.33 50.8 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6030,7 +6122,7 @@
 	)
 	(hierarchical_label "FPU_nDSACK1"
 		(shape output)
-		(at 187.96 53.34 0)
+		(at 227.33 53.34 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8315,6 +8407,71 @@
 		)
 	)
 	(symbol
+		(lib_id "power:+5V")
+		(at 218.44 33.02 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "b2eb4fcb-24e2-4ab7-8324-258d9d97f8fe")
+		(property "Reference" "#PWR068"
+			(at 218.44 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "FPU_5V"
+			(at 218.44 28.956 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 218.44 33.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 218.44 33.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 218.44 33.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "536b13f1-e14c-46f6-9df8-4550c4c88e2e")
+		)
+		(instances
+			(project "Multi-Ex"
+				(path "/c16bdb00-c1a6-42ce-89ee-f8829384a2ef/e764b658-0da0-4548-b704-6028bd6fdeaa"
+					(reference "#PWR068")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 74.93 185.42 0)
 		(mirror y)
@@ -8722,6 +8879,71 @@
 		)
 	)
 	(symbol
+		(lib_id "power:+5V")
+		(at 207.01 33.02 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "d7a8285e-43fe-4e03-a698-a81eeb42e780")
+		(property "Reference" "#PWR059"
+			(at 207.01 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "FPU_5V"
+			(at 207.01 28.956 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 207.01 33.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 207.01 33.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 207.01 33.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "08252ac4-7526-40b7-994d-02b85f850e3a")
+		)
+		(instances
+			(project "Multi-Ex"
+				(path "/c16bdb00-c1a6-42ce-89ee-f8829384a2ef/e764b658-0da0-4548-b704-6028bd6fdeaa"
+					(reference "#PWR059")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R")
 		(at 54.61 143.51 0)
 		(unit 1)
@@ -9067,6 +9289,83 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R")
+		(at 207.01 40.64 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "f154d3c5-c985-4bed-a796-59f785fcf7f7")
+		(property "Reference" "R10"
+			(at 208.28 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10K"
+			(at 208.28 41.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+			(at 205.232 40.64 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 207.01 40.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 207.01 40.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25744"
+			(at 207.01 40.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "aab293b5-558f-4364-ade3-2c6d33959abd")
+		)
+		(pin "2"
+			(uuid "6d06104d-8b46-4812-ba3c-607d7d8facdb")
+		)
+		(instances
+			(project "Multi-Ex"
+				(path "/c16bdb00-c1a6-42ce-89ee-f8829384a2ef/e764b658-0da0-4548-b704-6028bd6fdeaa"
+					(reference "R10")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 129.54 185.42 0)
 		(mirror y)
@@ -9127,6 +9426,83 @@
 			(project "Multi-Ex"
 				(path "/c16bdb00-c1a6-42ce-89ee-f8829384a2ef/e764b658-0da0-4548-b704-6028bd6fdeaa"
 					(reference "#PWR077")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 218.44 40.64 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "f85b1ac9-cefc-43e4-9399-d11db8813abb")
+		(property "Reference" "R11"
+			(at 219.71 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10K"
+			(at 219.71 41.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+			(at 216.662 40.64 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 218.44 40.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 218.44 40.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25744"
+			(at 218.44 40.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "e3372d58-658d-4334-8ef1-7c1d71ac928a")
+		)
+		(pin "2"
+			(uuid "4c760328-0ea5-49c5-b368-3b7e58db637e")
+		)
+		(instances
+			(project "Multi-Ex"
+				(path "/c16bdb00-c1a6-42ce-89ee-f8829384a2ef/e764b658-0da0-4548-b704-6028bd6fdeaa"
+					(reference "R11")
 					(unit 1)
 				)
 			)

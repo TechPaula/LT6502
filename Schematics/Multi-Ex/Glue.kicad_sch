@@ -4029,6 +4029,16 @@
 	)
 	(wire
 		(pts
+			(xy 62.23 95.25) (xy 77.47 95.25)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4e7ac29d-81a9-4474-aeb6-786a5cad3b43")
+	)
+	(wire
+		(pts
 			(xy 88.9 22.86) (xy 135.89 22.86)
 		)
 		(stroke
@@ -5788,6 +5798,17 @@
 			(justify left)
 		)
 		(uuid "d9229237-f552-47f6-bfdd-f810520af14d")
+	)
+	(hierarchical_label "RDY"
+		(shape output)
+		(at 62.23 95.25 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "deaebe4d-5261-4bca-b702-259176db235f")
 	)
 	(hierarchical_label "FPU_nDS"
 		(shape output)
